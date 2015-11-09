@@ -5,7 +5,7 @@ from .models import Item, Supplier, Category, Brand, ItemModel
 
 
 def dashboard(request):
-	return render(request, 'inventory/dashboard.html', {})
+	return render(request, 'dashboard/dashboard.html', {})
 
 
 
