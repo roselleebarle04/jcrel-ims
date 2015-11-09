@@ -1,7 +1,45 @@
-.sidebar-wrapper {
-	position: fixed;
-	display: inline-block;
-	left: 0;
-	width: 250px;
-	background: 
+body, html {
+	font-family: 'Montserrat', sans-serif;
+}
+
+#wrapper {
+	background: #30426a;
+}
+
+#wrapper .navbar.navbar-default {
+	background: white;
+	border-color: transparent;
+}
+
+#wrapper .navbar-default.sidebar {
+	background: #30426a;
+}
+
+#wrapper .navbar-default.sidebar .sidebar-nav ul li {
+	border-bottom: none;
+}
+
+#wrapper .navbar-default.sidebar .sidebar-nav ul li {
+	border-bottom: none;
+}
+
+#wrapper .navbar-default.sidebar .sidebar-nav ul li:hover {
+    border-right: 3px solid #e99d1a;
+}
+
+#wrapper .navbar-default.sidebar .sidebar-nav ul li:focus {
+    background: transparent;
+}
+
+#wrapper .navbar-default.sidebar .sidebar-nav ul li a{
+	color: white;
+	font-size: 15px;
+}
+
+#wrapper .navbar-default.sidebar .sidebar-nav ul li a:hover{
+	background: #2d3e63;
+}
+
+#wrapper #page-wrapper {
+	background: #f3f3f3;
 }
