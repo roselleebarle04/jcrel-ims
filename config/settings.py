@@ -83,9 +83,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'isysproj',
-        'USER': 'isys',
-        'PASSWORD': 'isys',
+        'NAME': 'jcreldb',
+        'USER': 'jcrel',
+        'PASSWORD': 'jcrel',
         'HOST': 'localhost',
         'PORT': '',
     }
