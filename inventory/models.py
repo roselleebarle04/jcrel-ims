@@ -1,5 +1,12 @@
 from django.db import models
 
+class Accounts(models.Model):
+	#All signed up accounts will be saved here
+	first_name = models.CharField(max_length=50)
+	last_name = models.CharField(max_length=50)
+	email = models.EmailField()
+	password = models.CharField(max_length=50)
+
 
 class Item(models.Model):
 	store_code = models.CharField(max_length=200, null=True)	# Store Code
