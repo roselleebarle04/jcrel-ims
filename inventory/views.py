@@ -7,6 +7,5 @@ from .models import Item, Supplier, Category, Brand, ItemModel
 def dashboard(request):
 	return render(request, 'dashboard/dashboard.html', {})
 
-
-
-
+def reports(request):
+	return render(request, 'dashboard/reports.html', {})
