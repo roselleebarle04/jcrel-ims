@@ -9,3 +9,6 @@ def dashboard(request):
 
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
+
+def login(request):
+	return render(request, 'dashboard/login.html', {})
