@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Reports</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <select class="form-control" name="reports-filter">
+            <option>Reports</option>
+            <option>Sales</option>
+        </select>
+    </div>
+    <div class="col-lg-3">
+        <a href="#" class="btn btn-success">Export</a>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>C1</th>
+                    <th>C2</th>
+                    <th>C3</th>
+                    <th>C4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>R1</td>
+                    <td>R1</td>
+                    <td>R1</td>
+                    <td>R1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
