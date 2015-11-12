@@ -45,3 +45,8 @@ class ItemModel(models.Model):
 	""" Models describe the model of a particular Item """
 	description = models.CharField(max_length=100, null=True)
 
+class AddArrival(models.Model):
+	itemName = models.CharField(max_length=300, null=True)
+	qty = models.PositiveSmallIntegerField(default=0)
+	itemCost = models.FloatField(null=True, blank=True)
+
