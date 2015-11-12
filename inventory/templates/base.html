@@ -15,6 +15,9 @@
   <!-- Custom Styles -->
   <link rel="stylesheet" type="text/css" href="/static/css/style.css">  
   <link rel="stylesheet" type="text/css" href="/static/components/dashboard/css/sb-admin-2.css">
+  <link rel="stylesheet" type="text/css" href="/static/components/metisMenu/dist/metisMenu.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/components/dashboard/css/timeline.css">
+  <link rel="stylesheet" type="text/css" href="/static/components/morrisjs/morris.css">
 
   <!-- Fonts -->
   <link href='/static/css/fonts.css' rel='stylesheet' type='text/css'>
@@ -101,7 +104,15 @@
                             <a href="#"><i class="fa fa-home"></i> Transfer</a>
                         </li>
                         <li>
-                            <a href="/reports"><i class="a fa-bar-chart-o fa-fw"></i> Reports</a>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Reporting<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li class="no-border">
+                                    <a href="/reports/inventory">Inventory Reports</a>
+                                </li>
+                                <li class="no-border">
+                                    <a href="/reports/sales">Sales Reports</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -118,6 +129,21 @@
   <!-- SCRIPTS -->
   <script type="text/javascript" src="/static/js/jquery.js"></script>
   <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+  <!-- Metis Menu Plugin -->
+  <script type="text/javascript" src="/static/components/metisMenu/dist/metisMenu.min.js"></script>
+  <!-- Flot Charts JavaScript -->
+  <script src="/static/components/flot/excanvas.min.js"></script>
+  <script src="/static/components/flot/jquery.flot.js"></script>
+  <script src="/static/components/flot/jquery.flot.pie.js"></script>
+  <script src="/static/components/flot/jquery.flot.resize.js"></script>
+  <script src="/static/components/flot/jquery.flot.time.js"></script>
+  <script src="/static/components/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+  <script src="/static/components/dashboard/js/flot-data.js"></script>
+  <!-- Morris Charts Plugin -->
+  <script src="/static/components/raphael/raphael-min.js"></script>
+  <script src="/static/components/morrisjs/morris.min.js"></script>
+  <!-- <script src="/static/components/dashboard/js/morris-data.js"></script> -->
+  <!-- Core Dashboard JS -->
   <script src="/static/components/dashboard/js/sb-admin-2.js"></script>
 
 </body>

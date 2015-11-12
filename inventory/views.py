@@ -2,8 +2,18 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse
 from .models import Item, Supplier, Category, Brand, ItemModel, AddArrival
+from .forms import *
 
 
+# Dashboard
+def dashboard(request):
+	return render(request, 'dashboard/dashboard.html', {})
+
+# Accounts
+def login(request):
+	return render(request, 'dashboard/login.html', {})
+
+# Arrivals
 def add_arrival(request, template_name='arrival_templates/add_arrival.html'):
     arrivals = AddArrival.objects.all()
     data = {}
@@ -32,10 +42,20 @@ def arrival_delete(request, pk, template_name='arrival_templates/arrival_confirm
         return redirect('add_arrival')
     return render(request, template_name, {'object':arrival})
 
+# Reports
+def inventory_reports(request):
+	filterby = request.GET.get('filter')
+	# Create dummy data for the items
+	items = [{ 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }, { 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }]
+	return render(request, 'dashboard/inventory_reports.html', {
+		'filterby': filterby,
+		'items': items,
+	})
 
-def dashboard(request):
-	return render(request, 'dashboard/dashboard.html', {})
+def sales_reports(request):
+	return render(request, 'dashboard/sales_reports.html', {})
 
+# Items
 def items(request):
 	return render(request, 'dashboard/items.html', {})
 
@@ -51,6 +71,8 @@ def add_arrival(request):
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
+
+# Transfers
 def transfer_form(request,template_name ='dashboard/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():

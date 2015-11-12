@@ -1,5 +1,5 @@
 from django import forms
-from .models import Accounts,Transfer_item
+from .models import Accounts,Transfer_item,AddArrival
 
 class AccountsForm(forms.ModelForm):
 	class Meta:
