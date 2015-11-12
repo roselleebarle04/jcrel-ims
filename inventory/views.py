@@ -9,6 +9,9 @@ from .forms import *
 def dashboard(request):
 	return render(request, 'dashboard/dashboard.html', {})
 
+def items(request):
+	return render(request, 'dashboard/items.html', {})
+
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
