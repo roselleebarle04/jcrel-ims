@@ -7,7 +7,7 @@ class AccountsForm(forms.ModelForm):
 		'password': forms.PasswordInput()
 		}
 
-class Item(forms.ModelForm):
+class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = ['store_code', 'unit_cost', 'category','brand','item_model','supplier', 'supplier_code']

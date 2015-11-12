@@ -59,6 +59,13 @@ def sales_reports(request):
 def items(request):
 	return render(request, 'dashboard/items.html', {})
 
+def add_item(request):
+	form = ItemForm(request.POST or None)
+	if  form.is_valid():
+		form.save()
+		return redirect('items')
+	return render(request, 'addsale/add_item.html', {'form':form})
+	
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
