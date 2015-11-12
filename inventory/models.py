@@ -48,10 +48,13 @@ class Brand(models.Model):
 
 class ItemModel(models.Model):
 	""" Models describe the model of a particular Item """
-<<<<<<< HEAD
 	description = models.CharField(max_length=100, null=True)
-=======
-	description = models.CharField(max_length=100, null=True)
+
+class Sale(models.Model):
+	#code = models.ForeignKey(Item)
+	item_code =  models.CharField(max_length = 6, null = False , blank = False)
+	quantity = models.PositiveSmallIntegerField(default = 0)
+	srp = models.DecimalField(max_digits = 10, decimal_places = 2)
 
 class AddArrival(models.Model):
 	itemName = models.CharField(max_length=300, null=True)
@@ -63,4 +66,3 @@ class Transfer_item(models.Model):
 	item_code =  models.CharField(max_length = 6, null = False , blank = False)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateTimeField(blank=True,null=True)
->>>>>>> efdba7f6c78b42bb77fe83ed40151ef10e501a50
