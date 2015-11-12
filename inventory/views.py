@@ -64,7 +64,7 @@ def add_item(request):
 	if  form.is_valid():
 		form.save()
 		return redirect('items')
-	return render(request, 'addsale/add_item.html', {'form':form})
+	return render(request, 'dashboard/add_item.html', {'form':form})
 	
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
