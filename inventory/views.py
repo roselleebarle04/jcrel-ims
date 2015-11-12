@@ -10,10 +10,8 @@ def dashboard(request):
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
-<<<<<<< HEAD
 def add_arrival(request):
 	return render(request, 'dashboard/add_arrival.html', {})
-=======
+
 def login(request):
 	return render(request, 'dashboard/login.html', {})
->>>>>>> 1e19ddfa3d1634f334f07d53f068b12d6c2009ba

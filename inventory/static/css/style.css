@@ -6,6 +6,12 @@ body, html {
 	background: #30426a;
 }
 
+
+#wrapper .nav li a:hover, #wrapper .nav li a:focus {
+    text-decoration: none;
+    background-color: #2d3e63;
+}
+
 #wrapper .navbar.navbar-default {
 	background: white;
 	border-color: transparent;
@@ -21,6 +27,10 @@ body, html {
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li {
 	border-bottom: none;
+}
+
+#wrapper .navbar-default.sidebar .sidebar-nav ul li.no-border:hover {
+    border-right: none;
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li:hover {
