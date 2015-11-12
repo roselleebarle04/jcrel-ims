@@ -1,11 +1,17 @@
 from django import forms
-from .models import Accounts,Transfer_item,AddArrival
+from .models import Accounts,Transfer_item,AddArrival, Item
 
 class AccountsForm(forms.ModelForm):
 	class Meta:
 		widgets = {
 		'password': forms.PasswordInput()
 		}
+
+class Item(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields = ['store_code', 'unit_cost', 'category','brand','item_model','supplier', 'supplier_code']
+		
 
 class ArrivalForm(forms.ModelForm):
     class Meta:
