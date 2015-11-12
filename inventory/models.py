@@ -50,3 +50,8 @@ class AddArrival(models.Model):
 	qty = models.PositiveSmallIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
 
+
+class Transfer_item(models.Model):
+	item_code =  models.CharField(max_length = 6, null = False , blank = False)
+	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
+	transfer_date = models.DateTimeField(blank=True,null=True)
