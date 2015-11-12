@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^login/$', inventory_views.login, name='login'),
     url(r'^$', inventory_views.dashboard, name='dashboard'),
     url(r'^reports/$', inventory_views.reports, name='reports'),
+    url(r'^add_arrival/$', inventory_views.add_arrival, name='add_arrival'),
 ]
