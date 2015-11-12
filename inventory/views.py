@@ -9,3 +9,6 @@ def dashboard(request):
 
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
+
+def add_arrival(request):
+	return render(request, 'dashboard/add_arrival.html', {})

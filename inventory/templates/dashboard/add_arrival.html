@@ -3,8 +3,37 @@
 
 {% block content %}
 
-<div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">Add Arrival</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Add Arrival</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <form role="form">
+    <div class="form-group">
+      <div class="col-xs-3">
+        <label for="ex1">Date</label>
+        <input class="form-control" id="ex1" type="text">
+      </div>
+      <div class="col-xs-3">
+        <label for="ex2">Delivery Receipt</label>
+        <input class="form-control" id="ex2" type="text">
+      </div>
+      <div class="col-xs-3">
+        <label for="ex3">Tracking Number</label>
+        <input class="form-control" id="ex3" type="text">
+      </div>
+      <div class="col-xs-3">
+        <label for="ex3">Supplier</label>
+        <input class="form-control" id="ex3" type="text">
+      </div>
     </div>
+  </form>
 </div>
+{% endblock content %}
