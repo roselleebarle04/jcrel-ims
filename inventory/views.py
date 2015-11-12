@@ -59,6 +59,19 @@ def sales_reports(request):
 def items(request):
 	return render(request, 'dashboard/items.html', {})
 
+def reports(request):
+	return render(request, 'dashboard/reports.html', {})
+
+# def signup(request):
+
+def add_arrival(request):
+	return render(request, 'arrival_templates/add_arrival.html', {})
+	return render(request, 'dashboard/add_arrival.html', {})
+
+def login(request):
+	return render(request, 'dashboard/login.html', {})
+
+
 # Transfers
 def transfer_form(request,template_name ='dashboard/transfer_form.html'):
 	form = TransferForm(request.POST or None)
@@ -66,4 +79,3 @@ def transfer_form(request,template_name ='dashboard/transfer_form.html'):
 		form.save()
 		return redirect('transfer_form')
 	return render(request,template_name,{'form':form})
-
