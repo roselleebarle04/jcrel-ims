@@ -1,19 +1,47 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth.decorators import login_required
+
 from .models import Item, Supplier, Category, Brand, ItemModel, AddArrival
 from .forms import *
 
 
-# Dashboard
-def dashboard(request):
-	return render(request, 'dashboard/dashboard.html', {})
-
 # Accounts
-def login(request):
-	return render(request, 'dashboard/login.html', {})
+def signup(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email_address = request.POST.get('email')
+        password = request.POST.get('password')
+        new_user = User.objects.create_user(username,email_address,password)
+        new_user.save()
+        return HttpResponseRedirect(reverse('dashboard', args=[username]))
+    return render(request, 'accounts/signup.html', {})
 
-# Arrivals
+def login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        # if user is not None:
+            # if user.is_active:
+                # else: # print("The username and password were incorrect.")
+    return render(request, 'accounts/login.html', {})
+
+# def logout_user(request):
+#     logout(request)
+#     return HttpResponseRedirect(reverse('dashboard'))
+
+@login_required
+def dashboard(request):
+    print request.user.username
+    return render(request, 'dashboard/dashboard.html', {
+        # 'user' = request.user.username
+    })
+
 def add_arrival(request, template_name='arrival_templates/add_arrival.html'):
     arrivals = AddArrival.objects.all()
     data = {}

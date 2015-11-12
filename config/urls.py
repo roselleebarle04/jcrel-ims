@@ -1,12 +1,16 @@
 from django.conf.urls import include, url
+from django.contrib.auth import views as auth_views
 from django.contrib import admin
 
 from inventory import views as inventory_views
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^login/$', inventory_views.login, name='login'),
     url(r'^$', inventory_views.dashboard, name='dashboard'),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^signup/$', auth_views.register, {'template_name':'accounts/signup.html'}),
+    url(r'^login/$', auth_views.login, {'template_name':'accounts/login.html'}),
+    url(r'^logout/$', auth_views.logout, {'template_name':'accounts/logout.html'}),
+    # url(r'^signup/$', inventory_views.signup, name='signup'),
     
     # Reporting Feature
     url(r'^reports/inventory/', inventory_views.inventory_reports, name='inventory_reports'),

@@ -1,0 +1,17 @@
+{% extends "base_accounts.html" %}
+{% load staticfiles %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <form action="/login/" class="form" method="POST">
+        {% csrf_token %}
+        <h2>Signup</h2>
+        {{form}}
+        <input type="submit" class="btn btn-lg btn-primary btn-block" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+      </form>
+    </div>
+  </div>
+      
+{% endblock content %}
