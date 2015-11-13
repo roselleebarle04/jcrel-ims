@@ -12,7 +12,7 @@ def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
 def add_arrival(request):
-	return render(request, 'dashboard/add_arrival.html', {})
+	return render(request, 'arrival_templates/add_arrival.html', {})
 
 def login(request):
 	return render(request, 'dashboard/login.html', {})
