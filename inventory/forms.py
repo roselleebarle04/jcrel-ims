@@ -6,3 +6,8 @@ class AccountsForm(forms.ModelForm):
 		widgets = {
 		'password': forms.PasswordInput()
 		}
+
+class ArrivalForm(forms.ModelForm):
+    class Meta:
+        model = AddArrival
+        fields = ['itemName', 'qty', 'itemCost']

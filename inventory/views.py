@@ -1,8 +1,36 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
+from django.http import HttpResponse
+from .models import Item, Supplier, Category, Brand, ItemModel, AddArrival
 
-from .models import Item, Supplier, Category, Brand, ItemModel
+
+def add_arrival(request, template_name='arrival_templates/add_arrival.html'):
+    arrivals = AddArrival.objects.all()
+    data = {}
+    data['object_list'] = arrivals
+    return render(request, template_name, data)
+
+def arrival_create(request, template_name='arrival_templates/arrival_form.html'):
+    form = ArrivalForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('add_arrival')
+    return render(request, template_name, {'form':form})
+
+def arrival_update(request, pk, template_name='arrival_templates/arrival_form.html'):
+    arrival = get_object_or_404(AddArrival, pk=pk)
+    form = ArrivalForm(request.POST or None, instance=arrival)
+    if form.is_valid():
+        form.save()
+        return redirect('add_arrival')
+    return render(request, template_name, {'form':form})
+
+def arrival_delete(request, pk, template_name='arrival_templates/arrival_confirm_delete.html'):
+    arrival = get_object_or_404(AddArrival, pk=pk)    
+    if request.method=='POST':
+        arrival.delete()
+        return redirect('add_arrival')
+    return render(request, template_name, {'object':arrival})
 
 
 def dashboard(request):
@@ -11,17 +39,9 @@ def dashboard(request):
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
-<<<<<<< HEAD
 # def signup(request):
-	
-=======
-def add_arrival(request):
-<<<<<<< HEAD
-	return render(request, 'arrival_templates/add_arrival.html', {})
-=======
-	return render(request, 'dashboard/add_arrival.html', {})
->>>>>>> 6ce6f04972a3a0e83c7007bc35322ea1d817165f
->>>>>>> 30c449b68d2dba35f12f2385bbe2bf8f888dc5e3
+
 
 def login(request):
 	return render(request, 'dashboard/login.html', {})
+

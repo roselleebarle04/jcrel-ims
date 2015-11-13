@@ -27,20 +27,63 @@
 </div>
 <br>
 <br>
-  <div class="container">
-    <div class="col-lg-3">
-        <select class="form-control" name="Item Name-filter">
-          <option>--------  Item Name  --------</option>
-          <option>Amplifier</option>
-          <option>String</option>
-          <option>Guitar</option>
-        </select>
-    </div>
-    <div class="col-lg-3">
-        <a href="#" class="btn btn-warning">Add</a>
+<div class="container">
+  <div class="col-lg-12">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr bgcolor="#FFFFCC">
+          <th>Item Name</th>
+          <th>Quantity</th>
+          <th>Item Cost</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>
+<div class="container">
+  <div class="col-lg-3">
+    <select class="form-control" name="Item Name-filter">
+      <option>--------  Item Name  --------</option>
+      <option>Amplifier</option>
+      <option>String</option>
+      <option>Guitar</option>
+    </select>
+  </div>
+  <div class="col-lg-3">
+    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">+</button>
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" style="padding:35px 50px;">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add New Item</h4>
+          </div>
+          <div class="modal-body" style="padding:40px 50px;">
+            <form role="form">
+              <div class="form-group">
+                <label for="code">Code</label>
+                <input type="text" class="form-control" id="code" placeholder="Enter item code">
+              </div>
+              <div class="form-group">
+                <label for="ctgry"> Category</label>
+                <input type="text" class="form-control" id="ctgry" placeholder="Enter category">
+              </div>
+              <div class="form-group">
+                <label for="brnd">Brand</label>
+                <input type="text" class="form-control" id="brnd" placeholder="Enter item brand">
+              </div>
+              <div class="form-group">
+                <label for="mdl">Model</label>
+                <input type="text" class="form-control" id="mdl" placeholder="Enter model">
+              </div>
+              <button type="submit" class="btn btn-success btn-block">Submit</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-</div>
-
-{% endblock content %}
+  {% endblock content %}
