@@ -1,9 +1,6 @@
 from django import forms
-<<<<<<< HEAD
 from .models import Accounts,Transfer_item, AddArrival
-=======
 from .models import Accounts,Transfer_item,AddArrival, Item
->>>>>>> 639c149debdfa6fe5059448aacc8faf7e1fcc8ab
 
 class AccountsForm(forms.ModelForm):
 	class Meta:
@@ -25,7 +22,3 @@ class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer_item
 		fields = ['item_code', 'quantity_to_transfer', 'transfer_date']
-<<<<<<< HEAD
-=======
-
->>>>>>> 639c149debdfa6fe5059448aacc8faf7e1fcc8ab

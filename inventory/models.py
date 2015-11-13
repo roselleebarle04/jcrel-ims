@@ -48,10 +48,6 @@ class Brand(models.Model):
 
 class ItemModel(models.Model):
 	""" Models describe the model of a particular Item """
-<<<<<<< HEAD
-	description = models.CharField(max_length=100, null=True)
-=======
->>>>>>> 639c149debdfa6fe5059448aacc8faf7e1fcc8ab
 	description = models.CharField(max_length=100, null=True)
 
 class Sale(models.Model):
@@ -69,7 +65,3 @@ class Transfer_item(models.Model):
 	item_code =  models.CharField(max_length = 6, null = False , blank = False)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateTimeField(blank=True,null=True)
-<<<<<<< HEAD
-
-=======
->>>>>>> 639c149debdfa6fe5059448aacc8faf7e1fcc8ab
