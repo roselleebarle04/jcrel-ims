@@ -29,6 +29,19 @@ def dashboard(request):
     })
 
 @login_required
+# Accounts
+def signup(request):
+	if request.method == 'POST':
+		first_name = request.POST.get('first_name')
+		last_name = request.POST.get('last_name')
+		username = "%s.%s" % (first_name, last_name)
+		email = request.POST.get('email')
+		password = request.POST.gete('password')
+
+
+	return render(request, 'dashboard/signup.html', {})
+
+# Arrivals
 def add_arrival(request, template_name='arrival_templates/add_arrival.html'):
     arrivals = AddArrival.objects.all()
     data = {}
@@ -85,6 +98,22 @@ def add_item(request):
 		form.save()
 		return redirect('items')
 	return render(request, 'dashboard/add_item.html', {'form':form})
+
+	
+def reports(request):
+	return render(request, 'dashboard/reports.html', {})
+
+# def signup(request):
+
+# def signup(request):
+
+# def signup(request):
+def add_arrival(request):
+	return render(request, 'arrival_templates/add_arrival.html', {})
+	return render(request, 'dashboard/add_arrival.html', {})
+
+def login(request):
+	return render(request, 'dashboard/login.html', {})
 
 # Transfers
 def transfer_form(request,template_name ='dashboard/transfer_form.html'):
