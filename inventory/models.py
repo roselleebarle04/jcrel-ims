@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 class Accounts(models.Model):
 	#All signed up accounts will be saved here
@@ -43,3 +44,4 @@ class Brand(models.Model):
 class ItemModel(models.Model):
 	""" Models describe the model of a particular Item """
 	description = models.CharField(max_length=100, null=True)
+
