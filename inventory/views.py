@@ -18,22 +18,8 @@ def signup(request):
         password = request.POST.get('password')
         new_user = User.objects.create_user(username,email_address,password)
         new_user.save()
-        return HttpResponseRedirect(reverse('dashboard', args=[username]))
+        return HttpResponseRedirect('/login/')
     return render(request, 'accounts/signup.html', {})
-
-def login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        # if user is not None:
-            # if user.is_active:
-                # else: # print("The username and password were incorrect.")
-    return render(request, 'accounts/login.html', {})
-
-# def logout_user(request):
-#     logout(request)
-#     return HttpResponseRedirect(reverse('dashboard'))
 
 @login_required
 def dashboard(request):
