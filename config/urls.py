@@ -6,6 +6,7 @@ from inventory import views as inventory_views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', inventory_views.login, name='login'),
+    url(r'^signup/$', inventory_views.signup, name='signup'),
     url(r'^$', inventory_views.dashboard, name='dashboard'),
     
     # Reporting Feature

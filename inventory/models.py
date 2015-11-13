@@ -10,6 +10,7 @@ class Accounts(models.Model):
 	#All signed up accounts will be saved here
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)
+	username = models.CharField(primary_key=True, max_length=30)
 	email = models.EmailField()
 	password = models.CharField(max_length=50)
 
