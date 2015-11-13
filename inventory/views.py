@@ -79,10 +79,17 @@ def items(request):
 	return render(request, 'dashboard/items.html', {})
 
 @login_required
+def add_item(request):
+	form = ItemForm(request.POST or None)
+	if  form.is_valid():
+		form.save()
+		return redirect('items')
+	return render(request, 'dashboard/add_item.html', {'form':form})
+
+# Transfers
 def transfer_form(request,template_name ='dashboard/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
 		form.save()
 		return redirect('transfer_form')
 	return render(request,template_name,{'form':form})
-
