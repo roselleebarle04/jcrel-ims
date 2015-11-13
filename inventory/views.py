@@ -69,6 +69,10 @@ def add_item(request):
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
+
+
+# def signup(request):
+
 # def signup(request):
 
 def add_arrival(request):
@@ -77,7 +81,6 @@ def add_arrival(request):
 
 def login(request):
 	return render(request, 'dashboard/login.html', {})
-
 
 # Transfers
 def transfer_form(request,template_name ='dashboard/transfer_form.html'):

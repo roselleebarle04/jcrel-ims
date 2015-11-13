@@ -1,5 +1,5 @@
 from django import forms
-from .models import Accounts,Transfer_item,AddArrival, Item, Sale
+from .models import Accounts,Transfer_item,AddArrival, Item
 
 class AccountsForm(forms.ModelForm):
 	class Meta:
@@ -21,4 +21,3 @@ class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer_item
 		fields = ['item_code', 'quantity_to_transfer', 'transfer_date']
-
