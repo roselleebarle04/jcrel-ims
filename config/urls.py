@@ -7,7 +7,15 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', inventory_views.login, name='login'),
     url(r'^$', inventory_views.dashboard, name='dashboard'),
-    url(r'^reports/$', inventory_views.reports, name='reports'),
+    
+    # Reporting Feature
+    url(r'^reports/inventory/', inventory_views.inventory_reports, name='inventory_reports'),
+    url(r'^reports/sales/', inventory_views.sales_reports, name='sales_reports'),
+
+    url(r'^items/$', inventory_views.items, name='items'),
+    url(r'^add_item/$', inventory_views.add_item, name='add_item'),
+    
+
     url(r'^add_arrival/$', inventory_views.add_arrival, name='add_arrival'),
     url(r'^transfer_form/$', inventory_views.transfer_form, name = 'transfer_form'),
 

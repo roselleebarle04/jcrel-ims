@@ -1,9 +1,27 @@
-body, html {
+body h1, h2, h3, h4, h5, h6 {
 	font-family: 'Montserrat', sans-serif;
 }
 
 #wrapper {
 	background: #30426a;
+}
+
+.export-btn-group {
+	float: right;
+	margin-top: 25px;
+}
+
+.export-btn-group a {
+	width: 150px;
+}
+
+#wrapper .navbar-default.sidebar .sidebar-nav ul li a{
+	background: #30426a;
+}
+
+#wrapper .navbar-default.sidebar .sidebar-nav ul li a:hover, #wrapper .navbar-default.sidebar .sidebar-nav ul li a:focus {
+    text-decoration: none;
+    background-color: #2d3e63;
 }
 
 #wrapper .navbar.navbar-default {
@@ -21,6 +39,10 @@ body, html {
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li {
 	border-bottom: none;
+}
+
+#wrapper .navbar-default.sidebar .sidebar-nav ul li.no-border:hover {
+    border-right: none;
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li:hover {

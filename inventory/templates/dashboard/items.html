@@ -1,0 +1,65 @@
+'''{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-3">
+        <a href="/add_item" class="btn btn-success">Add Item</a>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Store Code</th>
+                    <th>Category</th>
+                    <th>Type</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Supplier ID</th>
+                    <th>Supplier Code</th>
+                    <th>Minimum Quantity Required</th>
+                    <th>Store Qty</th>
+                    <th>Warehouse Qty</th>
+                    <th>Unit Cost</th>
+                    <th>Selling Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>E­1­408 </td>
+                    <td>Amplifier </td>
+                    <td>Bass Amp </td>
+                    <td>Boston</td>
+                    <td>BP20 20 watts </td>
+                    <th>JB</th>
+                    <th>XAU­516</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>5</th>
+                    <th>1100</th>
+                    <th>1800</th>
+                </tr>
+                <tr>
+                    <th>M207001</th>
+                    <th>Amplifier</th>
+                    <th>Electric Guitar Amplifier</th>
+                    <th>Nux</th>
+                    <th>Frontline15 15watts </th>
+                    <th>Jenlne</th>
+                    <th>Jenlne  BSD­153</th>
+                    <th>5</th>
+                    <th>8</th>
+                    <th>2</th>
+                    <th>1880</th>
+                    <th>3400</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
