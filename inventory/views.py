@@ -41,7 +41,7 @@ def signup(request):
 	else:
 		form = AccountForm()
 
-	return render(request, 'dashboard/signup.html', {})
+	return render(request, 'accounts/signup.html', {})
 
 @login_required
 def add_arrival(request, template_name='arrival/add_arrival.html'):
