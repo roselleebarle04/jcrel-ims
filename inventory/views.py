@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
 from .models import Item, Supplier, Category, Brand, ItemModel, AddArrival
 from .forms import *
+from django.core.urlresolvers import reverse
 
 
 # Dashboard
@@ -12,6 +14,26 @@ def dashboard(request):
 # Accounts
 def login(request):
 	return render(request, 'dashboard/login.html', {})
+
+# Accounts
+def signup(request):
+	if request.method == 'POST':
+		first_name = request.POST.get('first_name')
+		last_name = request.POST.get('last_name')
+		username = request.POST.get('username')
+		email = request.POST.get('email')
+		password1 = request.POST.get('password1')
+		password_confirmation = request.POST.get('password_confirmation')
+
+		user = User.objects.create_user(username, email, password)
+		user.set_password(password1)
+		user.save()
+		
+		return HttpResponseRedirect('/login/')
+	else:
+		form = AccountsForm()
+
+	return render(request, 'dashboard/signup.html', {})
 
 # Arrivals
 def add_arrival(request, template_name='arrival_templates/add_arrival.html'):
@@ -59,11 +81,32 @@ def sales_reports(request):
 def items(request):
 	return render(request, 'dashboard/items.html', {})
 
+def add_item(request):
+	form = ItemForm(request.POST or None)
+	if  form.is_valid():
+		form.save()
+		return redirect('items')
+	return render(request, 'dashboard/add_item.html', {'form':form})
+	
+def reports(request):
+	return render(request, 'dashboard/reports.html', {})
+
+def add_arrival(request):
+	return render(request, 'arrival_templates/add_arrival.html', {})
+
+def login(request):
+	return render(request, 'dashboard/login.html', {})
+
 # Transfers
-def transfer_form(request,template_name ='dashboard/transfer_form.html'):
+def create_transfer(request,template_name ='transfer/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
 		form.save()
 		return redirect('transfer_form')
 	return render(request,template_name,{'form':form})
 
+def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):
+	transfer = Transfer_item.objects.all()
+	data = {}
+	data['object_list'] = transfer
+	return render(request,template_name,data)

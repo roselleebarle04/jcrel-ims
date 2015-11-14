@@ -10,6 +10,7 @@ class Accounts(models.Model):
 	#All signed up accounts will be saved here
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)
+	username = models.CharField(primary_key=True, max_length=30)
 	email = models.EmailField()
 	password = models.CharField(max_length=50)
 
@@ -50,11 +51,11 @@ class ItemModel(models.Model):
 	""" Models describe the model of a particular Item """
 	description = models.CharField(max_length=100, null=True)
 
-class AddArrival(models.Model):
-	itemName = models.CharField(max_length=300, null=True)
-	qty = models.PositiveSmallIntegerField(default=0)
-	itemCost = models.FloatField(null=True, blank=True)
-
+class Sale(models.Model):
+	#code = models.ForeignKey(Item)
+	item_code =  models.CharField(max_length = 6, null = False , blank = False)
+	quantity = models.PositiveSmallIntegerField(default = 0)
+	srp = models.DecimalField(max_digits = 10, decimal_places = 2)
 
 class Transfer_item(models.Model):
 	item_code =  models.CharField(max_length = 6, null = False , blank = False)
