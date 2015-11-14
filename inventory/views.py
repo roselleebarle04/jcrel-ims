@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
@@ -6,9 +7,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 
-from .models import Item, Supplier, Category, Brand, ItemModel, AddArrival
+from .models import *
 from .forms import *
 
+
+def login(request):
+	return render(request, 'dashboard/login.html', {})
 
 def signup(request):
     if request.method == 'POST':
@@ -28,8 +32,30 @@ def dashboard(request):
         # 'user' = request.user.username
     })
 
-@login_required
-def add_arrival(request, template_name='arrival/add_arrival.html'):
+def signup(request):
+	if request.method == 'POST':		
+
+		first_name = request.POST.get('first_name')
+		last_name = request.POST.get('last_name')
+		email = request.POST.get('email')
+		username = request.POST.get('username')
+		password1 = request.POST.get('password1')
+		password_confirmation = request.POST.get('password_confirmation')
+
+		print "%s %s %s %s" % (first_name, last_name, username, password1)
+
+		new_user = User.objects.create_user(username=username, email=email, password=password1)
+		new_user.set_password('password1')
+		new_user.save()
+			
+		return HttpResponseRedirect('/login/')
+	else:
+		form = AccountForm()
+
+	return render(request, 'dashboard/signup.html', {})
+
+# Arrivals
+def add_arrival(request, template_name='arrival_templates/add_arrival.html'):
     arrivals = AddArrival.objects.all()
     data = {}
     data['object_list'] = arrivals
@@ -76,7 +102,7 @@ def sales_reports(request):
 
 @login_required
 def items(request):
-	return render(request, 'dashboard/items.html', {})
+	return render(request, 'items/items.html', {})
 
 @login_required
 def add_item(request):
@@ -84,12 +110,23 @@ def add_item(request):
 	if  form.is_valid():
 		form.save()
 		return redirect('items')
-	return render(request, 'dashboard/add_item.html', {'form':form})
+	return render(request, 'items/add_item.html', {'form':form})
+	
+def reports(request):
+	return render(request, 'dashboard/reports.html', {})
 
-# Transfers
-def transfer_form(request,template_name ='dashboard/transfer_form.html'):
+def add_arrival(request):
+	return render(request, 'arrival_templates/add_arrival.html', {})
+
+def create_transfer(request,template_name ='transfer/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
 		form.save()
 		return redirect('transfer_form')
 	return render(request,template_name,{'form':form})
+
+def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):
+	transfer = Transfer_item.objects.all()
+	data = {}
+	data['object_list'] = transfer
+	return render(request,template_name,data)

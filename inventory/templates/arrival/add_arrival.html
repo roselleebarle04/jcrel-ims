@@ -6,19 +6,19 @@
 <div class="container">
   <form role="form">
     <div class="form-group">
-      <div class="col-xs-3 col-md-3">
+      <div class="col-xs-2">
         <label for="ex1">Date</label>
         <input class="form-control" id="ex1" type="text">
       </div>
-      <div class="col-xs-3 col-md-3">
+      <div class="col-xs-2">
         <label for="ex2">Delivery Receipt</label>
         <input class="form-control" id="ex2" type="text">
       </div>
-      <div class="col-xs-3 col-md-3">
+      <div class="col-xs-2">
         <label for="ex3">Tracking Number</label>
         <input class="form-control" id="ex3" type="text">
       </div>
-      <div class="col-xs-3 col-md-3">
+      <div class="col-xs-2">
         <label for="ex3">Supplier</label>
         <input class="form-control" id="ex3" type="text">
       </div>
@@ -28,62 +28,135 @@
 <br>
 <br>
 <div class="container">
-  <div class="col-lg-12">
-    <table class="table table-bordered table-striped">
+  <div class="col-lg-10">
+    <table class="table table-bordered table-striped table-hover">
       <thead>
-        <tr bgcolor="#FFFFCC">
-          <th>Item Name</th>
-          <th>Quantity</th>
-          <th>Item Cost</th>
+        <tr bgcolor="#FFFF99" >
+          <th class="col-sm-4">Item Name</th>
+          <th class="col-sm-2">Quantity</th>
+          <th class="col-sm-2">Item Cost</th>
+          <th class="col-sm-2"></th>
         </tr>
       </thead>
+      <tbody>
+        <tr>
+          <td>Amplifier; Boston 20</td>
+          <td>6</td>
+          <td>4500</td>
+          <td class="">
+            <a href="#" class="btn btn-info btn-sm" role="button">Edit</a>
+            <a href="#" class="btn btn-info btn-sm" role="button">Delete</a>
+          </td>
+        </tr>
+        <tr>
+          <td>String; Boston 20</td>
+          <td>6</td>
+          <td>4500</td>
+          <td class="">
+            <a href="#" class="btn btn-info btn-sm" role="button">Edit</a>
+            <a href="#" class="btn btn-info btn-sm" role="button">Delete</a>
+          </td>
+        </tr>
+      </tbody>
+      <tr>
+        <th colspan="7" >
+          <button type="button"  class="btn btn-default btn-sm btn-block" data-toggle="modal" data-target="#myModal">NEW</button>
+          <style>
+            .modal-header, h4, .close {
+              background-color: #FFFFCC;
+              color:black !important;
+              text-align: center;
+              font-size: 30px;
+            }
+            .modal-footer {
+              background-color: #f9f9f9;
+            }
+          </style>
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-md">
+              <div class="modal-content">
+                <div class="modal-header" style="padding:35px 50px;">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title" id="myModalLabel">Add New Arrival</h4>
+                </div>
+                <div class="modal-body" style="padding:40px 50px;">
+                  <form role="form-group">
+                    <div class="form-group">
+                      <div class="form-group">
+                        <select class="form-control" name="Item Name-filter">
+                          <option>  Item Name </option>
+                          <option>Amplifier</option>
+                          <option>String</option>
+                          <option>Guitar</option>
+                        </select>
+                      </div>
+                      <div class="">
+                        <a href="#" class="btn btn-info" role="button"  data-toggle="modal" data-target="#new-item" ><i class="fa fa-plus"></i> New Item</a> 
+                      </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                      <label for="qty"> Quantity</label>
+                      <input type="text" class="form-control" id="qty" placeholder="Enter quantity">
+                    </div>
+                    <div class="form-group">
+                      <label for="cost">Item Cost</label>
+                      <input type="text" class="form-control" id="cost" placeholder="Enter item cost">
+                    </div>
+                    <br>
+                    <br>
+                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                  </form>
+                </div>
+                <br>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal" id="new-item" tabindex="-1" role="dialog" aria-labelledby="new-item-title" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header" style="padding:35px 50px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Add New Item</h4>
+                  </div>
+                  <div class="modal-body" style="padding:40px 50px;">
+                    <form role="form">
+                      <div class="form-group">
+                        <label for="code">Code</label>
+                        <input type="text" class="form-control" id="code" placeholder="Enter item code">
+                      </div>
+                      <div class="form-group">
+                        <label for="ctgry"> Category</label>
+                        <input type="text" class="form-control" id="ctgry" placeholder="Enter category">
+                      </div>
+                      <div class="form-group">
+                        <label for="brnd">Brand</label>
+                        <input type="text" class="form-control" id="brnd" placeholder="Enter item brand">
+                      </div>
+                      <div class="form-group">
+                        <label for="mdl">Model</label>
+                        <input type="text" class="form-control" id="mdl" placeholder="Enter model">
+                      </div>
+                    </form>
+                  </div> 
+                  <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn">Close</button>
+                    <button type="button" class="btn btn-primary">Ok</button>
+                  </div> 
+                </div>
+              </div>
+            </div>
+        </th>
+      </tr>
     </table>
   </div>
 </div>
-<div class="container">
-  <div class="col-lg-3">
-    <select class="form-control" name="Item Name-filter">
-      <option>--------  Item Name  --------</option>
-      <option>Amplifier</option>
-      <option>String</option>
-      <option>Guitar</option>
-    </select>
-  </div>
-  <div class="col-lg-3">
-    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Add New Item</button>
-    <div class="modal fade" id="myModal" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header" style="padding:35px 50px;">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Add New Item</h4>
-          </div>
-          <div class="modal-body" style="padding:40px 50px;">
-            <form role="form">
-              <div class="form-group">
-                <label for="code">Code</label>
-                <input type="text" class="form-control" id="code" placeholder="Enter item code">
-              </div>
-              <div class="form-group">
-                <label for="ctgry"> Category</label>
-                <input type="text" class="form-control" id="ctgry" placeholder="Enter category">
-              </div>
-              <div class="form-group">
-                <label for="brnd">Brand</label>
-                <input type="text" class="form-control" id="brnd" placeholder="Enter item brand">
-              </div>
-              <div class="form-group">
-                <label for="mdl">Model</label>
-                <input type="text" class="form-control" id="mdl" placeholder="Enter model">
-              </div>
-              <button type="submit" class="btn btn-success btn-block">Submit</button>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% endblock content %}
+<br>
+<br>
+<div class="col-lg-6">
+  <button type="button" class="btn btn-primary btn-lg btn-success pull-right" >DONE</button>
+</div>
+{% endblock content %}
