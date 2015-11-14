@@ -81,20 +81,6 @@ def add_item(request):
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-# def signup(request):
-=======
-
-
-# def signup(request):
-
-# def signup(request):
->>>>>>> e4d9937a9261b0cb65c1427b3343dc986c19e2ba
-
->>>>>>> e4ca3b2cb0a7e22e2585144655fedd8628ef4962
 def add_arrival(request):
 	return render(request, 'arrival_templates/add_arrival.html', {})
 	return render(request, 'dashboard/add_arrival.html', {})
@@ -103,9 +89,15 @@ def login(request):
 	return render(request, 'dashboard/login.html', {})
 
 # Transfers
-def transfer_form(request,template_name ='dashboard/transfer_form.html'):
+def create_transfer(request,template_name ='transfer/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
 		form.save()
 		return redirect('transfer_form')
 	return render(request,template_name,{'form':form})
+
+def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):
+	transfer = Transfer_item.objects.all()
+	data = {}
+	data['object_list'] = transfer
+	return render(request,template_name,data)
