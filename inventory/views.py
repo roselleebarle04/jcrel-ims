@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
 from .models import Item, Supplier, Category, Brand, ItemModel, AddArrival
 from .forms import *
 from django.core.urlresolvers import reverse
@@ -19,10 +20,18 @@ def signup(request):
 	if request.method == 'POST':
 		first_name = request.POST.get('first_name')
 		last_name = request.POST.get('last_name')
-		username = "%s.%s" % (first_name, last_name)
+		username = request.POST.get('username')
 		email = request.POST.get('email')
-		password = request.POST.gete('password')
+		password1 = request.POST.get('password1')
+		password_confirmation = request.POST.get('password_confirmation')
 
+		user = User.objects.create_user(username, email, password)
+		user.set_password(password1)
+		user.save()
+		
+		return HttpResponseRedirect('/login/')
+	else:
+		form = AccountsForm()
 
 	return render(request, 'dashboard/signup.html', {})
 
