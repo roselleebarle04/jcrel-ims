@@ -1,16 +1,24 @@
 from django import forms
-<<<<<<< HEAD
 from .models import Accounts,Transfer_item, AddArrival
-=======
->>>>>>> e4d9937a9261b0cb65c1427b3343dc986c19e2ba
 from .models import Accounts,Transfer_item,AddArrival, Item
 
 class AccountsForm(forms.ModelForm):
+
+	password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+	password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+
 	class Meta:
-		fields = ['first_name', 'last_name', 'email', 'password']
-		widgets = {
-		'password': forms.PasswordInput()
-		}
+		model = Accounts
+		fields = ['first_name', 'last_name', 'email', 'username']
+
+	def clean_password2(self):
+		password1 = self.cleaned_data.get("password1")
+		password2 = self.cleaned_data.get("password2")
+
+		if password1 and password2 and password1 != password2:
+			raise forms.ValidationError("Passwords don't math")
+		return password2
+
 
 class ItemForm(forms.ModelForm):
     class Meta:

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
 from .models import Item, Supplier, Category, Brand, ItemModel, AddArrival
 from .forms import *
 
@@ -18,10 +19,18 @@ def signup(request):
 	if request.method == 'POST':
 		first_name = request.POST.get('first_name')
 		last_name = request.POST.get('last_name')
-		username = "%s.%s" % (first_name, last_name)
+		username = request.POST.get('username')
 		email = request.POST.get('email')
-		password = request.POST.gete('password')
+		password1 = request.POST.get('password1')
+		password_confirmation = request.POST.get('password_confirmation')
 
+		user = User.objects.create_user(username, email, password)
+		user.set_password(password1)
+		user.save()
+		
+		return HttpResponseRedirect('/login/')
+	else:
+		form = AccountsForm()
 
 	return render(request, 'dashboard/signup.html', {})
 
@@ -81,20 +90,14 @@ def add_item(request):
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 
 # def signup(request):
-=======
 
 
 # def signup(request):
 
 # def signup(request):
->>>>>>> e4d9937a9261b0cb65c1427b3343dc986c19e2ba
 
->>>>>>> e4ca3b2cb0a7e22e2585144655fedd8628ef4962
 def add_arrival(request):
 	return render(request, 'arrival_templates/add_arrival.html', {})
 	return render(request, 'dashboard/add_arrival.html', {})
