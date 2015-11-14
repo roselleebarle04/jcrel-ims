@@ -8,25 +8,25 @@
 
 <!--     <div class="container">
  -->
-      <form class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
+      <form class="form-signin" method="POST"> {% csrf_token %}
+        <h2 class="form-signin-heading">Please sign up</h2>
         <label for="first_name" class="sr-only">First name</label>
-        <input type="text" id="first_name" class="form-control" placeholder="First name" required autofocus>
+        <input type="text" ="first_name" class="form-control" placeholder="First name" required autofocus>
         <label for="last_name" class="sr-only">Lasst name</label>
-        <input type="text" id="last_name" class="form-control" placeholder="Last name" required autofocus>
+        <input type="text" name="last_name" class="form-control" placeholder="Last name" required autofocus>
         <label for="username" class="sr-only">Username</label>
-        <input type="text" id="username" class="form-control" placeholder="Username" required autofocus>
+        <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
         <label for="email" class="sr-only">Email address</label>
-        <input type="email" id="email" class="form-control" placeholder="Email address" required autofocus>
+        <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
         <label for="password1" class="sr-only">Password</label>
-        <input type="password1" id="password1" class="form-control" placeholder="Password" required>
-        <input type="password_confirmation" id="password_confirmation" class="form-control" placeholder="Password confirmation" required>
+        <input type="password1" name="" ="password1" class="form-control" placeholder="Password" required>
+        <input type="password_confirmation" name="" ="password_confirmation" class="form-control" placeholder="Password confirmation" required>
         <div class="checkbox">
           <label>
             <input type="checkbox" value="remember-me"> Remember me
           </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
       </form>
 
    <!--  </div> --> <!-- /container -->

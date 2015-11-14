@@ -17,21 +17,37 @@ def login(request):
 
 # Accounts
 def signup(request):
+
 	if request.method == 'POST':
+			# form = AccountsForm
+			# if form.is_valid:
+			# 	first_name = request.POST.get('first_name')
+			# 	last_name = request.POST.get('last_name')
+			# 	email = request.POST.get('email')
+			# 	password1 = request.POST.get('password1')
+			# 	password_confirmation = request.POST.get('password_confirmation')
+	
+			# 	user = User.objects.create_)user(email, password)
+		# 	user.set_password(password1)
+		# 	user.save()
+		
+
 		first_name = request.POST.get('first_name')
 		last_name = request.POST.get('last_name')
-		username = request.POST.get('username')
 		email = request.POST.get('email')
+		username = request.POST.get('username')
 		password1 = request.POST.get('password1')
 		password_confirmation = request.POST.get('password_confirmation')
 
-		user = User.objects.create_user(username, email, password)
-		user.set_password(password1)
-		user.save()
-		
+		print "%s %s %s %s" % (first_name, last_name, username, password1)
+
+		new_user = User.objects.create_user(username=username, email=email, password=password1)
+		new_user.set_password('password1')
+		new_user.save()
+			
 		return HttpResponseRedirect('/login/')
 	else:
-		form = AccountsForm()
+		form = AccountForm()
 
 	return render(request, 'dashboard/signup.html', {})
 
@@ -91,37 +107,6 @@ def add_item(request):
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
-<<<<<<< HEAD
-
-# def signup(request):
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-# def signup(request):
-=======
->>>>>>> 2128af08c8e112cce7a25a97ccd7e9b8f356eb09
->>>>>>> 348f137d945e972db082da3cdd55ede14f873f26
-
-
-# def signup(request):
-
-<<<<<<< HEAD
-# def signup(request):
-
-=======
-
->>>>>>> e4ca3b2cb0a7e22e2585144655fedd8628ef4962
->>>>>>> 31e3e06bd3da449572cab0c4e2701e0badc74845
->>>>>>> b807238c8f42c569abc3f9f2b3c487337da218e4
->>>>>>> 348f137d945e972db082da3cdd55ede14f873f26
 def add_arrival(request):
 	return render(request, 'arrival_templates/add_arrival.html', {})
 

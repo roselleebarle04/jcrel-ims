@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Item, Supplier, Category, Brand, ItemModel, Accounts, AddArrival, Sale
+from .models import Item, Supplier, Category, Brand, ItemModel, Account, AddArrival, Sale
 
-class AccountsAdmin(admin.ModelAdmin):
+class AccountAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(Accounts, AccountsAdmin)
+admin.site.register(Account, AccountAdmin)
 
 class ItemAdmin(admin.ModelAdmin):
 	pass

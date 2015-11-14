@@ -1,18 +1,32 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
+
 
 class AddArrival(models.Model):
 	itemName = models.CharField(max_length=300, null=True)
 	qty = models.PositiveSmallIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
 
-class Accounts(models.Model):
-	#All signed up accounts will be saved here
+class Account(models.Model):
+	# #All signed up accounts will be saved here
+	# user = models.OneToOneField(User)
+	# user.username = True
+
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)
-	username = models.CharField(primary_key=True, max_length=30)
 	email = models.EmailField()
 	password = models.CharField(max_length=50)
+
+	def publish(self):
+		self.published_date = timezone.now()
+		self.save()
+
+	def __str__(self):
+		return self.last_name
+
+	def get_absolute_url(self):
+		return reverse('server_edit', kwargs={'pk': self.pk})
 
 
 class Item(models.Model):
