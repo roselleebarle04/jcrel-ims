@@ -82,21 +82,6 @@ def add_item(request):
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-# def signup(request):
-=======
->>>>>>> 2128af08c8e112cce7a25a97ccd7e9b8f356eb09
-
-
-# def signup(request):
-
-
->>>>>>> e4ca3b2cb0a7e22e2585144655fedd8628ef4962
 def add_arrival(request):
 	return render(request, 'arrival_templates/add_arrival.html', {})
 
