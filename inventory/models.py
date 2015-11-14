@@ -9,7 +9,6 @@ class AddArrival(models.Model):
 	itemCost = models.FloatField(null=True, blank=True)
 
 class Account(models.Model):
-
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)
 	email = models.EmailField()
@@ -27,7 +26,6 @@ class Account(models.Model):
 
 
 class Item(models.Model):
-	
 	status = models.CharField(max_length=50, null=True, default="INACTIVE") 		# Active or Inactive
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
