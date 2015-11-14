@@ -1,8 +1,5 @@
 from django import forms
-<<<<<<< HEAD
 from .models import Accounts,Transfer_item, AddArrival
-=======
->>>>>>> 31e3e06bd3da449572cab0c4e2701e0badc74845
 from .models import Accounts,Transfer_item,AddArrival, Item
 
 class AccountsForm(forms.ModelForm):
