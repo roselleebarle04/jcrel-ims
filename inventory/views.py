@@ -11,26 +11,15 @@ from .models import *
 from .forms import *
 
 
-def login(request):
-	return render(request, 'dashboard/login.html', {})
-
-def signup(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        email_address = request.POST.get('email')
-        password = request.POST.get('password')
-        new_user = User.objects.create_user(username,email_address,password)
-        new_user.save()
-
-        return HttpResponseRedirect('/login/')
-    return render(request, 'accounts/signup.html', {})
-
 @login_required
 def dashboard(request):
     print request.user.username
     return render(request, 'dashboard/dashboard.html', {
         # 'user' = request.user.username
     })
+
+def login(request):
+	return render(request, 'dashboard/login.html', {})
 
 def signup(request):
 	if request.method == 'POST':		
@@ -54,8 +43,8 @@ def signup(request):
 
 	return render(request, 'dashboard/signup.html', {})
 
-# Arrivals
-def add_arrival(request, template_name='arrival_templates/add_arrival.html'):
+@login_required
+def add_arrival(request, template_name='arrival/add_arrival.html'):
     arrivals = AddArrival.objects.all()
     data = {}
     data['object_list'] = arrivals
@@ -116,9 +105,12 @@ def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
 def add_arrival(request):
-	return render(request, 'arrival_templates/add_arrival.html', {})
+	return render(request, 'arrival/add_arrival.html', {})
 
-def create_transfer(request,template_name ='transfer/transfer_form.html'):
+def login(request):
+	return render(request, 'dashboard/login.html', {})
+
+def transfer_form(request,template_name ='dashboard/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
 		form.save()
