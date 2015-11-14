@@ -1,11 +1,7 @@
 from django import forms
-<<<<<<< HEAD
-from .models import Accounts,Transfer_item, AddArrival
 from .models import Accounts,Transfer_item,AddArrival, Item
-=======
 from .models import *
 
->>>>>>> 0478cfab9082f917c1310ad6e52ede4f1d6e6ff2
 
 class AccountsForm(forms.ModelForm):
 
@@ -21,7 +17,7 @@ class AccountsForm(forms.ModelForm):
 		password2 = self.cleaned_data.get("password2")
 
 		if password1 and password2 and password1 != password2:
-			raise forms.ValidationError("Passwords don't math")
+			raise forms.ValidationError("Passwords don't match")
 		return password2
 
 class ItemForm(forms.ModelForm):
