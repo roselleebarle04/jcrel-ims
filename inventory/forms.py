@@ -3,6 +3,7 @@ from .models import Accounts,Transfer_item,AddArrival, Item
 
 class AccountsForm(forms.ModelForm):
 	class Meta:
+		fields = ['first_name', 'last_name', 'email', 'password']
 		widgets = {
 		'password': forms.PasswordInput()
 		}
