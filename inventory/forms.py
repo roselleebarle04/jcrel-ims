@@ -25,7 +25,7 @@ class AccountForm(forms.ModelForm):
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ['store_code', 'unit_cost', 'category','brand','item_model','supplier', 'supplier_code']
+        fields = ['store_code', 'unit_cost', 'category','brand','model','supplier', 'supplier_code']
 
 class ArrivalForm(forms.ModelForm):
     class Meta:
@@ -35,4 +35,4 @@ class ArrivalForm(forms.ModelForm):
 class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer_item
-		fields = ['item_code', 'quantity_to_transfer', 'transfer_date']
+		fields = ['item', 'quantity_to_transfer', 'transfer_date']
