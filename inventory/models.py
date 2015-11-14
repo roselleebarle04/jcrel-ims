@@ -16,17 +16,24 @@ class Accounts(models.Model):
 
 
 class Item(models.Model):
-	store_code = models.CharField(max_length=200, null=True)	# Store Code
-	supplier_code = models.CharField(max_length=200, null=True)	# Supplier Code
+	
 	status = models.CharField(max_length=50, null=True, default="INACTIVE") 		# Active or Inactive
-	unit_cost = models.IntegerField(default=0)
-
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
-	category = models.ForeignKey("Category", db_index=True, null=True)
-	brand = models.ForeignKey("Brand", db_index=True, null=True)
-	item_model = models.ForeignKey("ItemModel", db_index=True, null=True)
-	supplier = models.ForeignKey("Supplier", db_index=True, null=True)
+	types = models.CharField(max_length = 50)
+	category = models.CharField(max_length = 50)
+	brand = models.CharField(max_length = 50)
+	model = models.CharField(max_length = 50)
+	supplier = models.ForeignKey("Supplier")
+	supplier_code = models.CharField(max_length = 50)
+	store_code = models.CharField(max_length = 6)
+	store_quantity = models.PositiveSmallIntegerField(default = 0)
+	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
+	unit_cost = models.DecimalField( default = 0, max_digits = 100, decimal_places = 2)
+	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)
+
+	def __unicode__(self):
+		return self.store_code
 
 	class Meta:
 		ordering = ('created',)
@@ -39,25 +46,12 @@ class Supplier(models.Model):
 
 	# owner = models.ForeignKey("accounts.User")
 
-class Category(models.Model):
-	""" Categories describe an Item """
-	description = models.CharField(max_length=100, null=True)
-
-class Brand(models.Model):
-	""" Brands describe an Item """
-	description = models.CharField(max_length=100, null=True)
-
-class ItemModel(models.Model):
-	""" Models describe the model of a particular Item """
-	description = models.CharField(max_length=100, null=True)
-
 class Sale(models.Model):
-	#code = models.ForeignKey(Item)
-	item_code =  models.CharField(max_length = 6, null = False , blank = False)
+	item = models.ForeignKey(Item)
+	supplier = models.ForeignKey(Supplier)
 	quantity = models.PositiveSmallIntegerField(default = 0)
-	srp = models.DecimalField(max_digits = 10, decimal_places = 2)
 
 class Transfer_item(models.Model):
-	item_code =  models.CharField(max_length = 6, null = False , blank = False)
+	item = models.ForeignKey(Item)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateTimeField(blank=True,null=True)

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from .models import Item, Supplier, Category, Brand, ItemModel, AddArrival
+from .models import Item, Supplier, AddArrival
 from .forms import *
 from django.core.urlresolvers import reverse
 
@@ -79,14 +79,14 @@ def sales_reports(request):
 
 # Items
 def items(request):
-	return render(request, 'dashboard/items.html', {})
+	return render(request, 'items/items.html', {})
 
 def add_item(request):
 	form = ItemForm(request.POST or None)
 	if  form.is_valid():
 		form.save()
 		return redirect('items')
-	return render(request, 'dashboard/add_item.html', {'form':form})
+	return render(request, 'items/add_item.html', {'form':form})
 	
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
