@@ -9,9 +9,6 @@ class AddArrival(models.Model):
 	itemCost = models.FloatField(null=True, blank=True)
 
 class Account(models.Model):
-	# #All signed up accounts will be saved here
-	# user = models.OneToOneField(User)
-	# user.username = True
 
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)

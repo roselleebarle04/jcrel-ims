@@ -1,6 +1,9 @@
 from django import forms
 from .models import Account,Transfer_item, AddArrival
 from .models import Account,Transfer_item,AddArrival, Item
+from .models import Accounts,Transfer_item,AddArrival, Item
+from .models import *
+
 
 class AccountForm(forms.ModelForm):
 
@@ -16,21 +19,8 @@ class AccountForm(forms.ModelForm):
 		password2 = self.cleaned_data.get("password2")
 
 		if password1 and password2 and password1 != password2:
-			raise forms.ValidationError("Passwords don't math")
+			raise forms.ValidationError("Passwords don't match")
 		return password2
-
-
-	# def clean_username(self):
-	# 	username = self.cleaned_data['username']
-	# 	if not re.search(r'^\w+$', username):
- #  		raise forms.ValidationError(u'Username can only contain '
- #    		'alphanumeric characters and the underscore.')
-	# 	try:
- #  			User.objects.get(username=username)
-	# 	except User.DoesNotExist:
- #  		return username
-	# 	raise forms.ValidationError(u'Username is already taken.')
-
 
 class ItemForm(forms.ModelForm):
     class Meta:

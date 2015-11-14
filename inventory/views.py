@@ -18,19 +18,7 @@ def login(request):
 # Accounts
 def signup(request):
 
-	if request.method == 'POST':
-			# form = AccountsForm
-			# if form.is_valid:
-			# 	first_name = request.POST.get('first_name')
-			# 	last_name = request.POST.get('last_name')
-			# 	email = request.POST.get('email')
-			# 	password1 = request.POST.get('password1')
-			# 	password_confirmation = request.POST.get('password_confirmation')
-	
-			# 	user = User.objects.create_)user(email, password)
-		# 	user.set_password(password1)
-		# 	user.save()
-		
+	if request.method == 'POST':		
 
 		first_name = request.POST.get('first_name')
 		last_name = request.POST.get('last_name')
