@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from .models import Item, Supplier, Category, Brand, ItemModel, AddArrival
 from .forms import *
+from django.core.urlresolvers import reverse
 
 
 # Dashboard
@@ -90,25 +91,53 @@ def add_item(request):
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
+<<<<<<< HEAD
+
+# def signup(request):
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+# def signup(request):
+=======
+>>>>>>> 2128af08c8e112cce7a25a97ccd7e9b8f356eb09
+>>>>>>> 348f137d945e972db082da3cdd55ede14f873f26
+
 
 # def signup(request):
 
-
+<<<<<<< HEAD
 # def signup(request):
 
-# def signup(request):
+=======
 
+>>>>>>> e4ca3b2cb0a7e22e2585144655fedd8628ef4962
+>>>>>>> 31e3e06bd3da449572cab0c4e2701e0badc74845
+>>>>>>> b807238c8f42c569abc3f9f2b3c487337da218e4
+>>>>>>> 348f137d945e972db082da3cdd55ede14f873f26
 def add_arrival(request):
 	return render(request, 'arrival_templates/add_arrival.html', {})
-	return render(request, 'dashboard/add_arrival.html', {})
 
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
 # Transfers
-def transfer_form(request,template_name ='dashboard/transfer_form.html'):
+def create_transfer(request,template_name ='transfer/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
 		form.save()
 		return redirect('transfer_form')
 	return render(request,template_name,{'form':form})
+
+def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):
+	transfer = Transfer_item.objects.all()
+	data = {}
+	data['object_list'] = transfer
+	return render(request,template_name,data)
