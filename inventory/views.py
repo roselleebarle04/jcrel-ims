@@ -29,14 +29,14 @@ def dashboard(request):
     })
 
 @login_required
-def add_arrival(request, template_name='arrival_templates/add_arrival.html'):
+def add_arrival(request, template_name='arrival/add_arrival.html'):
     arrivals = AddArrival.objects.all()
     data = {}
     data['object_list'] = arrivals
     return render(request, template_name, data)
 
 @login_required
-def arrival_create(request, template_name='arrival_templates/arrival_form.html'):
+def arrival_create(request, template_name='arrival/arrival_form.html'):
     form = ArrivalForm(request.POST or None)
     if form.is_valid():
         form.save()
@@ -44,7 +44,7 @@ def arrival_create(request, template_name='arrival_templates/arrival_form.html')
     return render(request, template_name, {'form':form})
 
 @login_required
-def arrival_update(request, pk, template_name='arrival_templates/arrival_form.html'):
+def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
     arrival = get_object_or_404(AddArrival, pk=pk)
     form = ArrivalForm(request.POST or None, instance=arrival)
     if form.is_valid():
@@ -53,7 +53,7 @@ def arrival_update(request, pk, template_name='arrival_templates/arrival_form.ht
     return render(request, template_name, {'form':form})
 
 @login_required
-def arrival_delete(request, pk, template_name='arrival_templates/arrival_confirm_delete.html'):
+def arrival_delete(request, pk, template_name='arrival/arrival_confirm_delete.html'):
     arrival = get_object_or_404(AddArrival, pk=pk)    
     if request.method=='POST':
         arrival.delete()
