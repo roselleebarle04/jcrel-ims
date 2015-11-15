@@ -125,3 +125,17 @@ def add_item(request):
 		form.save()
 		return redirect('items')
 	return render(request, 'items/add_item.html', {'form':form})
+
+@login_required
+def sales(request):
+	sales = Sale.objects.all()
+	data = {}
+	data['sales'] = sales
+	return render(request, 'sales/sales.html', data)
+
+def add_sale(request):
+	form = AddSaleForm(request.POST or None)
+	if  form.is_valid():
+		form.save()
+		return redirect('sales')
+	return render(request, 'sales/add_sale.html', {'form':form})

@@ -3,7 +3,7 @@
 
 {% block content %}  
 
-<form action="#">
+<form action="{% url "add_sale" %}">
     <input type="submit" value="Add Sale">
 </form>
 <br>
@@ -26,9 +26,6 @@
                             <th>Total Cost</th>
                             <th></th>
                             <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,11 +39,6 @@
                             <td> 3299.97 </td>
                             <td>
                             <form action="#">
-                                <input type="submit" value="Details">
-                            </form>
-                            </td>
-                            <td>
-                            <form action="#">
                                 <input type="submit" value="Edit">
                             </form>
                             </td>
@@ -55,8 +47,6 @@
                                 <input type="submit" value="Delete">
                             </form>
                             </td>   
-                            <td></td>
-                            <td></td>
                         </tr>
                     </tbody>
                 </table>
