@@ -1,8 +1,5 @@
 from django import forms
-<<<<<<< HEAD
 from .models import Account,Transfer_item,AddArrival, Item
-=======
->>>>>>> ca151792ce6434e674bfcaff048cf68ea27fbada
 from .models import *
 
 

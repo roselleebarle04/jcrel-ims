@@ -110,7 +110,7 @@ def add_arrival(request):
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
-def transfer_form(request,template_name ='dashboard/transfer_form.html'):
+def create_transfer(request,template_name ='dashboard/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
 		form.save()

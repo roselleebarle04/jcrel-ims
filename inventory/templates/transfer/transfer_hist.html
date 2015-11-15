@@ -16,6 +16,19 @@
 
   </div>
 </div>
+
   </table>
+    {% for transfer in object_list %}
+    
+<table bgcolor="FFCCFF"> 
+ <div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3">{{transfer.item_code}}</div>
+    <div class="col-sm-3">{{transfer.quantity_to_transfer}}</div>
+    <div class="col-sm-3">{{transfer.transfer_date}}</div>
+  </div>
+     </table>
+  
+    {% endfor %}
 
 {% endblock content %}
