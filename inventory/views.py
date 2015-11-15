@@ -5,9 +5,10 @@ from django.contrib.auth.models import User
 from .models import Item, Supplier, AddArrival
 from .forms import *
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 
 
-# Dashboard
+@login_required()
 def dashboard(request):
 	return render(request, 'dashboard/dashboard.html', {})
 

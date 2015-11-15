@@ -1,9 +1,6 @@
 from django.contrib import admin
-<<<<<<< HEAD
-from .models import Item, Supplier, Category, Brand, ItemModel, Account, AddArrival, Sale
-=======
-from .models import Item, Supplier, Accounts, AddArrival, Sale
->>>>>>> 8140a52e08722bace70efe4166e16b70e5b3c36a
+#from .models import Item, Supplier, Category, Brand, ItemModel, Account, AddArrival, Sale
+from .models import Item, Supplier, Account, AddArrival, Sale
 
 class AccountAdmin(admin.ModelAdmin):
 	pass
