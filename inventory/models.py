@@ -63,4 +63,4 @@ class Sale(models.Model):
 class Transfer_item(models.Model):
 	item = models.OneToOneField(Item, primary_key = True)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
-	transfer_date = models.DateTimeField(blank=True,null=True)
+	transfer_date = models.DateTimeField(auto_now_add=True)
