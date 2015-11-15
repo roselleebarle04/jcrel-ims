@@ -1,32 +1,50 @@
-from django.db import models
+from django.db import models 
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
+
 
 class AddArrival(models.Model):
 	itemName = models.CharField(max_length=300, null=True)
 	qty = models.PositiveSmallIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
 
-class Accounts(models.Model):
-	#All signed up accounts will be saved here
+class Account(models.Model):
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)
-	username = models.CharField(primary_key=True, max_length=30)
 	email = models.EmailField()
 	password = models.CharField(max_length=50)
 
+	def publish(self):
+		self.published_date = timezone.now()
+		self.save()
+
+	def __str__(self):
+		return self.last_name
+
+	def get_absolute_url(self):
+		return reverse('server_edit', kwargs={'pk': self.pk})
+
 
 class Item(models.Model):
-	store_code = models.CharField(max_length=200, null=True)	# Store Code
-	supplier_code = models.CharField(max_length=200, null=True)	# Supplier Code
 	status = models.CharField(max_length=50, null=True, default="INACTIVE") 		# Active or Inactive
-	unit_cost = models.IntegerField(default=0)
-
+	types = models.CharField(max_length = 50)
+	category = models.CharField(max_length = 50)
+	brand = models.CharField(max_length = 50)
+	model = models.CharField(max_length = 50)
+	supplier = models.ForeignKey("Supplier")
+	supplier_code = models.CharField(max_length = 50)
+	store_code = models.CharField(max_length = 6)
+	store_quantity = models.PositiveSmallIntegerField(default = 0)
+	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
+	unit_cost = models.DecimalField( default = 0, max_digits = 100, decimal_places = 2)
+	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
-	category = models.ForeignKey("Category", db_index=True, null=True)
-	brand = models.ForeignKey("Brand", db_index=True, null=True)
-	item_model = models.ForeignKey("ItemModel", db_index=True, null=True)
-	supplier = models.ForeignKey("Supplier", db_index=True, null=True)
+	def __unicode__(self):
+		return self.store_code
+
+	def get_absolute_url(self):
+		return reverse('item_edit', kwargs={'pk': self.pk})
 
 	class Meta:
 		ordering = ('created',)
@@ -37,27 +55,17 @@ class Supplier(models.Model):
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
 
+	def __unicode__(self):
+		return self.name
+
 	# owner = models.ForeignKey("accounts.User")
 
-class Category(models.Model):
-	""" Categories describe an Item """
-	description = models.CharField(max_length=100, null=True)
-
-class Brand(models.Model):
-	""" Brands describe an Item """
-	description = models.CharField(max_length=100, null=True)
-
-class ItemModel(models.Model):
-	""" Models describe the model of a particular Item """
-	description = models.CharField(max_length=100, null=True)
-
 class Sale(models.Model):
-	#code = models.ForeignKey(Item)
-	item_code =  models.CharField(max_length = 6, null = False , blank = False)
+	item = models.ForeignKey(Item)
+	supplier = models.ForeignKey(Supplier)
 	quantity = models.PositiveSmallIntegerField(default = 0)
-	srp = models.DecimalField(max_digits = 10, decimal_places = 2)
 
 class Transfer_item(models.Model):
-	item_code =  models.CharField(max_length = 6, null = False , blank = False)
+	item = models.OneToOneField(Item, primary_key = True)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateTimeField(blank=True,null=True)
