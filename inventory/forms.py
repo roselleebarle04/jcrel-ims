@@ -1,16 +1,16 @@
 from django import forms
-from .models import Accounts,Transfer_item,AddArrival, Item
+from .models import Account,Transfer_item,AddArrival, Item
 from .models import *
 
 
-class AccountsForm(forms.ModelForm):
+class AccountForm(forms.ModelForm):
 
 	password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
 	password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
 	class Meta:
-		model = Accounts
-		fields = ['first_name', 'last_name', 'email', 'username']
+		model = Account
+		fields = ['first_name', 'last_name']
 
 	def clean_password2(self):
 		password1 = self.cleaned_data.get("password1")
