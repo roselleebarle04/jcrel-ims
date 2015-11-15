@@ -1,11 +1,6 @@
-from django import forms
-<<<<<<< HEAD
-from .models import Accounts,Transfer_item, AddArrival
+from django import from .models import Accounts,Transfer_item, AddArrival
 from .models import Accounts,Transfer_item,AddArrival, Item
-=======
 from .models import *
-
->>>>>>> 0478cfab9082f917c1310ad6e52ede4f1d6e6ff2
 
 class AccountsForm(forms.ModelForm):
 

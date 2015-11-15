@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from .models import Item, Supplier, Category, Brand, ItemModel, AddArrival
-from .forms import *
+
 from django.core.urlresolvers import reverse
 
 
