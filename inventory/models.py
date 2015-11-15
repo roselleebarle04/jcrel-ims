@@ -18,8 +18,6 @@ class Accounts(models.Model):
 class Item(models.Model):
 	
 	status = models.CharField(max_length=50, null=True, default="INACTIVE") 		# Active or Inactive
-	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-
 	types = models.CharField(max_length = 50)
 	category = models.CharField(max_length = 50)
 	brand = models.CharField(max_length = 50)
@@ -31,9 +29,13 @@ class Item(models.Model):
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
 	unit_cost = models.DecimalField( default = 0, max_digits = 100, decimal_places = 2)
 	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)
+	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 	def __unicode__(self):
 		return self.store_code
+
+	def get_absolute_url(self):
+		return reverse('item_edit', kwargs={'pk': self.pk})
 
 	class Meta:
 		ordering = ('created',)
@@ -43,6 +45,9 @@ class Supplier(models.Model):
 	name = models.CharField(max_length=200, null=True)
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
+
+	def __unicode__(self):
+		return self.name
 
 	# owner = models.ForeignKey("accounts.User")
 
