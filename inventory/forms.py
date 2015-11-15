@@ -1,5 +1,5 @@
 from django import forms
-from .models import Account,Transfer_item,AddArrival, Item
+from .models import Account,Transfer_item,AddArrival, Item, Sale
 from .models import *
 
 
@@ -24,6 +24,11 @@ class AddItemForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = ['types', 'category', 'brand', 'model', 'supplier','supplier_code', 'store_code','store_quantity', 'warehouse_quantity','unit_cost', 'srp']
+
+class AddSaleForm(forms.ModelForm):
+    class Meta:
+        model = Sale
+        fields = ['item', 'quantity']
 
 class ArrivalForm(forms.ModelForm):
     class Meta:

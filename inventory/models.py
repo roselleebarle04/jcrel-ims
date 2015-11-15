@@ -43,9 +43,6 @@ class Item(models.Model):
 	def __unicode__(self):
 		return self.store_code
 
-	def get_absolute_url(self):
-		return reverse('item_edit', kwargs={'pk': self.pk})
-
 	class Meta:
 		ordering = ('created',)
 
@@ -62,8 +59,16 @@ class Supplier(models.Model):
 
 class Sale(models.Model):
 	item = models.ForeignKey(Item)
-	supplier = models.ForeignKey(Supplier)
 	quantity = models.PositiveSmallIntegerField(default = 0)
+
+	def __unicode__(self):
+		return self.item.store_code
+
+	@property	
+	def calculate_cost(self):
+		total = self.quantity * self.item.srp
+		return total
+
 
 class Transfer_item(models.Model):
 	item = models.OneToOneField(Item, primary_key = True)

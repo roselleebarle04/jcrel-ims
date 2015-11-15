@@ -89,20 +89,6 @@ def inventory_reports(request):
 def sales_reports(request):
 	return render(request, 'dashboard/sales_reports.html', {})
 
-@login_required
-def items(request):
-	return render(request, 'items/items.html', {})
-
-@login_required
-def add_item(request):
-	form = AddItemForm(request.POST or None)
-	if form.is_valid():
-		form.save()
-		return redirect('items')
-	return render(request,'items/add_item.html',{'form':form})
-
-
-	
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
@@ -124,3 +110,18 @@ def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):
 	data = {}
 	data['object_list'] = transfer
 	return render(request,template_name,data)
+
+@login_required
+def items(request):
+	items = Item.objects.all()
+	list_item = {}
+	list_item['items'] = items
+	return render(request, 'items/items.html', list_item)
+
+@login_required
+def add_item(request):
+	form = AddItemForm(request.POST or None)
+	if  form.is_valid():
+		form.save()
+		return redirect('items')
+	return render(request, 'items/add_item.html', {'form':form})
