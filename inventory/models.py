@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
@@ -9,7 +9,6 @@ class AddArrival(models.Model):
 	itemCost = models.FloatField(null=True, blank=True)
 
 class Account(models.Model):
-
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)
 	email = models.EmailField()
@@ -27,10 +26,7 @@ class Account(models.Model):
 
 
 class Item(models.Model):
-	
 	status = models.CharField(max_length=50, null=True, default="INACTIVE") 		# Active or Inactive
-	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-
 	types = models.CharField(max_length = 50)
 	category = models.CharField(max_length = 50)
 	brand = models.CharField(max_length = 50)
@@ -42,9 +38,13 @@ class Item(models.Model):
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
 	unit_cost = models.DecimalField( default = 0, max_digits = 100, decimal_places = 2)
 	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)
+	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 	def __unicode__(self):
 		return self.store_code
+
+	def get_absolute_url(self):
+		return reverse('item_edit', kwargs={'pk': self.pk})
 
 	class Meta:
 		ordering = ('created',)
@@ -55,6 +55,9 @@ class Supplier(models.Model):
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
 
+	def __unicode__(self):
+		return self.name
+
 	# owner = models.ForeignKey("accounts.User")
 
 class Sale(models.Model):
@@ -63,6 +66,6 @@ class Sale(models.Model):
 	quantity = models.PositiveSmallIntegerField(default = 0)
 
 class Transfer_item(models.Model):
-	item = models.ForeignKey(Item)
+	item = models.OneToOneField(Item, primary_key = True)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateTimeField(blank=True,null=True)
