@@ -19,5 +19,7 @@ urlpatterns = [
 
     url(r'^add_arrival/$', inventory_views.add_arrival, name='add_arrival'),
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
+    url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),
+
 
 ]

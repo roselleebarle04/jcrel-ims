@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
@@ -63,6 +63,6 @@ class Sale(models.Model):
 	quantity = models.PositiveSmallIntegerField(default = 0)
 
 class Transfer_item(models.Model):
-	item = models.ForeignKey(Item)
+	item = models.OneToOneField(Item, primary_key = True)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateTimeField(blank=True,null=True)
