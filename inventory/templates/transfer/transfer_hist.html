@@ -3,10 +3,16 @@
 
 {% block content %}
 
+
 	<div class="row">
     <div class="col-lg-3">
         <a href="/transfer_form" class="btn btn-success">Transfer item</a>
     </div>
+
+<div class="row">
+    <div class="col-lg-12">
+    </div>
+</div>
 
    <div class="container-fluid">
   <div class="row">
@@ -23,7 +29,7 @@
 <table bgcolor="FFCCFF"> 
  <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-3">{{transfer.item_code}}</div>
+    <div class="col-sm-3">{{transfer.item.store_code}}</div>
     <div class="col-sm-3">{{transfer.quantity_to_transfer}}</div>
     <div class="col-sm-3">{{transfer.transfer_date}}</div>
   </div>
