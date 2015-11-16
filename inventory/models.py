@@ -1,6 +1,7 @@
 from django.db import models 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class AddArrival(models.Model):
@@ -71,6 +72,23 @@ class Sale(models.Model):
 
 
 class Transfer_item(models.Model):
-	item = models.OneToOneField(Item, primary_key = True)
+	item = models.ForeignKey(Item)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
-	transfer_date = models.DateTimeField(blank=True,null=True)
+	transfer_date = models.DateField(default=timezone.now)
+
+
+	"""class StoreQuantityManager(models.Manager):
+		def current_storeQuantity(self):
+			from django.db import connection
+        	cursor = connection.cursor()
+        	cursor.execute(
+        		SELECT
+
+			
+
+	@property
+	def current_warehouseQuantity(self):
+		item_wr = item.warehouse_quantity
+		tran_q = self.quantity_to_transfer
+		current = item_str - tran_q
+		return current"""
