@@ -34,7 +34,6 @@ def signup(request):
 		print "%s %s %s %s" % (first_name, last_name, username, password1)
 
 		new_user = User.objects.create_user(username=username, email=email, password=password1)
-		new_user.set_password('password1')
 		new_user.save()
 			
 		return HttpResponseRedirect('/login/')
