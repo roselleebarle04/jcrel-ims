@@ -28,6 +28,11 @@ class AddItemForm(forms.ModelForm):
         model = Item
         fields = ['types', 'category', 'brand', 'model', 'supplier','supplier_code', 'store_code','store_quantity', 'warehouse_quantity','unit_cost', 'srp']
 
+class AddSaleForm(forms.ModelForm):
+    class Meta:
+        model = Sale
+        fields = ['item', 'quantity']
+
 class ArrivalForm(forms.ModelForm):
     class Meta:
         model = AddArrival
