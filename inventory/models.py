@@ -79,6 +79,8 @@ class AddArrival(models.Model):
 	transfer_date = models.DateField(default=timezone.now)
 
 
+	# transfer_date = models.DateField(default=timezone.now)
+
 	"""class StoreQuantityManager(models.Manager):
 		def current_storeQuantity(self):
 			from django.db import connection
@@ -93,4 +95,5 @@ class AddArrival(models.Model):
 		item_wr = item.warehouse_quantity
 		tran_q = self.quantity_to_transfer
 		current = item_str - tran_q
+
 		return current"""

@@ -12,7 +12,6 @@ from django.contrib.auth.views import password_reset, password_reset_confirm
 
 from .models import *
 from .forms import *
-from django.contrib.auth.decorators import login_required
 
 
 @login_required
@@ -171,6 +170,22 @@ def add_item(request):
 		form.save()
 		return redirect('items')
 	return render(request, 'items/add_item.html', {'form':form})
+
+'''@login_required
+def suppliers(request):
+	suppliers = Supplier.objects.all()
+	data = {}
+	data['suppliers'] = suppliers
+	return render(request, 'suppliers/suppliers.html', data)
+
+def add_supplier(request):
+	form = AddSupplierForm(request.POST or None)
+	if  form.is_valid():
+		form.save()
+		return redirect('suppliers')
+	return render(request, 'suppliers/add_supplier.html', {'form':form})'''
+
+
 
 @login_required
 def sales(request):
