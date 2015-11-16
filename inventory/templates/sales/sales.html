@@ -17,6 +17,7 @@
                 <table class="table table-striped table-bordered table-hover table-condensed">
                     <thead>
                         <tr bgcolor="#FFFF99">
+                            <th>Date</th>
                             <th>Store Code</th>
                             <th>Category</th>
                             <th>Brand</th>
@@ -25,29 +26,27 @@
                             <th>Quantity</th>
                             <th>Total Cost</th>
                             <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for sale in sales %}
                         <tr>
-                            <td> E­1­40 </td>
-                            <td> Amplifier </td>
-                            <td> Boston </td>
-                            <td> BP20 20 watts </td>
-                            <td> 1099.99 </td>
-                            <td> 3 </td>
-                            <td> 3299.97 </td>
+                            <td> {{ sale.date}}</td>
+                            <td> {{ sale.item.store_code }} </td>
+                            <td> {{ sale.item.category}} </td>
+                            <td> {{ sale.item.brand}} </td>
+                            <td> {{ sale.item.model}} </td>
+                            <td> {{ sale.item.srp}} </td>
+                            <td> {{ sale.quantity}} </td>
+                            <td> {{ sale.calculate_cost}} </td> 
                             <td>
                             <form action="#">
                                 <input type="submit" value="Edit">
-                            </form>
-                            </td>
-                            <td>
-                            <form action="#">
                                 <input type="submit" value="Delete">
                             </form>
-                            </td>   
+                            </td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
