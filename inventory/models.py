@@ -50,7 +50,6 @@ class Supplier(models.Model):
 	def __unicode__(self):
 		return self.name
 
-	# owner = models.ForeignKey("accounts.User")
 
 class Sale(models.Model):
 	item = models.ForeignKey(Item)
@@ -75,4 +74,3 @@ class AddArrival(models.Model):
 	itemName = models.CharField(max_length=300, null=True)
 	qty = models.PositiveSmallIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
-	transfer_date = models.DateField(default=timezone.now)
