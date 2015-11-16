@@ -1,8 +1,4 @@
 from django.contrib import admin
-#from .models import Item, Supplier, Category, Brand, ItemModel, Account, AddArrival, Sale
-from .models import Item, Supplier, Account, AddArrival, Sale
-
-from .models import Item, Supplier, Account, AddArrival, Sale
 from .models import *
 
 
@@ -26,4 +22,9 @@ admin.site.register(AddArrival)
 class SaleAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Sale, SaleAdmin)
+
+class TransferItemAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(Transfer_item)
+
 
