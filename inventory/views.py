@@ -45,7 +45,7 @@ def signup(request):
 	return render(request, 'accounts/signup.html', {})
 
 @login_required
-def add_arrival(request, template_name='arrival/add_arrival.html'):
+def arrival_list(request, template_name='arrival/arrival_list.html'):
     arrivals = AddArrival.objects.all()
     data = {}
     data['object_list'] = arrivals
@@ -56,7 +56,7 @@ def arrival_create(request, template_name='arrival/arrival_form.html'):
     form = ArrivalForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return redirect('add_arrival')
+        return redirect('arrival_list')
     return render(request, template_name, {'form':form})
 
 @login_required
@@ -65,7 +65,7 @@ def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
     form = ArrivalForm(request.POST or None, instance=arrival)
     if form.is_valid():
         form.save()
-        return redirect('add_arrival')
+        return redirect('arrival_list')
     return render(request, template_name, {'form':form})
 
 @login_required
@@ -73,8 +73,8 @@ def arrival_delete(request, pk, template_name='arrival/arrival_confirm_delete.ht
     arrival = get_object_or_404(AddArrival, pk=pk)    
     if request.method=='POST':
         arrival.delete()
-        return redirect('add_arrival')
-    return render(request, template_name, {'object':arrival})
+        return redirect('arrival_list')
+    return render(request, template_name, {'objects':arrival})
 
 @login_required
 def inventory_reports(request):
@@ -92,9 +92,6 @@ def sales_reports(request):
 
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
-
-def add_arrival(request):
-	return render(request, 'arrival/add_arrival.html', {})
 
 def login(request):
 	return render(request, 'dashboard/login.html', {})

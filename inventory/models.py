@@ -2,12 +2,6 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-
-class AddArrival(models.Model):
-	itemName = models.CharField(max_length=300, null=True)
-	qty = models.PositiveSmallIntegerField(default=0)
-	itemCost = models.FloatField(null=True, blank=True)
-
 class Account(models.Model):
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)
@@ -74,3 +68,9 @@ class Transfer_item(models.Model):
 	item = models.OneToOneField(Item, primary_key = True)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateTimeField(blank=True,null=True)
+
+
+class AddArrival(models.Model):
+	itemName = models.CharField(max_length=300, null=True)
+	qty = models.PositiveSmallIntegerField(default=0)
+	itemCost = models.FloatField(null=True, blank=True)
