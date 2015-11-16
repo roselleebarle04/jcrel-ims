@@ -3,11 +3,11 @@
 
 {% block content %}
 
+<br>
 	<form action="{% url "transfer_form" %}">
     <input type="submit" value="Transfer Item">
 </form>
     <br>
-    </br>
 
 <div class="row">
     <div class="col-lg-12">
@@ -25,6 +25,8 @@
              <th>Item Code</th>
              <th>Quantity</th>
              <th>Date</th>
+             <th></th>
+
             </tr>
           </thead>
           <tbody>
@@ -33,6 +35,7 @@
              <td>{{transfer.item.store_code}}</td>
              <td>{{transfer.quantity_to_transfer}}</td>
              <td>{{transfer.transfer_date}}</td>
+             <td><a href="#"><button type="button"<font color ="660066">Edit</font></button></a> <a href="#"><button type="button"<font color ="660066">Delete</font></button></a></td>
             </tr>
     {% endfor %}
           </tbody>
@@ -40,6 +43,5 @@
       </div>
     </div>
   </div>
-</div>
 
 {% endblock content %}

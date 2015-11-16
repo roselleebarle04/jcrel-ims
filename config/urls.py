@@ -27,8 +27,10 @@ urlpatterns = [
     url(r'^add_sale/$', inventory_views.add_sale, name='add_sale'),
 
     url(r'^add_arrival/$', inventory_views.add_arrival, name='add_arrival'),
+
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),
+    url(r'^transfer_confirm_delete/$', inventory_views.transfer_delete, name='transfer_delete'),
 
     url(r'^reset/$', 'inventory.views.reset', name='reset'),
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
