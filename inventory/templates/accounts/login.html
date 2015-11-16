@@ -24,7 +24,10 @@
         <div class="form-group">
           <input type="submit" class="form-control btn btn-primary btn-block" value="Login" />
           <input type="hidden" name="next" value="{{ next }}" />
-          <!-- <a style="float:right;" href="#">Forgot Password?</a> -->
+
+          <a style="float:right;" href="{% url "inventory.views.reset" %}">Forgot Password?</a>
+          <a style="float:right;" href="/password/reset">Forgot Password?</a>
+
         </div>
         <div class="form-group">
           <hr>

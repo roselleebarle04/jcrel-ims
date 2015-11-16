@@ -1,6 +1,7 @@
 from django import forms
 from .models import Account,Transfer_item,AddArrival, Item
 from .models import *
+from django.contrib.auth.models import User
 
 
 class AccountForm(forms.ModelForm):
@@ -9,7 +10,7 @@ class AccountForm(forms.ModelForm):
 	password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
 	class Meta:
-		model = Account
+		model = User
 		fields = ['first_name', 'last_name']
 
 	def clean_password2(self):
