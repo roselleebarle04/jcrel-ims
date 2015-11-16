@@ -122,7 +122,7 @@ def create_transfer(request,template_name ='dashboard/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
 		form.save()
-		return redirect('transfer_form')
+		return redirect('transfer_hist')
 	return render(request,template_name,{'form':form})
 
 def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):

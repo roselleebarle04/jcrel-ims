@@ -3,38 +3,43 @@
 
 {% block content %}
 
-
-	<div class="row">
-    <div class="col-lg-3">
-        <a href="/transfer_form" class="btn btn-success">Transfer item</a>
-    </div>
+	<form action="{% url "transfer_form" %}">
+    <input type="submit" value="Transfer Item">
+</form>
+    <br>
+    </br>
 
 <div class="row">
     <div class="col-lg-12">
     </div>
 </div>
 
-   <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-3"><dt>Item Code </dt></div>
-    <div class="col-sm-3"><dt>Quantity</dt></div>
-    <div class="col-sm-3"><dt>Date</dt></div>
-
+   <div class="container">
+    <div class="col-lg-12">
+     <div class="panel panel-default">
+      <div class="panel-heading">Transfer History</div>
+       <div class="panel-body">
+         <table class="table table-bordered table-striped table-hover">
+          <thead>
+            <tr bgcolor="#FFFF99" >
+             <th>Item Code</th>
+             <th>Quantity</th>
+             <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+    {% for transfer in object_list %}
+            <tr>
+             <td>{{transfer.item.store_code}}</td>
+             <td>{{transfer.quantity_to_transfer}}</td>
+             <td>{{transfer.transfer_date}}</td>
+            </tr>
+    {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
-
-  </table>
-    {% for transfer in object_list %}
-    
-<table bgcolor="FFCCFF"> 
- <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-3">{{transfer.item.store_code}}</div>
-    <div class="col-sm-3">{{transfer.quantity_to_transfer}}</div>
-    <div class="col-sm-3">{{transfer.transfer_date}}</div>
-  </div>
-     </table>
-  
-    {% endfor %}
 
 {% endblock content %}
