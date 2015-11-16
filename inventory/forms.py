@@ -1,4 +1,5 @@
 from django import forms
+from .models import Account,Transfer_item,AddArrival, Item
 from .models import *
 
 
@@ -19,10 +20,15 @@ class AccountForm(forms.ModelForm):
 			raise forms.ValidationError("Passwords don't match")
 		return password2
 
-class ItemForm(forms.ModelForm):
+class AddItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ['store_code', 'unit_cost', 'category','brand','model','supplier', 'supplier_code']
+        fields = ['types', 'category', 'brand', 'model', 'supplier','supplier_code', 'store_code','store_quantity', 'warehouse_quantity','unit_cost', 'srp']
+
+class AddSaleForm(forms.ModelForm):
+    class Meta:
+        model = Sale
+        fields = ['item', 'quantity']
 
 class ArrivalForm(forms.ModelForm):
     class Meta:
