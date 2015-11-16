@@ -1,17 +1,12 @@
-<<<<<<< HEAD
-from django import from .models import Accounts,Transfer_item, AddArrival
-from .models import Accounts,Transfer_item,AddArrival, Item
-from .models import *
 
-class AccountsForm(forms.ModelForm):
-=======
+
+
 from django import forms
 from .models import Account,Transfer_item,AddArrival, Item
 from .models import *
 
 
 class AccountForm(forms.ModelForm):
->>>>>>> 7f5f387574188a98aa286b9f1a296ca20493ceae
 
 	password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
 	password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)

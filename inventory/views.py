@@ -4,17 +4,13 @@ from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-<<<<<<< HEAD
-from .models import Item, Supplier, Category, Brand, ItemModel, AddArrival
 
 from django.core.urlresolvers import reverse
-=======
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import *
->>>>>>> 7f5f387574188a98aa286b9f1a296ca20493ceae
 
 
 @login_required
