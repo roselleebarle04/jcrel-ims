@@ -10,12 +10,8 @@ from django.contrib.auth.views import password_reset, password_reset_confirm
 
 from .models import *
 from .forms import *
-<<<<<<< HEAD
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-
-=======
->>>>>>> 828e83d7fc5d6d57ae2c5cb88a5a319241a911f0
 
 
 @login_required
@@ -33,8 +29,8 @@ def reset(request):
     # like the template name, email template name, subject template name
     # and the url to redirect after the password reset is initiated.
     return password_reset(request, template_name='accounts/reset.html',
-        email_template_name='reset_email.html',
-        subject_template_name='reset_subject.txt',
+        email_template_name='accounts/reset_email.html',
+        subject_template_name='accounts/reset_subject.txt',
         post_reset_redirect=reverse('success'))
     
 # This view handles password reset confirmation links. See urls.py file for the mapping.
