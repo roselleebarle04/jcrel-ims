@@ -4,6 +4,12 @@ from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+<<<<<<< HEAD
+
+from django.core.urlresolvers import reverse
+=======
+from django.contrib.auth.forms import UserCreationForm
+>>>>>>> 833d13d440b1c24d97733f3eec07515557356985
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
@@ -24,31 +30,45 @@ def dashboard(request):
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
-def reset(request):
-    # Wrap the built-in password reset view and pass it the arguments
-    # like the template name, email template name, subject template name
-    # and the url to redirect after the password reset is initiated.
-    return password_reset(request, template_name='accounts/reset.html',
-        email_template_name='accounts/reset_email.html',
-        subject_template_name='accounts/reset_subject.txt',
-        post_reset_redirect=reverse('success'))
+# def reset(request):
+#     # Wrap the built-in password reset view and pass it the arguments
+#     # like the template name, email template name, subject template name
+#     # and the url to redirect after the password reset is initiated.
+#     return password_reset(request, template_name='accounts/reset.html',
+#         email_template_name='accounts/reset_email.html',
+#         subject_template_name='accounts/reset_subject.txt',
+#         post_reset_redirect=reverse('success'))
     
-# This view handles password reset confirmation links. See urls.py file for the mapping.
-# This view is not used here because the password reset emails with confirmation links
-# cannot be sent from this application.
-def reset_confirm(request, uidb64=None, token=None):
-    # Wrap the built-in reset confirmation view and pass to it all the captured parameters like uidb64, token
-    # and template name, url to redirect after password reset is confirmed.
-    return password_reset_confirm(request, template_name='accounts/reset_confirm.html',
-        uidb36=uidb36, token=token, post_reset_redirect=reverse('success'))
+# # This view handles password reset confirmation links. See urls.py file for the mapping.
+# # This view is not used here because the password reset emails with confirmation links
+# # cannot be sent from this application.
+# def reset_confirm(request, uidb64=None, token=None):
+#     # Wrap the built-in reset confirmation view and pass to it all the captured parameters like uidb64, token
+#     # and template name, url to redirect after password reset is confirmed.
+#     return password_reset_confirm(request, template_name='accounts/reset_confirm.html',
+#         uidb36=uidb36, token=token, post_reset_redirect=reverse('success'))
 
-# This view renders a page with success message.
-def success(request):
-  return render(request, "accounts/success.html")
+# # This view renders a page with success message.
+# def success(request):
+#   return render(request, "accounts/success.html")
 
+def change_password(request):
+	if request.method == 'POST':
+
+		username = request.POST.get('username')
+		new_password = request.POST.get('new_password')
+
+		user = User.objects.get(username=username)
+		user.set_password(new_password)
+		user.save()
+
+		return HttpResponseRedirect('/login/')
+
+	return render(request, 'accounts/change_password.html', {})
 
 def signup(request):
-	if request.method == 'POST':		
+	if request.method == 'POST':	
+		# form = AccountForm()	
 
 		first_name = request.POST.get('first_name')
 		last_name = request.POST.get('last_name')
@@ -67,7 +87,7 @@ def signup(request):
 	return render(request, 'accounts/signup.html', {})
 
 @login_required
-def add_arrival(request, template_name='arrival/add_arrival.html'):
+def arrival_list(request, template_name='arrival/arrival_list.html'):
     arrivals = AddArrival.objects.all()
     data = {}
     data['object_list'] = arrivals
@@ -78,7 +98,7 @@ def arrival_create(request, template_name='arrival/arrival_form.html'):
     form = ArrivalForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return redirect('add_arrival')
+        return redirect('arrival_list')
     return render(request, template_name, {'form':form})
 
 @login_required
@@ -87,7 +107,7 @@ def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
     form = ArrivalForm(request.POST or None, instance=arrival)
     if form.is_valid():
         form.save()
-        return redirect('add_arrival')
+        return redirect('arrival_list')
     return render(request, template_name, {'form':form})
 
 @login_required
@@ -95,8 +115,8 @@ def arrival_delete(request, pk, template_name='arrival/arrival_confirm_delete.ht
     arrival = get_object_or_404(AddArrival, pk=pk)    
     if request.method=='POST':
         arrival.delete()
-        return redirect('add_arrival')
-    return render(request, template_name, {'object':arrival})
+        return redirect('arrival_list')
+    return render(request, template_name, {'objects':arrival})
 
 @login_required
 def inventory_reports(request):
@@ -115,8 +135,13 @@ def sales_reports(request):
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
+<<<<<<< HEAD
+def login(request):
+	return render(request, 'dashboard/login.html', {})
+=======
 def add_arrival(request):
 	return render(request, 'arrival/add_arrival.html', {})
+>>>>>>> 833d13d440b1c24d97733f3eec07515557356985
 
 def create_transfer(request,template_name ='dashboard/transfer_form.html'):
 	form = TransferForm(request.POST or None)
