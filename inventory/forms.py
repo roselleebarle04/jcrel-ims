@@ -2,7 +2,7 @@
 
 
 from django import forms
-from .models import Account,Transfer_item,AddArrival, Item
+from .models import Account,Transfer_item,AddArrival, Item, Sale
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -49,7 +49,7 @@ class AddItemForm(forms.ModelForm):
 class AddSaleForm(forms.ModelForm):
     class Meta:
         model = Sale
-        fields = ['item', 'quantity']
+        fields = ['item', 'quantity', 'date']
 
 class ArrivalForm(forms.ModelForm):
     class Meta:
