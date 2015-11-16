@@ -152,6 +152,14 @@ def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):
 	data['object_list'] = transfer
 	return render(request,template_name,data)
 
+
+def transfer_delete(request,pk, template_name= 'transfer/transfer_confirm_delete.html'):
+	transfer = get_object_or_404(Transfer_item, pk=pk)
+	if request.method == 'POST':
+		transfer.delete()
+		return redirect('transfer_hist')
+	return render(request, template_name, {'object':transfer})
+
 @login_required
 def items(request):
 	items = Item.objects.all()
