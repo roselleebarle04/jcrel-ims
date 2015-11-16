@@ -4,7 +4,12 @@ from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+<<<<<<< HEAD
+
+from django.core.urlresolvers import reverse
+=======
 from django.contrib.auth.forms import UserCreationForm
+>>>>>>> 833d13d440b1c24d97733f3eec07515557356985
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
@@ -82,7 +87,7 @@ def signup(request):
 	return render(request, 'accounts/signup.html', {})
 
 @login_required
-def add_arrival(request, template_name='arrival/add_arrival.html'):
+def arrival_list(request, template_name='arrival/arrival_list.html'):
     arrivals = AddArrival.objects.all()
     data = {}
     data['object_list'] = arrivals
@@ -93,7 +98,7 @@ def arrival_create(request, template_name='arrival/arrival_form.html'):
     form = ArrivalForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return redirect('add_arrival')
+        return redirect('arrival_list')
     return render(request, template_name, {'form':form})
 
 @login_required
@@ -102,7 +107,7 @@ def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
     form = ArrivalForm(request.POST or None, instance=arrival)
     if form.is_valid():
         form.save()
-        return redirect('add_arrival')
+        return redirect('arrival_list')
     return render(request, template_name, {'form':form})
 
 @login_required
@@ -110,8 +115,8 @@ def arrival_delete(request, pk, template_name='arrival/arrival_confirm_delete.ht
     arrival = get_object_or_404(AddArrival, pk=pk)    
     if request.method=='POST':
         arrival.delete()
-        return redirect('add_arrival')
-    return render(request, template_name, {'object':arrival})
+        return redirect('arrival_list')
+    return render(request, template_name, {'objects':arrival})
 
 @login_required
 def inventory_reports(request):
@@ -130,8 +135,13 @@ def sales_reports(request):
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
+<<<<<<< HEAD
+def login(request):
+	return render(request, 'dashboard/login.html', {})
+=======
 def add_arrival(request):
 	return render(request, 'arrival/add_arrival.html', {})
+>>>>>>> 833d13d440b1c24d97733f3eec07515557356985
 
 def create_transfer(request,template_name ='dashboard/transfer_form.html'):
 	form = TransferForm(request.POST or None)
@@ -145,6 +155,14 @@ def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):
 	data = {}
 	data['object_list'] = transfer
 	return render(request,template_name,data)
+
+
+def transfer_delete(request,pk, template_name= 'transfer/transfer_confirm_delete.html'):
+	transfer = get_object_or_404(Transfer_item, pk=pk)
+	if request.method == 'POST':
+		transfer.delete()
+		return redirect('transfer_hist')
+	return render(request, template_name, {'object':transfer})
 
 @login_required
 def items(request):
