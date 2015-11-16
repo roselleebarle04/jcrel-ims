@@ -68,7 +68,6 @@ class Sale(models.Model):
 class Transfer_item(models.Model):
 	item = models.ForeignKey(Item)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
-<<<<<<< HEAD
 	transfer_date = models.DateTimeField(blank=True,null=True)
 
 
@@ -76,8 +75,8 @@ class AddArrival(models.Model):
 	itemName = models.CharField(max_length=300, null=True)
 	qty = models.PositiveSmallIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
-=======
-	transfer_date = models.DateField(default=timezone.now)
+
+	# transfer_date = models.DateField(default=timezone.now)
 
 
 	"""class StoreQuantityManager(models.Manager):
@@ -95,4 +94,3 @@ class AddArrival(models.Model):
 		tran_q = self.quantity_to_transfer
 		current = item_str - tran_q
 		return current"""
->>>>>>> 833d13d440b1c24d97733f3eec07515557356985
