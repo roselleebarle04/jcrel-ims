@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}  
+
+<form action="{% url "add_item" %}">
+    <input class="btn btn-default" type="submit" value="Add Supplier">
+</form>
+<br>
+
+<div class="row">
+    <div class="col-lg-12"> 
+        <div class="panel panel-default">
+            <div class="panel-heading">Supplier Data</div>
+            <div class="panel-body">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr bgcolor="#FFFF99">
+                            <th>Supplier Name</th>
+                            <th>Address</th>
+                            <th>Phone Number</th>
+                            <th width="50"></th>
+                            <th width="50"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if suppliers > 0 %}
+                        {% for s in suppliers %}
+                        <tr>
+                            <td>{{ s.name }}</td>
+                            <td>{{ s.address }}</td>
+                            <td>{{ s.phone }}</td>
+                            <td>
+                            <form action="/supplier/edit/s.id/">
+                                <input class="btn btn-default" type="submit" value="Edit">
+                            </form>
+                            </td>
+                            <td>
+                            <form action="/supplier/delete/s.id/">
+                                <input class="btn btn-danger" type="submit" value="Delete">
+                            </form>
+                            </td>   
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <p>
+                            No suppliers listed. <a href="#">Add new</a> supplier. 
+                        </p>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
