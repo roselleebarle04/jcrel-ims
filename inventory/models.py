@@ -50,7 +50,6 @@ class Supplier(models.Model):
 	def __unicode__(self):
 		return self.name
 
-	# owner = models.ForeignKey("accounts.User")
 
 class Sale(models.Model):
 	item = models.ForeignKey(Item)
@@ -78,22 +77,3 @@ class AddArrival(models.Model):
 	itemCost = models.FloatField(null=True, blank=True)
 	transfer_date = models.DateField(default=timezone.now)
 
-
-	# transfer_date = models.DateField(default=timezone.now)
-
-	"""class StoreQuantityManager(models.Manager):
-		def current_storeQuantity(self):
-			from django.db import connection
-        	cursor = connection.cursor()
-        	cursor.execute(
-        		SELECT
-
-			
-
-	@property
-	def current_warehouseQuantity(self):
-		item_wr = item.warehouse_quantity
-		tran_q = self.quantity_to_transfer
-		current = item_str - tran_q
-
-		return current"""

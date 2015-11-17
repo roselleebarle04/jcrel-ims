@@ -118,17 +118,14 @@ def inventory_reports(request):
 	filterby = request.GET.get('filter')
 	# Create dummy data for the items
 	items = [{ 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }, { 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }]
-	return render(request, 'dashboard/inventory_reports.html', {
+	return render(request, 'reports/inventory_reports.html', {
 		'filterby': filterby,
 		'items': items,
 	})
 
 @login_required
 def sales_reports(request):
-	return render(request, 'dashboard/sales_reports.html', {})
-
-def reports(request):
-	return render(request, 'dashboard/reports.html', {})
+	return render(request, 'reports/sales_reports.html', {})
 
 def login(request):
 	return render(request, 'dashboard/login.html', {})
@@ -136,7 +133,7 @@ def login(request):
 def add_arrival(request):
 	return render(request, 'arrival/add_arrival.html', {})
 
-def create_transfer(request,template_name ='dashboard/transfer_form.html'):
+def create_transfer(request,template_name ='transfer/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
 		form.save()
@@ -172,22 +169,6 @@ def add_item(request):
 		return redirect('items')
 	return render(request, 'items/add_item.html', {'form':form})
 
-'''@login_required
-def suppliers(request):
-	suppliers = Supplier.objects.all()
-	data = {}
-	data['suppliers'] = suppliers
-	return render(request, 'suppliers/suppliers.html', data)
-
-def add_supplier(request):
-	form = AddSupplierForm(request.POST or None)
-	if  form.is_valid():
-		form.save()
-		return redirect('suppliers')
-	return render(request, 'suppliers/add_supplier.html', {'form':form})'''
-
-
-
 @login_required
 def sales(request):
 	sales = Sale.objects.all()
@@ -201,3 +182,28 @@ def add_sale(request):
 		form.save()
 		return redirect('sales')
 	return render(request, 'sales/add_sale.html', {'form':form})
+
+def suppliers(request):
+	s_list = Supplier.objects.all()
+	s_len = len(s_list)
+	return render(request, 'supplier/suppliers.html', {
+		'suppliers': s_list,
+		's_len': s_len
+	})
+
+def list_suppliers(request):
+	ls = Supplier.objects.all()
+	return HttpResponse({ls})
+
+def add_supplier(request):
+	form = AddSupplierForm(request.POST or None)
+	if  form.is_valid():
+		form.save()
+		return redirect('suppliers')
+	return render(request, 'supplier/add_supplier.html', {'form':form})
+
+def delete_supplier(request, supplier_id):
+	s = Supplier.objects.get(pk=supplier_id)
+	s.delete()
+	return HttpResponseRedirect(reverse('suppliers'))
+
