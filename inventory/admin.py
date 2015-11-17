@@ -1,6 +1,11 @@
 from django.contrib import admin
-from .models import Item, Supplier, Category, Brand, ItemModel
+from .models import *
 
+
+
+class AccountAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(Account, AccountAdmin)
 
 class ItemAdmin(admin.ModelAdmin):
 	pass
@@ -10,14 +15,16 @@ class SupplierAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Supplier, SupplierAdmin)
 
-class CategoryAdmin(admin.ModelAdmin):
+class AddArrivalAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(Category, CategoryAdmin)
+admin.site.register(AddArrival)
 
-class BrandAdmin(admin.ModelAdmin):
+class SaleAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(Brand, BrandAdmin)
+admin.site.register(Sale, SaleAdmin)
 
-class ItemModelAdmin(admin.ModelAdmin):
+class TransferItemAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(ItemModel, ItemModelAdmin)
+admin.site.register(Transfer_item)
+
+

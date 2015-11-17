@@ -1,5 +1,83 @@
+$(function() {
+    // Bar Graph - Inventory
+    var barOptions = {
+        series: {
+            bars: {
+                show: true,
+                barWidth: 43200000
+            }
+        },
+        xaxis: {
+            mode: "time",
+            timeformat: "%m/%d",
+            minTickSize: [1, "day"]
+        },
+        grid: {
+            hoverable: true
+        },
+        legend: {
+            show: false
+        },
+        tooltip: true,
+        tooltipOpts: {
+            content: "x: %x, y: %y"
+        }
+    };
+
+    var barData = {
+        label: "bar",
+        data: [
+            [1354521600000, 1000],
+            [1355040000000, 2000],
+            [1355223600000, 3000],
+            [1355306400000, 4000],
+            [1355487300000, 5000],
+            [1355571900000, 6000]
+        ]
+    };
+
+
+    // Pie Chart - Sales
+    var chartData = [{
+        label: "Series 0",
+        data: 1
+    }, {
+        label: "Series 1",
+        data: 3
+    }, {
+        label: "Series 2",
+        data: 9
+    }, {
+        label: "Series 3",
+        data: 20
+    }];
+
+    var chartOptions = {
+        series: {
+            pie: {
+                show: true
+            }
+        },
+        grid: {
+            hoverable: true
+        },
+        tooltip: true,
+        tooltipOpts: {
+            content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+            shifts: {
+                x: 20,
+                y: 0
+            },
+            defaultTheme: false
+        }
+    }
+
+    $.plot($("#inventory-bar"), [barData], barOptions);
+    $.plot($("#sales-pie-chart"), [chartData], chartOptions);
+});
+
 //Flot Line Chart
-$(document).ready(function() {
+/*$(document).ready(function() {
     console.log("document ready");
     var offset = 0;
     plot();
@@ -38,7 +116,7 @@ $(document).ready(function() {
             }
         };
 
-        var plotObj = $.plot($("#flot-line-chart"), [{
+        var plotObj = $.plot($("#inventory-bar"), [{
                 data: sin,
                 label: "sin(x)"
             }, {
@@ -47,7 +125,7 @@ $(document).ready(function() {
             }],
             options);
     }
-});
+});*/
 
 //Flot Pie Chart
 $(function() {
@@ -66,7 +144,7 @@ $(function() {
         data: 20
     }];
 
-    var plotObj = $.plot($("#flot-pie-chart"), data, {
+    var plotObj = $.plot($("#sales-pie-chart-2"), data, {
         series: {
             pie: {
                 show: true
@@ -89,7 +167,7 @@ $(function() {
 });
 
 //Flot Multiple Axes Line Chart
-$(function() {
+/*$(function() {
     var oilprices = [
         [1167692400000, 61.05],
         [1167778800000, 58.32],
@@ -1098,10 +1176,10 @@ $(function() {
         doPlot($(this).text());
     });
 });
-
+*/
 //Flot Moving Line Chart
 
-$(function() {
+/*$(function() {
 
     var container = $("#flot-line-chart-moving");
 
@@ -1197,46 +1275,6 @@ $(function() {
         plot.draw();
     }, 40);
 
-});
+});*/
 
-//Flot Bar Chart
 
-$(function() {
-
-    var barOptions = {
-        series: {
-            bars: {
-                show: true,
-                barWidth: 43200000
-            }
-        },
-        xaxis: {
-            mode: "time",
-            timeformat: "%m/%d",
-            minTickSize: [1, "day"]
-        },
-        grid: {
-            hoverable: true
-        },
-        legend: {
-            show: false
-        },
-        tooltip: true,
-        tooltipOpts: {
-            content: "x: %x, y: %y"
-        }
-    };
-    var barData = {
-        label: "bar",
-        data: [
-            [1354521600000, 1000],
-            [1355040000000, 2000],
-            [1355223600000, 3000],
-            [1355306400000, 4000],
-            [1355487300000, 5000],
-            [1355571900000, 6000]
-        ]
-    };
-    $.plot($("#flot-bar-chart"), [barData], barOptions);
-
-});

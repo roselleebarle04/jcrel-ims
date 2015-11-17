@@ -1,7 +1,7 @@
 $(function() {
-
+    
     Morris.Area({
-        element: 'morris-area-chart',
+        element: 'sales-per-day-line',
         data: [{
             period: '2010 Q1',
             iphone: 2666,
@@ -61,8 +61,8 @@ $(function() {
         resize: true
     });
 
-    Morris.Donut({
-        element: 'morris-donut-chart',
+    /*Morris.Donut({
+        element: '',
         data: [{
             label: "Download Sales",
             value: 12
@@ -74,42 +74,35 @@ $(function() {
             value: 20
         }],
         resize: true
-    });
+    });*/
 
     Morris.Bar({
-        element: 'morris-bar-chart',
+        element: 'low-stock-chart',
         data: [{
-            y: '2006',
-            a: 100,
-            b: 90
+            y: 'Boston BP20',
+            a: 2,
         }, {
-            y: '2007',
+            y: 'Fernando',
             a: 75,
-            b: 65
         }, {
-            y: '2008',
+            y: 'Laney',
             a: 50,
-            b: 40
         }, {
-            y: '2009',
+            y: 'Nux Frontline 15 15watts',
             a: 75,
-            b: 65
         }, {
-            y: '2010',
+            y: 'Premier',
             a: 50,
-            b: 40
         }, {
-            y: '2011',
+            y: 'Zildjan',
             a: 75,
-            b: 65
         }, {
-            y: '2012',
+            y: 'Diane',
             a: 100,
-            b: 90
         }],
         xkey: 'y',
-        ykeys: ['a', 'b'],
-        labels: ['Series A', 'Series B'],
+        ykeys: ['a'],
+        labels: ['Quantity'],
         hideHover: 'auto',
         resize: true
     });
