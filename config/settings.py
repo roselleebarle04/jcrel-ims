@@ -9,22 +9,26 @@ https://docs.djangoproject.com/en/1.8/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
-from .email_info import *
 
-EMAIL_USE_TLS =EMAIL_USE_TLS
-EMAIL_HOST = EMAIL_HOST
-EMAIL_HOST_USER = EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
-EMAIL_PORT = EMAIL_PORT
+# from django.core.mail import *
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'motivatedjcrel@gmail.com'
+EMAIL_HOST_PASSWORD = 'teammotivated'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
+
+os.environ['http_proxy']=''
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'n(lo$7ce$ai+h35!_3!hf^dg64v_er-sw)mn(4^(n8sfvyhda@'
@@ -32,7 +36,9 @@ SECRET_KEY = 'n(lo$7ce$ai+h35!_3!hf^dg64v_er-sw)mn(4^(n8sfvyhda@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*',
+]
 
 
 # Application definition
