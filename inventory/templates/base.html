@@ -161,6 +161,15 @@
       else 
         window.location = '/items/';
     }
+
+    function confirmSaleDelete(sale_id){
+      console.log(sale_id);
+      var r = confirm('Are you sure?'); 
+      if (r==true) 
+        window.location = '/sales/delete/' + sale_id + '/'; 
+      else 
+        window.location = '/sales/';
+    }
   </script>
 
   <script type="text/javascript">

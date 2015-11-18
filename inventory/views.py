@@ -192,10 +192,12 @@ def delete_item(request, item_id):
 
 @login_required
 def sales(request):
-	sales = Sale.objects.all()
-	data = {}
-	data['sales'] = sales
-	return render(request, 'sales/sales.html', data)
+	sales_list= Sale.objects.all()
+	salesLen = len(sales_list)
+	return render(request, 'sales/sales.html', {
+		'sales_list':sales_list,
+		'salesLen' : salesLen
+		})
 
 def add_sale(request):
 	form = AddSaleForm(request.POST or None)
@@ -203,6 +205,11 @@ def add_sale(request):
 		form.save()
 		return redirect('sales')
 	return render(request, 'sales/add_sale.html', {'form':form})
+
+def delete_sale(request, sale_id):
+	sale = Sale.objects.get(pk = sale_id)
+	sale.delete()
+	return HttpResponseRedirect(reverse('sales'))
 
 def suppliers(request):
 	s_list = Supplier.objects.all()
