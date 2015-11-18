@@ -3,11 +3,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-<<<<<<< HEAD
-=======
-
->>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
-from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -106,10 +101,7 @@ def inventory_reports(request):
 def sales_reports(request):
 	return render(request, 'reports/sales_reports.html', {})
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
@@ -119,6 +111,17 @@ def add_arrival(request):
 def create_transfer(request,template_name ='transfer/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
+		d = form.cleaned_data['item']
+		q_transfer = form.cleaned_data['quantity_to_transfer']
+		w_qty = d.warehouse_quantity
+		if  q_transfer > w_qty:
+			raise forms.ValidationError("Quantity exceed the current quantity of the Item in the Warehouse")
+		else:
+			current_w = w_qty - q_transfer
+			current_s = d.store_quantity + q_transfer
+			d.warehouse_quantity = current_w
+			d.store_quantity = current_s
+			d.save()
 		form.save()
 		return redirect('transfer_hist')
 	return render(request,template_name,{'form':form})
@@ -130,12 +133,10 @@ def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):
 	return render(request,template_name,data)
 
 
-def transfer_delete(request,pk, template_name= 'transfer/transfer_confirm_delete.html'):
-	transfer = get_object_or_404(Transfer_item, pk=pk)
-	if request.method == 'POST':
-		transfer.delete()
-		return redirect('transfer_hist')
-	return render(request, template_name, {'object':transfer})
+def transfer_delete(request, transfer_id):
+	t = Transfer_item.objects.get(pk=transfer_id)
+	t.delete()
+	return HttpResponseRedirect(reverse('transfer'))
 
 @login_required
 def items(request):
@@ -194,6 +195,7 @@ def update_supplier(request, supplier_id):
 		supplier.save()
 
 	return HttpResponseRedirect(reverse('suppliers'))
+	
 def delete_supplier(request, supplier_id):
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
