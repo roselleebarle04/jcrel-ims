@@ -3,7 +3,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> e1d63e98965834d6b22887f17e0549b9ea1e94e5
 from django.core.urlresolvers import reverse
+>>>>>>> 17a834804852d0562625b71ef718b3bc3c9ff57e
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -21,20 +27,6 @@ def dashboard(request):
 
 def login(request):
 	return render(request, 'dashboard/login.html', {})
-
-def change_password(request):
-	if request.method == 'POST':
-
-		username = request.POST.get('username')
-		new_password = request.POST.get('new_password')
-
-		user = User.objects.get(username=username)
-		user.set_password(new_password)
-		user.save()
-
-		return HttpResponseRedirect('/login/')
-
-	return render(request, 'accounts/change_password.html', {})
 
 def signup(request):
 	if request.method == 'POST':	
@@ -56,6 +48,30 @@ def signup(request):
 
 	return render(request, 'accounts/signup.html', {})
 
+<<<<<<< HEAD
+=======
+def change_password(request):
+	if request.method == 'POST':
+
+		username = request.POST.get('username')
+		new_password = request.POST.get('new_password')
+
+		user = User.objects.get(username=username)
+		user.set_password(new_password)
+		user.save()
+
+		return HttpResponseRedirect('/login/')
+
+	return render(request, 'accounts/change_password.html', {})
+
+def forgot_password(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		email = request.POST.get('email_request')
+
+
+	return render(request, 'accounts/forgot_password.html')
+>>>>>>> e1d63e98965834d6b22887f17e0549b9ea1e94e5
 
 @login_required
 def arrival_list(request, template_name='arrival/arrival_list.html'):
@@ -103,6 +119,14 @@ def inventory_reports(request):
 @login_required
 def sales_reports(request):
 	return render(request, 'reports/sales_reports.html', {})
+<<<<<<< HEAD
+=======
+
+<<<<<<< HEAD
+
+=======
+>>>>>>> 17a834804852d0562625b71ef718b3bc3c9ff57e
+>>>>>>> e1d63e98965834d6b22887f17e0549b9ea1e94e5
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
@@ -110,6 +134,17 @@ def login(request):
 def create_transfer(request,template_name ='transfer/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
+		d = form.cleaned_data['item']
+		q_transfer = form.cleaned_data['quantity_to_transfer']
+		w_qty = d.warehouse_quantity
+		if  q_transfer > w_qty:
+			raise forms.ValidationError("Quantity exceed the current quantity of the Item in the Warehouse")
+		else:
+			current_w = w_qty - q_transfer
+			current_s = d.store_quantity + q_transfer
+			d.warehouse_quantity = current_w
+			d.store_quantity = current_s
+			d.save()
 		form.save()
 		return redirect('transfer_hist')
 	return render(request,template_name,{'form':form})
@@ -121,19 +156,23 @@ def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):
 	return render(request,template_name,data)
 
 
-def transfer_delete(request,pk, template_name= 'transfer/transfer_confirm_delete.html'):
-	transfer = get_object_or_404(Transfer_item, pk=pk)
-	if request.method == 'POST':
-		transfer.delete()
-		return redirect('transfer_hist')
-	return render(request, template_name, {'object':transfer})
+def transfer_delete(request, transfer_id):
+	t = Transfer_item.objects.get(pk=transfer_id)
+	t.delete()
+	return HttpResponseRedirect(reverse('transfer'))
 
 @login_required
 def items(request):
+	items_list = Item.objects.all()
+	itemLen = len(items_list)
+	return render(request, 'items/items.html', {
+		'items': items_list,
+		'itemLen': itemLen
+		})
+
+def items_list(request):
 	items = Item.objects.all()
-	list_item = {}
-	list_item['items'] = items
-	return render(request, 'items/items.html', list_item)
+	return HttpResponse({items})
 
 @login_required
 def add_item(request):
@@ -142,6 +181,11 @@ def add_item(request):
 		form.save()
 		return redirect('items')
 	return render(request, 'items/add_item.html', {'form':form})
+
+def delete_item(request, item_id):
+	item = Item.objects.get(pk = item_id)
+	item.delete()
+	return HttpResponseRedirect(reverse('items'))
 
 @login_required
 def sales(request):
@@ -185,6 +229,7 @@ def update_supplier(request, supplier_id):
 		supplier.save()
 
 	return HttpResponseRedirect(reverse('suppliers'))
+	
 def delete_supplier(request, supplier_id):
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()

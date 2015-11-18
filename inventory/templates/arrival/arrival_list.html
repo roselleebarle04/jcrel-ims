@@ -43,6 +43,7 @@
           </tr>
         </thead>
 
+<<<<<<< HEAD
         {% for arrival in object_list %}
         <tbody>
           <tr class="table">
@@ -56,6 +57,21 @@
          </tr>
        </tbody>
        {% endfor %}
+=======
+  {% for arrival in object_list %}
+  <tbody>
+    <tr class="table">
+      <td>{{ arrival.itemName }}</td>
+      <td>{{ arrival.qty }}</td>
+      <td>{{ arrival.itemCost}}</td>
+      <td class="pager">
+       <li><a href="#">Edit</a></li>
+       <li><a href="#">Delete</a></li>
+     </td>
+   </tr>
+ </tbody>
+ {% endfor %}
+>>>>>>> e1d63e98965834d6b22887f17e0549b9ea1e94e5
        <tr>
         <th colspan="9" >
          <a href="{% url "arrival_form" %}" class="btn btn-default btn-sm btn-block" role="button" >New</a>

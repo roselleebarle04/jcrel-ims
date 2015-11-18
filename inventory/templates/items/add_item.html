@@ -16,13 +16,12 @@
 <form method="post">
     <div class="form-group">
         {% csrf_token %}
-        <!-- {{ form.as_p }} -->
-        <form class="form form-horizontal">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control">
-            </div>    
-        </form>
+<<<<<<< HEAD
+        {{ form.as_p }} 
+=======
+        {{ form.as_p }}
+        
+>>>>>>> 17a834804852d0562625b71ef718b3bc3c9ff57e
         <div class="form-group">
             <input type="submit" class="form-control" name="name" value="ADD" />
         </div>
