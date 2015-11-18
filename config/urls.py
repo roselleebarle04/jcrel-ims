@@ -33,19 +33,11 @@ urlpatterns = [
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^add_sale/$', inventory_views.add_sale, name='add_sale'),
 
-<<<<<<< HEAD
+    url(r'^arrivals/$', inventory_views.arrivals, name='arrivals'),
+    url(r'^arrivals/list/$', inventory_views.list_arrivals, name='list_arrivals'),
+    url(r'^arrivals/add/$', inventory_views.add_arrival, name='add_arrival'),
+    url(r'^arrivals/delete/$', inventory_views.delete_arrival, name='delete_arrival'),
 
-=======
-    url(r'^add_arrival/$', inventory_views.add_arrival, name='add_arrival'),
->>>>>>> e70c65c93c49401be491c6308180e7686435e86b
-    url(r'^arrival_list/$', inventory_views.arrival_list, name='arrival_list'),
-    url(r'^arrival_form/$', inventory_views.arrival_create, name='arrival_form'),
-    url(r'^arrival_confirm_delete/$', inventory_views.arrival_delete, name='arrival_confirm_delete'),
-
-<<<<<<< HEAD
-
-=======
->>>>>>> e70c65c93c49401be491c6308180e7686435e86b
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),
     url(r'^transfer_confirm_delete/$', inventory_views.transfer_delete, name='transfer_delete'),
