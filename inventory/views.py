@@ -80,6 +80,7 @@ def signup(request):
 
 	return render(request, 'accounts/signup.html', {})
 
+
 @login_required
 def arrival_list(request, template_name='arrival/arrival_list.html'):
     arrivals = AddArrival.objects.all()
@@ -94,6 +95,7 @@ def arrival_create(request, template_name='arrival/arrival_form.html'):
         form.save()
         return redirect('arrival_list')
     return render(request, template_name, {'form':form})
+
 
 @login_required
 def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
@@ -132,8 +134,6 @@ def reports(request):
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
-def add_arrival(request):
-	return render(request, 'arrival/add_arrival.html', {})
 
 def create_transfer(request,template_name ='dashboard/transfer_form.html'):
 	form = TransferForm(request.POST or None)

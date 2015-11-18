@@ -2,75 +2,67 @@
 {% load staticfiles %}
 
 {% block content %}
-
+<br>
+<br>
 <div class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading">Add New Arrival</div>
-    <div class="panel-body">
-      <br>
-      <br>
-      <div class="container">
-        <form role="form">
-          <div class="form-group">
-          <div class="col-xs-2">
-              <label for="ex1">Date</label>
-              <input class="form-control" id="ex1" type="text">
-            </div>
-            <div class="col-xs-3">
-              <label for="ex2">Delivery Receipt</label>
-              <input class="form-control" id="ex2" type="text">
-            </div>
-            <div class="col-xs-3">
-              <label for="ex3">Tracking Number</label>
-              <input class="form-control" id="ex3" type="text">
-            </div>
-            <div class="col-xs-3">
-              <label for="ex3">Supplier</label>
-              <input class="form-control" id="ex3" type="text">
-            </div>
-          </div>
-        </form>
+  <form role="form">
+    <div class="form-group">
+      <div class="col-xs-3">
+        <label for="ex1">Date</label>
+        <input class="form-control" id="ex1" type="text">
       </div>
-      <br>
-      <br>
-      <table class="table table-bordered table-striped table-hover table-condensed">
-        <thead>
-          <tr bgcolor="#FFFF99">
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Item Cost</th>
-            <th></th>
-          </tr>
-        </thead>
+      <div class="col-xs-3">
+        <label for="ex2">Delivery Receipt</label>
+        <input class="form-control" id="ex2" type="text">
+      </div>
+      <div class="col-xs-3">
+        <label for="ex3">Tracking Number</label>
+        <input class="form-control" id="ex3" type="text">
+      </div>
+      <div class="col-xs-3">
+        <label for="ex3">Supplier</label>
+        <input class="form-control" id="ex3" type="text">
+      </div>
+    </div>
+  </form>
+</div>
+<br>
+<br>
+<div class="container">
+<table class="table table-bordered table-striped table-hover table-condensed">
+  <thead>
+    <tr bgcolor="#FFFF99">
+      <th>Item Name</th>
+      <th>Quantity</th>
+      <th>Item Cost</th>
+      <th></th>
+    </tr>
+  </thead>
 
-        {% for arrival in object_list %}
-        <tbody>
-          <tr class="table">
-            <td>{{ arrival.itemName }}</td>
-            <td>{{ arrival.qty }}</td>
-            <td>{{ arrival.itemCost}}</td>
-            <td class="pager">
-             <li><a href="#">Edit</a></li>
-             <li><a href="#">Delete</a></li>
-           </td>
-         </tr>
-       </tbody>
-       {% endfor %}
-       <tr>
-        <th colspan="9" >
-         <a href="{% url "arrival_form" %}" class="btn btn-default btn-sm btn-block" role="button" >New</a>
-       </th>
-     </tr>
-   </table>
-   <br>
-   <br>
-   <div class="col-lg-6">
-    <button type="button" class="btn btn-primary btn-lg btn-success pull-right" >DONE</button>
-  </div>
-</div>
-</div>
-</div>
+  {% for arrival in object_list %}
+  <tbody>
+    <tr class="table">
+      <td>{{ arrival.itemName }}</td>
+      <td>{{ arrival.qty }}</td>
+      <td>{{ arrival.itemCost}}</td>
+      <td class="pager">
+       <li><a href="#">Edit</a></li>
+       <li><a href="#">Delete</a></li>
+     </td>
+   </tr>
+ </tbody>
+ {% endfor %}
+ <tr>
+  <th colspan="9" >
+   <a href="{% url "arrival_form" %}" class="btn btn-default btn-sm btn-block" role="button" >New</a>
+ </th>
+</tr>
+</table>
 </div>
 </body>  
-
+<br>
+<br>
+<div class="col-lg-6">
+  <button type="button" class="btn btn-primary btn-lg btn-success pull-right" >DONE</button>
+</div>
 {% endblock content %}
