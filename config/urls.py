@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^suppliers/$', inventory_views.suppliers, name='suppliers'),
     url(r'^suppliers/list/$', inventory_views.list_suppliers, name='list_suppliers'),
     url(r'^suppliers/add/$', inventory_views.add_supplier, name='add_supplier'),
-    # url(r'^suppliers/update/(?P<supplier_id>[0-9]+)/$', inventory_views.update_supplier, name='update_supplier'),
+    url(r'^suppliers/update/(?P<supplier_id>[0-9]+)/$', inventory_views.update_supplier, name='update_supplier'),
     url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
 
     url(r'^sales/$', inventory_views.sales, name='sales'),
@@ -38,6 +38,10 @@ urlpatterns = [
     url(r'^arrivals/add/$', inventory_views.add_arrival, name='add_arrival'),
     url(r'^arrivals/delete/$', inventory_views.delete_arrival, name='delete_arrival'),
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),
     url(r'^transfer_confirm_delete/$', inventory_views.transfer_delete, name='transfer_delete'),

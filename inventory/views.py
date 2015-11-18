@@ -2,15 +2,16 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+<<<<<<< HEAD
+=======
 
+>>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
 from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
-
 from .models import *
 from .forms import *
 
@@ -114,6 +115,10 @@ def inventory_reports(request):
 def sales_reports(request):
 	return render(request, 'reports/sales_reports.html', {})
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
@@ -187,6 +192,15 @@ def add_supplier(request):
 		return redirect('suppliers')
 	return render(request, 'supplier/add_supplier.html', {'form':form})
 
+def update_supplier(request, supplier_id):
+	if request.method == 'POST':
+		supplier = Supplier.objects.get(pk=supplier_id)
+		supplier.name = request.POST.get('name')
+		supplier.phone = request.POST.get('phone')
+		supplier.address = request.POST.get('address')
+		supplier.save()
+
+	return HttpResponseRedirect(reverse('suppliers'))
 def delete_supplier(request, supplier_id):
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()

@@ -64,6 +64,8 @@ class Sale(models.Model):
 		total = self.quantity * self.item.srp
 		return total
 
+<<<<<<< HEAD
+=======
 
 class Transfer_item(models.Model):
 	item = models.ForeignKey(Item)
@@ -71,9 +73,36 @@ class Transfer_item(models.Model):
 	transfer_date = models.DateTimeField(blank=True,null=True)
 
 
+>>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
 class AddArrival(models.Model):
 	itemName = models.CharField(max_length=300, null=True)
 	qty = models.PositiveSmallIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
 	transfer_date = models.DateField(default=timezone.now)
 
+<<<<<<< HEAD
+
+class StoreQuantityManager(models.Manager):
+		def current_storeQuantity(self):
+			store_q = Transfer_item.StoreQuantity.filter(item = item.store_code)
+			qty_to_transfer = Transfer_item.quantity_to_transfer
+			current_store_qty = store_q + qty_to_transfer
+			return current_store_qty
+
+class Transfer_item(models.Model):
+	item = models.ForeignKey(Item)
+	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
+	transfer_date = models.DateField(default=timezone.now)
+	objects = StoreQuantityManager()
+			
+"""
+			
+
+	@property
+	def current_warehouseQuantity(self):
+		item_wr = item.warehouse_quantity
+		tran_q = self.quantity_to_transfer
+		current = item_str - tran_q
+		return current"""
+=======
+>>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
