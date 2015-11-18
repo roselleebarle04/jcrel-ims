@@ -25,29 +25,6 @@ def dashboard(request):
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
-def change_password(request):
-	if request.method == 'POST':
-
-		username = request.POST.get('username')
-		new_password = request.POST.get('new_password')
-
-		user = User.objects.get(username=username)
-		user.set_password(new_password)
-		user.save()
-
-		return HttpResponseRedirect('/login/')
-
-	return render(request, 'accounts/change_password.html', {})
-
-def forgot_password(request):
-	# if request.method == 'POST':
-	# 	username = request.POST.get('username')
-	# 	email = request.POST.get('email_request')
-
-	# print "%s %s" % (username, email)
-
-	return render(request, 'accounts/forgot_password.html')
-
 def signup(request):
 	if request.method == 'POST':	
 		# form = AccountForm()	
@@ -67,6 +44,27 @@ def signup(request):
 		form = AccountForm()
 
 	return render(request, 'accounts/signup.html', {})
+
+def change_password(request):
+	if request.method == 'POST':
+
+		username = request.POST.get('username')
+		new_password = request.POST.get('new_password')
+
+		user = User.objects.get(username=username)
+		user.set_password(new_password)
+		user.save()
+
+		return HttpResponseRedirect('/login/')
+
+	return render(request, 'accounts/change_password.html', {})
+
+def forgot_password(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		email = request.POST.get('email_request')
+
+	return render(request, 'accounts/forgot_password.html')
 
 @login_required
 def arrival_list(request, template_name='arrival/arrival_list.html'):
