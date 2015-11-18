@@ -2,18 +2,12 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-<<<<<<< HEAD
-
 from django.core.urlresolvers import reverse
-=======
 from django.contrib.auth.forms import UserCreationForm
->>>>>>> 833d13d440b1c24d97733f3eec07515557356985
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
-
 from .models import *
 from .forms import *
 from django.core.urlresolvers import reverse
@@ -135,13 +129,12 @@ def sales_reports(request):
 def reports(request):
 	return render(request, 'dashboard/reports.html', {})
 
-<<<<<<< HEAD
+
 def login(request):
 	return render(request, 'dashboard/login.html', {})
-=======
+
 def add_arrival(request):
 	return render(request, 'arrival/add_arrival.html', {})
->>>>>>> 833d13d440b1c24d97733f3eec07515557356985
 
 def create_transfer(request,template_name ='dashboard/transfer_form.html'):
 	form = TransferForm(request.POST or None)

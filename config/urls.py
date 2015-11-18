@@ -27,14 +27,11 @@ urlpatterns = [
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^add_sale/$', inventory_views.add_sale, name='add_sale'),
 
-<<<<<<< HEAD
     url(r'^add_arrival/$', inventory_views.add_arrival, name='add_arrival'),
-=======
     url(r'^arrival_list/$', inventory_views.arrival_list, name='arrival_list'),
     url(r'^arrival_form/$', inventory_views.arrival_create, name='arrival_form'),
     url(r'^arrival_confirm_delete/$', inventory_views.arrival_delete, name='arrival_confirm_delete'),
 
->>>>>>> 63043a722d66729e34116b8e950862302f892edc
 
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),
