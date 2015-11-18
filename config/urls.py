@@ -13,6 +13,8 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name':'accounts/login.html'}),
     url(r'^logout/$', auth_views.logout, {'template_name':'accounts/logout.html'}),
     url(r'^change_password/$', inventory_views.change_password, name="change_password"),
+    url(r'^forgot_password/$', inventory_views.forgot_password, name="forgot_password"),
+
     # url(r'^/accounts/password/reset/$', password_reset, {'template_name': 'my_templates/password_reset.html'}),
 
     # url(r'^signup/$', inventory_views.signup, name='signup'),

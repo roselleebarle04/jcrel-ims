@@ -39,6 +39,15 @@ def change_password(request):
 
 	return render(request, 'accounts/change_password.html', {})
 
+def forgot_password(request):
+	# if request.method == 'POST':
+	# 	username = request.POST.get('username')
+	# 	email = request.POST.get('email_request')
+
+	# print "%s %s" % (username, email)
+
+	return render(request, 'accounts/forgot_password.html')
+
 def signup(request):
 	if request.method == 'POST':	
 		# form = AccountForm()	
