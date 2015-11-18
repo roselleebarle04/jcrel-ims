@@ -64,6 +64,7 @@ def forgot_password(request):
 		username = request.POST.get('username')
 		email = request.POST.get('email_request')
 
+
 	return render(request, 'accounts/forgot_password.html')
 
 @login_required
