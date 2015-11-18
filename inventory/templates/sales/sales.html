@@ -40,7 +40,7 @@
                     <td> {{ sale.quantity}} </td>
                     <td> {{ sale.calculate_cost}} </td>  
                     <td>   
-                        <button class="btn btn-default" data-toggle="modal" data-target="#sale-{{sale.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span> </button>
+                        <button class="btn btn-default" data-toggle="modal" data-target="#itemsale-{{sale.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span> </button>
                     </td>
                     <td>
                         <!-- <form action="/suppliers/delete/{{s.id}}/"> -->
@@ -48,6 +48,42 @@
                         <!-- </form> -->
                     </td>   
                 </tr> 
+                <!-- Modal for each row -->
+                <div class="modal fade" id="itemsale-{{sale.id}}" tabindex="-1" role="dialog" aria-labelledby="itemsale-{{sale.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="itemsale-{{sale.id}}">Update Sale</h4>
+                            </div>
+                            <form class="form" action="/sales/update/{{sale.id}}/" method="POST">
+                                <div class="modal-body">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label>Item</label>
+                                        <input name="item" type="text" class="form-control" value="{{sale.item.store_code}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quantity</label>
+                                        <input name="quantity" type="text" class="form-control" value="{{sale.quantity}}">
+                                    </div>  
+                                    <div class="form-group">
+                                        <label>Date</label>
+                                        <input name="date" type="text" class="form-control" value="{{sale.date}}">
+                                    </div>  
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="form-group">
+                                        <input class="btn btn-success" type="submit" value="Update">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                        <input type="hidden" name="next" value="{{ next }}" />
+                                    </div>
+                                    <!-- <button type="button" class="btn btn-primary">Save Changes</button> -->
+                                </div>
+                            </form>
+                        </div>
+                    </div>                    
+                </div>
                 {% endfor %}
             </tbody>
         </table>
