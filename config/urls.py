@@ -13,6 +13,8 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name':'accounts/login.html'}),
     url(r'^logout/$', auth_views.logout, {'template_name':'accounts/logout.html'}),
     url(r'^change_password/$', inventory_views.change_password, name="change_password"),
+    url(r'^forgot_password/$', inventory_views.forgot_password, name="forgot_password"),
+
     # url(r'^/accounts/password/reset/$', password_reset, {'template_name': 'my_templates/password_reset.html'}),
 
     # url(r'^signup/$', inventory_views.signup, name='signup'),
@@ -35,10 +37,10 @@ urlpatterns = [
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^add_sale/$', inventory_views.add_sale, name='add_sale'),
 
-    url(r'^add_arrival/$', inventory_views.add_arrival, name='add_arrival'),
-    url(r'^arrival_list/$', inventory_views.arrival_list, name='arrival_list'),
-    url(r'^arrival_form/$', inventory_views.arrival_create, name='arrival_form'),
-    url(r'^arrival_confirm_delete/$', inventory_views.arrival_delete, name='arrival_confirm_delete'),
+    url(r'^arrival_list/$', inventory_views.arrival_list, name = 'arrival_list'),
+    url(r'^arrival_form/$', inventory_views.arrival_create, name = 'arrival_form'),    
+    url(r'^arrival_list/delete/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
+    url(r'^arrival_list/update/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_update, name='arrival_update'),
 
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),

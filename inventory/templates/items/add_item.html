@@ -16,8 +16,8 @@
 <form method="post">
     <div class="form-group">
         {% csrf_token %}
-        {{ form.as_p }}
-        
+        {{ form.as_p }}       
+
         <div class="col-lg-4 col-md-4">
             <input type="submit" class="form-control" name="name" value="ADD" />
         </div>

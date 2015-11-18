@@ -43,27 +43,6 @@
           </tr>
         </thead>
 
-<<<<<<< HEAD
-  {% for arrival in object_list %}
-  <tbody>
-    <tr class="table">
-      <td>{{ arrival.itemName }}</td>
-      <td>{{ arrival.qty }}</td>
-      <td>{{ arrival.itemCost}}</td>
-      <td class="pager">
-       <li><a href="#">Edit</a></li>
-       <li><a href="#">Delete</a></li>
-     </td>
-   </tr>
- </tbody>
- {% endfor %}
- <tr>
-  <th colspan="9" >
-   <a href="{% url "arrival_form" %}" class="btn btn-default btn-sm btn-block" role="button" >New</a>
- </th>
-</tr>
-</table>
-=======
         {% for arrival in object_list %}
         <tbody>
           <tr class="table">
@@ -71,11 +50,48 @@
             <td>{{ arrival.qty }}</td>
             <td>{{ arrival.itemCost}}</td>
             <td class="pager">
-             <li><a href="#">Edit</a></li>
-             <li><a href="#">Delete</a></li>
+             <li> <button class="btn btn-default" data-toggle="modal" data-target="#arrivals-{{arrival.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span> Update</button></li>
+             <li><a onclick="confirmArrivalDelete({{arrival.id}});" >Delete</a></li>
            </td>
          </tr>
        </tbody>
+       <div class="modal fade" id="arrivals-{{arrival.id}}" tabindex="-1" role="dialog" aria-labelledby="arrivals-{{arrival.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="arrival-{{arrival.id}}">Update arrival</h4>
+                            </div>
+                            <form class="form" action="/arrival_list/update/{{arrival.id}}/" method="POST">
+                                <div class="modal-body">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label>Item Name</label>
+                                        <input name="itemName" type="text" class="form-control" value="{{arrival.itemName}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quantity</label>
+                                        <input name="qty" type="text" class="form-control" value="{{arrival.qty}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Item Cost</label>
+                                        <input name="itemCost" type="text" class="form-control" value="{{arrival.itemCost}}">
+                                    </div>
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="form-group">
+                                        <input class="btn btn-success" type="submit" value="Update">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                        <input type="hidden" name="next" value="{{ next }}" />
+                                    </div>
+                                    <!-- <button type="button" class="btn btn-primary">Save Changes</button> -->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
        {% endfor %}
        <tr>
         <th colspan="9" >
@@ -90,7 +106,6 @@
   </div>
 </div>
 </div>
->>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
 </div>
 </div>
 </body>  

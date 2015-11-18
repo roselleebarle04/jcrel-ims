@@ -1,6 +1,6 @@
 []
 from django import forms
-from .models import Account,Transfer_item,AddArrival, Item, Sale, Supplier
+from .models import Account,Transfer_item, AddArrival, Item, Sale, Supplier
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -63,6 +63,7 @@ class ArrivalForm(forms.ModelForm):
 class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer_item
+		fields = ['item', 'quantity_to_transfer']
 		fields = ['item', 'quantity_to_transfer', 'transfer_date']
 
 class AddSupplierForm(forms.ModelForm):
