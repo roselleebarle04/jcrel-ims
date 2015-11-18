@@ -64,7 +64,6 @@ class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer_item
 		fields = ['item', 'quantity_to_transfer']
-		fields = ['item', 'quantity_to_transfer', 'transfer_date']
 
 class AddSupplierForm(forms.ModelForm):
 	class Meta: 

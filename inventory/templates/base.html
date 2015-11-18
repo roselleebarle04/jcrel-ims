@@ -170,6 +170,15 @@
       else 
         window.location = '/sales/';
     }
+
+    function confirmTransferDelete(transfer_id){
+      console.log(transfer_id);
+      var r = confirm('Are you sure?'); 
+      if (r==true) 
+        window.location = '/transfer/delete/' + transfer_id + '/'; 
+      else 
+        window.location = '/transfer_hist/';
+    }
   </script>
 
   <script type="text/javascript">

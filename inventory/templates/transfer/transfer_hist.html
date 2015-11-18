@@ -40,7 +40,7 @@
              <td>{{transfer.item.store_code}}</td>
              <td>{{transfer.quantity_to_transfer}}</td>
              <td>{{transfer.transfer_date}}</td>
-             <td><a href="#"><button type="button"<font color ="660066">Edit</font></button></a> <a href="#"><button type="button"<font color ="660066">Delete</font></button></a></td>
+             <td><button onclick="confirmTransferDelete({{transfer.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span> Delete</button></td>
             </tr>
     {% endfor %}
           </tbody>
