@@ -152,6 +152,15 @@
       else 
         window.location = '/suppliers/';
     }
+
+    function confirmItemDelete(item_id){
+      console.log(item_id);
+      var r = confirm('Are you sure?'); 
+      if (r==true) 
+        window.location = '/items/delete/' + item_id + '/'; 
+      else 
+        window.location = '/items/';
+    }
   </script>
 
   <!-- Data Tables Plugin -->

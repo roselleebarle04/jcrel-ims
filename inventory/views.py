@@ -142,6 +142,9 @@ def items_list(request):
 def add_item(request):
 	form = AddItemForm(request.POST or None)
 	if  form.is_valid():
+		form.types = request.POST.get('types')
+		form.category = request.POST.get('category')
+		form.brand = request.POST.get('brand')
 		form.save()
 		return redirect('items')
 	return render(request, 'items/add_item.html', {'form':form})
