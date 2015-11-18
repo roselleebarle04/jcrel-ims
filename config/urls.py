@@ -40,6 +40,10 @@ urlpatterns = [
     url(r'^arrival_form/$', inventory_views.arrival_create, name='arrival_form'),
     url(r'^arrival_confirm_delete/$', inventory_views.arrival_delete, name='arrival_confirm_delete'),
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),
     url(r'^transfer_confirm_delete/$', inventory_views.transfer_delete, name='transfer_delete'),
