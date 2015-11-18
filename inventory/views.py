@@ -3,10 +3,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-<<<<<<< HEAD
-=======
-
->>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
 from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, logout
@@ -61,44 +57,37 @@ def signup(request):
 	return render(request, 'accounts/signup.html', {})
 
 
-# @login_required
-# def arrival_list(request, template_name='arrival/arrival_list.html'):
-#     arrivals = AddArrival.objects.all()
-#     data = {}
-#     data['object_list'] = arrivals
-#     return render(request, template_name, data)\
-
-# def arrivals(request):
-# 	a_list = AddArrival.objects.all()
-# 	a_len = len(a_list)
-# 	return render(request, 'arrival/arrival_list.html', {
-# 		'arrival_list': s_list,
-# 		'a_len': s_len
-# 	})
-
-# @login_required
-# def arrival_create(request, template_name='arrival/arrival_form.html'):
-#     form = ArrivalForm(request.POST or None)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('arrival_list')
-#     return render(request, template_name, {'form':form})
+@login_required
+def arrival_list(request, template_name='arrival/arrival_list.html'):
+    arrivals = AddArrival.objects.all()
+    data = {}
+    data['object_list'] = arrivals
+    return render(request, template_name, data)
 
 
-# @login_required
-# def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
-#     arrival = get_object_or_404(AddArrival, pk=pk)
-#     form = ArrivalForm(request.POST or None, instance=arrival)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('arrival_list')
-#     return render(request, template_name, {'form':form})
+@login_required
+def arrival_create(request, template_name='arrival/arrival_form.html'):
+    form = ArrivalForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('arrival_list')
+    return render(request, template_name, {'form':form})
 
-# @login_required
-# def arrival_delete(request, supplier_id):
-# 	a = AddArrival.objects.get(pk=arrival.id)
-# 	a.delete()
-# 	return HttpResponseRedirect(reverse('arrival_list'))
+
+@login_required
+def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
+    arrival = get_object_or_404(AddArrival, pk=pk)
+    form = ArrivalForm(request.POST or None, instance=arrival)
+    if form.is_valid():
+        form.save()
+        return redirect('arrival_list')
+    return render(request, template_name, {'form':form})
+
+@login_required
+def arrival_delete(request, arrival_id):
+	a = AddArrival.objects.get(pk=arrival_id)
+	a.delete()
+	return HttpResponseRedirect(reverse('arrival_list'))
 
 
 @login_required
@@ -108,17 +97,12 @@ def inventory_reports(request):
 	items = [{ 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }, { 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }]
 	return render(request, 'reports/inventory_reports.html', {
 		'filterby': filterby,
-		'items': items,
+		'items': items, 
 	})
 
 @login_required
 def sales_reports(request):
 	return render(request, 'reports/sales_reports.html', {})
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
@@ -207,26 +191,26 @@ def delete_supplier(request, supplier_id):
 	return HttpResponseRedirect(reverse('suppliers'))
 
 
-def arrivals(request):
-	a_list = AddArrival.objects.all()
-	a_len = len(a_list)
-	return render(request, 'arrival/arrivals.html', {
-		'arrivals': a_list,
-		'a_len': a_len
-	})
+# def arrivals(request):
+# 	a_list = AddArrival.objects.all()
+# 	a_len = len(a_list)
+# 	return render(request, 'arrival/arrivals.html', {
+# 		'arrivals': a_list,
+# 		'a_len': a_len
+# 	})
 
-def list_arrivals(request):
-	ls = AddArrival.objects.all()
-	return HttpResponse({ls})
+# def list_arrivals(request):
+# 	ls = AddArrival.objects.all()
+# 	return HttpResponse({ls})
 
-def add_arrival(request):
-	form = ArrivalForm(request.POST or None)
-	if  form.is_valid():
-		form.save()
-		return redirect('arrivals')
-	return render(request, 'arrival/add_arrival.html', {'form':form})
+# def add_arrival(request):
+# 	form = ArrivalForm(request.POST or None)
+# 	if  form.is_valid():
+# 		form.save()
+# 		return redirect('arrivals')
+# 	return render(request, 'arrival/add_arrival.html', {'form':form})
 
-def delete_arrival(request, arrival_id):
-	a = AddArrival.objects.get(pk=arrival_id)
-	a.delete()
-	return HttpResponseRedirect(reverse('arrivals'))
+# def delete_arrival(request, arrival_id):
+# 	a = AddArrival.objects.get(pk=arrival_id)
+# 	a.delete()
+# 	return HttpResponseRedirect(reverse('arrivals'))

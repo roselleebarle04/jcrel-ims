@@ -33,15 +33,10 @@ urlpatterns = [
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^add_sale/$', inventory_views.add_sale, name='add_sale'),
 
-    url(r'^arrivals/$', inventory_views.arrivals, name='arrivals'),
-    url(r'^arrivals/list/$', inventory_views.list_arrivals, name='list_arrivals'),
-    url(r'^arrivals/add/$', inventory_views.add_arrival, name='add_arrival'),
-    url(r'^arrivals/delete/$', inventory_views.delete_arrival, name='delete_arrival'),
+    url(r'^arrival_list/$', inventory_views.arrival_list, name = 'arrival_list'),
+    url(r'^arrival_form/$', inventory_views.arrival_create, name = 'arrival_form'),    
+    url(r'^arrival_list/delete/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),
     url(r'^transfer_confirm_delete/$', inventory_views.transfer_delete, name='transfer_delete'),
