@@ -47,7 +47,7 @@ body, html, p {
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li:hover {
-    border-right: 3px solid #e99d1a;
+    /*border-right: 3px solid #e99d1a;*/
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li:focus {

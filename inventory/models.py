@@ -32,7 +32,7 @@ class Item(models.Model):
 	store_quantity = models.PositiveSmallIntegerField(default = 0)
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
 	unit_cost = models.DecimalField( default = 0, max_digits = 100, decimal_places = 2)
-	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)
+	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 	def __unicode__(self):
@@ -50,11 +50,11 @@ class Supplier(models.Model):
 	def __unicode__(self):
 		return self.name
 
-	# owner = models.ForeignKey("accounts.User")
 
 class Sale(models.Model):
 	item = models.ForeignKey(Item)
 	quantity = models.PositiveSmallIntegerField(default = 0)
+	date = models.DateField(default=timezone.now)
 
 	def __unicode__(self):
 		return self.item.store_code
@@ -64,12 +64,23 @@ class Sale(models.Model):
 		total = self.quantity * self.item.srp
 		return total
 
+<<<<<<< HEAD
+=======
+
+class Transfer_item(models.Model):
+	item = models.ForeignKey(Item)
+	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
+	transfer_date = models.DateTimeField(blank=True,null=True)
+
+
+>>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
 class AddArrival(models.Model):
 	itemName = models.CharField(max_length=300, null=True)
 	qty = models.PositiveSmallIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
 	transfer_date = models.DateField(default=timezone.now)
 
+<<<<<<< HEAD
 
 class StoreQuantityManager(models.Manager):
 		def current_storeQuantity(self):
@@ -93,3 +104,5 @@ class Transfer_item(models.Model):
 		tran_q = self.quantity_to_transfer
 		current = item_str - tran_q
 		return current"""
+=======
+>>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3

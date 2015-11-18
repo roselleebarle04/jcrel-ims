@@ -24,6 +24,12 @@ urlpatterns = [
     url(r'^items/$', inventory_views.items, name='items'),
     url(r'^add_item/$', inventory_views.add_item, name='add_item'),  
 
+    url(r'^suppliers/$', inventory_views.suppliers, name='suppliers'),
+    url(r'^suppliers/list/$', inventory_views.list_suppliers, name='list_suppliers'),
+    url(r'^suppliers/add/$', inventory_views.add_supplier, name='add_supplier'),
+    url(r'^suppliers/update/(?P<supplier_id>[0-9]+)/$', inventory_views.update_supplier, name='update_supplier'),
+    url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
+
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^add_sale/$', inventory_views.add_sale, name='add_sale'),
 
@@ -32,7 +38,10 @@ urlpatterns = [
     url(r'^arrival_form/$', inventory_views.arrival_create, name='arrival_form'),
     url(r'^arrival_confirm_delete/$', inventory_views.arrival_delete, name='arrival_confirm_delete'),
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),
     url(r'^transfer_confirm_delete/$', inventory_views.transfer_delete, name='transfer_delete'),

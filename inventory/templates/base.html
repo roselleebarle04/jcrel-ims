@@ -13,8 +13,9 @@
   <link rel="stylesheet" type="text/css" href="/static/components/font-awesome/css/font-awesome.min.css">
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" type="text/css" href="/static/css/style.css">  
+  <link rel="stylesheet" type="text/css" href="/static/css/style.css"> 
   <link rel="stylesheet" type="text/css" href="/static/components/dashboard/css/sb-admin-2.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/dataTables.bootstrap.css">
   <link rel="stylesheet" type="text/css" href="/static/components/metisMenu/dist/metisMenu.min.css">
   <link rel="stylesheet" type="text/css" href="/static/components/dashboard/css/timeline.css">
   <link rel="stylesheet" type="text/css" href="/static/components/morrisjs/morris.css">
@@ -71,11 +72,9 @@
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i>{{ user }} <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="">Welcome {{ user }}!</a></li>
-                        <li class="divider"></li>
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
@@ -97,10 +96,21 @@
                             <a href="/items"><i class="fa fa-table fa-fw"></i> Items</a>
                         </li>
                         <li>
+                            <a href="/suppliers"><i class="fa fa-glass"></i> Suppliers</a>
+                        </li>
+                        <li>
                             <a href="/sales"><i class="fa fa-dashboard fa-fw"></i> Sales</a>
                         </li>
                         <li>
-                            <a href="/arrival_list"><i class="fa fa-truck"></i> Arrivals</a>
+                            <a href="#"><i class="fa fa-truck"></i> Arrivals<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li class="no-border">
+                                    <a href="/arrival_list"><span class="glyphicon glyphicon-plus"></span> Add New Arrivals</a>
+                                </li>
+                                <li class="no-border">
+                                    <a href="#"><span class="glyphicon glyphicon-list-alt"></span> Arrival History</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="/transfer_hist"><i class="fa fa-home"></i> Transfer</a>
@@ -109,10 +119,10 @@
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> Reporting<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li class="no-border">
-                                    <a href="/reports/inventory">Inventory Reports</a>
+                                    <a href="/reports/inventory"><span class="glyphicon glyphicon-list-alt"></span> Inventory Reports</a>
                                 </li>
                                 <li class="no-border">
-                                    <a href="/reports/sales">Sales Reports</a>
+                                    <a href="/reports/sales"><span class="glyphicon glyphicon-list-alt"></span> Sales Reports</a>
                                 </li>
                             </ul>
                         </li>
@@ -129,24 +139,41 @@
     </div>
 
   <!-- SCRIPTS -->
-  <script type="text/javascript" src="/static/js/jquery.js"></script>
+  <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
   <script type="text/javascript" src="/static/js/bootstrap.js"></script>
-  <!-- Metis Menu Plugin -->
+  <script type="text/javascript" src="/static/js/scripts.js"></script>
+
+  <script type="text/javascript">
+    function confirmDelete(supplier_id){
+      console.log(supplier_id);
+      var r = confirm('Are you sure?'); 
+      if (r==true) 
+        window.location = '/suppliers/delete/' + supplier_id + '/'; 
+      else 
+        window.location = '/suppliers/';
+    }
+  </script>
+
+  <!-- Data Tables Plugin -->
+  <script type="text/javascript" src="/static/components/datatables/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" src="/static/js/dataTables.bootstrap.min.js"></script>
+  <script src="/static/components/dashboard/js/sb-admin-2.js"></script>
+
+  <!-- Metis Menu Plugin  -->
   <script type="text/javascript" src="/static/components/metisMenu/dist/metisMenu.min.js"></script>
-  <!-- Flot Charts JavaScript -->
+  <!-- Flot Charts JavaScript 
   <script src="/static/components/flot/excanvas.min.js"></script>
   <script src="/static/components/flot/jquery.flot.js"></script>
   <script src="/static/components/flot/jquery.flot.pie.js"></script>
   <script src="/static/components/flot/jquery.flot.resize.js"></script>
   <script src="/static/components/flot/jquery.flot.time.js"></script>
   <script src="/static/components/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-  <script src="/static/components/dashboard/js/flot-data.js"></script>
-  <!-- Morris Charts Plugin -->
+  <script src="/static/components/dashboard/js/flot-data.js"></script>-->
+  <!-- Morris Charts Plugin
   <script src="/static/components/raphael/raphael-min.js"></script>
-  <script src="/static/components/morrisjs/morris.min.js"></script>
+  <script src="/static/components/morrisjs/morris.min.js"></script> -->
   <!-- <script src="/static/components/dashboard/js/morris-data.js"></script> -->
   <!-- Core Dashboard JS -->
-  <script src="/static/components/dashboard/js/sb-admin-2.js"></script>
 
 </body>
 </html>
