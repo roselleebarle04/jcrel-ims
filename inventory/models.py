@@ -3,6 +3,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+#TRIGGER
+
 class Account(models.Model):
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)
@@ -64,14 +66,47 @@ class Sale(models.Model):
 		total = self.quantity * self.item.srp
 		return total
 
+<<<<<<< HEAD
+=======
+class Transfer_item(models.Model):
+	item = models.ForeignKey(Item)
+	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
+	transfer_date = models.DateTimeField(blank=True,null=True)
+
+>>>>>>> 17a834804852d0562625b71ef718b3bc3c9ff57e
 class AddArrival(models.Model):
 	itemName = models.CharField(max_length=300, null=True)
 	qty = models.PositiveSmallIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
 	transfer_date = models.DateField(default=timezone.now)
 
+<<<<<<< HEAD
 class Transfer_item(models.Model):
 	item = models.ForeignKey(Item)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateTimeField(default = timezone.now)
 
+=======
+class StoreQuantityManager(models.Manager):
+		def current_storeQuantity(self):
+			store_q = Transfer_item.StoreQuantity.filter(item = item.store_code)
+			qty_to_transfer = Transfer_item.quantity_to_transfer
+			current_store_qty = store_q + qty_to_transfer
+			return current_store_qty
+
+class Transfer_item(models.Model):
+	item = models.ForeignKey(Item)
+	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
+	transfer_date = models.DateField(default=timezone.now)
+	objects = StoreQuantityManager()
+			
+"""
+			
+
+	@property
+	def current_warehouseQuantity(self):
+		item_wr = item.warehouse_quantity
+		tran_q = self.quantity_to_transfer
+		current = item_str - tran_q
+		return current"""
+>>>>>>> 17a834804852d0562625b71ef718b3bc3c9ff57e

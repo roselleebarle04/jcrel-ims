@@ -3,6 +3,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
+<<<<<<< HEAD
+=======
+from django.core.urlresolvers import reverse
+>>>>>>> 17a834804852d0562625b71ef718b3bc3c9ff57e
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -20,20 +24,6 @@ def dashboard(request):
 
 def login(request):
 	return render(request, 'dashboard/login.html', {})
-
-def change_password(request):
-	if request.method == 'POST':
-
-		username = request.POST.get('username')
-		new_password = request.POST.get('new_password')
-
-		user = User.objects.get(username=username)
-		user.set_password(new_password)
-		user.save()
-
-		return HttpResponseRedirect('/login/')
-
-	return render(request, 'accounts/change_password.html', {})
 
 def signup(request):
 	if request.method == 'POST':	
@@ -54,6 +44,28 @@ def signup(request):
 		form = AccountForm()
 
 	return render(request, 'accounts/signup.html', {})
+
+def change_password(request):
+	if request.method == 'POST':
+
+		username = request.POST.get('username')
+		new_password = request.POST.get('new_password')
+
+		user = User.objects.get(username=username)
+		user.set_password(new_password)
+		user.save()
+
+		return HttpResponseRedirect('/login/')
+
+	return render(request, 'accounts/change_password.html', {})
+
+def forgot_password(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		email = request.POST.get('email_request')
+
+
+	return render(request, 'accounts/forgot_password.html')
 
 @login_required
 def arrival_list(request, template_name='arrival/arrival_list.html'):
@@ -101,7 +113,10 @@ def inventory_reports(request):
 def sales_reports(request):
 	return render(request, 'reports/sales_reports.html', {})
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 17a834804852d0562625b71ef718b3bc3c9ff57e
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
@@ -140,10 +155,16 @@ def transfer_delete(request, transfer_id):
 
 @login_required
 def items(request):
+	items_list = Item.objects.all()
+	itemLen = len(items_list)
+	return render(request, 'items/items.html', {
+		'items': items_list,
+		'itemLen': itemLen
+		})
+
+def items_list(request):
 	items = Item.objects.all()
-	list_item = {}
-	list_item['items'] = items
-	return render(request, 'items/items.html', list_item)
+	return HttpResponse({items})
 
 @login_required
 def add_item(request):
@@ -152,6 +173,11 @@ def add_item(request):
 		form.save()
 		return redirect('items')
 	return render(request, 'items/add_item.html', {'form':form})
+
+def delete_item(request, item_id):
+	item = Item.objects.get(pk = item_id)
+	item.delete()
+	return HttpResponseRedirect(reverse('items'))
 
 @login_required
 def sales(request):
