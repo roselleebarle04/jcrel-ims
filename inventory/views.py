@@ -221,6 +221,15 @@ def delete_sale(request, sale_id):
 	sale.delete()
 	return HttpResponseRedirect(reverse('sales'))
 
+def update_sale(request, sale_id):
+	if request.method == 'POST':
+		sale = Sale.objects.get(pk = sale_id)
+		sale.item.store_code = request.POST.get('item')
+		sale.quantity =  request.POST.get('quantity')
+		sale.date = request.POST.get('date')
+		sale.save()
+	return HttpResponseRedirect(reverse('sales')) 		
+
 def suppliers(request):
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)

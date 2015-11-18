@@ -50,11 +50,23 @@
             <td>{{ arrival.qty }}</td>
             <td>{{ arrival.itemCost}}</td>
             <td class="pager">
-             <li> <button class="btn btn-default" data-toggle="modal" data-target="#arrivals-{{arrival.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span> Update</button></li>
-             <li><a onclick="confirmArrivalDelete({{arrival.id}});" >Delete</a></li>
+              <button class="btn btn-info" data-toggle="modal" data-target="#arrivals-{{arrival.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span></button>
+              
+              <button onclick="confirmArrivalDelete({{arrival.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></a></button>
            </td>
          </tr>
        </tbody>
+        <style>
+            .modal-header, h4, .close {
+              background-color: #FFFFCC;
+              color:black !important;
+              text-align: center;
+              font-size: 30px;
+            }
+            .modal-footer {
+              background-color: #f9f9f9;
+            }
+          </style>
        <div class="modal fade" id="arrivals-{{arrival.id}}" tabindex="-1" role="dialog" aria-labelledby="arrivals-{{arrival.id}}">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -62,7 +74,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="arrival-{{arrival.id}}">Update arrival</h4>
                             </div>
-                            <form class="form" action="/arrival_list/update/{{arrival.id}}/" method="POST">
+                            <form class="form" action="/arrival/add/update/{{arrival.id}}/" method="POST">
                                 <div class="modal-body">
                                     {% csrf_token %}
                                     <div class="form-group">
@@ -95,7 +107,7 @@
        {% endfor %}
        <tr>
         <th colspan="9" >
-         <a href="{% url "arrival_form" %}" class="btn btn-default btn-sm btn-block" role="button" >New</a>
+         <a href="/arrival/add/new_item/" class="btn btn-default btn-sm btn-block" role="button" >New</a>
        </th>
      </tr>
    </table>
