@@ -157,23 +157,13 @@
   <!-- Data Tables Plugin -->
   <script type="text/javascript" src="/static/components/datatables/js/jquery.dataTables.js"></script>
   <script type="text/javascript" src="/static/js/dataTables.bootstrap.min.js"></script>
+
+  <!-- Core Dashboard JS -->
   <script src="/static/components/dashboard/js/sb-admin-2.js"></script>
 
   <!-- Metis Menu Plugin  -->
   <script type="text/javascript" src="/static/components/metisMenu/dist/metisMenu.min.js"></script>
-  <!-- Flot Charts JavaScript 
-  <script src="/static/components/flot/excanvas.min.js"></script>
-  <script src="/static/components/flot/jquery.flot.js"></script>
-  <script src="/static/components/flot/jquery.flot.pie.js"></script>
-  <script src="/static/components/flot/jquery.flot.resize.js"></script>
-  <script src="/static/components/flot/jquery.flot.time.js"></script>
-  <script src="/static/components/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-  <script src="/static/components/dashboard/js/flot-data.js"></script>-->
-  <!-- Morris Charts Plugin
-  <script src="/static/components/raphael/raphael-min.js"></script>
-  <script src="/static/components/morrisjs/morris.min.js"></script> -->
-  <!-- <script src="/static/components/dashboard/js/morris-data.js"></script> -->
-  <!-- Core Dashboard JS -->
-
+  
+  {% block scripts%}{% endblock%}
 </body>
 </html>

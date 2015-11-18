@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
 
+from config import settings
 from .models import *
 from .forms import *
 
@@ -164,6 +165,7 @@ def add_sale(request):
 def suppliers(request):
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)
+	print settings.MEDIA_ROOT
 	return render(request, 'supplier/suppliers.html', {
 		'suppliers': s_list,
 		's_len': s_len
@@ -174,7 +176,7 @@ def list_suppliers(request):
 	return HttpResponse({ls})
 
 def add_supplier(request):
-	form = AddSupplierForm(request.POST or None)
+	form = AddSupplierForm(request.POST, request.FILES)
 	if  form.is_valid():
 		form.save()
 		return redirect('suppliers')
@@ -183,6 +185,7 @@ def add_supplier(request):
 def update_supplier(request, supplier_id):
 	if request.method == 'POST':
 		supplier = Supplier.objects.get(pk=supplier_id)
+		supplier.avatar = request.POST.get('avatar')
 		supplier.name = request.POST.get('name')
 		supplier.phone = request.POST.get('phone')
 		supplier.address = request.POST.get('address')

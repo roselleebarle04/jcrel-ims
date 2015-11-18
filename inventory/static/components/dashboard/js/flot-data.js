@@ -61,6 +61,7 @@ $(function() {
         grid: {
             hoverable: true
         },
+        width: 1,
         tooltip: true,
         tooltipOpts: {
             content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
@@ -73,7 +74,7 @@ $(function() {
     }
 
     $.plot($("#inventory-bar"), [barData], barOptions);
-    $.plot($("#sales-pie-chart"), [chartData], chartOptions);
+    $.plot($("#sales-pie-chart"), chartData, chartOptions);
 });
 
 //Flot Line Chart
@@ -129,7 +130,6 @@ $(function() {
 
 //Flot Pie Chart
 $(function() {
-
     var data = [{
         label: "Series 0",
         data: 1
@@ -145,6 +145,8 @@ $(function() {
     }];
 
     var plotObj = $.plot($("#sales-pie-chart-2"), data, {
+        width: 500,
+        height: 500,
         series: {
             pie: {
                 show: true

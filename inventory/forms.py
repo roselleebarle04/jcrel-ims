@@ -69,4 +69,4 @@ class TransferForm(forms.ModelForm):
 class AddSupplierForm(forms.ModelForm):
 	class Meta: 
 		model = Supplier
-		fields = ['name', 'address', 'phone']
+		fields = ['avatar', 'name', 'address', 'phone']
