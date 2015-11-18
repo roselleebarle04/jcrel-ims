@@ -3,10 +3,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-<<<<<<< HEAD
-=======
-
->>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
 from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, logout
@@ -114,10 +110,6 @@ def inventory_reports(request):
 def sales_reports(request):
 	return render(request, 'reports/sales_reports.html', {})
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
