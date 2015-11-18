@@ -43,6 +43,7 @@ urlpatterns = [
     url(r'^items/list/$', inventory_views.items_list, name = 'items_list'),
     url(r'^add_item/$', inventory_views.add_item, name='add_item'),
     url(r'^items/delete/(?P<item_id>[0-9]+)/$', inventory_views.delete_item, name = 'delete_item'), 
+    url(r'^items/update/(?P<item_id>[0-9]+)/$', inventory_views.update_item, name = 'update_item'), 
 
     url(r'^suppliers/$', inventory_views.suppliers, name='suppliers'),
     url(r'^suppliers/list/$', inventory_views.list_suppliers, name='list_suppliers'),
@@ -53,6 +54,7 @@ urlpatterns = [
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^add_sale/$', inventory_views.add_sale, name='add_sale'),
     url(r'^sales/delete/(?P<sale_id>[0-9]+)/$', inventory_views.delete_sale, name = 'delete_sale'),
+    url(r'^sales/update/(?P<sale_id>[0-9]+)/$', inventory_views.update_sale, name = 'update_sale'),
 
     url(r'^arrival/add/$', inventory_views.arrival_list, name = 'arrival_list'),
     url(r'^arrival/add/new_item/$', inventory_views.arrival_create, name = 'arrival_form'),    

@@ -173,9 +173,6 @@ def items_list(request):
 def add_item(request):
 	form = AddItemForm(request.POST or None)
 	if  form.is_valid():
-		form.types = request.POST.get('types')
-		form.category = request.POST.get('category')
-		form.brand = request.POST.get('brand')
 		form.save()
 		return redirect('items')
 	return render(request, 'items/add_item.html', {'form':form})
@@ -184,6 +181,24 @@ def delete_item(request, item_id):
 	item = Item.objects.get(pk = item_id)
 	item.delete()
 	return HttpResponseRedirect(reverse('items'))
+
+def update_item(request, item_id):
+	if request.method == 'POST':
+		item = Item.objects.get(pk = item_id)
+		item.types = request.POST.get('types')
+		item.category = request.POST.get('category')
+		item.brand = request.POST.get('brand')
+		item.model = request.POST.get('model')
+		item.supplier.name = request.POST.get('supplier')
+		item.supplier_code = request.POST.get('supplier_code')
+		item.store_code = request.POST.get('store_code')
+		item.store_quantity= request.POST.get('store_qty')
+		item.warehouse_quantity= request.POST.get('warehouse_quantity')
+		item.unit_cost= request.POST.get('unit_cost')
+		item.srp = request.POST.get('srp')
+		item.save()
+	return HttpResponseRedirect(reverse('items'))
+
 
 @login_required
 def sales(request):
@@ -205,6 +220,15 @@ def delete_sale(request, sale_id):
 	sale = Sale.objects.get(pk = sale_id)
 	sale.delete()
 	return HttpResponseRedirect(reverse('sales'))
+
+def update_sale(request, sale_id):
+	if request.method == 'POST':
+		sale = Sale.objects.get(pk = sale_id)
+		sale.item.store_code = request.POST.get('item')
+		sale.quantity =  request.POST.get('quantity')
+		sale.date = request.POST.get('date')
+		sale.save()
+	return HttpResponseRedirect(reverse('sales')) 		
 
 def suppliers(request):
 	s_list = Supplier.objects.all()
