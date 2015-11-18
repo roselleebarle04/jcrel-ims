@@ -81,6 +81,16 @@ def arrival_list(request, template_name='arrival/arrival_list.html'):
     data['object_list'] = arrivals
     return render(request, template_name, data)
 
+
+@login_required
+def arrivals(request):
+	alist = AddArrival.objects.all()
+	a_len = len(a_list)
+	return render(request, 'arrival/arrival_list.html', {
+		'arrival_list': a_list,
+		'a_len': a_len
+	})
+
 @login_required
 def arrival_create(request, template_name='arrival/arrival_form.html'):
     form = ArrivalForm(request.POST or None)
@@ -89,22 +99,30 @@ def arrival_create(request, template_name='arrival/arrival_form.html'):
         return redirect('arrival_list')
     return render(request, template_name, {'form':form})
 
-@login_required
-def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
-    arrival = get_object_or_404(AddArrival, pk=pk)
-    form = ArrivalForm(request.POST or None, instance=arrival)
-    if form.is_valid():
-        form.save()
-        return redirect('arrival_list')
-    return render(request, template_name, {'form':form})
 
 @login_required
-def arrival_delete(request, pk, template_name='arrival/arrival_confirm_delete.html'):
-    arrival = get_object_or_404(AddArrival, pk=pk)    
-    if request.method=='POST':
-        arrival.delete()
-        return redirect('arrival_list')
-    return render(request, template_name, {'objects':arrival})
+def arrival_update(request, arrival_id):
+	if request.method == 'POST':
+		arrival = AddArrival.objects.get(pk=arrival_id)
+		arrival.itemName = request.POST.get('itemName')
+		arrival.qty = request.POST.get('qty')
+		arrival.itemCost = request.POST.get('itemCost')
+		arrival.save()
+		return redirect('arrival_list')
+# def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
+#     arrival = get_object_or_404(AddArrival, pk=pk)
+#     form = ArrivalForm(request.POST or None, instance=arrival)
+#     if form.is_valid():
+#         form.save()
+#         return redirect('arrival_list')
+#     return render(request, template_name, {'form':form})
+
+@login_required
+def arrival_delete(request, arrival_id):
+	a = AddArrival.objects.get(pk=arrival_id)
+	a.delete()
+	return HttpResponseRedirect(reverse('arrival_list'))
+
 
 @login_required
 def inventory_reports(request):
@@ -113,22 +131,30 @@ def inventory_reports(request):
 	items = [{ 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }, { 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }]
 	return render(request, 'reports/inventory_reports.html', {
 		'filterby': filterby,
-		'items': items,
+		'items': items, 
 	})
 
 @login_required
 def sales_reports(request):
 	return render(request, 'reports/sales_reports.html', {})
-
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
-def add_arrival(request):
-	return render(request, 'arrival/add_arrival.html', {})
 
 def create_transfer(request,template_name ='transfer/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
+		d = form.cleaned_data['item']
+		q_transfer = form.cleaned_data['quantity_to_transfer']
+		w_qty = d.warehouse_quantity
+		if  q_transfer > w_qty:
+			raise forms.ValidationError("Quantity exceed the current quantity of the Item in the Warehouse")
+		else:
+			current_w = w_qty - q_transfer
+			current_s = d.store_quantity + q_transfer
+			d.warehouse_quantity = current_w
+			d.store_quantity = current_s
+			d.save()
 		form.save()
 		return redirect('transfer_hist')
 	return render(request,template_name,{'form':form})
@@ -140,12 +166,10 @@ def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):
 	return render(request,template_name,data)
 
 
-def transfer_delete(request,pk, template_name= 'transfer/transfer_confirm_delete.html'):
-	transfer = get_object_or_404(Transfer_item, pk=pk)
-	if request.method == 'POST':
-		transfer.delete()
-		return redirect('transfer_hist')
-	return render(request, template_name, {'object':transfer})
+def transfer_delete(request, transfer_id):
+	t = Transfer_item.objects.get(pk=transfer_id)
+	t.delete()
+	return HttpResponseRedirect(reverse('transfer'))
 
 @login_required
 def items(request):
@@ -164,6 +188,9 @@ def items_list(request):
 def add_item(request):
 	form = AddItemForm(request.POST or None)
 	if  form.is_valid():
+		form.types = request.POST.get('types')
+		form.category = request.POST.get('category')
+		form.brand = request.POST.get('brand')
 		form.save()
 		return redirect('items')
 	return render(request, 'items/add_item.html', {'form':form})
@@ -215,8 +242,33 @@ def update_supplier(request, supplier_id):
 		supplier.save()
 
 	return HttpResponseRedirect(reverse('suppliers'))
+	
 def delete_supplier(request, supplier_id):
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
 
+
+# def arrivals(request):
+# 	a_list = AddArrival.objects.all()
+# 	a_len = len(a_list)
+# 	return render(request, 'arrival/arrivals.html', {
+# 		'arrivals': a_list,
+# 		'a_len': a_len
+# 	})
+
+# def list_arrivals(request):
+# 	ls = AddArrival.objects.all()
+# 	return HttpResponse({ls})
+
+# def add_arrival(request):
+# 	form = ArrivalForm(request.POST or None)
+# 	if  form.is_valid():
+# 		form.save()
+# 		return redirect('arrivals')
+# 	return render(request, 'arrival/add_arrival.html', {'form':form})
+
+# def delete_arrival(request, arrival_id):
+# 	a = AddArrival.objects.get(pk=arrival_id)
+# 	a.delete()
+# 	return HttpResponseRedirect(reverse('arrivals'))

@@ -77,6 +77,11 @@ class AddArrival(models.Model):
 	itemCost = models.FloatField(null=True, blank=True)
 	transfer_date = models.DateField(default=timezone.now)
 
+class Transfer_item(models.Model):
+	item = models.ForeignKey(Item)
+	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
+	transfer_date = models.DateTimeField(default = timezone.now)
+
 class StoreQuantityManager(models.Manager):
 		def current_storeQuantity(self):
 			store_q = Transfer_item.StoreQuantity.filter(item = item.store_code)
