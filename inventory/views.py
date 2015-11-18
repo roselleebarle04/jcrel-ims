@@ -3,13 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> e1d63e98965834d6b22887f17e0549b9ea1e94e5
 from django.core.urlresolvers import reverse
->>>>>>> 17a834804852d0562625b71ef718b3bc3c9ff57e
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -48,8 +42,6 @@ def signup(request):
 
 	return render(request, 'accounts/signup.html', {})
 
-<<<<<<< HEAD
-=======
 def change_password(request):
 	if request.method == 'POST':
 
@@ -71,7 +63,6 @@ def forgot_password(request):
 
 
 	return render(request, 'accounts/forgot_password.html')
->>>>>>> e1d63e98965834d6b22887f17e0549b9ea1e94e5
 
 @login_required
 def arrival_list(request, template_name='arrival/arrival_list.html'):
@@ -80,6 +71,15 @@ def arrival_list(request, template_name='arrival/arrival_list.html'):
     data['object_list'] = arrivals
     return render(request, template_name, data)
 
+
+@login_required
+def arrivals(request):
+	alist = AddArrival.objects.all()
+	a_len = len(a_list)
+	return render(request, 'arrival/arrival_list.html', {
+		'arrival_list': a_list,
+		'a_len': a_len
+	})
 
 @login_required
 def arrival_create(request, template_name='arrival/arrival_form.html'):
@@ -91,13 +91,21 @@ def arrival_create(request, template_name='arrival/arrival_form.html'):
 
 
 @login_required
-def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
-    arrival = get_object_or_404(AddArrival, pk=pk)
-    form = ArrivalForm(request.POST or None, instance=arrival)
-    if form.is_valid():
-        form.save()
-        return redirect('arrival_list')
-    return render(request, template_name, {'form':form})
+def arrival_update(request, arrival_id):
+	if request.method == 'POST':
+		arrival = AddArrival.objects.get(pk=arrival_id)
+		arrival.itemName = request.POST.get('itemName')
+		arrival.qty = request.POST.get('qty')
+		arrival.itemCost = request.POST.get('itemCost')
+		arrival.save()
+		return redirect('arrival_list')
+# def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
+#     arrival = get_object_or_404(AddArrival, pk=pk)
+#     form = ArrivalForm(request.POST or None, instance=arrival)
+#     if form.is_valid():
+#         form.save()
+#         return redirect('arrival_list')
+#     return render(request, template_name, {'form':form})
 
 @login_required
 def arrival_delete(request, arrival_id):
@@ -119,14 +127,6 @@ def inventory_reports(request):
 @login_required
 def sales_reports(request):
 	return render(request, 'reports/sales_reports.html', {})
-<<<<<<< HEAD
-=======
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 17a834804852d0562625b71ef718b3bc3c9ff57e
->>>>>>> e1d63e98965834d6b22887f17e0549b9ea1e94e5
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
