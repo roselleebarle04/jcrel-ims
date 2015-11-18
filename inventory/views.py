@@ -187,6 +187,15 @@ def add_supplier(request):
 		return redirect('suppliers')
 	return render(request, 'supplier/add_supplier.html', {'form':form})
 
+def update_supplier(request, supplier_id):
+	if request.method == 'POST':
+		supplier = Supplier.objects.get(pk=supplier_id)
+		supplier.name = request.POST.get('name')
+		supplier.phone = request.POST.get('phone')
+		supplier.address = request.POST.get('address')
+		supplier.save()
+
+	return HttpResponseRedirect(reverse('suppliers'))
 def delete_supplier(request, supplier_id):
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
