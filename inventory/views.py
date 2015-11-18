@@ -59,21 +59,6 @@ def change_password(request):
 
 	return render(request, 'accounts/change_password.html', {})
 
-# def forgot_password(request):
-# 	if request.method == 'POST':
-# 		username = request.POST.get('username')
-# 		email = request.POST.get('email_request')
-
-# 		subject = "subject"
-# 		message = "message"
-# 		from_email = settings.EMAIL_HOST_USER
-# 		to_email = [email, settings.EMAIL_HOST_USER]
-
-# 		send_mail(subject, message, from_email, to_email, fail_silently=True)
-
-
-# 	return render(request, 'accounts/forgot_password.html')
-
 @login_required
 def arrival_list(request, template_name='arrival/arrival_list.html'):
     arrivals = AddArrival.objects.all()
