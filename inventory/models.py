@@ -3,6 +3,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+#TRIGGER
+
 class Account(models.Model):
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)
@@ -64,23 +66,16 @@ class Sale(models.Model):
 		total = self.quantity * self.item.srp
 		return total
 
-<<<<<<< HEAD
-=======
-
 class Transfer_item(models.Model):
 	item = models.ForeignKey(Item)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateTimeField(blank=True,null=True)
 
-
->>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
 class AddArrival(models.Model):
 	itemName = models.CharField(max_length=300, null=True)
 	qty = models.PositiveSmallIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
 	transfer_date = models.DateField(default=timezone.now)
-
-<<<<<<< HEAD
 
 class StoreQuantityManager(models.Manager):
 		def current_storeQuantity(self):
@@ -104,5 +99,3 @@ class Transfer_item(models.Model):
 		tran_q = self.quantity_to_transfer
 		current = item_str - tran_q
 		return current"""
-=======
->>>>>>> 3f32d7d9c45144caf989813608e1d3eedf36c0c3
