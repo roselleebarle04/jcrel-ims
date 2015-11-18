@@ -24,13 +24,13 @@ class Account(models.Model):
 
 class Item(models.Model):
 	status = models.CharField(max_length=50, null=True, default="INACTIVE") 		# Active or Inactive
-	types = models.CharField(max_length = 50)
-	category = models.CharField(max_length = 50)
-	brand = models.CharField(max_length = 50)
-	model = models.CharField(max_length = 50)
+	types = models.CharField(max_length = 50, null=True)
+	category = models.CharField(max_length = 50, null=True)
+	brand = models.CharField(max_length = 50, null=True)
+	model = models.CharField(max_length = 50, null=True)
 	supplier = models.ForeignKey("Supplier")
-	supplier_code = models.CharField(max_length = 50)
-	store_code = models.CharField(max_length = 6)
+	supplier_code = models.CharField(max_length = 50, unique = True)
+	store_code = models.CharField(max_length = 6, unique = True)
 	store_quantity = models.PositiveSmallIntegerField(default = 0)
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
 	unit_cost = models.DecimalField( default = 0, max_digits = 100, decimal_places = 2)
