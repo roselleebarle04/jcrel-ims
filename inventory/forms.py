@@ -51,10 +51,11 @@ class AddSaleForm(forms.ModelForm):
         model = Sale
         fields = ['item', 'quantity', 'date']
 
-'''class AddSupplierForm(forms.ModelForm):
-	class Meta:
-		model = Supplier
-        fields = ['name', 'address', 'phone']'''
+
+class AddSupplierForm(forms.ModelForm):
+    class Meta:
+        model = Supplier
+        fields = ['name', 'address', 'phone']
         
 class ArrivalForm(forms.ModelForm):
     class Meta:
