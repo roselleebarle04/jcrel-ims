@@ -7,8 +7,7 @@ urlpatterns = [
     url(r'^$', inventory_views.dashboard, name='dashboard'),
 	
     url(r'^admin/', include(admin.site.urls)),
-    # url(r'^login/$', inventory_views.login, name='login'),
-    
+     
     # Reporting Feature
     url(r'^reports/inventory/', inventory_views.inventory_reports, name='inventory_reports'),
     url(r'^reports/sales/', inventory_views.sales_reports, name='sales_reports'),
