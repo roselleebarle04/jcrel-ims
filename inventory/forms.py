@@ -1,6 +1,4 @@
-
-
-
+[]
 from django import forms
 from .models import Account,Transfer_item,AddArrival, Item, Sale, Supplier
 from .models import *
@@ -66,3 +64,8 @@ class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer_item
 		fields = ['item', 'quantity_to_transfer', 'transfer_date']
+
+class AddSupplierForm(forms.ModelForm):
+	class Meta: 
+		model = Supplier
+		fields = ['name', 'address', 'phone']
