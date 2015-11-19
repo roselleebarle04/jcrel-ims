@@ -56,14 +56,14 @@ urlpatterns = [
     url(r'^sales/delete/(?P<sale_id>[0-9]+)/$', inventory_views.delete_sale, name = 'delete_sale'),
     url(r'^sales/update/(?P<sale_id>[0-9]+)/$', inventory_views.update_sale, name = 'update_sale'),
 
-    url(r'^arrival_list/$', inventory_views.arrival_list, name = 'arrival_list'),
-    url(r'^arrival_form/$', inventory_views.arrival_create, name = 'arrival_form'),    
-    url(r'^arrival_list/delete/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
-    url(r'^arrival_list/update/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_update, name='arrival_update'),
+    url(r'^arrival/add/$', inventory_views.arrival_list, name = 'arrival_list'),
+    url(r'^arrival/add/new_item/$', inventory_views.arrival_create, name = 'arrival_form'),    
+    url(r'^arrival/add/delete/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
+    url(r'^arrival/add/update/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_update, name='arrival_update'),
 
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),
-    url(r'^transfer_confirm_delete/$', inventory_views.transfer_delete, name='transfer_delete'),
+    url(r'^transfer/delete/(?P<transfer_id>[0-9]+)/$$', inventory_views.transfer_delete, name='transfer_delete'),
 
     # url(r'^reset/$', 'inventory.views.reset', name='reset'),
     # url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
