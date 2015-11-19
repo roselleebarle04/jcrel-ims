@@ -11,6 +11,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
+
+from config import settings
 from .models import *
 from .forms import *
 
@@ -18,7 +20,7 @@ from .forms import *
 @login_required
 def dashboard(request):
     print request.user.username
-    return render(request, 'dashboard/dashboard.html', {
+    return render(request, 'dashboard.html', {
         # 'user' = request.user.username
     })
 
@@ -112,11 +114,12 @@ def arrival_delete(request, arrival_id):
 @login_required
 def inventory_reports(request):
 	filterby = request.GET.get('filter')
-	# Create dummy data for the items
-	items = [{ 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }, { 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }]
+	items = Item.objects.all()
+	itemsLen = len(items)
 	return render(request, 'reports/inventory_reports.html', {
 		'filterby': filterby,
-		'items': items, 
+		'items': items,
+		'items_length': itemsLen,
 	})
 
 @login_required
@@ -158,9 +161,14 @@ def transfer_delete(request, transfer_id):
 def items(request):
 	items_list = Item.objects.all()
 	itemLen = len(items_list)
+	form = AddItemForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('items')
 	return render(request, 'items/items.html', {
 		'items': items_list,
-		'itemLen': itemLen
+		'itemLen': itemLen,
+		'form' : form,
 		})
 
 def items_list(request):
@@ -169,10 +177,7 @@ def items_list(request):
 
 @login_required
 def add_item(request):
-	form = AddItemForm(request.POST or None)
-	if  form.is_valid():
-		form.save()
-		return redirect('items')
+	
 	return render(request, 'items/add_item.html', {'form':form})
 
 def delete_item(request, item_id):
@@ -190,7 +195,7 @@ def update_item(request, item_id):
 		item.supplier.name = request.POST.get('supplier')
 		item.supplier_code = request.POST.get('supplier_code')
 		item.store_code = request.POST.get('store_code')
-		item.store_quantity= request.POST.get('store_qty')
+		item.store_quantity= request.POST.get('store_quantity')
 		item.warehouse_quantity= request.POST.get('warehouse_quantity')
 		item.unit_cost= request.POST.get('unit_cost')
 		item.srp = request.POST.get('srp')
@@ -202,14 +207,26 @@ def update_item(request, item_id):
 def sales(request):
 	sales_list= Sale.objects.all()
 	salesLen = len(sales_list)
+	form = AddSaleForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('sales')
+
 	return render(request, 'sales/sales.html', {
 		'sales_list':sales_list,
-		'salesLen' : salesLen
+		'salesLen' : salesLen,
+		'form' : form
 		})
 
 def add_sale(request):
 	form = AddSaleForm(request.POST or None)
 	if  form.is_valid():
+		item = form.cleaned_data['item']
+		q_sale = form.cleaned_data['quantity']
+		store_qty = item.store_quantity
+		update_qty = store_qty - q_sale
+		item.store_quantity = update_qty
+		item.save()
 		form.save()
 		return redirect('sales')
 	return render(request, 'sales/add_sale.html', {'form':form})
@@ -228,61 +245,35 @@ def update_sale(request, sale_id):
 		sale.save()
 	return HttpResponseRedirect(reverse('sales')) 		
 
+
 def suppliers(request):
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)
+
+	# Add Supplier Pop-up Form - Handling
+	# NOTE: Remove add_supplier view since it's already integrated here.
+	supplierForm = AddSupplierForm(request.POST or None, request.FILES)
+	if  supplierForm.is_valid():
+		supplierForm.save()
+		return HttpResponseRedirect(reverse('suppliers'))
+
 	return render(request, 'supplier/suppliers.html', {
 		'suppliers': s_list,
-		's_len': s_len
+		's_len': s_len,
+		'supplierForm': supplierForm
 	})
-
-def list_suppliers(request):
-	ls = Supplier.objects.all()
-	return HttpResponse({ls})
-
-def add_supplier(request):
-	form = AddSupplierForm(request.POST or None)
-	if  form.is_valid():
-		form.save()
-		return redirect('suppliers')
-	return render(request, 'supplier/add_supplier.html', {'form':form})
 
 def update_supplier(request, supplier_id):
 	if request.method == 'POST':
 		supplier = Supplier.objects.get(pk=supplier_id)
+		supplier.avatar = request.FILES.get('avatar')
 		supplier.name = request.POST.get('name')
 		supplier.phone = request.POST.get('phone')
 		supplier.address = request.POST.get('address')
 		supplier.save()
-
 	return HttpResponseRedirect(reverse('suppliers'))
-	
+
 def delete_supplier(request, supplier_id):
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
-
-
-# def arrivals(request):
-# 	a_list = AddArrival.objects.all()
-# 	a_len = len(a_list)
-# 	return render(request, 'arrival/arrivals.html', {
-# 		'arrivals': a_list,
-# 		'a_len': a_len
-# 	})
-
-# def list_arrivals(request):
-# 	ls = AddArrival.objects.all()
-# 	return HttpResponse({ls})
-
-# def add_arrival(request):
-# 	form = ArrivalForm(request.POST or None)
-# 	if  form.is_valid():
-# 		form.save()
-# 		return redirect('arrivals')
-# 	return render(request, 'arrival/add_arrival.html', {'form':form})
-
-# def delete_arrival(request, arrival_id):
-# 	a = AddArrival.objects.get(pk=arrival_id)
-# 	a.delete()
-# 	return HttpResponseRedirect(reverse('arrivals'))

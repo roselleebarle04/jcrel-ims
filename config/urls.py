@@ -3,7 +3,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib import admin
 from django.contrib.auth.views import password_reset
 
-
+from . import settings
 from inventory import views as inventory_views
 
 urlpatterns = [
@@ -45,9 +45,8 @@ urlpatterns = [
     url(r'^items/delete/(?P<item_id>[0-9]+)/$', inventory_views.delete_item, name = 'delete_item'), 
     url(r'^items/update/(?P<item_id>[0-9]+)/$', inventory_views.update_item, name = 'update_item'), 
 
+    # Suppliers 
     url(r'^suppliers/$', inventory_views.suppliers, name='suppliers'),
-    url(r'^suppliers/list/$', inventory_views.list_suppliers, name='list_suppliers'),
-    url(r'^suppliers/add/$', inventory_views.add_supplier, name='add_supplier'),
     url(r'^suppliers/update/(?P<supplier_id>[0-9]+)/$', inventory_views.update_supplier, name='update_supplier'),
     url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
 
@@ -65,10 +64,10 @@ urlpatterns = [
     #url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),
     url(r'^transfer/delete/(?P<transfer_id>[0-9]+)/$$', inventory_views.transfer_delete, name='transfer_delete'),
 
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     # url(r'^reset/$', 'inventory.views.reset', name='reset'),
     # url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
             # 'inventory.views.reset_confirm', name='password_reset_confirm'),
     # url(r'^success/$', 'inventory.views.success', name='success'),
-
-
 ]
+
