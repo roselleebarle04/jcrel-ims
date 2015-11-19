@@ -1,185 +1,162 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block content %}
+{% block content %}  
 
-<div class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading">Add New Arrival</div>
-    <div class="panel-body">
-      <br>
-      <br>
-<!--       <div class="container">
-        <form role="form">
-          <div class="form-group">
-          <div class="col-xs-2">
-              <label for="ex1">Date</label>
-              <input class="form-control" id="ex1" type="text">
-            </div>
-            <div class="col-xs-3">
-              <label for="ex2">Delivery Receipt</label>
-              <input class="form-control" id="ex2" type="text">
-            </div>
-            <div class="col-xs-3">
-              <label for="ex3">Tracking Number</label>
-              <input class="form-control" id="ex3" type="text">
-            </div>
-            <div class="col-xs-3">
-              <label for="ex3">Supplier</label>
-              <input class="form-control" id="ex3" type="text">
-            </div>
+<div class="row">
+  <div class="col-lg-12">
+      <h1 class="page-header">Arrivals</h1>
+      <a href="#" class="btn btn-default" data-toggle="modal" data-target="#AddArrivalModal">Add New Arrival</a>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-lg-12"> 
+      <!-- {% if a_len > 0 %} -->
+      <table id="arrival" class="table table-striped table-bordered" cellspacing="0" width="100%">
+          <thead>
+            <tr bgcolor="#FFFF99">
+              <th>Date</th>
+              <th>Delivery Receipt</th>
+              <th>Tracking Number</th>
+              <th>Supplier</th>
+              <th>Item Name</th>
+              <th>Quantity</th>
+              <th>Item Cost</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          {% for arr in alist %}
+          <tbody>
+            <tr class="table">
+              <td>{{ arr.date }}</td>
+              <td>{{ arr.dr }}</td>
+              <td>{{ arr.tracking_no }}</td>
+              <td>{{ arr.supplier }}</td>
+              <td>{{ arr.itemName }}</td>
+              <td>{{ arr.qty }}</td>
+              <td>{{ arr.itemCost}}</td> 
+              <td>   
+                <button class="btn btn-default" data-toggle="modal" data-target="#itemarrival-{{arr.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span> </button>
+              </td>
+              <td>
+                <!-- <button onclick="confirmArrivalDelete({{arr.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></button> -->
+              </td>   
+            </tr> 
+              <div class="modal fade" id="itemarrival-{{arr.id}}" tabindex="-1" role="dialog" aria-labelledby="itemarrival-{{arr.id}}">
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="itemarrival-{{arr.id}}">Update arrival</h4>
+                          </div>
+                          <form class="form" action="/arrivals/update/{{arr.id}}/" method="POST">
+                              <div class="modal-body">
+                                  {% csrf_token %}
+                                  <div class="form-group">
+                                      <label>Date</label>
+                                      <input name="date" type="text" class="form-control" value="{{arr.date}}">
+                                  </div>
+                                  <div class="form-group">
+                                      <label>Delivery Receipt</label>
+                                      <input name="dr" type="text" class="form-control" value="{{arr.dr}}">
+                                  </div>
+                                  <div class="form-group">
+                                      <label>Tracking Number</label>
+                                      <input name="tracking_no" type="text" class="form-control" value="{{arrival.tracking_no}}">
+                                  </div>
+                                  <div class="form-group">
+                                      <label>Supplier</label>
+                                      <input name="supplier" type="text" class="form-control" value="{{arr.supplier}}">
+                                  </div>
+                                  <div class="form-group">
+                                      <label>Item Name</label>
+                                      <input name="itemName" type="text" class="form-control" value="{{arr.itemName}}">
+                                  </div>
+                                  <div class="form-group">
+                                      <label>Quantity</label>
+                                      <input name="qty" type="text" class="form-control" value="{{arr.qty}}">
+                                  </div>  
+                                  <div class="form-group">
+                                      <label>Item Cost</label>
+                                      <input name="date" type="text" class="form-control" value="{{arr.itemCost}}">
+                                  </div>  
+                              </div>
+                              <div class="modal-footer">
+                                  <div class="form-group">
+                                      <input class="btn btn-success" type="submit" value="Update">
+                                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                      <input type="hidden" name="next" value="{{ next }}" />
+                                  </div>
+                                  <!-- <button type="button" class="btn btn-primary">Save Changes</button> -->
+                              </div>
+                          </form>
+                      </div>
+                  </div>                    
+              </div>
+              {% endfor %}
+          </tbody>
+      </table>
+      <!-- {% else %}
+      <p>
+          No sales listed. <a href="#" data-toggle="modal">Add New</a> arrival. 
+      </p>
+      {% endif %} -->
+  </div>
+</div>
+
+
+<div class="modal fade" id="AddArrivalModal" tabindex="-1" role="dialog" aria-labelledby="addArrivalModalLabel">
+  <div class="modal-dialog" role="docpdatement">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="closue" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="addArrivalModal">Add Arrival</h4>
           </div>
-        </form>
-      </div> 
-      <br>
-      <br> -->
-      <table class="table table-bordered table-striped table-hover table-condensed">
-        <thead>
-          <tr bgcolor="#FFFF99">
-            <th>Date</th>
-            <th>Delivery Receipt</th>
-            <th>Tracking Number</th>
-            <th>Supplier</th>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Item Cost</th>
-            <th></th>
-          </tr>
-        </thead>
-
-        {% for arrival in object_list %}
-        <tbody>
-          <tr class="table">
-            <td>{{ arrival.date }}</td>
-            <td>{{ arrival.dr }}</td>
-            <td>{{ arrival.tracking_no }}</td>
-            <td>{{ arrival.supplier }}</td>
-            <td>{{ arrival.itemName }}</td>
-            <td>{{ arrival.qty }}</td>
-            <td>{{ arrival.itemCost}}</td>
-
-            <td class="pager">
-              <button class="btn btn-info" data-toggle="modal" data-target="#arrivals-{{arrival.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span></button>
-              
-              <button onclick="confirmArrivalDelete({{arrival.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></a></button>
-           </td>
-         </tr>
-       </tbody>
-        <style>
-            .modal-header, h4, .close {
-              background-color: #FFFFCC;
-              color:black !important;
-              text-align: center;
-              font-size: 30px;
-            }
-            .modal-footer {
-              background-color: #f9f9f9;
-            }
-          </style>
-       <div class="modal fade" id="arrivals-{{arrival.id}}" tabindex="-1" role="dialog" aria-labelledby="arrivals-{{arrival.id}}">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="arrival-{{arrival.id}}">Update arrival</h4>
-                            </div>
-                            <form class="form" action="/arrival/add/update/{{arrival.id}}/" method="POST">
-                                <div class="modal-body">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        <label>Date</label>
-                                        <input name="date" type="text" class="form-control" value="{{arrival.date}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Delivery Receipt</label>
-                                        <input name="dr" type="text" class="form-control" value="{{arrival.dr}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Tracking Number</label>
-                                        <input name="tracking_no" type="text" class="form-control" value="{{arrival.tracking_no}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Supplier</label>
-                                        <input name="itemName" type="text" class="form-control" value="{{arrival.supplier}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Item Name</label>
-                                        <input name="itemName" type="text" class="form-control" value="{{arrival.itemName}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Quantity</label>
-                                        <input name="qty" type="text" class="form-control" value="{{arrival.qty}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Item Cost</label>
-                                        <input name="itemCost" type="text" class="form-control" value="{{arrival.itemCost}}">
-                                    </div>
-                                    
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="form-group">
-                                        <input class="btn btn-success" type="submit" value="Update">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                        <input type="hidden" name="next" value="{{ next }}" />
-                                    </div>
-                                    <!-- <button type="button" class="btn btn-primary">Save Changes</button> -->
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    
-                </div>
-       {% endfor %}
-       <tr>
-        <th colspan="9" >
-          <a href="/arrival/add/new_item/" class="btn btn-default btn-sm btn-block" role="button" > NEW </a>
-         <!-- <a href="#" data-toggle="modal" data-target="#addItemModal" class="btn btn-default btn-sm btn-block" role="button" >New</a> -->
-       </th>
-     </tr>
-   </table>
-   <br>
-   <br>
-</div>
-</div>
-</div>
-</div>
-</body>  
-
-<!-- <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="arrivals-{{arrival.id}}">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="addItemModal">Add Item</h4>
+          <form class="form" action="/arrivals/" method="POST">
+              <div class="modal-body" class="form-group">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label>Date</label>
+                    {{form.date}}
+                  </div>
+                  <div class="form-group">
+                    <label>Delivery Receipt</label>
+                    <input name="dr" type="text" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label>Tracking Number</label>
+                    <input name="tracking_no" type="text" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label>Supplier</label>
+                    {{form.supplier}}
+                  </div>
+                  <div class="form-group">
+                    <label>Item Name</label>
+                    {{form.itemName}}
+                  </div>
+                  <div class="form-group">
+                    <label>Quantity</label>
+                    <input name="qty" type="text" class="form-control">
+                  </div>  
+                  <div class="form-group">
+                    <label>Item Cost</label>
+                    <input name="itemCost" type="text" class="form-control">
+                  </div>  
+              </div>
+              <div class="modal-footer">
+                  <div class="form-group">
+                      <input class="btn btn-success" type="submit" value="Add">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                      <input type="hidden" name="next" value="{{ next }}" />
+                  </div>
+              </div>
+          </form>
       </div>
-      <form class="form" action="/arrival/add/new_item/" method="POST">
-        <div class="modal-body">
-          {% csrf_token %}
-          <div class="form-group">
-            <label>Item Name</label>
-            <input name="itemName" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label>Quantity</label>
-            <input name="qty" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label>Item Cost</label>
-            <input name="itemCost" type="text" class="form-control">
-          </div>
-
-        </div>
-        <div class="modal-footer">
-          <div class="form-group">
-            <input class="btn btn-success" type="submit" value="Add">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            <input type="hidden" name="next" value="{{ next }}" />
-          </div>
-        </div>
-      </form>
-    </div>
-  </div> -->
-
+  </div>                    
 </div>
 
-{% endblock content %}
+{% endblock %}
+
