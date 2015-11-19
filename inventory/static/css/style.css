@@ -17,7 +17,7 @@ body, html, p {
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li a{
-	background: #30426a;
+	background: #30426A
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li a:hover, #wrapper .navbar-default.sidebar .sidebar-nav ul li a:focus {
@@ -31,7 +31,8 @@ body, html, p {
 }
 
 #wrapper .navbar-default.sidebar {
-	background: #30426a;
+	background: #30426A;
+	margin-top: 0;
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li {
