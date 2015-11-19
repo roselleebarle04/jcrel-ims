@@ -152,9 +152,9 @@ def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):
 
 
 def transfer_delete(request, transfer_id):
-	t = Transfer_item.objects.get(pk=transfer_id)
-	t.delete()
-	return HttpResponseRedirect(reverse('transfer'))
+	t_item = Transfer_item.objects.filter(pk=transfer_id)
+	t_item.delete()
+	return HttpResponseRedirect(reverse('transfer_hist'))
 
 @login_required
 def items(request):
