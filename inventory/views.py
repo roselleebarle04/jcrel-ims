@@ -11,11 +11,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
-<<<<<<< HEAD
 
 from config import settings
-=======
->>>>>>> 3fc76e823db646e11d177643ff4507db281b3f97
 from .models import *
 from .forms import *
 
@@ -121,12 +118,8 @@ def inventory_reports(request):
 	itemsLen = len(items)
 	return render(request, 'reports/inventory_reports.html', {
 		'filterby': filterby,
-<<<<<<< HEAD
 		'items': items,
 		'items_length': itemsLen,
-=======
-		'items': items, 
->>>>>>> 3fc76e823db646e11d177643ff4507db281b3f97
 	})
 
 @login_required
@@ -273,11 +266,7 @@ def update_supplier(request, supplier_id):
 		supplier.address = request.POST.get('address')
 		supplier.save()
 	return HttpResponseRedirect(reverse('suppliers'))
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 3fc76e823db646e11d177643ff4507db281b3f97
 def delete_supplier(request, supplier_id):
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
