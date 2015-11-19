@@ -15,7 +15,7 @@
         {% if itemLen > 0 %}
         <table id="items" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
-                <tr>
+                <tr bgcolor="#FFFF99">
                     <th>Store Code</th>
                     <th>Category</th>
                     <th>Type</th>
@@ -46,11 +46,11 @@
                     <td>{{ i.unit_cost }}</td>
                     <td>{{ i.srp }}</td>  
                     <td>   
-                        <button class="btn btn-default" data-toggle="modal" data-target="#item-{{i.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span> Update</button>
+                        <button class="btn btn-default" data-toggle="modal" data-target="#item-{{i.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span></button>
                     </td>
                     <td>
                         <!-- <form action="/suppliers/delete/{{s.id}}/"> -->
-                            <button onclick="confirmItemDelete({{i.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span> Delete</button>
+                            <button onclick="confirmItemDelete({{i.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></button>
                         <!-- </form> -->
                     </td>   
                 </tr> 
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class= "form-group">
                                         <label>Store Quantity</label>
-                                        <input name="store_qty" type="text" class="form-control" value="{{i.store_quantity}}">
+                                        <input name="store_quantity" type="text" class="form-control" value="{{i.store_quantity}}">
                                     </div>
                                     <div class= "form-group">
                                         <label>Warehouse Quantity</label>
@@ -134,5 +134,5 @@
         {% endif %}
     </div>
 </div>
- 
+
 {% endblock %}

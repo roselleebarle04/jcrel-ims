@@ -172,7 +172,7 @@ def items_list(request):
 @login_required
 def add_item(request):
 	form = AddItemForm(request.POST or None)
-	if  form.is_valid():
+	if form.is_valid():
 		form.save()
 		return redirect('items')
 	return render(request, 'items/add_item.html', {'form':form})
@@ -192,7 +192,7 @@ def update_item(request, item_id):
 		item.supplier.name = request.POST.get('supplier')
 		item.supplier_code = request.POST.get('supplier_code')
 		item.store_code = request.POST.get('store_code')
-		item.store_quantity= request.POST.get('store_qty')
+		item.store_quantity= request.POST.get('store_quantity')
 		item.warehouse_quantity= request.POST.get('warehouse_quantity')
 		item.unit_cost= request.POST.get('unit_cost')
 		item.srp = request.POST.get('srp')
@@ -263,28 +263,3 @@ def delete_supplier(request, supplier_id):
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
-
-
-# def arrivals(request):
-# 	a_list = AddArrival.objects.all()
-# 	a_len = len(a_list)
-# 	return render(request, 'arrival/arrivals.html', {
-# 		'arrivals': a_list,
-# 		'a_len': a_len
-# 	})
-
-# def list_arrivals(request):
-# 	ls = AddArrival.objects.all()
-# 	return HttpResponse({ls})
-
-# def add_arrival(request):
-# 	form = ArrivalForm(request.POST or None)
-# 	if  form.is_valid():
-# 		form.save()
-# 		return redirect('arrivals')
-# 	return render(request, 'arrival/add_arrival.html', {'form':form})
-
-# def delete_arrival(request, arrival_id):
-# 	a = AddArrival.objects.get(pk=arrival_id)
-# 	a.delete()
-# 	return HttpResponseRedirect(reverse('arrivals'))
