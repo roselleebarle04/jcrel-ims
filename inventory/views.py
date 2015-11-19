@@ -27,10 +27,14 @@ from .forms import *
 def dashboard(request):
 	items = Item.objects.all()
 	sales = Sale.objects.all()
+	items_len = len(items)
+	sales_len = len(sales)
 	return render(request, 'dashboard.html', {
 		'user':request.user.username,
 		'items' : items,
-		'sales': sales
+		'sales': sales,
+		'items_len' : items_len,
+		'sales_len':sales_len,
 		})
 
 def login(request):

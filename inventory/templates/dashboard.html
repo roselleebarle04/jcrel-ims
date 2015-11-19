@@ -11,179 +11,115 @@
 <br>
 <div class="row">
     <div class="col-lg-12">
-         <div class="panel panel-warning">
-            <div class="panel-heading">
-                <h1 class="panel-titel">Welcome to JCREL!</h1>
-            </div>
-            <div class="panel-body">
-                <p>JCREL IMS is a sales and inventory management system that aims to guide users in making good decisions for their business specifically in determining when to replenish inventory. We are on a mission to creating a system which will track business sales transactions and inventory in an efficient way.</p>
-            </div>
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p>Welcome! JCREL IMS is a sales and inventory management system that aims to guide users in making good decisions for their business specifically in determining when to replenish inventory. We are on a mission to creating a system which will track business sales transactions and inventory in an efficient way.</p>
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-lg-6">
-         <div class="panel panel-warning">
-            <div class="panel-heading">
-                <h4 class="panel-titel"><span class="glyphicon glyphicon-th-list"></span> Getting Started</h4>
-            </div>
-            <div class="panel-body">
-                <p>Complete the steps below to set up your store, or jump right in and make your first sale using the demo products we’ve added for you. Learn how to get started with Vend the easy way, by watching our quick, fun & friendly video guide.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6">
-         <div class="panel panel-warning">
-            <div class="panel-heading">
-                <h4 class="panel-titel"><span class="glyphicon glyphicon-plus"></span> Shortcuts</h4>
-
-            </div>
-            <div class="panel-body">
-                <ul>
-                    <li><a href="#" style="color: #8a6d3b">Add Item</a></li>
-                    <li><a href="#" style="color: #8a6d3b">Transfer Item</a></li>
-                    <li><a href="#" style="color: #8a6d3b">Add Sale</a></li>
-                    <li><a href="#" style="color: #8a6d3b">Add Arrival</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col-lg-6">
-         <div class="panel panel-warning">
-            <div class="panel-heading">
-                <h4 class="panel-titel"><span class="glyphicon glyphicon-pencil"></span> Recent Products</h4>
-            </div>
-            <div class="panel-body">
-               {% for item in items %}
-                    <p>{{ item.category }} {{ item.brand }} {{ item.model }}</p>
-                {% endfor %}
-            </div>
-            <a href="/items/" style="color: #8a6d3b">
-                <div class="panel-footer">
-                    <span class="pull-left">View Items</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-lg-6">
-         <div class="panel panel-warning">
-            <div class="panel-heading">
-                <h4 class="panel-titel"><span class="glyphicon glyphicon-euro"></span> Recent Sales</h4>
-            </div>
-            <div class="panel-body">
-               {% for sale in sales %}
-                    <p>Sold {{ sale.quantity }} items {{ sale.item.category }} {{ sale.item.brand }} {{ sale.item.model }}</p>
-                {% endfor %}
-            </div>
-            <a href="/sales/" style="color: #8a6d3b">
-                <div class="panel-footer">
-                    <span class="pull-left">View Sales</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-<!-- 
-<div class="row">
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
+    <div class="col-lg-6 col-md-6">
+        <div class="panel panel-default" style="background:white;">
+            <div class="panel-heading" style="background:white;">
                 <div class="row">
                     <div class="col-xs-3">
                         <i class="fa fa-comments fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">26</div>
-                        <div>New Comments!</div>
+                        <div>New Alerts!</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-green">
-            <div class="panel-heading">
+    <div class="col-lg-6 col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background:white;">
                 <div class="row">
                     <div class="col-xs-3">
                         <i class="fa fa-tasks fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">12</div>
-                        <div>New Tasks!</div>
+                        <div>New Arrivals!</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-yellow">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-shopping-cart fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">124</div>
-                        <div>New Orders!</div>
-                    </div>
-                </div>
-            </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-red">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-support fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">13</div>
-                        <div>Support Tickets!</div>
-                    </div>
-                </div>
-            </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
         </div>
     </div>
 </div>
+
 <div class="row">
-</div> -->
+    <div class="col-lg-6 col-md-6">
+        <div class="panel panel-default" style="background:white;">
+            <div class="panel-heading" style="background:white;">
+                <div class="row">
+                    <div class="col-xs-12 text-left">
+                        <h4 class="panel-titel"><span class="glyphicon glyphicon-th-list"></span> Getting Started</h4>
+                        <p>Complete the steps below to set up your store, or jump right in and make your first sale using the demo products we’ve added for you. Learn how to get started with Vend the easy way, by watching our quick, fun & friendly video guide.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <div class="panel panel-default" style="background:white;">
+            <div class="panel-heading" style="background:white;">
+                <div class="row">
+                    <div class="col-xs-12 text-left">
+                        <h4 class="panel-titel"><span class="glyphicon glyphicon-plus"></span> Shortcuts</h4>
+                        <ul>
+                            <li><a href="#">Add Item</a></li>
+                            <li><a href="#">Transfer Item</a></li>
+                            <li><a href="#">Add Sale</a></li>
+                            <li><a href="#">Add Arrival</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <div class="panel panel-default" style="background:white;">
+            <div class="panel-heading" style="background:white;">
+                <div class="row">
+                    <div class="col-xs-12 text-left">
+                        <h4 class="panel-titel"><span class="glyphicon glyphicon-pencil"></span> Recent Products</h4>
+                        {% if items_len > 0%}
+                        {% for item in items %}
+                            <p>{{ item.category }} {{ item.brand }} {{ item.model }}</p>
+                        {% endfor %}
+                        {% else %}
+                            <p><i>No items added yet. <a href="/items/">Create new</a> item now. </i></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background:white;">
+                <div class="row">
+                    <div class="col-xs-12 text-left">
+                        <h4 class="panel-titel"><span class="glyphicon glyphicon-euro"></span> Recent Sales</h4>
+                        {% if sales_len > 0%}
+                        {% for sale in sales %}
+                            <p>Sold {{ sale.quantity }} items {{ sale.item.category }} {{ sale.item.brand }} {{ sale.item.model }}</p>
+                        {% endfor %}
+                        {% else %}
+                            <p><i>No sales for the period, yet.</i></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
