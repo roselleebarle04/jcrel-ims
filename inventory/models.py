@@ -77,4 +77,4 @@ class AddArrival(models.Model):
 class Transfer_item(models.Model):
 	item = models.ForeignKey(Item)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
-	transfer_date = models.DateField(auto_now_add=True)
+	transfer_date = models.DateField(default=timezone.now)

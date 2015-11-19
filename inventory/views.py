@@ -144,12 +144,13 @@ def create_transfer(request,template_name ='transfer/transfer_form.html'):
 		return redirect('transfer_hist')
 	return render(request,template_name,{'form':form})
 
-def transfer_hist(request,template_name = 'transfer/transfer_hist.html'):
-	transfer = Transfer_item.objects.all()
-	data = {}
-	data['object_list'] = transfer
-	return render(request,template_name,data)
-
+def transfer_hist(request):
+	transfer_list = Transfer_item.objects.all()
+	transferLen = len(transfer_list)
+	return render(request, 'transfer/transfer_hist.html', {
+		'transfer': transfer_list,
+		'transferLen': transferLen
+		})
 
 def transfer_delete(request, transfer_id):
 	t_item = Transfer_item.objects.filter(pk=transfer_id)
