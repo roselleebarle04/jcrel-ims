@@ -17,15 +17,21 @@ from .models import *
 from .forms import *
 
 
+# @login_required
+# def dashboard(request):
+# 	print request.user.username
+#     return render(request, 'dashboard/dashboard.html', {
+#     'user' = request.user.username
+#     })
 @login_required
 def dashboard(request):
-    print request.user.username
-    return render(request, 'dashboard.html', {
-        # 'user' = request.user.username
-    })
+	print request.user.username
+	return render(request, 'dashboard.html', {
+		'user':request.user.username
+		})
 
 def login(request):
-	return render(request, 'dashboard/login.html', {})
+	return render(request, 'accounts/login.html', {})
 
 def signup(request):
 	if request.method == 'POST':	
@@ -86,11 +92,35 @@ def arrival_create(request, template_name='arrival/arrival_form.html'):
         return redirect('arrival_list')
     return render(request, template_name, {'form':form})
 
+# @login_required
+# def notifications(request):
+# 	sales_list= Sale.objects.all()
+# 	salesLen = len(sales_list)
+
+# 	return render(request, 'notifications/notification_page.html', {
+# 		'sales_list':sales_list,
+# 		'salesLen' : salesLen
+# 		})
+
+@login_required
+def notifications(request):
+	items_list = Item.objects.all()
+	itemLen = len(items_list)
+
+	return render(request, 'notifications/notification_page.html', {
+		'items_list':items_list,
+		'itemLen': itemLen
+		})
+
 
 @login_required
 def arrival_update(request, arrival_id):
 	if request.method == 'POST':
 		arrival = AddArrival.objects.get(pk=arrival_id)
+		arrival.date = request.POST.get('date')
+		arrival.dr = request.POST.get('dr')
+		arrival.tracking_no = request.POST.get('tracking_no')
+		arrival.supplier = request.POST.get('supplier')
 		arrival.itemName = request.POST.get('itemName')
 		arrival.qty = request.POST.get('qty')
 		arrival.itemCost = request.POST.get('itemCost')
@@ -128,8 +158,9 @@ def sales_reports(request):
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
-
-def create_transfer(request,template_name ='transfer/transfer_form.html'):
+def transfer_hist(request):
+	transfer_list = Transfer_item.objects.all()
+	transferLen = len(transfer_list)
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
 		d = form.cleaned_data['item']
@@ -145,14 +176,10 @@ def create_transfer(request,template_name ='transfer/transfer_form.html'):
 			d.save()
 		form.save()
 		return redirect('transfer_hist')
-	return render(request,template_name,{'form':form})
-
-def transfer_hist(request):
-	transfer_list = Transfer_item.objects.all()
-	transferLen = len(transfer_list)
 	return render(request, 'transfer/transfer_hist.html', {
 		'transfer': transfer_list,
-		'transferLen': transferLen
+		'transferLen': transferLen,
+		'form' : form,
 		})
 
 def transfer_delete(request, transfer_id):
@@ -164,9 +191,14 @@ def transfer_delete(request, transfer_id):
 def items(request):
 	items_list = Item.objects.all()
 	itemLen = len(items_list)
+	form = AddItemForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('items')
 	return render(request, 'items/items.html', {
 		'items': items_list,
-		'itemLen': itemLen
+		'itemLen': itemLen,
+		'form' : form,
 		})
 
 def items_list(request):
@@ -175,10 +207,7 @@ def items_list(request):
 
 @login_required
 def add_item(request):
-	form = AddItemForm(request.POST or None)
-	if form.is_valid():
-		form.save()
-		return redirect('items')
+	
 	return render(request, 'items/add_item.html', {'form':form})
 
 def delete_item(request, item_id):
@@ -208,10 +237,15 @@ def update_item(request, item_id):
 def sales(request):
 	sales_list= Sale.objects.all()
 	salesLen = len(sales_list)
+	form = AddSaleForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('sales')
 
 	return render(request, 'sales/sales.html', {
 		'sales_list':sales_list,
-		'salesLen' : salesLen
+		'salesLen' : salesLen,
+		'form' : form
 		})
 
 def add_sale(request):
@@ -240,6 +274,7 @@ def update_sale(request, sale_id):
 		sale.date = request.POST.get('date')
 		sale.save()
 	return HttpResponseRedirect(reverse('sales')) 		
+
 
 def suppliers(request):
 	s_list = Supplier.objects.all()
