@@ -19,7 +19,7 @@ from .forms import *
 @login_required
 def dashboard(request):
     print request.user.username
-    return render(request, 'dashboard/dashboard.html', {
+    return render(request, 'dashboard.html', {
         # 'user' = request.user.username
     })
 
