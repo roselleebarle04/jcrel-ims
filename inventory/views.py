@@ -15,12 +15,18 @@ from .models import *
 from .forms import *
 
 
+# @login_required
+# def dashboard(request):
+# 	print request.user.username
+#     return render(request, 'dashboard/dashboard.html', {
+#     'user' = request.user.username
+#     })
 @login_required
 def dashboard(request):
-    print request.user.username
-    return render(request, 'dashboard/dashboard.html', {
-        # 'user' = request.user.username
-    })
+	print request.user.username
+	return render(request, 'dashboard/dashboard.html', {
+		'user':request.user.username
+		})
 
 def login(request):
 	return render(request, 'dashboard/login.html', {})
@@ -83,6 +89,26 @@ def arrival_create(request, template_name='arrival/arrival_form.html'):
         form.save()
         return redirect('arrival_list')
     return render(request, template_name, {'form':form})
+
+# @login_required
+# def notifications(request):
+# 	sales_list= Sale.objects.all()
+# 	salesLen = len(sales_list)
+
+# 	return render(request, 'notifications/notification_page.html', {
+# 		'sales_list':sales_list,
+# 		'salesLen' : salesLen
+# 		})
+
+@login_required
+def notifications(request):
+	items_list = Item.objects.all()
+	itemLen = len(items_list)
+
+	return render(request, 'notifications/notification_page.html', {
+		'items_list':items_list,
+		'itemLen': itemLen
+		})
 
 
 @login_required

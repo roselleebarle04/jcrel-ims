@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name':'accounts/login.html'}),
     url(r'^logout/$', auth_views.logout, {'template_name':'accounts/logout.html'}),
     url(r'^change_password/$', inventory_views.change_password, name="change_password"),
+    url(r'^notifications/$', inventory_views.notifications, name="notifications"),
     # url(r'^forgot_password/$', inventory_views.forgot_password, name="forgot_password"),
 
     #password reset
