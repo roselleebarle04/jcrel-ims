@@ -125,7 +125,7 @@ def arrival_update(request, arrival_id):
 		arrival.qty = request.POST.get('qty')
 		arrival.itemCost = request.POST.get('itemCost')
 		arrival.save()
-		return redirect('arrival_list')
+		return HttpResponseRedirect(reverse('arrival_list'))
 # def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
 #     arrival = get_object_or_404(AddArrival, pk=pk)
 #     form = ArrivalForm(request.POST or None, instance=arrival)
