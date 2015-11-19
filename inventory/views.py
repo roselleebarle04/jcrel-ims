@@ -25,9 +25,12 @@ from .forms import *
 #     })
 @login_required
 def dashboard(request):
-	print request.user.username
+	items = Item.objects.all()
+	sales = Sale.objects.all()
 	return render(request, 'dashboard.html', {
-		'user':request.user.username
+		'user':request.user.username,
+		'items' : items,
+		'sales': sales
 		})
 
 def login(request):
