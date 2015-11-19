@@ -38,7 +38,7 @@ class AddSaleForm(forms.ModelForm):
 class ArrivalForm(forms.ModelForm):
     class Meta:
         model = AddArrival
-        fields = ['itemName', 'qty', 'itemCost']
+        fields = ['date', 'dr', 'tracking_no','supplier', 'itemName', 'qty', 'itemCost']
 
 class TransferForm(forms.ModelForm):
 	class Meta:
@@ -49,3 +49,6 @@ class AddSupplierForm(forms.ModelForm):
 	class Meta: 
 		model = Supplier
 		fields = ['avatar', 'name', 'address', 'phone']
+# def __init__(self, *args, **kwargs):
+# 	super(AddSupplierForm, self).__init__(*args, **kwargs)
+# 	self.fields['avatar'].widget.attrs['class'] = 'form-control'

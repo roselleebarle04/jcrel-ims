@@ -17,15 +17,21 @@ from .models import *
 from .forms import *
 
 
+# @login_required
+# def dashboard(request):
+# 	print request.user.username
+#     return render(request, 'dashboard/dashboard.html', {
+#     'user' = request.user.username
+#     })
 @login_required
 def dashboard(request):
-    print request.user.username
-    return render(request, 'dashboard.html', {
-        # 'user' = request.user.username
-    })
+	print request.user.username
+	return render(request, 'dashboard.html', {
+		'user':request.user.username
+		})
 
 def login(request):
-	return render(request, 'dashboard/login.html', {})
+	return render(request, 'accounts/login.html', {})
 
 def signup(request):
 	if request.method == 'POST':	
@@ -86,16 +92,40 @@ def arrival_create(request, template_name='arrival/arrival_form.html'):
         return redirect('arrival_list')
     return render(request, template_name, {'form':form})
 
+# @login_required
+# def notifications(request):
+# 	sales_list= Sale.objects.all()
+# 	salesLen = len(sales_list)
+
+# 	return render(request, 'notifications/notification_page.html', {
+# 		'sales_list':sales_list,
+# 		'salesLen' : salesLen
+# 		})
+
+@login_required
+def notifications(request):
+	items_list = Item.objects.all()
+	itemLen = len(items_list)
+
+	return render(request, 'notifications/notification_page.html', {
+		'items_list':items_list,
+		'itemLen': itemLen
+		})
+
 
 @login_required
 def arrival_update(request, arrival_id):
 	if request.method == 'POST':
 		arrival = AddArrival.objects.get(pk=arrival_id)
+		arrival.date = request.POST.get('date')
+		arrival.dr = request.POST.get('dr')
+		arrival.tracking_no = request.POST.get('tracking_no')
+		arrival.supplier = request.POST.get('supplier')
 		arrival.itemName = request.POST.get('itemName')
 		arrival.qty = request.POST.get('qty')
 		arrival.itemCost = request.POST.get('itemCost')
 		arrival.save()
-		return redirect('arrival_list')
+		return HttpResponseRedirect(reverse('arrival_list'))
 # def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
 #     arrival = get_object_or_404(AddArrival, pk=pk)
 #     form = ArrivalForm(request.POST or None, instance=arrival)
