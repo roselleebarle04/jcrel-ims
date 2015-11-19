@@ -66,6 +66,12 @@ class Sale(models.Model):
 		total = self.quantity * self.item.srp
 		return total
 
+	@property
+	def total_quantity(self):
+		qty = self.item.store_quantity + self.item.warehouse_quantity
+		return qty
+	
+
 
 class AddArrival(models.Model):
 	itemName = models.CharField(max_length=300, null=True)

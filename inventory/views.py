@@ -205,6 +205,7 @@ def update_item(request, item_id):
 def sales(request):
 	sales_list= Sale.objects.all()
 	salesLen = len(sales_list)
+
 	return render(request, 'sales/sales.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen
