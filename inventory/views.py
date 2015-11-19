@@ -161,9 +161,14 @@ def transfer_delete(request, transfer_id):
 def items(request):
 	items_list = Item.objects.all()
 	itemLen = len(items_list)
+	form = AddItemForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('items')
 	return render(request, 'items/items.html', {
 		'items': items_list,
-		'itemLen': itemLen
+		'itemLen': itemLen,
+		'form' : form,
 		})
 
 def items_list(request):
@@ -172,10 +177,7 @@ def items_list(request):
 
 @login_required
 def add_item(request):
-	form = AddItemForm(request.POST or None)
-	if form.is_valid():
-		form.save()
-		return redirect('items')
+	
 	return render(request, 'items/add_item.html', {'form':form})
 
 def delete_item(request, item_id):
