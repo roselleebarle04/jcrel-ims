@@ -70,3 +70,4 @@ class AddSupplierForm(forms.ModelForm):
 	class Meta: 
 		model = Supplier
 		fields = ['avatar', 'name', 'address', 'phone']
+		

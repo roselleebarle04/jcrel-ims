@@ -165,33 +165,30 @@ def add_sale(request):
 def suppliers(request):
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)
-	print settings.MEDIA_ROOT
+
+	# Add Supplier Pop-up Form - Handling
+	# NOTE: Remove add_supplier view since it's already integrated here.
+	supplierForm = AddSupplierForm(request.POST or None, request.FILES)
+	if  supplierForm.is_valid():
+		supplierForm.save()
+		return HttpResponseRedirect(reverse('suppliers'))
+
 	return render(request, 'supplier/suppliers.html', {
 		'suppliers': s_list,
-		's_len': s_len
+		's_len': s_len,
+		'supplierForm': supplierForm
 	})
-
-def list_suppliers(request):
-	ls = Supplier.objects.all()
-	return HttpResponse({ls})
-
-def add_supplier(request):
-	form = AddSupplierForm(request.POST, request.FILES)
-	if  form.is_valid():
-		form.save()
-		return redirect('suppliers')
-	return render(request, 'supplier/add_supplier.html', {'form':form})
 
 def update_supplier(request, supplier_id):
 	if request.method == 'POST':
 		supplier = Supplier.objects.get(pk=supplier_id)
-		supplier.avatar = request.POST.get('avatar')
+		supplier.avatar = request.FILES.get('avatar')
 		supplier.name = request.POST.get('name')
 		supplier.phone = request.POST.get('phone')
 		supplier.address = request.POST.get('address')
 		supplier.save()
-
 	return HttpResponseRedirect(reverse('suppliers'))
+
 def delete_supplier(request, supplier_id):
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
