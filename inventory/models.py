@@ -55,7 +55,7 @@ class Supplier(models.Model):
 
 
 class Sale(models.Model):
-	item = models.ForeignKey(Item)
+	item = models.ForeignKey(Item, blank=True, on_delete=models.DO_NOTHING)
 	quantity = models.PositiveSmallIntegerField(default = 0)
 	date = models.DateField(default=timezone.now)
 
@@ -79,7 +79,7 @@ class AddArrival(models.Model):
 	dr = models.PositiveSmallIntegerField(default=0)
 	tracking_no = models.PositiveSmallIntegerField(default=0)
 	supplier = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.SET_NULL)
-	itemName = models.ForeignKey(Item)
+	itemName = models.ForeignKey(Item, on_delete=models.DO_NOTHING)
 	qty = models.PositiveSmallIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
 	
@@ -90,6 +90,6 @@ class AddArrival(models.Model):
 
 
 class Transfer_item(models.Model):
-	item = models.ForeignKey(Item)
+	item = models.ForeignKey(Item, on_delete=models.DO_NOTHING)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateField(default=timezone.now)
