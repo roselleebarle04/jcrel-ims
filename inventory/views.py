@@ -95,11 +95,12 @@ def arrival_delete(request, pk, template_name='arrival/arrival_confirm_delete.ht
 @login_required
 def inventory_reports(request):
 	filterby = request.GET.get('filter')
-	# Create dummy data for the items
-	items = [{ 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }, { 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }]
+	items = Item.objects.all()
+	itemsLen = len(items)
 	return render(request, 'reports/inventory_reports.html', {
 		'filterby': filterby,
 		'items': items,
+		'items_length': itemsLen,
 	})
 
 @login_required
