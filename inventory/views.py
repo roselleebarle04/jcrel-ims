@@ -89,6 +89,10 @@ def arrival_create(request, template_name='arrival/arrival_form.html'):
 def arrival_update(request, arrival_id):
 	if request.method == 'POST':
 		arrival = AddArrival.objects.get(pk=arrival_id)
+		arrival.date = request.POST.get('date')
+		arrival.dr = request.POST.get('dr')
+		arrival.tracking_no = request.POST.get('tracking_no')
+		arrival.supplier = request.POST.get('supplier')
 		arrival.itemName = request.POST.get('itemName')
 		arrival.qty = request.POST.get('qty')
 		arrival.itemCost = request.POST.get('itemCost')

@@ -58,7 +58,7 @@ class AddSupplierForm(forms.ModelForm):
 class ArrivalForm(forms.ModelForm):
     class Meta:
         model = AddArrival
-        fields = ['itemName', 'qty', 'itemCost']
+        fields = ['date', 'dr', 'tracking_no','supplier', 'itemName', 'qty', 'itemCost']
 
 class TransferForm(forms.ModelForm):
 	class Meta:
