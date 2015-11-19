@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Inventory Items</h1>
-        <a href="/add_item" class="btn btn-default" data-toggle="modal">Add New Item</a>
+        <a href="#" class="btn btn-default" data-toggle="modal" data-target = "#addItemModal">Add New Item</a>
     </div>
 </div>
 <br>
@@ -135,4 +135,74 @@
     </div>
 </div>
 
+
+<!-- Add Item Modal -->
+<div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addSupplierModal">Add Supplier</h4>
+            </div>
+            <form class="form" action="/items/" method="POST">
+                <div class="modal-body" class="form-group">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Types</label>
+                        <input name="types" type="text" class="form-control" >
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <input name="category" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <input name="brand" type="text" class="form-control">
+                    </div>
+                    <div class= "form-group">
+                        <label>Model</label>
+                        <input name="model" type="text" class="form-control">
+                    </div>
+                    <div class= "form-group">
+                        <label>Supplier</label>
+                        {{form.supplier}}                        
+                    </div>
+                    <div class= "form-group">
+                        <label>Supplier Code</label>
+                        <input name="supplier_code" type="text" class="form-control">
+                    </div>
+                    <div class= "form-group">
+                        <label>Store Code</label>
+                        <input name="store_code" type="text" class="form-control">
+                    </div>
+                    <div class= "form-group">
+                        <label>Store Quantity</label>
+                        <input name="store_quantity" type="text" class="form-control">
+                    </div>
+                    <div class= "form-group">
+                        <label>Warehouse Quantity</label>
+                        <input name="warehouse_quantity" type="text" class="form-control">
+                    </div>
+                    <div class= "form-group">
+                        <label>Unit Cost</label>
+                        <input name="unit_cost" type="text" class="form-control">
+                    </div>
+                    <div class= "form-group">
+                        <label>SRP</label>
+                        <input name="srp" type="text" class="form-control">
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <input class="btn btn-success" type="submit" value="Update">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    </div>
+                    <!-- <button type="button" class="btn btn-primary">Save Changes</button> -->
+                </div>
+            </form>
+        </div>
+    </div>                    
+</div>
 {% endblock %}

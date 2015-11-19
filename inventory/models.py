@@ -45,6 +45,7 @@ class Item(models.Model):
 
 class Supplier(models.Model):
 	""" Suppliers can be also be paying users """
+	avatar = models.ImageField('avatar', upload_to='avatar', null=True, blank=True)
 	name = models.CharField(max_length=200, null=True)
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
@@ -74,10 +75,18 @@ class Sale(models.Model):
 
 
 class AddArrival(models.Model):
-	itemName = models.CharField(max_length=300, null=True)
+	date = models.DateField(default=timezone.now)
+	dr = models.PositiveSmallIntegerField(default=0)
+	tracking_no = models.PositiveSmallIntegerField(default=0)
+	supplier = models.ForeignKey(Supplier)
+	itemName = models.ForeignKey(Item)
 	qty = models.PositiveSmallIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
-	transfer_date = models.DateField(default=timezone.now)
+	
+	# itemName = models.CharField(max_length=300, null=True)
+	# qty = models.PositiveSmallIntegerField(default=0)
+	# itemCost = models.FloatField(null=True, blank=True)
+	# transfer_date = models.DateField(default=timezone.now)
 
 
 class Transfer_item(models.Model):
