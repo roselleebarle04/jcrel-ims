@@ -1,4 +1,3 @@
-[]
 from django import forms
 from .models import Account,Transfer_item, AddArrival, Item, Sale, Supplier
 from .models import *

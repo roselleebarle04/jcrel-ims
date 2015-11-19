@@ -125,8 +125,9 @@ def sales_reports(request):
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
-
-def create_transfer(request,template_name ='transfer/transfer_form.html'):
+def transfer_hist(request):
+	transfer_list = Transfer_item.objects.all()
+	transferLen = len(transfer_list)
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
 		d = form.cleaned_data['item']
@@ -142,14 +143,10 @@ def create_transfer(request,template_name ='transfer/transfer_form.html'):
 			d.save()
 		form.save()
 		return redirect('transfer_hist')
-	return render(request,template_name,{'form':form})
-
-def transfer_hist(request):
-	transfer_list = Transfer_item.objects.all()
-	transferLen = len(transfer_list)
 	return render(request, 'transfer/transfer_hist.html', {
 		'transfer': transfer_list,
-		'transferLen': transferLen
+		'transferLen': transferLen,
+		'form' : form,
 		})
 
 def transfer_delete(request, transfer_id):

@@ -62,7 +62,7 @@ urlpatterns = [
     url(r'^arrival/add/update/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_update, name='arrival_update'),
 
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
-    url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),
+    #url(r'^transfer_form/$', inventory_views.create_transfer, name = 'transfer_form'),
     url(r'^transfer/delete/(?P<transfer_id>[0-9]+)/$$', inventory_views.transfer_delete, name='transfer_delete'),
 
     # url(r'^reset/$', 'inventory.views.reset', name='reset'),
