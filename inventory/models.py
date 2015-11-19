@@ -3,6 +3,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+#TRIGGER
+
 class Account(models.Model):
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)
@@ -22,13 +24,13 @@ class Account(models.Model):
 
 class Item(models.Model):
 	status = models.CharField(max_length=50, null=True, default="INACTIVE") 		# Active or Inactive
-	types = models.CharField(max_length = 50)
-	category = models.CharField(max_length = 50)
-	brand = models.CharField(max_length = 50)
-	model = models.CharField(max_length = 50)
+	types = models.CharField(max_length = 50, null=True)
+	category = models.CharField(max_length = 50, null=True)
+	brand = models.CharField(max_length = 50, null=True)
+	model = models.CharField(max_length = 50, null=True)
 	supplier = models.ForeignKey("Supplier")
-	supplier_code = models.CharField(max_length = 50)
-	store_code = models.CharField(max_length = 6)
+	supplier_code = models.CharField(max_length = 50, unique = True)
+	store_code = models.CharField(max_length = 6, unique = True)
 	store_quantity = models.PositiveSmallIntegerField(default = 0)
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
 	unit_cost = models.DecimalField( default = 0, max_digits = 100, decimal_places = 2)
@@ -66,15 +68,14 @@ class Sale(models.Model):
 		return total
 
 
-class Transfer_item(models.Model):
-	item = models.ForeignKey(Item)
-	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
-	transfer_date = models.DateTimeField(blank=True,null=True)
-
-
 class AddArrival(models.Model):
 	itemName = models.CharField(max_length=300, null=True)
 	qty = models.PositiveSmallIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
 	transfer_date = models.DateField(default=timezone.now)
 
+
+class Transfer_item(models.Model):
+	item = models.ForeignKey(Item)
+	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
+	transfer_date = models.DateField(default=timezone.now)
