@@ -73,8 +73,9 @@ $(function() {
         }
     }
 
-    $.plot($("#inventory-bar"), [barData], barOptions);
     $.plot($("#sales-pie-chart"), chartData, chartOptions);
+    $.plot($("#inventory-bar"), [barData], barOptions);
+    
 });
 
 //Flot Line Chart

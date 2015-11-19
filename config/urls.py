@@ -24,11 +24,11 @@ urlpatterns = [
     url(r'^items/$', inventory_views.items, name='items'),
     url(r'^add_item/$', inventory_views.add_item, name='add_item'),  
 
-    # Suppliers
+    # Suppliers 
     url(r'^suppliers/$', inventory_views.suppliers, name='suppliers'),
     url(r'^suppliers/update/(?P<supplier_id>[0-9]+)/$', inventory_views.update_supplier, name='update_supplier'),
     url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
-    
+
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^add_sale/$', inventory_views.add_sale, name='add_sale'),
 

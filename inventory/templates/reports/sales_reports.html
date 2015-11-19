@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_reports.html" %}
 {% load staticfiles %}
 
 {% block content %}
@@ -23,12 +23,9 @@
         <div class="panel panel-default">
             <div class="panel-heading">Sales Percentage by Total</div>
             <div class="panel-body">
-                <div class="flot-chart" width="500px">
-                    <div class="flot-chart-content" id="sales-pie-chart"></div>
+                <div class="demo-container">
+                    <div id="placeholder" class="demo-placeholder"></div>
                 </div>
-                <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-pie-chart" style="height:400px;max-width:100%;"></div>
-                            </div>
             </div>
             <div class="panel-footer">
                 Each piece represents the percent of total sales
@@ -39,9 +36,9 @@
         <div class="panel panel-default">
             <div class="panel-heading">Sales by Total</div>
             <div class="panel-body">
-                <!-- <div class="flot-chart">
-                    <div class="flot-chart-content" id="sales-pie-chart-2"></div>
-                </div> -->
+                <div class="demo-container">
+                    <div id="placeholder2" class="demo-placeholder"></div>
+                </div>
             </div>
             <div class="panel-footer">
                 Each bar represents the total sales for that product
@@ -65,7 +62,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in items %}
+                        {% for item in sales %}
                         <tr>
                             <td>{{ item.name }}</td>
                             <td>{{ item.location }}</td>
@@ -81,18 +78,3 @@
 </div>
 
 {% endblock content %}
-{% block scripts %}
-    <!-- Flot Charts JavaScript  -->
-    <script src="/static/components/flot/excanvas.min.js"></script>
-    <script src="/static/components/flot/jquery.flot.js"></script>
-    <script src="/static/components/flot/jquery.flot.pie.js"></script>
-    <script src="/static/components/flot/jquery.flot.resize.js"></script>
-    <script src="/static/components/flot/jquery.flot.time.js"></script>
-    <script src="/static/components/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-    <script src="/static/components/dashboard/js/flot-data-orig.js"></script>
-    
-    <!-- Morris Charts Plugin
-    <script src="/static/components/raphael/raphael-min.js"></script>
-    <script src="/static/components/morrisjs/morris.min.js"></script> -->
-    <!-- <script src="/static/components/dashboard/js/morris-data.js"></script> -->
-{% endblock%}
