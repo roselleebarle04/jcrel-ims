@@ -1,4 +1,3 @@
-[]
 from django import forms
 from .models import Account,Transfer_item, AddArrival, Item, Sale, Supplier
 from .models import *
@@ -26,19 +25,6 @@ class AccountForm(UserCreationForm):
 		password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
 		return password2
 
-	# def clean_password2(self):
- #        password1 = self.cleaned_data.get("password1")
- #        password2 = self.cleaned_data.get("password2")
- #        if password1 and password2 and password1 != password2:
- #            raise forms.ValidationError(
- #                self.error_messages['password_mismatch'],
- #                code='password_mismatch',
- #            )
- #        self.instance.username = self.cleaned_data.get('username')
- #        password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
- #        return password2
-
-
 class AddItemForm(forms.ModelForm):
     class Meta:
         model = Item
@@ -49,12 +35,6 @@ class AddSaleForm(forms.ModelForm):
         model = Sale
         fields = ['item', 'quantity', 'date']
 
-
-class AddSupplierForm(forms.ModelForm):
-    class Meta:
-        model = Supplier
-        fields = ['name', 'address', 'phone']
-        
 class ArrivalForm(forms.ModelForm):
     class Meta:
         model = AddArrival
@@ -68,4 +48,4 @@ class TransferForm(forms.ModelForm):
 class AddSupplierForm(forms.ModelForm):
 	class Meta: 
 		model = Supplier
-		fields = ['name', 'address', 'phone']
+		fields = ['avatar', 'name', 'address', 'phone']
