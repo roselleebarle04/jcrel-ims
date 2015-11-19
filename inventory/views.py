@@ -207,10 +207,15 @@ def update_item(request, item_id):
 def sales(request):
 	sales_list= Sale.objects.all()
 	salesLen = len(sales_list)
+	form = AddSaleForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('sales')
 
 	return render(request, 'sales/sales.html', {
 		'sales_list':sales_list,
-		'salesLen' : salesLen
+		'salesLen' : salesLen,
+		'form' : form
 		})
 
 def add_sale(request):
@@ -239,6 +244,7 @@ def update_sale(request, sale_id):
 		sale.date = request.POST.get('date')
 		sale.save()
 	return HttpResponseRedirect(reverse('sales')) 		
+
 
 def suppliers(request):
 	s_list = Supplier.objects.all()
