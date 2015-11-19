@@ -11,6 +11,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
+
+from config import settings
 from .models import *
 from .forms import *
 
@@ -18,7 +20,7 @@ from .forms import *
 @login_required
 def dashboard(request):
     print request.user.username
-    return render(request, 'dashboard/dashboard.html', {
+    return render(request, 'dashboard.html', {
         # 'user' = request.user.username
     })
 
@@ -112,11 +114,12 @@ def arrival_delete(request, arrival_id):
 @login_required
 def inventory_reports(request):
 	filterby = request.GET.get('filter')
-	# Create dummy data for the items
-	items = [{ 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }, { 'name': 'Fernando', 'location': 'Store', 'supplier_code': 'ABD-DFS', 'qty': '5' }]
+	items = Item.objects.all()
+	itemsLen = len(items)
 	return render(request, 'reports/inventory_reports.html', {
 		'filterby': filterby,
-		'items': items, 
+		'items': items,
+		'items_length': itemsLen,
 	})
 
 @login_required
@@ -249,31 +252,30 @@ def update_sale(request, sale_id):
 def suppliers(request):
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)
+
+	# Add Supplier Pop-up Form - Handling
+	# NOTE: Remove add_supplier view since it's already integrated here.
+	supplierForm = AddSupplierForm(request.POST or None, request.FILES)
+	if  supplierForm.is_valid():
+		supplierForm.save()
+		return HttpResponseRedirect(reverse('suppliers'))
+
 	return render(request, 'supplier/suppliers.html', {
 		'suppliers': s_list,
-		's_len': s_len
+		's_len': s_len,
+		'supplierForm': supplierForm
 	})
-
-def list_suppliers(request):
-	ls = Supplier.objects.all()
-	return HttpResponse({ls})
-
-def add_supplier(request):
-	form = AddSupplierForm(request.POST or None)
-	if  form.is_valid():
-		form.save()
-		return redirect('suppliers')
-	return render(request, 'supplier/add_supplier.html', {'form':form})
 
 def update_supplier(request, supplier_id):
 	if request.method == 'POST':
 		supplier = Supplier.objects.get(pk=supplier_id)
+		supplier.avatar = request.FILES.get('avatar')
 		supplier.name = request.POST.get('name')
 		supplier.phone = request.POST.get('phone')
 		supplier.address = request.POST.get('address')
 		supplier.save()
 	return HttpResponseRedirect(reverse('suppliers'))
-	
+
 def delete_supplier(request, supplier_id):
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()

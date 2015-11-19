@@ -45,6 +45,7 @@ class Item(models.Model):
 
 class Supplier(models.Model):
 	""" Suppliers can be also be paying users """
+	avatar = models.ImageField('avatar', upload_to='avatar', null=True, blank=True)
 	name = models.CharField(max_length=200, null=True)
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)

@@ -20,6 +20,15 @@ Note: Install and setup PostgreSQL beforehand. Here's how.  (https://www.digital
 pip install -r requirements.txt
 ```
 
+# Install Pillow (For file uploads)
+```
+# Install dependencies
+sudo apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python-tk
+
+# Install Pillow
+pip install -U Pillow
+```
+
 * Run
 ```
 ./manage.py runserver
