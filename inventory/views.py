@@ -213,6 +213,12 @@ def sales(request):
 def add_sale(request):
 	form = AddSaleForm(request.POST or None)
 	if  form.is_valid():
+		item = form.cleaned_data['item']
+		q_sale = form.cleaned_data['quantity']
+		store_qty = item.store_quantity
+		update_qty = store_qty - q_sale
+		item.store_quantity = update_qty
+		item.save()
 		form.save()
 		return redirect('sales')
 	return render(request, 'sales/add_sale.html', {'form':form})
@@ -257,7 +263,6 @@ def update_supplier(request, supplier_id):
 		supplier.phone = request.POST.get('phone')
 		supplier.address = request.POST.get('address')
 		supplier.save()
-
 	return HttpResponseRedirect(reverse('suppliers'))
 	
 def delete_supplier(request, supplier_id):
