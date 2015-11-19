@@ -59,13 +59,9 @@
                 <h4 class="panel-titel"><span class="glyphicon glyphicon-pencil"></span> Recent Products</h4>
             </div>
             <div class="panel-body">
-                {% if items_len > 0 %}
-                {% for item in items %}
+               {% for item in items %}
                     <p>{{ item.category }} {{ item.brand }} {{ item.model }}</p>
                 {% endfor %}
-                {% else %}
-                    <p><i>No items added yet. <a href="/items/">Add new</a> item now. </i></p>
-                {% endif %}
             </div>
             <a href="/items/" style="color: #8a6d3b">
                 <div class="panel-footer">
@@ -82,13 +78,9 @@
                 <h4 class="panel-titel"><span class="glyphicon glyphicon-euro"></span> Recent Sales</h4>
             </div>
             <div class="panel-body">
-                {% if sales_len > 0 %}
-                {% for sale in sales %}
+               {% for sale in sales %}
                     <p>Sold {{ sale.quantity }} items {{ sale.item.category }} {{ sale.item.brand }} {{ sale.item.model }}</p>
                 {% endfor %}
-                {% else %}
-                    <p><i>There have been no sales for this period</i></p>
-                {% endif %}
             </div>
             <a href="/sales/" style="color: #8a6d3b">
                 <div class="panel-footer">

@@ -26,15 +26,11 @@ from .forms import *
 @login_required
 def dashboard(request):
 	items = Item.objects.all()
-	items_len = len(items)
 	sales = Sale.objects.all()
-	sales_len = len(sales)
 	return render(request, 'dashboard.html', {
 		'user':request.user.username,
 		'items' : items,
-		'items_len': items_len,
-		'sales': sales,
-		'sales_len': sales_len
+		'sales': sales
 		})
 
 def login(request):
