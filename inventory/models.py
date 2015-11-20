@@ -40,8 +40,14 @@ class Item(models.Model):
 	def __unicode__(self):
 		return self.store_code
 
+	@property
+	def total_quantity(self):
+		qty = self.store_quantity + self.warehouse_quantity
+		return qty	
+
 	class Meta:
 		ordering = ('created',)
+	
 
 class Supplier(models.Model):
 	""" Suppliers can be also be paying users """
@@ -70,6 +76,7 @@ class Sale(models.Model):
 	@property
 	def total_quantity(self):
 		qty = self.item.store_quantity + self.item.warehouse_quantity
+		print qty
 		return qty
 	
 
