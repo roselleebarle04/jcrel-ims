@@ -39,9 +39,9 @@ class AddSaleForm(forms.ModelForm):
 		model = Sale
 		fields = ['item', 'quantity', 'date']
 
-    def __init___(self, *args, **kwargs):
-        	super(AddSaleForm,self).__init___(*args, **kwargs)
-        	self.fields['avatar'].widget.attrs['class'] = 'form-control'
+	def __init___(self, *args, **kwargs):
+		super(AddSaleForm,self).__init___(*args, **kwargs)
+		self.fields['avatar'].widget.attrs['class'] = 'form-control'
 
 class ArrivalForm(forms.ModelForm):
     class Meta:
