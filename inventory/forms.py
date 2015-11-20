@@ -30,28 +30,37 @@ class AddItemForm(forms.ModelForm):
 		model = Item
 		fields = ['types', 'category', 'brand', 'model', 'supplier','supplier_code', 'store_code','store_quantity', 'warehouse_quantity','unit_cost', 'srp']
 
-        def __init___(self, *args, **kwargs):
-        	super(AddItemForm,self).__init___(*args, **kwargs)
-        	self.fields['avatar'].widget.attrs['class'] = 'form-control'
+	def __init__(self, *args, **kwargs):
+		super(AddItemForm,self).__init__(*args, **kwargs)
+		self.fields['supplier'].widget.attrs['class'] = 'form-control'
         	
 class AddSaleForm(forms.ModelForm):
 	class Meta:
 		model = Sale
 		fields = ['item', 'quantity', 'date']
 
-	def __init___(self, *args, **kwargs):
-		super(AddSaleForm,self).__init___(*args, **kwargs)
-		self.fields['avatar'].widget.attrs['class'] = 'form-control'
+	def __init__(self, *args, **kwargs):
+		super(AddSaleForm,self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
 
 class ArrivalForm(forms.ModelForm):
     class Meta:
         model = AddArrival
         fields = ['date', 'dr', 'tracking_no','supplier', 'itemName', 'qty', 'itemCost']
 
+    def __init__(self, *args, **kwargs):
+		super(ArrivalForm,self).__init__(*args, **kwargs)
+		self.fields['itemName'].widget.attrs['class'] = 'form-control'
+		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+
 class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer_item
 		fields = ['item', 'quantity_to_transfer']
+
+	def __init__(self, *args, **kwargs):
+		super(TransferForm,self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
 
 class AddSupplierForm(forms.ModelForm):
 	class Meta: 
