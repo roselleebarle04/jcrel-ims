@@ -30,6 +30,10 @@ class AddItemForm(forms.ModelForm):
         model = Item
         fields = ['types', 'category', 'brand', 'model', 'supplier','supplier_code', 'store_code','store_quantity', 'warehouse_quantity','unit_cost', 'srp']
 
+        def __init___(self, *args, **kwargs):
+        	super(AddItemForm,self).__init___(*args, **kwargs)
+        	self.fields['avatar'].widget.attrs['class'] = 'form-control'
+        	
 class AddSaleForm(forms.ModelForm):
     class Meta:
         model = Sale
