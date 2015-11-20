@@ -80,6 +80,9 @@ def notifications(request):
 	items_list = Item.objects.all()
 	itemLen = len(items_list)
 
+	for i in items_list:
+		print "%s %d" % (i.store_code, i.total_quantity)
+
 	return render(request, 'notifications/notification_page.html', {
 		'items_list':items_list,
 		'itemLen': itemLen
