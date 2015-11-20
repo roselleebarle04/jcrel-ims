@@ -87,11 +87,11 @@
                                         <input name="supplier" type="text" class="form-control" value="{{i.supplier.name}}">
                                     </div>
                                     <div class= "form-group">
-                                        <label>Supplier Code</label>
+                                        <label>Supplier Item Code</label>
                                         <input name="supplier_code" type="text" class="form-control" value="{{i.supplier_code}}">
                                     </div>
                                     <div class= "form-group">
-                                        <label>Store Code</label>
+                                        <label>Store Item Code</label>
                                         <input name="store_code" type="text" class="form-control" value="{{i.store_code}}">
                                     </div>
                                     <div class= "form-group">
@@ -142,7 +142,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addSupplierModal">Add Supplier</h4>
+                <h4 class="modal-title" id="addSupplierModal">Add Item</h4>
             </div>
             <form class="form" action="/items/" method="POST">
                 <div class="modal-body" class="form-group">
@@ -168,11 +168,11 @@
                         {{form.supplier}}                        
                     </div>
                     <div class= "form-group">
-                        <label>Supplier Code</label>
+                        <label>Supplier Item Code</label>
                         <input name="supplier_code" type="text" class="form-control">
                     </div>
                     <div class= "form-group">
-                        <label>Store Code</label>
+                        <label>Store Item Code</label>
                         <input name="store_code" type="text" class="form-control">
                     </div>
                     <div class= "form-group">

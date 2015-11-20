@@ -80,6 +80,9 @@ def notifications(request):
 	items_list = Item.objects.all()
 	itemLen = len(items_list)
 
+	for i in items_list:
+		print "%s %d" % (i.store_code, i.total_quantity)
+
 	return render(request, 'notifications/notification_page.html', {
 		'items_list':items_list,
 		'itemLen': itemLen
@@ -146,15 +149,6 @@ def items(request):
 		'form' : form,
 		})
 
-def items_list(request):
-	items = Item.objects.all()
-	return HttpResponse({items})
-
-@login_required
-def add_item(request):
-	
-	return render(request, 'items/add_item.html', {'form':form})
-
 def delete_item(request, item_id):
 	item = Item.objects.get(pk = item_id)
 	item.delete()
@@ -184,19 +178,6 @@ def sales(request):
 	salesLen = len(sales_list)
 	form = AddSaleForm(request.POST or None)
 	if form.is_valid():
-		form.save()
-		return redirect('sales')
-
-	return render(request, 'sales/sales.html', {
-		'sales_list':sales_list,
-		'salesLen' : salesLen,
-		'form' : form
-		})
-
-
-def add_sale(request):
-	form = AddSaleForm(request.POST or None)
-	if  form.is_valid():
 		item = form.cleaned_data['item']
 		q_sale = form.cleaned_data['quantity']
 		store_qty = item.store_quantity
@@ -205,7 +186,12 @@ def add_sale(request):
 		item.save()
 		form.save()
 		return redirect('sales')
-	return render(request, 'sales/add_sale.html', {'form':form})
+
+	return render(request, 'sales/sales.html', {
+		'sales_list':sales_list,
+		'salesLen' : salesLen,
+		'form' : form
+		})
 
 def delete_sale(request, sale_id):
 	sale = Sale.objects.get(pk = sale_id)
