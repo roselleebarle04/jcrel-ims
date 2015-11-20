@@ -25,9 +25,16 @@ from .forms import *
 #     })
 @login_required
 def dashboard(request):
-	print request.user.username
+	items = Item.objects.all()
+	sales = Sale.objects.all()
+	items_len = len(items)
+	sales_len = len(sales)
 	return render(request, 'dashboard.html', {
-		'user':request.user.username
+		'user':request.user.username,
+		'items' : items,
+		'sales': sales,
+		'items_len' : items_len,
+		'sales_len':sales_len,
 		})
 
 def login(request):
@@ -67,40 +74,6 @@ def change_password(request):
 
 	return render(request, 'accounts/change_password.html', {})
 
-@login_required
-def arrival_list(request, template_name='arrival/arrival_list.html'):
-    arrivals = AddArrival.objects.all()
-    data = {}
-    data['object_list'] = arrivals
-    return render(request, template_name, data)
-
-
-@login_required
-def arrivals(request):
-	alist = AddArrival.objects.all()
-	a_len = len(a_list)
-	return render(request, 'arrival/arrival_list.html', {
-		'arrival_list': a_list,
-		'a_len': a_len
-	})
-
-@login_required
-def arrival_create(request, template_name='arrival/arrival_form.html'):
-    form = ArrivalForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('arrival_list')
-    return render(request, template_name, {'form':form})
-
-# @login_required
-# def notifications(request):
-# 	sales_list= Sale.objects.all()
-# 	salesLen = len(sales_list)
-
-# 	return render(request, 'notifications/notification_page.html', {
-# 		'sales_list':sales_list,
-# 		'salesLen' : salesLen
-# 		})
 
 @login_required
 def notifications(request):
@@ -111,34 +84,6 @@ def notifications(request):
 		'items_list':items_list,
 		'itemLen': itemLen
 		})
-
-
-@login_required
-def arrival_update(request, arrival_id):
-	if request.method == 'POST':
-		arrival = AddArrival.objects.get(pk=arrival_id)
-		arrival.date = request.POST.get('date')
-		arrival.dr = request.POST.get('dr')
-		arrival.tracking_no = request.POST.get('tracking_no')
-		arrival.supplier = request.POST.get('supplier')
-		arrival.itemName = request.POST.get('itemName')
-		arrival.qty = request.POST.get('qty')
-		arrival.itemCost = request.POST.get('itemCost')
-		arrival.save()
-		return redirect('arrival_list')
-# def arrival_update(request, pk, template_name='arrival/arrival_form.html'):
-#     arrival = get_object_or_404(AddArrival, pk=pk)
-#     form = ArrivalForm(request.POST or None, instance=arrival)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('arrival_list')
-#     return render(request, template_name, {'form':form})
-
-@login_required
-def arrival_delete(request, arrival_id):
-	a = AddArrival.objects.get(pk=arrival_id)
-	a.delete()
-	return HttpResponseRedirect(reverse('arrival_list'))
 
 
 @login_required
@@ -248,6 +193,7 @@ def sales(request):
 		'form' : form
 		})
 
+
 def add_sale(request):
 	form = AddSaleForm(request.POST or None)
 	if  form.is_valid():
@@ -274,6 +220,55 @@ def update_sale(request, sale_id):
 		sale.date = request.POST.get('date')
 		sale.save()
 	return HttpResponseRedirect(reverse('sales')) 		
+
+
+@login_required
+def arrivals(request):
+	alist = AddArrival.objects.all()
+	a_len = len(alist)
+	form = ArrivalForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('arrivals')
+	return render(request, 'arrival/arrival_list.html', {
+		'alist': alist,
+		'a_len': a_len,
+		'form' : form
+	})
+
+@login_required
+def arrival_create(request, template_name='arrival/arrival_form.html'):
+    form = ArrivalForm(request.POST or None)
+    if form.is_valid():
+    	dr = form.cleaned_data['dr']
+    	track_no = form.cleaned_data['tracking_no']
+    	sup = form.cleaned_data['supplier']
+    	itName = form.cleaned_data['itemName']
+    	q_arrival = form.cleaned_data['qty']
+    	itCost = form.cleaned_data['itemCost']
+        form.save()
+        return redirect('arrivals')
+    return render(request, template_name, {'form':form})
+
+@login_required
+def arrival_update(request, arrival_id):
+	if request.method == 'POST':
+		arrival = AddArrival.objects.get(pk=arrival_id)
+		arrival.date = request.POST.get('date')
+		arrival.dr = request.POST.get('dr')
+		arrival.tracking_no = request.POST.get('tracking_no')
+		arrival.supplier = request.POST.get('supplier')
+		arrival.itemName = request.POST.get('itemName')
+		arrival.qty = request.POST.get('qty')
+		arrival.itemCost = request.POST.get('itemCost')
+		arrival.save()
+		return HttpResponseRedirect(reverse('arrivals'))
+
+@login_required
+def arrival_delete(request, arrival_id):
+	a = AddArrival.objects.get(pk=arrival_id)
+	a.delete()
+	return HttpResponseRedirect(reverse('arrivals'))
 
 
 def suppliers(request):

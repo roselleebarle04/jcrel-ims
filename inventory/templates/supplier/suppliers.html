@@ -25,16 +25,6 @@
                     <th width="50"></th>
                 </tr>
             </thead>
-            <tfoot>
-                <tr>
-                    <th>Photo</th>
-                    <th>Supplier Name</th>
-                    <th>Address</th>
-                    <th>Phone Number</th>
-                    <th width="50"></th>
-                    <th width="50"></th>
-                </tr>
-            </tfoot>
             <tbody>
                 {% for s in suppliers %}
                 <tr>
@@ -42,6 +32,11 @@
                     <td>{{ s.name }}</td>
                     <td>{{ s.address }}</td>
                     <td>{{ s.phone }}</td>
+                   <!--  <td class="pager">
+                      <button class="btn btn-info" data-toggle="modal" data-target="#arrivals-{{arrival.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span></button>
+                      
+                      <button onclick="confirmArrivalDelete({{arrival.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></a></button>
+                   </td> -->
                     <td>   
                         <button class="btn btn-default" data-toggle="modal" data-target="#supplier-{{s.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span> Update</button>
                     </td>

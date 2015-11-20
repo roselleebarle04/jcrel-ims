@@ -88,6 +88,7 @@
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
+                    <p style="background: #2d3e63"><a style="color:white;" class="text-center navbar-brand hidden-xs" href="/">JCREL INVENTORY</a></p>
                     <ul class="nav" id="side-menu">
                         <li>
                             <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
@@ -105,7 +106,7 @@
                             <a href="#"><i class="fa fa-truck"></i> Arrivals<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li class="no-border">
-                                    <a href="/arrival/add/"><span class="glyphicon glyphicon-plus"></span> New Arrivals</a>
+                                    <a href="/arrivals"><span class="glyphicon glyphicon-plus"></span> New Arrivals</a>
                                 </li>
                                 <li class="no-border">
                                     <a href="#"><span class="glyphicon glyphicon-list-alt"></span> Arrival History</a>
@@ -186,9 +187,9 @@
       console.log(arrival_id);
       var r = confirm('Are you sure?'); 
       if (r==true) 
-        window.location = '/arrival/add/delete/' + arrival_id + '/'; 
+        window.location = '/arrivals/delete/' + arrival_id + '/'; 
       else 
-        window.location = '/arrival/add';
+        window.location = '/arrivals/';
     }
   </script>
 7
