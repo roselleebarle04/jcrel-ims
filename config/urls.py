@@ -50,6 +50,10 @@ urlpatterns = [
     url(r'^suppliers/update/(?P<supplier_id>[0-9]+)/$', inventory_views.update_supplier, name='update_supplier'),
     url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
 
+    url(r'^customers/$', inventory_views.customers, name='customers'),
+    url(r'^customers/update/(?P<customers_id>[0-9]+)/$', inventory_views.update_customer, name='update_customer'),
+    url(r'^customers/delete/(?P<customers_id>[0-9]+)/$', inventory_views.delete_customer, name='delete_customer'),
+
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^sales/delete/(?P<sale_id>[0-9]+)/$', inventory_views.delete_sale, name = 'delete_sale'),
     url(r'^sales/update/(?P<sale_id>[0-9]+)/$', inventory_views.update_sale, name = 'update_sale'),
@@ -65,6 +69,9 @@ urlpatterns = [
 
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer/delete/(?P<transfer_id>[0-9]+)/$$', inventory_views.transfer_delete, name='transfer_delete'),
+    url(r'^location/$', inventory_views.location, name = 'location'),
+    url(r'^location/delete/(?P<location_id>[0-9]+)/$$', inventory_views.location_delete, name='location_delete'),
+
 
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     # url(r'^reset/$', 'inventory.views.reset', name='reset'),

@@ -117,6 +117,13 @@
                             <a href="/transfer_hist"><i class="fa fa-home"></i> Transfer</a>
                         </li>
                         <li>
+<<<<<<< HEAD
+                            <a href="/location"><i class=" fa fa-map-marker"></i> Location</a>
+=======
+                          <a href="/customers"><i class="fa fa-user"></i> Customer</a>
+>>>>>>> c7a368379c7750c5268fb8cbf5793e01c6be5b15
+                        </li>
+                        <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> Reporting<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li class="no-border">
@@ -179,6 +186,15 @@
         window.location = '/transfer/delete/' + transfer_id + '/'; 
       else 
         window.location = '/transfer_hist/';
+    }
+
+     function confirmLocationDelete(location_id){
+      console.log(location_id);
+      var r = confirm('Are you sure?'); 
+      if (r==true) 
+        window.location = '/location/delete/' + location_id + '/'; 
+      else 
+        window.location = '/location/';
     }
   </script>
 

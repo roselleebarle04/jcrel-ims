@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Transfer History</h1>
-        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#addTransferModal">Add New Transfer</a>
+        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#addTransferModal" data-backdrop="static" data-keyboard="false">Add New Transfer</a>
     </div>
 </div>
 <br>
@@ -16,7 +16,7 @@
         {% if transferLen > 0 %}
         <table id="transfer" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
-                <tr>
+                <tr bgcolor="#FFFF99">
                     <th>Item Code</th>
                     <th>Quantity</th>
                     <th>Date</th>
@@ -29,7 +29,7 @@
                   <td>{{t.item.store_code}}</td>
                   <td>{{t.quantity_to_transfer}}</td>
                   <td>{{t.transfer_date}}</td>
-                  <td><button onclick="confirmTransferDelete({{t.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span> Delete</button></td>
+                  <td><button onclick="confirmTransferDelete({{t.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></button></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -41,6 +41,8 @@
         {% endif %}
     </div>                                                                                                                                                                                                                                                                                                                                          
 </div>
+
+
       <div class="modal fade" id="addTransferModal" tabindex="-1" role="dialog" aria-labelledby="addTransferModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -53,11 +55,21 @@
                         {% csrf_token %}
                         <div class="form-group">
                             <label>Item Code</label>
+<<<<<<< HEAD
+                            {{form.item}}
+=======
+                            {{ form.item.errrors}}
                             {{ form.item}}
+>>>>>>> c7a368379c7750c5268fb8cbf5793e01c6be5b15
                         </div>
+                        <!--  <td class="pager"><div class="form-group">
+                            <label>From</label>
+                            {{ form.source_location}}
+                        </div></td> -->
                         <div class="form-group">
+                            {{ form.quantity_to_transfer.errors }}
                             <label>Quantity</label>
-                            <input name="quantity_to_transfer" type="text" class="form-control">
+                            <input id="id_quantity_to_transfer" name="quantity_to_transfer" type="text" class="form-control">
                         </div>
                 </div>
                 <div class="modal-footer">

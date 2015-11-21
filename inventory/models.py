@@ -1,8 +1,14 @@
 from django.db import models 
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import *
 from django.utils import timezone
+<<<<<<< HEAD
 from django.template.defaultfilters import pluralize
+=======
+from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+>>>>>>> 9a7d40de987222d24c37c6fa7dbb9406793d1187
 
 #TRIGGER
 
@@ -60,6 +66,15 @@ class Supplier(models.Model):
 	def __unicode__(self):
 		return self.name
 
+class Customer(models.Model):
+	avatar = models.ImageField('avatar', upload_to='avatar', null=True, blank=True)
+	name = models.CharField(max_length=200, null=True)
+	address = models.CharField(max_length=200, null=True)
+	phone = models.CharField(max_length=200, null=True)
+
+	def __unicode__(self):
+		return self.name
+
 
 class Sale(models.Model):
 	item = models.ForeignKey(Item)
@@ -106,7 +121,14 @@ class AddArrival(models.Model):
 	itemCost = models.FloatField(null=True, blank=True)
 
 
+class Location (models.Model):
+	branch_name = models.CharField(max_length = 50, null = True)
+	address = models.CharField(max_length = 200, null = True)
+
+
 class Transfer_item(models.Model):
-	item = models.ForeignKey(Item)
+	item = models.ForeignKey(Item, blank=True, null=True)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateField(default=timezone.now)
+	#source_location = models.ForeignKey(Location)
+	#destination = models.ForeignKey(Location)

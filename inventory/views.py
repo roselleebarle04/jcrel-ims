@@ -5,16 +5,21 @@ from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, UserManager
 from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import *
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
+<<<<<<< HEAD
 from django.template.context import RequestContext
 from django.forms.formsets import formset_factory
 
 
+=======
+from django.core import validators
+>>>>>>> 9a7d40de987222d24c37c6fa7dbb9406793d1187
 
 from config import settings
 from .models import *
@@ -45,24 +50,38 @@ def login(request):
 	return render(request, 'accounts/login.html', {})
 
 def signup(request):
+
 	if request.method == 'POST':	
-		# form = AccountForm()	
+		form = AccountForm(request.POST)	
+		# form = UserCreationForm(request.POST)
+		if form.is_valid:
+			username = request.POST.get("username")
+			email = request.POST.get("email")
+			password1 = request.POST.get("password1")
+			password2 = request.POST.get("password2")
 
-		first_name = request.POST.get('first_name')
-		last_name = request.POST.get('last_name')
-		email = request.POST.get('email')
-		username = request.POST.get('username')
-		password1 = request.POST.get('password1')
-		password_confirmation = request.POST.get('password_confirmation')
+			form.clean_password2
+			form.save(True)
+			
 
-		new_user = User.objects.create_user(username=username, email=email, password=password1)
-		new_user.save()
+
+		# first_name = request.POST.get('first_name')
+		# last_name = request.POST.get('last_name')
+		# email = request.POST.get('email')
+		# username = request.POST.get('username')
+		# password1 = request.POST.get('password1')
+		# password_confirmation = request.POST.get('password_confirmation')
+		# form.clean_password2
+
+		# new_user = User.objects.create_user(username=username, email=email, password=password1)
+		# new_user.save()
 			
 		return HttpResponseRedirect('/login/')
 	else:
 		form = AccountForm()
+		# form = UserCreationForm()
 
-	return render(request, 'accounts/signup.html', {})
+	return render(request, 'accounts/signup.html', {'form':form})
 
 def change_password(request):
 	if request.method == 'POST':
@@ -115,17 +134,6 @@ def transfer_hist(request):
 	transferLen = len(transfer_list)
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
-		d = form.cleaned_data['item']
-		q_transfer = form.cleaned_data['quantity_to_transfer']
-		w_qty = d.warehouse_quantity
-		if  q_transfer > w_qty:
-			raise forms.ValidationError("Quantity exceed the current quantity of the Item in the Warehouse")
-		else:
-			current_w = w_qty - q_transfer
-			current_s = d.store_quantity + q_transfer
-			d.warehouse_quantity = current_w
-			d.store_quantity = current_s
-			d.save()
 		form.save()
 		return redirect('transfer_hist')
 	return render(request, 'transfer/transfer_hist.html', {
@@ -134,10 +142,30 @@ def transfer_hist(request):
 		'form' : form,
 		})
 
+def location(request):
+	location_list = Location.objects.all()
+	locationLen = len(location_list)
+	form = LocationForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('location')
+	return render(request, 'transfer/location.html', {
+		'location': location_list,
+		'locationLen': locationLen,
+		'form' : form,
+		})
+
+
 def transfer_delete(request, transfer_id):
 	t_item = Transfer_item.objects.filter(pk=transfer_id)
 	t_item.delete()
 	return HttpResponseRedirect(reverse('transfer_hist'))
+
+def location_delete(request, location_id):
+	lo = Location.objects.get(pk=location_id)
+	lo.delete()
+	return HttpResponseRedirect(reverse('location'))
+
 
 @login_required
 def items(request):
@@ -314,3 +342,37 @@ def delete_supplier(request, supplier_id):
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
+
+def customers(request):
+	c_list = Customer.objects.all()
+	c_len = len(c_list)
+
+	# Add Supplier Pop-up Form - Handling
+	# NOTE: Remove add_supplier view since it's already integrated here.
+	customerForm = AddCustomerForm(request.POST or None, request.FILES)
+	if  customerForm.is_valid():
+		customerForm.save()
+		return HttpResponseRedirect(reverse('customers'))
+
+	return render(request, 'customers.html', {
+		'customers': c_list,
+		'c_len': c_len,
+		'customerForm': customerForm
+	})
+
+def update_customer(request, supplier_id):
+	if request.method == 'POST':
+		customer = Supplier.objects.get(pk=supplier_id)
+		customer.avatar = request.FILES.get('avatar')
+		customer.name = request.POST.get('name')
+		customer.phone = request.POST.get('phone')
+		customer.address = request.POST.get('address')
+		customer.save()
+	return HttpResponseRedirect(reverse('customers'))
+
+def delete_customer(request, customer_id):
+	s = Customer.objects.get(pk=customer_id)
+	s.delete()
+	return HttpResponseRedirect(reverse('customers'))
+
+
