@@ -246,75 +246,34 @@ def update_sale(request, sale_id):
 
 
 @login_required
-def arrivals(request):
-	alist = AddArrival.objects.all()
-	a_len = len(alist)
-	form = ArrivalForm(request.POST or None)
-	if form.is_valid():
-		form.save()
-		return redirect('arrivals')
-	return render(request, 'arrival/arrival_list.html', {
-		'alist': alist,
-		'a_len': a_len,
-		'form' : form
-	})
+def arrival(request):
+	# if request.method == 'POST':
+	arrivalForm = AddArrivalForm(request.POST or None)
+	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 2)
+	arrivalFormset = formset(request.POST or None)
 
-@login_required
-def arrival_create(request, template_name='arrival/arrival_form.html'):
-    form = ArrivalForm(request.POST or None)
-    if form.is_valid():
-    	dr = form.cleaned_data['dr']
-    	track_no = form.cleaned_data['tracking_no']
-    	sup = form.cleaned_data['supplier']
-    	itName = form.cleaned_data['itemName']
-    	q_arrival = form.cleaned_data['qty']
-    	itCost = form.cleaned_data['itemCost']
-        form.save()
-        return redirect('arrivals')
-    return render(request, template_name, {'form':form})
+	if arrivalForm.is_valid() and arrivalFormset.is_valid():
+		# save purchase details
+		a = arrivalForm.save(commit=False)
+		a.save()
+		arrival_id = a
+		new_items = []
+		for form in arrivalFormset:
+			item = form.cleaned_data.get('arrived_item')
+			arrival = arrival_id
+			arrived_quantity = form.cleaned_data.get('arrived_quantity')
+			itemCost = form.cleaned_data.get('itemCost')
+			ai = ArrivedItem(arrived_item=item, arrival=a, arrived_quantity=arrived_quantity, itemCost=itemCost)	
+			ai.save()
+			# new_items.append()
+		
+		# ItemPurchase.bulk_create(new_items)
+		return HttpResponseRedirect(reverse('arrival'))
 
-@login_required
-def arrival_update(request, arrival_id):
-	if request.method == 'POST':
-		arrival = AddArrival.objects.get(pk=arrival_id)
-		arrival.date = request.POST.get('date')
-		arrival.dr = request.POST.get('dr')
-		arrival.tracking_no = request.POST.get('tracking_no')
-		arrival.supplier = request.POST.get('supplier')
-		arrival.itemName = request.POST.get('itemName')
-		arrival.qty = request.POST.get('qty')
-		arrival.itemCost = request.POST.get('itemCost')
-		arrival.save()
-	return HttpResponseRedirect(reverse('arrivals'))
-
-@login_required
-def arrival_delete(request, arrival_id):
-	a = AddArrival.objects.get(pk=arrival_id)
-	a.delete()
-	return HttpResponseRedirect(reverse('arrivals'))
-
-
-def arr(request, form_class, template):
-    ArrivedItemFormset = get_arriveditem_formset(form_class, extra=1, can_delete=True)
-    # arrival = Arrival.objects.all()[0]
-    if request.method == 'POST':
-        form = ArrivalForm(request.POST)
-        formset = ArrivedItemFormset(request.POST)
-        if form.is_valid() and formset.is_valid():
-            form.save()
-            formset.save()
-            data = [{
-                'arrival': item.arrival,
-                'itemName': item.itemName,
-                'qty': item.qty,
-                'itemCost': item.itemCost,
-            } for item in arrival.arrived_items.all()]
-            return display_data(request, data)
-    else:
-        form = ArrivalForm()
-        formset = ArrivedItemFormset()
-    return render_to_response(template, {'form': form, 'formset': formset},
-        context_instance=RequestContext(request))
+	return render(request, 'arrival/arrival.html', {
+		'AddArivalForm' : arrivalForm, 
+		'formset' : arrivalFormset, 
+		})
 
 def suppliers(request):
 	s_list = Supplier.objects.all()
