@@ -5,12 +5,14 @@ from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, UserManager
 from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import *
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
+from django.core import validators
 
 from config import settings
 from .models import *
@@ -41,24 +43,38 @@ def login(request):
 	return render(request, 'accounts/login.html', {})
 
 def signup(request):
+
 	if request.method == 'POST':	
-		# form = AccountForm()	
+		form = AccountForm(request.POST)	
+		# form = UserCreationForm(request.POST)
+		if form.is_valid:
+			username = request.POST.get("username")
+			email = request.POST.get("email")
+			password1 = request.POST.get("password1")
+			password2 = request.POST.get("password2")
 
-		first_name = request.POST.get('first_name')
-		last_name = request.POST.get('last_name')
-		email = request.POST.get('email')
-		username = request.POST.get('username')
-		password1 = request.POST.get('password1')
-		password_confirmation = request.POST.get('password_confirmation')
+			form.clean_password2
+			form.save(True)
+			
 
-		new_user = User.objects.create_user(username=username, email=email, password=password1)
-		new_user.save()
+
+		# first_name = request.POST.get('first_name')
+		# last_name = request.POST.get('last_name')
+		# email = request.POST.get('email')
+		# username = request.POST.get('username')
+		# password1 = request.POST.get('password1')
+		# password_confirmation = request.POST.get('password_confirmation')
+		# form.clean_password2
+
+		# new_user = User.objects.create_user(username=username, email=email, password=password1)
+		# new_user.save()
 			
 		return HttpResponseRedirect('/login/')
 	else:
 		form = AccountForm()
+		# form = UserCreationForm()
 
-	return render(request, 'accounts/signup.html', {})
+	return render(request, 'accounts/signup.html', {'form':form})
 
 def change_password(request):
 	if request.method == 'POST':

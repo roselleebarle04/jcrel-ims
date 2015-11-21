@@ -1,7 +1,10 @@
 from django.db import models 
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import *
 from django.utils import timezone
+from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 
 #TRIGGER
 
