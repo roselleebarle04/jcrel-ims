@@ -53,8 +53,8 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
-			form.clean_password2
-			form.save(True)
+			# form.clean_password2
+			form.save()
 			
 
 

@@ -14,6 +14,11 @@
         <div class="panel-body">
           <form action="/signup/" class="form" method="POST">
             {% csrf_token %}
+            {% if form.errors %}
+                {% for field in form %}
+                  {{field.ValidationError}}
+                {% endfor %}
+              {% endif %}
 
             <div class="form-group">
               <label>Username</label>
@@ -41,9 +46,6 @@
               <p>Already have an account?</p>
               <a href="/login" class="btn btn-default btn-block">Login</a>
             </div>
-            {% for error in form.non_field_errors %}
-                {{error}}
-            {% endfor %}
           </form>
         </div>
       </div>
