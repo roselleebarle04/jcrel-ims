@@ -10,13 +10,6 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> cfcdd05d52aed057d4a4d770261a14af0c1a2367
-
-
 class AccountForm(UserCreationForm):
 	email = forms.EmailField(required=True)
 
@@ -87,36 +80,6 @@ class AddSaleForm(forms.ModelForm):
 		if update_qty < 0 :
 			raise forms.ValidationError("Quantity exceeds the current quantity of items in the store.")
 
-class ArrivalForm(forms.ModelForm):
-    class Meta:
-        model = Arrival
-        fields = ['date', 'dr', 'tracking_no','supplier']
-
-    def __init__(self, *args, **kwargs):
-		super(ArrivalForm,self).__init__(*args, **kwargs)
-		self.fields['supplier'].widget.attrs['class'] = 'form-control'
-
-class ArrivedItemForm(forms.ModelForm):
-	class Meta(object):
-		model = ArrivedItem
-		fields = ['itemName', 'qty', 'itemCost']
-
-	def __init__(self, arg):
-		super(ArrivedItemForm, self).__init__(*args, **kwargs)
-		self.fields['itemName'].widget.attrs['class'] = 'form-control'
-		
-class AddArrivalForm(forms.ModelForm):
-    class Meta:
-        model = AddArrival
-        fields = ['date', 'dr', 'tracking_no','supplier', 'itemName', 'qty', 'itemCost']
-	def __init__(self, *args, **kwargs):
-		super(AddArrivalForm,self).__init__(*args, **kwargs)
-		self.fields['itemName'].widget.attrs['class'] = 'form-control'
-		self.fields['supplier'].widget.attrs['class'] = 'form-control'
-
-def get_arriveditem_formset(form, formset=BaseInlineFormSet, **kwargs):
-    return inlineformset_factory(Arrival, ArrivedItem, form, formset, **kwargs)
-
 
 class TransferForm(forms.ModelForm):
 	class Meta:
@@ -144,6 +107,21 @@ class TransferForm(forms.ModelForm):
 		super(TransferForm,self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 
+
+class AddArrivalForm(forms.ModelForm): 
+	class Meta: 
+		model = Arrival
+		fields = ['date', 'dr', 'trckng_no', 'supp']
+
+class AddArrivedItemForm(forms.ModelForm): 
+	class Meta: 
+		model = ArrivedItem
+		fields = ['arrived_item', 'arrived_quantity', 'itemCost']
+
+class AddArrivedItemFormset(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			return
 
 class LocationForm(forms.ModelForm):
 	class Meta:
