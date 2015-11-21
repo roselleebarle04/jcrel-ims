@@ -10,8 +10,11 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> cfcdd05d52aed057d4a4d770261a14af0c1a2367
 
 
 class AccountForm(UserCreationForm):
@@ -60,7 +63,7 @@ class AccountForm(UserCreationForm):
 class AddItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
-		fields = ['types', 'category', 'brand', 'model', 'supplier','supplier_code', 'store_code','store_quantity', 'warehouse_quantity','unit_cost', 'srp']
+		fields = ['types', 'category', 'brand', 'model', 'supplier', 'item_code','store_quantity', 'warehouse_quantity', 'srp']
 
 	def __init__(self, *args, **kwargs):
 		super(AddItemForm,self).__init__(*args, **kwargs)
@@ -74,6 +77,15 @@ class AddSaleForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AddSaleForm,self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
+
+	def clean_message(self):
+		item = form.cleaned_data['item']
+		qty_sale = form.cleaned_data['quantity']
+		store_qty = item.store_quantity
+		update_qty = store_qty - q_sale
+
+		if update_qty < 0 :
+			raise forms.ValidationError("Quantity exceeds the current quantity of items in the store.")
 
 class ArrivalForm(forms.ModelForm):
     class Meta:

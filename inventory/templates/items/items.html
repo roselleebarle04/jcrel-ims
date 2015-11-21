@@ -22,28 +22,25 @@
                     <th>Brand</th>
                     <th>Model</th>
                     <th>Supplier</th>
-                    <th>Supplier Code</th>
                     <th>Store Quantity</th>
                     <th>Warehouse Quantity</th>
-                    <th>Unit Cost</th>
                     <th>SRP</th>
                     <th width="50"></th>
                     <th width="50"></th>
                 </tr>
             </thead>            
-            <tbody>
+            <tbody>                
                 {% for i in items %}
+                {% if student.status %}
                 <tr>                    
-                    <td>{{ i.store_code }}</td>         
+                    <td>{{ i.item_code }}</td>         
                     <td>{{ i.category }}</td>
                     <td>{{ i.types }}</td>
                     <td>{{ i.brand }}</td>
                     <td>{{ i.model }}</td>
                     <td>{{ i.supplier.name}}</td>
-                    <td>{{ i.supplier_code }}</td>
                     <td>{{ i.store_quantity }}</td>
                     <td>{{ i.warehouse_quantity }}</td>
-                    <td>{{ i.unit_cost }}</td>
                     <td>{{ i.srp }}</td>  
                     <td>   
                         <button class="btn btn-default" data-toggle="modal" data-target="#item-{{i.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span></button>
@@ -87,12 +84,8 @@
                                         <input name="supplier" type="text" class="form-control" value="{{i.supplier.name}}">
                                     </div>
                                     <div class= "form-group">
-                                        <label>Supplier Item Code</label>
-                                        <input name="supplier_code" type="text" class="form-control" value="{{i.supplier_code}}">
-                                    </div>
-                                    <div class= "form-group">
                                         <label>Store Item Code</label>
-                                        <input name="store_code" type="text" class="form-control" value="{{i.store_code}}">
+                                        <input name="item_code" type="text" class="form-control" value="{{i.item_code}}">
                                     </div>
                                     <div class= "form-group">
                                         <label>Store Quantity</label>
@@ -124,6 +117,7 @@
                         </div>
                     </div>                    
                 </div>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>
@@ -148,46 +142,47 @@
                 <div class="modal-body" class="form-group">
                     {% csrf_token %}
                     <div class="form-group">
+                        {{form.types.errors}}
                         <label>Types</label>
                         <input name="types" type="text" class="form-control" >
                     </div>
                     <div class="form-group">
+                        {{form.category.errors}}
                         <label>Category</label>
                         <input name="category" type="text" class="form-control">
                     </div>
                     <div class="form-group">
+                        {{form.brand.errors}}
                         <label>Brand</label>
                         <input name="brand" type="text" class="form-control">
                     </div>
                     <div class= "form-group">
+                        {{form.model.errors}}
                         <label>Model</label>
                         <input name="model" type="text" class="form-control">
                     </div>
                     <div class= "form-group">
+                        {{form.supplier.errors}}
                         <label>Supplier</label>
                         {{form.supplier}}                        
                     </div>
                     <div class= "form-group">
-                        <label>Supplier Item Code</label>
-                        <input name="supplier_code" type="text" class="form-control">
-                    </div>
-                    <div class= "form-group">
+                        {{form.item_code.errors}}
                         <label>Store Item Code</label>
-                        <input name="store_code" type="text" class="form-control">
+                        <input name="item_code" type="text" class="form-control">
                     </div>
                     <div class= "form-group">
+                        {{form.store_quantity.errors}}
                         <label>Store Quantity</label>
                         <input name="store_quantity" type="text" class="form-control">
                     </div>
                     <div class= "form-group">
+                        {{form.warehouse_quantity.errors}}
                         <label>Warehouse Quantity</label>
                         <input name="warehouse_quantity" type="text" class="form-control">
                     </div>
                     <div class= "form-group">
-                        <label>Unit Cost</label>
-                        <input name="unit_cost" type="text" class="form-control">
-                    </div>
-                    <div class= "form-group">
+                        {{form.srp.errors}}
                         <label>SRP</label>
                         <input name="srp" type="text" class="form-control">
                     </div>
