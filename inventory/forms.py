@@ -5,14 +5,10 @@ from .models import *
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-<<<<<<< HEAD
 from django.forms import formset_factory
-=======
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
-
->>>>>>> b7547da9e41b8766fb839ec386d0ea8e9a47bc15
 
 
 
@@ -97,12 +93,12 @@ class ArrivedItemForm(forms.ModelForm):
 		super(ArrivedItemForm, self).__init__(*args, **kwargs)
 		self.fields['itemName'].widget.attrs['class'] = 'form-control'
 		
-class ArrivalForm(forms.ModelForm):
+class AddArrivalForm(forms.ModelForm):
     class Meta:
         model = AddArrival
         fields = ['date', 'dr', 'tracking_no','supplier', 'itemName', 'qty', 'itemCost']
 	def __init__(self, *args, **kwargs):
-		super(ArrivalForm,self).__init__(*args, **kwargs)
+		super(AddArrivalForm,self).__init__(*args, **kwargs)
 		self.fields['itemName'].widget.attrs['class'] = 'form-control'
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
 

@@ -45,7 +45,26 @@ x{% extends "base.html" %}
         <form method="post" action="">
             {{ form.as_p }}
             <h2>Arrival details</h2>
-            <table id="id_arrivals_table" border="0" cellpadding="0" cellspacing="5">
+            <table id="formset" class="form">
+                {% for form in formset.forms %}
+                {% for field in form.visible_fields %}
+                <tr class="{% cycle row1,row2 %}">
+                    <th>{{ field.label|capfirst }}</th>
+                    <td>
+                        {# Include the hidden fields in the form #}
+                        {% if forloop.first %}
+                        {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                        {% endfor %}
+                        {% endif %}
+                        {{ field.errors.as_ul }}
+                        {{ field }}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endfor %}    
+            </table>
+            <!-- <table id="id_arrivals_table" border="0" cellpadding="0" cellspacing="5">
                 <thead>
                     <tr>
                         <th>Item Name</th>
@@ -57,16 +76,16 @@ x{% extends "base.html" %}
                     {% for form in formset.forms %}
                     <tr id="{{ form.prefix }}-row">
                         <td>
-                            <!-- {% for fld in form.hidden_fields %}{{ fld }}{% endfor %}
+                            {% for fld in form.hidden_fields %}{{ fld }}{% endfor %}
                             {% if form.instance.pk %}{{ form.DELETE }}{% endif %} -->
-                            {{ form.itemName }}
+                            <!-- {{ form.itemName }}
                         </td>
                         <td>{{ form.qty }}</td>
                         <td>{{ form.itemCost }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
-            </table>
+            </table> --> 
             <p>
                 {{ formset.management_form }}
                 <input type="submit" value="Submit" />

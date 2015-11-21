@@ -12,14 +12,12 @@ from django.contrib.auth.models import *
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
-<<<<<<< HEAD
 from django.template.context import RequestContext
 from django.forms.formsets import formset_factory
 
 
-=======
 from django.core import validators
->>>>>>> 9a7d40de987222d24c37c6fa7dbb9406793d1187
+
 
 from config import settings
 from .models import *

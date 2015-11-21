@@ -3,12 +3,9 @@ from django.core.urlresolvers import reverse
 # from django.contrib.auth.models import User, UserManager
 from django.contrib.auth.models import *
 from django.utils import timezone
-<<<<<<< HEAD
 from django.template.defaultfilters import pluralize
-=======
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
->>>>>>> 9a7d40de987222d24c37c6fa7dbb9406793d1187
 
 #TRIGGER
 
