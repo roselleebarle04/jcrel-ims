@@ -1,7 +1,10 @@
 from django.db import models 
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import *
 from django.utils import timezone
+from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 
 #TRIGGER
 
@@ -33,7 +36,6 @@ class Item(models.Model):
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 	def __unicode__(self):
-		#return "{0}-{1}-{2}-{3}-{4}".format(self.item_code, self.types, self.category, self.brand, self.model)
 		return " ".join((
             unicode(self.item_code),
             unicode(self.types),
@@ -53,6 +55,15 @@ class Item(models.Model):
 
 class Supplier(models.Model):
 	""" Suppliers can be also be paying users """
+	avatar = models.ImageField('avatar', upload_to='avatar', null=True, blank=True)
+	name = models.CharField(max_length=200, null=True)
+	address = models.CharField(max_length=200, null=True)
+	phone = models.CharField(max_length=200, null=True)
+
+	def __unicode__(self):
+		return self.name
+
+class Customer(models.Model):
 	avatar = models.ImageField('avatar', upload_to='avatar', null=True, blank=True)
 	name = models.CharField(max_length=200, null=True)
 	address = models.CharField(max_length=200, null=True)
@@ -87,20 +98,17 @@ class Sales_history(models.Model):
 
 class AddArrival(models.Model):
 	date = models.DateField(default=timezone.now)
-	dr = models.PositiveSmallIntegerField(default=0)
-	tracking_no = models.PositiveSmallIntegerField(default=0)
+	dr = models.PositiveIntegerField(default=0)
+	tracking_no = models.PositiveIntegerField(default=0)
 	supplier = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.SET_NULL)
 	itemName = models.ForeignKey(Item)
-	qty = models.PositiveSmallIntegerField(default=0)
+	qty = models.PositiveIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
-	
-	# itemName = models.CharField(max_length=300, null=True)
-	# qty = models.PositiveSmallIntegerField(default=0)
-	# itemCost = models.FloatField(null=True, blank=True)
-	# transfer_date = models.DateField(default=timezone.now)
 
+	def __unicode__(self):
+		return self.itemName.category
 
 class Transfer_item(models.Model):
-	item = models.ForeignKey(Item)
+	item = models.ForeignKey(Item, blank=True, null=True)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateField(default=timezone.now)
