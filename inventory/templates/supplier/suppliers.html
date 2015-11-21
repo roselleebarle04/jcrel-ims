@@ -107,7 +107,8 @@
             <form class="form" action="/suppliers/" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
                         {% csrf_token %}
-                        {% if supplierForm.non_field_errors %}
+                        {{ supplierForm }}
+                       <!--  {% if supplierForm.non_field_errors %}
                         <ul>
                             {% for error in supplierForm.non_field_errors %}
                             <li>{{ error }}</li>
@@ -133,7 +134,7 @@
                             <label>Phone</label>
                             {{ supplierForm.phone.errors }}
                             <input name="phone" type="text" class="form-control">
-                        </div>
+                        </div> -->
                         
                 </div>
                 <div class="modal-footer">
