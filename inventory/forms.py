@@ -1,6 +1,6 @@
 from django import forms
-from django.forms import fields, models, formsets, widgets, inlineformset_factory, BaseInlineFormSet
-# from django.forms.formsets import BaseInlineFormSet
+from django.forms import fields, models, formsets, widgets
+from django.forms import BaseFormSet, formset_factory
 from .models import *
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import formset_factory
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+
 
 
 class AccountForm(UserCreationForm):
