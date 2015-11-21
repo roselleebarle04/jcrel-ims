@@ -21,27 +21,28 @@ class Account(models.Model):
 	def __str__(self):
 		return self.last_name
 
-	def get_absolute_url(self):
-		return reverse('server_edit', kwargs={'pk': self.pk})
-
 
 class Item(models.Model):
-	status = models.CharField(max_length=50, null=True, default="INACTIVE") 		# Active or Inactive
+	status = models.BooleanField(default=True)		# Active or Inactive
 	types = models.CharField(max_length = 50, null=True)
 	category = models.CharField(max_length = 50, null=True)
 	brand = models.CharField(max_length = 50, null=True)
 	model = models.CharField(max_length = 50, null=True)
 	supplier = models.ForeignKey("Supplier", blank=True, null=True, on_delete=models.SET_NULL)
-	supplier_code = models.CharField(max_length = 50, unique = True)
-	store_code = models.CharField(max_length = 50, unique = True)
+	item_code = models.CharField(max_length = 50, unique = True)
 	store_quantity = models.PositiveSmallIntegerField(default = 0)
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
-	unit_cost = models.DecimalField( default = 0, max_digits = 100, decimal_places = 2)
 	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 	def __unicode__(self):
-		return self.types + '; ' + self.category + '; ' + self.brand + '; ' + self.model
+		return " ".join((
+            unicode(self.item_code),
+            unicode(self.types),
+            unicode(self.category),
+            unicode(self.brand),
+            unicode(self.model)
+        ))
 
 	@property
 	def total_quantity(self):
@@ -78,7 +79,7 @@ class Sale(models.Model):
 	date = models.DateField(default=timezone.now)
 
 	def __unicode__(self):
-		return self.item.store_code
+		return self.item.unicode.__mod__()
 
 	@property	
 	def calculate_cost(self):
@@ -91,7 +92,9 @@ class Sale(models.Model):
 		print qty
 		return qty
 	
-
+class Sales_history(models.Model):
+	sale = models.ForeignKey(Sale)
+	
 
 class AddArrival(models.Model):
 	date = models.DateField(default=timezone.now)
