@@ -96,3 +96,13 @@ class AddSupplierForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AddSupplierForm, self).__init__(*args, **kwargs)
 		self.fields['avatar'].widget.attrs['class'] = 'form-control'
+
+class AddCustomerForm(forms.ModelForm):
+	class Meta: 
+		model = Supplier
+		fields = ['avatar', 'name', 'address', 'phone']
+
+	# Override the django default fields
+	def __init__(self, *args, **kwargs):
+		super(AddCustomerForm, self).__init__(*args, **kwargs)
+		self.fields['avatar'].widget.attrs['class'] = 'form-control'

@@ -257,7 +257,7 @@ def arrival_update(request, arrival_id):
 		arrival.qty = request.POST.get('qty')
 		arrival.itemCost = request.POST.get('itemCost')
 		arrival.save()
-		return HttpResponseRedirect(reverse('arrivals'))
+	return HttpResponseRedirect(reverse('arrivals'))
 
 @login_required
 def arrival_delete(request, arrival_id):
@@ -297,3 +297,37 @@ def delete_supplier(request, supplier_id):
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
+
+def customers(request):
+	c_list = Customer.objects.all()
+	c_len = len(c_list)
+
+	# Add Supplier Pop-up Form - Handling
+	# NOTE: Remove add_supplier view since it's already integrated here.
+	customerForm = AddCustomerForm(request.POST or None, request.FILES)
+	if  customerForm.is_valid():
+		customerForm.save()
+		return HttpResponseRedirect(reverse('customers'))
+
+	return render(request, 'customers.html', {
+		'customers': c_list,
+		'c_len': c_len,
+		'customerForm': customerForm
+	})
+
+def update_customer(request, supplier_id):
+	if request.method == 'POST':
+		customer = Supplier.objects.get(pk=supplier_id)
+		customer.avatar = request.FILES.get('avatar')
+		customer.name = request.POST.get('name')
+		customer.phone = request.POST.get('phone')
+		customer.address = request.POST.get('address')
+		customer.save()
+	return HttpResponseRedirect(reverse('customers'))
+
+def delete_customer(request, customer_id):
+	s = Customer.objects.get(pk=customer_id)
+	s.delete()
+	return HttpResponseRedirect(reverse('customers'))
+
+
