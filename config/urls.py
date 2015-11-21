@@ -64,6 +64,9 @@ urlpatterns = [
 
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer/delete/(?P<transfer_id>[0-9]+)/$$', inventory_views.transfer_delete, name='transfer_delete'),
+    url(r'^location/$', inventory_views.location, name = 'location'),
+    url(r'^location/delete/(?P<location_id>[0-9]+)/$$', inventory_views.location_delete, name='location_delete'),
+
 
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     # url(r'^reset/$', 'inventory.views.reset', name='reset'),

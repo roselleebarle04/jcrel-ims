@@ -127,17 +127,6 @@ def transfer_hist(request):
 	transferLen = len(transfer_list)
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
-		d = form.cleaned_data['item']
-		q_transfer = form.cleaned_data['quantity_to_transfer']
-		w_qty = d.warehouse_quantity
-		if  q_transfer > w_qty:
-			raise forms.ValidationError("Quantity exceed the current quantity of the Item in the Warehouse")
-		else:
-			current_w = w_qty - q_transfer
-			current_s = d.store_quantity + q_transfer
-			d.warehouse_quantity = current_w
-			d.store_quantity = current_s
-			d.save()
 		form.save()
 		return redirect('transfer_hist')
 	return render(request, 'transfer/transfer_hist.html', {
@@ -146,10 +135,30 @@ def transfer_hist(request):
 		'form' : form,
 		})
 
+def location(request):
+	location_list = Location.objects.all()
+	locationLen = len(location_list)
+	form = LocationForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('location')
+	return render(request, 'transfer/location.html', {
+		'location': location_list,
+		'locationLen': locationLen,
+		'form' : form,
+		})
+
+
 def transfer_delete(request, transfer_id):
 	t_item = Transfer_item.objects.filter(pk=transfer_id)
 	t_item.delete()
 	return HttpResponseRedirect(reverse('transfer_hist'))
+
+def location_delete(request, location_id):
+	lo = Location.objects.get(pk=location_id)
+	lo.delete()
+	return HttpResponseRedirect(reverse('location'))
+
 
 @login_required
 def items(request):

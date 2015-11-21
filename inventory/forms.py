@@ -3,10 +3,14 @@ from .models import Account,Transfer_item, AddArrival, Item, Sale, Supplier
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+<<<<<<< HEAD
+from django.forms import formset_factory
+=======
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
 
+>>>>>>> b7547da9e41b8766fb839ec386d0ea8e9a47bc15
 
 
 
@@ -94,10 +98,34 @@ class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer_item
 		fields = ['item', 'quantity_to_transfer']
+		
+	
+	def clean(self):
+		cleaned_data = super(TransferForm,self).clean()
+		d = cleaned_data.get('item')
+		q_transfer =cleaned_data.get('quantity_to_transfer')
+		w_qty = d.warehouse_quantity
+		if  q_transfer > w_qty:
+			msg = "Quantity exceed the current quantity of the Item in the Warehouse"
+			self.add_error('quantity_to_transfer',msg)
+		else:
+			current_w = w_qty - q_transfer
+			current_s = d.store_quantity + q_transfer
+			d.warehouse_quantity = current_w
+			d.store_quantity = current_s
+			d.save()
+
 
 	def __init__(self, *args, **kwargs):
 		super(TransferForm,self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
+
+
+class LocationForm(forms.ModelForm):
+	class Meta:
+		model = Location
+		fields = ['branch_name', 'address']
+
 
 class AddSupplierForm(forms.ModelForm):
 	class Meta: 

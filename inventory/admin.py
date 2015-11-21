@@ -27,4 +27,8 @@ class TransferItemAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Transfer_item)
 
+class LocationAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(Location)
+
 
