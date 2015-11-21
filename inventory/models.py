@@ -62,6 +62,15 @@ class Supplier(models.Model):
 	def __unicode__(self):
 		return self.name
 
+class Customer(models.Model):
+	avatar = models.ImageField('avatar', upload_to='avatar', null=True, blank=True)
+	name = models.CharField(max_length=200, null=True)
+	address = models.CharField(max_length=200, null=True)
+	phone = models.CharField(max_length=200, null=True)
+
+	def __unicode__(self):
+		return self.name
+
 
 class Sale(models.Model):
 	item = models.ForeignKey(Item)
@@ -97,6 +106,6 @@ class AddArrival(models.Model):
 		return self.itemName.category
 
 class Transfer_item(models.Model):
-	item = models.ForeignKey(Item)
+	item = models.ForeignKey(Item, blank=True, null=True)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateField(default=timezone.now)
