@@ -93,36 +93,9 @@ class Sale(models.Model):
 		print qty
 		return qty
 	
-<<<<<<< HEAD
 
-class Arrival(models.Model):
-	date = models.DateField(default=timezone.now)
-	dr = models.PositiveIntegerField(default=0)
-	tracking_no = models.PositiveIntegerField(default=0)
-	supplier = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.SET_NULL)
-
-	def __unicode__(self):
-		return u"%d (%d)" % (self.dr, self.tracking_no)
-
-class ArrivedItem(models.Model):
-	arrival = models.ForeignKey(Arrival, related_name = 'arrived_items')
-	itemName = models.ForeignKey(Item, related_name = 'arrivals')
-	qty = models.PositiveIntegerField(default=0)
-	itemCost = models.FloatField(null=True, blank=True)
-=======
 class Sales_history(models.Model):
 	sale = models.ForeignKey(Sale)
-	
->>>>>>> cfcdd05d52aed057d4a4d770261a14af0c1a2367
-
-class AddArrival(models.Model):
-	date = models.DateField(default=timezone.now)
-	dr = models.PositiveIntegerField(default=0)
-	tracking_no = models.PositiveIntegerField(default=0)
-	supplier = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.SET_NULL)
-	itemName = models.ForeignKey(Item)
-	qty = models.PositiveIntegerField(default=0)
-	itemCost = models.FloatField(null=True, blank=True)
 
 
 class Location (models.Model):
@@ -136,3 +109,21 @@ class Transfer_item(models.Model):
 	transfer_date = models.DateField(default=timezone.now)
 	#source_location = models.ForeignKey(Location)
 	#destination = models.ForeignKey(Location)
+
+
+class Arrival(models.Model):
+	"""	This model refers to the arrival of the store owner from its suppliers """
+	date = models.DateField(default=timezone.now)
+	dr = models.CharField(max_length=100, null=True, blank=True)
+	trckng_no = models.CharField(max_length=100, null=True, blank=True)
+	supp = models.ForeignKey(Supplier)
+	arrival_items = models.ManyToManyField(Item, through='ArrivedItem')
+	
+	def __unicode__(self):
+		return self.dr
+
+class ArrivedItem(models.Model):
+	arrival = models.ForeignKey(Arrival)
+	arrived_item = models.ForeignKey(Item)
+	arrived_quantity = models.PositiveIntegerField(default=0)
+	itemCost = models.FloatField(null=True, blank=True)
