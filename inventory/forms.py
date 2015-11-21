@@ -1,8 +1,12 @@
 from django import forms
-from .models import Account,Transfer_item, AddArrival, Item, Sale, Supplier
+from django.forms import fields, models, formsets, widgets, inlineformset_factory, BaseInlineFormSet
+# from django.forms.formsets import BaseInlineFormSet
 from .models import *
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+
+
 
 
 
@@ -45,13 +49,34 @@ class AddSaleForm(forms.ModelForm):
 
 class ArrivalForm(forms.ModelForm):
     class Meta:
-        model = AddArrival
-        fields = ['date', 'dr', 'tracking_no','supplier', 'itemName', 'qty', 'itemCost']
+        model = Arrival
+        fields = ['date', 'dr', 'tracking_no','supplier']
 
     def __init__(self, *args, **kwargs):
 		super(ArrivalForm,self).__init__(*args, **kwargs)
+		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+
+class ArrivedItemForm(forms.ModelForm):
+	class Meta(object):
+		model = ArrivedItem
+		fields = ['itemName', 'qty', 'itemCost']
+
+	def __init__(self, arg):
+		super(ArrivedItemForm, self).__init__(*args, **kwargs)
+		self.fields['itemName'].widget.attrs['class'] = 'form-control'
+		
+class ArrivalForm(forms.ModelForm):
+    class Meta:
+        model = AddArrival
+        fields = ['date', 'dr', 'tracking_no','supplier', 'itemName', 'qty', 'itemCost']
+	def __init__(self, *args, **kwargs):
+		super(ArrivalForm,self).__init__(*args, **kwargs)
 		self.fields['itemName'].widget.attrs['class'] = 'form-control'
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+
+def get_arriveditem_formset(form, formset=BaseInlineFormSet, **kwargs):
+    return inlineformset_factory(Arrival, ArrivedItem, form, formset, **kwargs)
+
 
 class TransferForm(forms.ModelForm):
 	class Meta:

@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -11,6 +11,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
+from django.template.context import RequestContext
+from django.forms.formsets import formset_factory
+
+
 
 from config import settings
 from .models import *
@@ -256,6 +260,28 @@ def arrival_delete(request, arrival_id):
 	a.delete()
 	return HttpResponseRedirect(reverse('arrivals'))
 
+
+def arr(request, form_class, template):
+    ArrivedItemFormset = get_arriveditem_formset(form_class, extra=1, can_delete=True)
+    # arrival = Arrival.objects.all()[0]
+    if request.method == 'POST':
+        form = ArrivalForm(request.POST)
+        formset = ArrivedItemFormset(request.POST)
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            data = [{
+                'arrival': item.arrival,
+                'itemName': item.itemName,
+                'qty': item.qty,
+                'itemCost': item.itemCost,
+            } for item in arrival.arrived_items.all()]
+            return display_data(request, data)
+    else:
+        form = ArrivalForm()
+        formset = ArrivedItemFormset()
+    return render_to_response(template, {'form': form, 'formset': formset},
+        context_instance=RequestContext(request))
 
 def suppliers(request):
 	s_list = Supplier.objects.all()

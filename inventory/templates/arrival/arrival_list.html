@@ -3,6 +3,9 @@
 
 {% block content %}  
 
+
+
+
 <div class="row">
   <div class="col-lg-12">
       <h1 class="page-header">Arrivals</h1>
@@ -12,6 +15,18 @@
   </div>
 </div>
 <br>
+
+<style>
+  .modal-header, h4, .close {
+    background-color: #FFFFCC;
+    color:black !important;
+    text-align: center;
+    font-size: 30px;
+  }
+  .modal-footer {
+    background-color: #f9f9f9;
+  }
+</style>
 <div class="row">
   <div class="col-lg-12"> 
       {% if a_len > 0 %}
@@ -48,7 +63,7 @@
                   <div class="modal-dialog" role="document">
                       <div class="modal-content">
                           <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <button type="button" class="closue btn btn-md pull-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                               <h4 class="modal-title" id="itemarrival-{{arr.id}}">Update arrival</h4>
                           </div>
                           <form class="form" action="/arrivals/update/{{arr.id}}/" method="POST">
@@ -111,7 +126,7 @@
   <div class="modal-dialog" role="docpdatement">
       <div class="modal-content">
           <div class="modal-header">
-              <button type="button" class="closue" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <button type="button" class="closue btn btn-md pull-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title" id="addArrivalModal">Add Arrival</h4>
           </div>
           <form class="form" action="/arrivals/" method="POST">

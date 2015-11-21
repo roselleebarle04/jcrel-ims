@@ -2,6 +2,7 @@ from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
 from django.contrib.auth.views import password_reset
+from inventory.forms import ArrivedItemForm
 
 from . import settings
 from inventory import views as inventory_views
@@ -56,7 +57,11 @@ urlpatterns = [
     url(r'^arrivals/$', inventory_views.arrivals, name = 'arrivals'),
     url(r'^arrivals/add/$', inventory_views.arrival_create, name = 'arrival_form'),    
     url(r'^arrivals/delete/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
-    url(r'^arrivals/update/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_update, name='arrival_update'),
+    url(r'^arrivals/upda/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
+    
+
+    # url(r'^arrivals/$', inventory_views.arrivals, name='arrivals'),
+    url(r'^arrivals/arrival/$', inventory_views.arr, {'form_class': ArrivedItemForm, 'template': 'arrival/arrival.html'}, name='arrival'),
 
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer/delete/(?P<transfer_id>[0-9]+)/$$', inventory_views.transfer_delete, name='transfer_delete'),

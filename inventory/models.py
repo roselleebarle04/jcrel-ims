@@ -2,6 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.template.defaultfilters import pluralize
 
 #TRIGGER
 
@@ -80,6 +81,20 @@ class Sale(models.Model):
 		return qty
 	
 
+class Arrival(models.Model):
+	date = models.DateField(default=timezone.now)
+	dr = models.PositiveIntegerField(default=0)
+	tracking_no = models.PositiveIntegerField(default=0)
+	supplier = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.SET_NULL)
+
+	def __unicode__(self):
+		return u"%d (%d)" % (self.dr, self.tracking_no)
+
+class ArrivedItem(models.Model):
+	arrival = models.ForeignKey(Arrival, related_name = 'arrived_items')
+	itemName = models.ForeignKey(Item, related_name = 'arrivals')
+	qty = models.PositiveIntegerField(default=0)
+	itemCost = models.FloatField(null=True, blank=True)
 
 class AddArrival(models.Model):
 	date = models.DateField(default=timezone.now)
@@ -90,8 +105,6 @@ class AddArrival(models.Model):
 	qty = models.PositiveIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
 
-	def __unicode__(self):
-		return self.itemName.category
 
 class Transfer_item(models.Model):
 	item = models.ForeignKey(Item)
