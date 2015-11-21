@@ -38,7 +38,7 @@ class Item(models.Model):
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 	def __unicode__(self):
-		return self.store_code
+		return self.types + '; ' + self.category + '; ' + self.brand + '; ' + self.model
 
 	@property
 	def total_quantity(self):
@@ -92,18 +92,15 @@ class Sale(models.Model):
 
 class AddArrival(models.Model):
 	date = models.DateField(default=timezone.now)
-	dr = models.PositiveSmallIntegerField(default=0)
-	tracking_no = models.PositiveSmallIntegerField(default=0)
+	dr = models.PositiveIntegerField(default=0)
+	tracking_no = models.PositiveIntegerField(default=0)
 	supplier = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.SET_NULL)
 	itemName = models.ForeignKey(Item)
-	qty = models.PositiveSmallIntegerField(default=0)
+	qty = models.PositiveIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
-	
-	# itemName = models.CharField(max_length=300, null=True)
-	# qty = models.PositiveSmallIntegerField(default=0)
-	# itemCost = models.FloatField(null=True, blank=True)
-	# transfer_date = models.DateField(default=timezone.now)
 
+	def __unicode__(self):
+		return self.itemName.category
 
 class Transfer_item(models.Model):
 	item = models.ForeignKey(Item, blank=True, null=True)

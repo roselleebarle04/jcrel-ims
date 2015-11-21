@@ -248,7 +248,7 @@ def arrival_update(request, arrival_id):
 		arrival.qty = request.POST.get('qty')
 		arrival.itemCost = request.POST.get('itemCost')
 		arrival.save()
-		return HttpResponseRedirect(reverse('arrivals'))
+	return HttpResponseRedirect(reverse('arrivals'))
 
 @login_required
 def arrival_delete(request, arrival_id):
