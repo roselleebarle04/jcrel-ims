@@ -96,7 +96,14 @@ class AddArrival(models.Model):
 	# transfer_date = models.DateField(default=timezone.now)
 
 
+class Location (models.Model):
+	branch_name = models.CharField(max_length = 50, null = True)
+	address = models.CharField(max_length = 200, null = True)
+
+
 class Transfer_item(models.Model):
 	item = models.ForeignKey(Item)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateField(default=timezone.now)
+	#source_location = models.ForeignKey(Location)
+	#destination = models.ForeignKey(Location)
