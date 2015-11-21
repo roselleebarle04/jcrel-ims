@@ -81,7 +81,7 @@ def notifications(request):
 	itemLen = len(items_list)
 
 	for i in items_list:
-		print "%s %d" % (i.store_code, i.total_quantity)
+		print "%s %d" % (i.item_code, i.total_quantity)
 
 	return render(request, 'notifications/notification_page.html', {
 		'items_list':items_list,
@@ -137,7 +137,7 @@ def transfer_delete(request, transfer_id):
 
 @login_required
 def items(request):
-	items_list = Item.objects.all()
+	items_list = Item.objects.all().filter(status=True)
 	itemLen = len(items_list)
 	form = AddItemForm(request.POST or None)
 	if form.is_valid():
@@ -151,7 +151,8 @@ def items(request):
 
 def delete_item(request, item_id):
 	item = Item.objects.get(pk = item_id)
-	item.delete()
+	item.status = False
+	item.drop()
 	return HttpResponseRedirect(reverse('items'))
 
 def update_item(request, item_id):
@@ -162,11 +163,9 @@ def update_item(request, item_id):
 		item.brand = request.POST.get('brand')
 		item.model = request.POST.get('model')
 		item.supplier.name = request.POST.get('supplier')
-		item.supplier_code = request.POST.get('supplier_code')
-		item.store_code = request.POST.get('store_code')
+		item.item_code = request.POST.get('item_code')
 		item.store_quantity= request.POST.get('store_quantity')
 		item.warehouse_quantity= request.POST.get('warehouse_quantity')
-		item.unit_cost= request.POST.get('unit_cost')
 		item.srp = request.POST.get('srp')
 		item.save()
 	return HttpResponseRedirect(reverse('items'))
@@ -174,23 +173,31 @@ def update_item(request, item_id):
 
 @login_required
 def sales(request):
-	sales_list= Sale.objects.all()
+
+	sales_list = Sale.objects.all()
 	salesLen = len(sales_list)
 	form = AddSaleForm(request.POST or None)
+	
 	if form.is_valid():
 		item = form.cleaned_data['item']
 		q_sale = form.cleaned_data['quantity']
 		store_qty = item.store_quantity
 		update_qty = store_qty - q_sale
-		item.store_quantity = update_qty
-		item.save()
-		form.save()
+
+		if update_qty < 0 :
+			form.clean_message()			
+			return render (request, 'sales/modals.html', {'error' : True})
+		else:
+			item.store_quantity = update_qty
+			item.save()
+			
+		form.save()			
 		return redirect('sales')
 
 	return render(request, 'sales/sales.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen,
-		'form' : form
+		'form' : form,
 		})
 
 def delete_sale(request, sale_id):
@@ -201,7 +208,7 @@ def delete_sale(request, sale_id):
 def update_sale(request, sale_id):
 	if request.method == 'POST':
 		sale = Sale.objects.get(pk = sale_id)
-		sale.item.store_code = request.POST.get('item')
+		sale.item.item_code = request.POST.get('item')
 		sale.quantity =  request.POST.get('quantity')
 		sale.date = request.POST.get('date')
 		sale.save()
