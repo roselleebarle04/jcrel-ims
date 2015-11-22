@@ -3,14 +3,10 @@ from .models import Account,Transfer_item, AddArrival, Item, Sale, Supplier
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-<<<<<<< HEAD
 from django.forms import formset_factory
-=======
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
-
->>>>>>> b7547da9e41b8766fb839ec386d0ea8e9a47bc15
 
 
 
