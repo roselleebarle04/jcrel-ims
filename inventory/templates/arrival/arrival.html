@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+ {% extends "base.html" %}
 {% load staticfiles %}
 
 
@@ -20,11 +20,13 @@
     #id_orders_table td {
         padding: 10px;
         text-align: center;
+
     }
 </style>
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Arrival</h1>
+        <h2 class="page-header">Add Arrival</h2>
+        <!-- <a href="#" class="btn btn-default" data-toggle="modal" data-target="#addSupplierModal">Add New</a> -->
     </div>
 </div>
 <div class="row">
@@ -46,9 +48,9 @@
                 <tbody>
                     {% for form in formset %}
                     <tr id="{{ form.prefix }}-row">
-                        <td>{{ form.arrived_item }}</td>
-                        <td>{{ form.arrived_quantity }}</td>
-                        <td>{{ form.itemCost }}</td>
+                        <td>{{ form.item }}</td>
+                        <td>{{form.quantity}}</td>
+                        <td>{{form.item_cost}}</td>
                         <td></td>
                     </tr>
                     {% endfor %}
@@ -78,5 +80,6 @@
     })
 </script>
 {% endblock %}
+
 
 {% endblock %}

@@ -39,7 +39,7 @@
             No transfers listed. <a href="#" data-toggle="modal" data-target="#addTransferModal">Add New</a> transfer. 
         </p>
         {% endif %}
-    </div>                                                                                                                                                                                                                                                                                                                                          
+    </div>
 </div>
 
 
@@ -55,9 +55,12 @@
                         {% csrf_token %}
                         <div class="form-group">
                             <label>Item Code</label>
+<<<<<<< HEAD
                             {{form.item}}
+=======
                             {{ form.item.errrors}}
                             {{ form.item}}
+>>>>>>> c7a368379c7750c5268fb8cbf5793e01c6be5b15
                         </div>
                         <!--  <td class="pager"><div class="form-group">
                             <label>From</label>

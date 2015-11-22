@@ -55,8 +55,8 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
-			# form.clean_password2
-			form.save()
+			form.clean_password2
+			form.save(True)
 			
 
 
@@ -241,66 +241,6 @@ def update_sale(request, sale_id):
 		sale.save()
 	return HttpResponseRedirect(reverse('sales')) 		
 
-
-@login_required
-def arrival(request):
-	arrivalForm = AddArrivalForm(request.POST or None)
-	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
-	arrivalFormset = formset(request.POST or None)
-
-	if arrivalForm.is_valid() and arrivalFormset.is_valid():
-		a = arrivalForm.save(commit=False)
-		a.save()
-		arrival_id = a
-		new_items = []
-		for form in arrivalFormset:
-			arrived_item = form.cleaned_data.get('arrived_item')
-			arrival = arrival_id
-			arrived_quantity = form.cleaned_data.get('arrived_quantity')
-			itemCost = form.cleaned_data.get('itemCost')
-			ai = ArrivedItem(arrived_item=arrived_item, arrival=a, arrived_quantity=arrived_quantity, itemCost=itemCost)	
-			ai.save()
-			# new_items.append()
-		
-		# ItemPurchase.bulk_create(new_items)
-		return HttpResponseRedirect(reverse('arrival'))
-
-	return render(request, 'arrival/arrival.html', {
-		'AddArivalForm' : arrivalForm, 
-		'formset' : arrivalFormset, 
-		})
-
-def purchase(request):
-	purchaseForm = AddPurchaseForm(request.POST or None)
-	formset = formset_factory(AddPurchaseItemForm, formset=AddPurchaseItemFormset, extra = 1)
-	purchaseFormset = formset(request.POST or None)
-
-	if purchaseForm.is_valid() and purchaseFormset.is_valid():
-		# first save purchase details
-		# commit = False means that we can store the purchase instance to the value p
-		p = purchaseForm.save(commit=False)
-
-		#save the form
-		p.save()
-		purchase_id = p
-		new_items = []
-
-		# loop through all forms in the formset, and save each form - add the purchaseId to each form
-		for form in purchaseFormset:
-			item = form.cleaned_data.get('item')
-			purchase = purchase_id
-			quantity = form.cleaned_data.get('quantity')
-			unit_cost = form.cleaned_data.get('unit_cost')
-			i = ItemPurchase(item=item, purchase=p, quantity=quantity, unit_cost=unit_cost)	
-			i.save()
-		
-		return HttpResponseRedirect(reverse('purchase'))
-
-	return render(request, 'purchase.html', {
-		'AddPurchaseForm' : purchaseForm, 
-		'formset' : purchaseFormset, 
-		})
-
 def suppliers(request):
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)
@@ -333,6 +273,66 @@ def delete_supplier(request, supplier_id):
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
 
+# def arrival(request):
+# 	# if request.method == 'POST':
+# 	arrivalForm = AddArrivalForm(request.POST or None)
+# 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 2)
+# 	arrivalFormset = formset(request.POST or None)
+
+# 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
+# 		# save purchase details
+# 		a = arrivalForm.save(commit=False)
+# 		a.save()
+# 		arrival_id = a
+# 		new_items = []
+# 		for form in arrivalFormset:
+# 			item = form.cleaned_data.get('arrived_item')
+# 			arrival = arrival_id
+# 			arrived_quantity = form.cleaned_data.get('arrived_quantity')
+# 			itemCost = form.cleaned_data.get('itemCost')
+# 			ai = ArrivedItem(arrived_item=item, arrival=a, arrived_quantity=arrived_quantity, itemCost=itemCost)	
+# 			ai.save()
+# 			# new_items.append()
+		
+# 		# ItemPurchase.bulk_create(new_items)
+# 		return HttpResponseRedirect(reverse('arrival'))
+
+# 	return render(request, 'arrival/arrival.html', {
+# 		'AddArivalForm' : arrivalForm, 
+# 		'formset' : arrivalFormset, 
+# 		})
+
+def arrival(request):
+	arrivalForm = AddArrivalForm(request.POST or None)
+	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
+	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra=3)
+	arrivalFormset = formset(request.POST or None)
+
+	if arrivalForm.is_valid() and arrivalFormset.is_valid():
+		# first save purchase details
+		# commit = False means that we can store the purchase instance to the value p
+		p = arrivalForm.save(commit=False)
+
+		#save the form
+		p.save()
+		arrival_id = p
+		new_items = []
+
+		# loop through all forms in the formset, and save each form - add the purchaseId to each form
+		for form in arrivalFormset:
+			item = form.cleaned_data.get('item')
+			arrival = arrival_id
+			quantity = form.cleaned_data.get('quantity')
+			item_cost = form.cleaned_data.get('item_cost')
+			i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
+			i.save()
+		
+		return HttpResponseRedirect(reverse('arrival'))
+
+	return render(request, 'arrival/arrival.html', {
+		'AddArrivalForm' : arrivalForm, 
+		'formset' : arrivalFormset, 
+		})
 def customers(request):
 	c_list = Customer.objects.all()
 	c_len = len(c_list)
