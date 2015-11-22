@@ -184,12 +184,9 @@ def delete_item(request, item_id):
 	return HttpResponseRedirect(reverse('items'))
 
 def update_item(request, item_id):
-	items_list = Item.objects.all().filter(status=True)
-	itemLen = len(items_list)
 	item = Item.objects.get(pk=item_id)
 
 	if request.method == 'POST':
-		item = Item.objects.get(pk = item_id)
 		item.types = request.POST.get('types')
 		item.category = request.POST.get('category')
 		item.brand = request.POST.get('brand')
@@ -207,11 +204,16 @@ def update_item(request, item_id):
 
 @login_required
 def sales(request):
-
 	sales_list = Sale.objects.all()
 	salesLen = len(sales_list)
+
+	return render(request, 'sales/sales.html', {
+		'sales_list':sales_list,
+		'salesLen' : salesLen,
+		})
+
+def add_sale(request):
 	form = AddSaleForm(request.POST or None)
-	
 	if form.is_valid():
 		item = form.cleaned_data['item']
 		q_sale = form.cleaned_data['quantity']
@@ -223,16 +225,11 @@ def sales(request):
 			return render (request, 'sales/modals.html', {'error' : True})
 		else:
 			item.store_quantity = update_qty
-			item.save()
-			
+			item.save()			
 		form.save()			
 		return redirect('sales')
+	return render(request, 'sales/add_sale.html', {'form' : form})
 
-	return render(request, 'sales/sales.html', {
-		'sales_list':sales_list,
-		'salesLen' : salesLen,
-		'form' : form,
-		})
 
 def delete_sale(request, sale_id):
 	sale = Sale.objects.get(pk = sale_id)
@@ -240,13 +237,16 @@ def delete_sale(request, sale_id):
 	return HttpResponseRedirect(reverse('sales'))
 
 def update_sale(request, sale_id):
+	sale = Sale.objects.get(pk = sale_id)
 	if request.method == 'POST':
 		sale = Sale.objects.get(pk = sale_id)
 		sale.item.item_code = request.POST.get('item')
 		sale.quantity =  request.POST.get('quantity')
 		sale.date = request.POST.get('date')
 		sale.save()
-	return HttpResponseRedirect(reverse('sales')) 		
+		return HttpResponseRedirect(reverse('sales')) 
+
+	return render(request, 'sales/update_sale.html', {'sale' : sale})	
 
 
 @login_required
