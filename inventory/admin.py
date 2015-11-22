@@ -33,5 +33,10 @@ admin.site.register(Transfer_item)
 class LocationAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Location)
+class ItemPurchaseAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(ItemPurchase, ItemPurchaseAdmin)
 
-
+class PurchaseAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(Purchase, PurchaseAdmin)

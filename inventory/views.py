@@ -270,6 +270,37 @@ def arrival(request):
 		'formset' : arrivalFormset, 
 		})
 
+def purchase(request):
+	purchaseForm = AddPurchaseForm(request.POST or None)
+	formset = formset_factory(AddPurchaseItemForm, formset=AddPurchaseItemFormset, extra = 1)
+	purchaseFormset = formset(request.POST or None)
+
+	if purchaseForm.is_valid() and purchaseFormset.is_valid():
+		# first save purchase details
+		# commit = False means that we can store the purchase instance to the value p
+		p = purchaseForm.save(commit=False)
+
+		#save the form
+		p.save()
+		purchase_id = p
+		new_items = []
+
+		# loop through all forms in the formset, and save each form - add the purchaseId to each form
+		for form in purchaseFormset:
+			item = form.cleaned_data.get('item')
+			purchase = purchase_id
+			quantity = form.cleaned_data.get('quantity')
+			unit_cost = form.cleaned_data.get('unit_cost')
+			i = ItemPurchase(item=item, purchase=p, quantity=quantity, unit_cost=unit_cost)	
+			i.save()
+		
+		return HttpResponseRedirect(reverse('purchase'))
+
+	return render(request, 'purchase.html', {
+		'AddPurchaseForm' : purchaseForm, 
+		'formset' : purchaseFormset, 
+		})
+
 def suppliers(request):
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)

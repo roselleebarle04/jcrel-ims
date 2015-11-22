@@ -128,3 +128,28 @@ class ArrivedItem(models.Model):
 
 	def __unicode__(self):
 		return self.arrived_item.store_code
+
+class Purchase(models.Model):
+	"""	This model refers to the purchase of the store owner from its suppliers """
+	# date = models.DateField(default=timezone.now)
+	tracking_no = models.CharField(max_length=100, null=True, blank=True)
+	items = models.ManyToManyField(Item, through='ItemPurchase')
+	supplier = models.ForeignKey(Supplier)
+
+	def __unicode__(self):
+		return self.tracking_no
+
+	# def items_list(self):
+	# 	return ', '.join([a.item for i in self.items.all()])
+
+class ItemPurchase(models.Model):
+	item = models.ForeignKey(Item)
+	purchase = models.ForeignKey(Purchase)
+	quantity = models.IntegerField(default=0)
+	unit_cost = models.FloatField(null=True, blank=True)
+
+	#source_location = models.ForeignKey(Location)
+	#destination = models.ForeignKey(Location)
+	def __unicode__(self):
+		return self.item.store_code
+

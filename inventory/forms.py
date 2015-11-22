@@ -139,6 +139,36 @@ class AddArrivedItemFormset(BaseFormSet):
 		if any(self.errors):
 			return
 
+class AddArrivedItemFormset(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			return
+class AddPurchaseForm(forms.ModelForm): 
+	class Meta: 
+		model = Purchase
+		fields = ['tracking_no', 'supplier']
+
+	def __init__(self, *args, **kwargs):
+		super(AddPurchaseForm, self).__init__(*args, **kwargs)
+		self.fields['tracking_no'].widget.attrs['class'] = 'form-control'
+		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+
+class AddPurchaseItemForm(forms.ModelForm): 
+	class Meta: 
+		model = ItemPurchase
+		fields = ['item', 'quantity', 'unit_cost']
+
+	def __init__(self, *args, **kwargs):
+		super(AddPurchaseItemForm, self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+		self.fields['unit_cost'].widget.attrs['class'] = 'form-control'
+
+class AddPurchaseItemFormset(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			return
+
 class LocationForm(forms.ModelForm):
 	class Meta:
 		model = Location
