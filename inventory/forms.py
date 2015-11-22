@@ -42,6 +42,10 @@ class AccountForm(UserCreationForm):
 			# password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
 			return password2
 
+		def clean_email(self):
+			email = self.cleaned_data.get("email")
+			username = self.cleaned_data.get("username")
+
 # def clean_password2(self):
 #         password1 = self.cleaned_data.get("password1")
 #         password2 = self.cleaned_data.get("password2")
