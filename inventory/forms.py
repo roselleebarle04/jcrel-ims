@@ -1,10 +1,10 @@
 from django import forms
-from django.forms import fields, models, formsets, widgets
-from django.forms import BaseFormSet, formset_factory
+# from .models import Account,Transfer_item, AddArrival, Item, Sale, Supplier
 from .models import *
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+
+from django.forms.formsets import BaseFormSet
 from django.forms import formset_factory
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
@@ -98,7 +98,6 @@ class AddSaleForm(forms.ModelForm):
 		if update_qty < 0 :
 			raise forms.ValidationError("Quantity exceeds the current quantity of items in the store.")
 
-
 class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer_item
@@ -126,21 +125,6 @@ class TransferForm(forms.ModelForm):
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 
 
-class AddArrivalForm(forms.ModelForm): 
-	class Meta: 
-		model = Arrival
-		fields = ['date', 'dr', 'trckng_no', 'supp']
-
-class AddArrivedItemForm(forms.ModelForm): 
-	class Meta: 
-		model = ArrivedItem
-		fields = ['arrived_item', 'arrived_quantity', 'itemCost']
-
-class AddArrivedItemFormset(BaseFormSet):
-	def clean(self):
-		if any(self.errors):
-			return
-
 class LocationForm(forms.ModelForm):
 	class Meta:
 		model = Location
@@ -157,6 +141,47 @@ class AddSupplierForm(forms.ModelForm):
 		super(AddSupplierForm, self).__init__(*args, **kwargs)
 		self.fields['avatar'].widget.attrs['class'] = 'form-control'
 
+# class AddArrivalForm(forms.ModelForm): 
+# 	class Meta: 
+# 		model = Arrival
+# 		fields = ['date', 'dr', 'trckng_no', 'supp']
+
+# class AddArrivedItemForm(forms.ModelForm): 
+# 	class Meta: 
+# 		model = ArrivedItem
+# 		fields = ['arrived_item', 'arrived_quantity', 'itemCost']
+
+# class AddArrivedItemFormset(BaseFormSet):
+# 	def clean(self):
+# 		if any(self.errors):
+# 			return
+class AddArrivalForm(forms.ModelForm): 
+	class Meta: 
+		model = Arrival
+		fields = ['date', 'delivery_receipt_no', 'tracking_no', 'supplier']
+
+	def __init__(self, *args, **kwargs):
+		super(AddArrivalForm, self).__init__(*args, **kwargs)
+		self.fields['date'].widget.attrs['class'] = 'form-control'
+		self.fields['delivery_receipt_no'].widget.attrs['class'] = 'form-control'
+		self.fields['tracking_no'].widget.attrs['class'] = 'form-control'
+		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+
+class AddArrivedItemForm(forms.ModelForm): 
+	class Meta: 
+		model = ArrivedItem
+		fields = ['item', 'quantity', 'item_cost']
+
+	def __init__(self, *args, **kwargs):
+		super(AddArrivedItemForm, self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
+
+class AddArrivedItemFormset(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			return
 class AddCustomerForm(forms.ModelForm):
 	class Meta: 
 		model = Supplier

@@ -66,6 +66,8 @@ urlpatterns = [
     # url(r'^arrivals/update/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
     url(r'^arrival/$', inventory_views.arrival, name='arrival'),
 
+    url(r'^arrival/add/$', inventory_views.arrival, name='arrival'),
+
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer/delete/(?P<transfer_id>[0-9]+)/$$', inventory_views.transfer_delete, name='transfer_delete'),
     url(r'^location/$', inventory_views.location, name = 'location'),
