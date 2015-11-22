@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User, UserManager
@@ -12,7 +12,12 @@ from django.contrib.auth.models import *
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
+from django.template.context import RequestContext
+from django.forms.formsets import formset_factory
+
+
 from django.core import validators
+
 
 from config import settings
 from .models import *
@@ -241,53 +246,34 @@ def update_sale(request, sale_id):
 
 
 @login_required
-def arrivals(request):
-	alist = AddArrival.objects.all()
-	a_len = len(alist)
-	form = ArrivalForm(request.POST or None)
-	if form.is_valid():
-		form.save()
-		return redirect('arrivals')
-	return render(request, 'arrival/arrival_list.html', {
-		'alist': alist,
-		'a_len': a_len,
-		'form' : form
-	})
+def arrival(request):
+	# if request.method == 'POST':
+	arrivalForm = AddArrivalForm(request.POST or None)
+	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 2)
+	arrivalFormset = formset(request.POST or None)
 
-@login_required
-def arrival_create(request, template_name='arrival/arrival_form.html'):
-    form = ArrivalForm(request.POST or None)
-    if form.is_valid():
-    	dr = form.cleaned_data['dr']
-    	track_no = form.cleaned_data['tracking_no']
-    	sup = form.cleaned_data['supplier']
-    	itName = form.cleaned_data['itemName']
-    	q_arrival = form.cleaned_data['qty']
-    	itCost = form.cleaned_data['itemCost']
-        form.save()
-        return redirect('arrivals')
-    return render(request, template_name, {'form':form})
+	if arrivalForm.is_valid() and arrivalFormset.is_valid():
+		# save purchase details
+		a = arrivalForm.save(commit=False)
+		a.save()
+		arrival_id = a
+		new_items = []
+		for form in arrivalFormset:
+			item = form.cleaned_data.get('arrived_item')
+			arrival = arrival_id
+			arrived_quantity = form.cleaned_data.get('arrived_quantity')
+			itemCost = form.cleaned_data.get('itemCost')
+			ai = ArrivedItem(arrived_item=item, arrival=a, arrived_quantity=arrived_quantity, itemCost=itemCost)	
+			ai.save()
+			# new_items.append()
+		
+		# ItemPurchase.bulk_create(new_items)
+		return HttpResponseRedirect(reverse('arrival'))
 
-@login_required
-def arrival_update(request, arrival_id):
-	if request.method == 'POST':
-		arrival = AddArrival.objects.get(pk=arrival_id)
-		arrival.date = request.POST.get('date')
-		arrival.dr = request.POST.get('dr')
-		arrival.tracking_no = request.POST.get('tracking_no')
-		arrival.supplier = request.POST.get('supplier')
-		arrival.itemName = request.POST.get('itemName')
-		arrival.qty = request.POST.get('qty')
-		arrival.itemCost = request.POST.get('itemCost')
-		arrival.save()
-	return HttpResponseRedirect(reverse('arrivals'))
-
-@login_required
-def arrival_delete(request, arrival_id):
-	a = AddArrival.objects.get(pk=arrival_id)
-	a.delete()
-	return HttpResponseRedirect(reverse('arrivals'))
-
+	return render(request, 'arrival/arrival.html', {
+		'AddArivalForm' : arrivalForm, 
+		'formset' : arrivalFormset, 
+		})
 
 def suppliers(request):
 	s_list = Supplier.objects.all()

@@ -15,9 +15,13 @@ class SupplierAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Supplier, SupplierAdmin)
 
-class AddArrivalAdmin(admin.ModelAdmin):
+class ArrivalAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(AddArrival)
+admin.site.register(Arrival, ArrivalAdmin)
+
+class ArrivedItemAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(ArrivedItem, ArrivedItemAdmin)
 
 class SaleAdmin(admin.ModelAdmin):
 	pass
