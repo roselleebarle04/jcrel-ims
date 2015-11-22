@@ -1,6 +1,5 @@
 from django.db import models 
 from django.core.urlresolvers import reverse
-# from django.contrib.auth.models import User, UserManager
 from django.contrib.auth.models import *
 from django.utils import timezone
 from django.template.defaultfilters import pluralize
@@ -112,7 +111,6 @@ class Transfer_item(models.Model):
 
 
 class Arrival(models.Model):
-	"""	This model refers to the arrival of the store owner from its suppliers """
 	date = models.DateField(default=timezone.now)
 	dr = models.CharField(max_length=100, null=True, blank=True)
 	trckng_no = models.CharField(max_length=100, null=True, blank=True)

@@ -247,13 +247,11 @@ def update_sale(request, sale_id):
 
 @login_required
 def arrival(request):
-	# if request.method == 'POST':
 	arrivalForm = AddArrivalForm(request.POST or None)
 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 2)
 	arrivalFormset = formset(request.POST or None)
 
 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
-		# save purchase details
 		a = arrivalForm.save(commit=False)
 		a.save()
 		arrival_id = a
