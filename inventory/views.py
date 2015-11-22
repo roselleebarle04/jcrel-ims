@@ -164,23 +164,30 @@ def location_delete(request, location_id):
 def items(request):
 	items_list = Item.objects.all().filter(status=True)
 	itemLen = len(items_list)
+	
+	return render(request, 'items/items.html', {
+		'items': items_list,
+		'itemLen': itemLen,
+		})
+
+def add_item(request):
 	form = AddItemForm(request.POST or None)
 	if form.is_valid():
 		form.save()
 		return redirect('items')
-	return render(request, 'items/items.html', {
-		'items': items_list,
-		'itemLen': itemLen,
-		'form' : form,
-		})
+	return render(request, 'items/add_item.html' , {'form' : form})
 
 def delete_item(request, item_id):
 	item = Item.objects.get(pk = item_id)
 	item.status = False
-	item.drop()
+	item.save()
 	return HttpResponseRedirect(reverse('items'))
 
 def update_item(request, item_id):
+	items_list = Item.objects.all().filter(status=True)
+	itemLen = len(items_list)
+	item = Item.objects.get(pk=item_id)
+
 	if request.method == 'POST':
 		item = Item.objects.get(pk = item_id)
 		item.types = request.POST.get('types')
@@ -193,7 +200,9 @@ def update_item(request, item_id):
 		item.warehouse_quantity= request.POST.get('warehouse_quantity')
 		item.srp = request.POST.get('srp')
 		item.save()
-	return HttpResponseRedirect(reverse('items'))
+		return HttpResponseRedirect(reverse('items'))
+
+	return render(request, 'items/update_item.html', {'item' : item})
 
 
 @login_required
