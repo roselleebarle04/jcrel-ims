@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.template.context import RequestContext
 from django.forms.formsets import formset_factory
+from django.contrib import messages
 
 
 from django.core import validators
@@ -58,21 +59,13 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
-			# form.clean_password2
+			# form.errors
+
+			# for error in errors:
+			# 	error.message
+
+			# form.clean_password2()
 			form.save()
-			
-
-
-		# first_name = request.POST.get('first_name')
-		# last_name = request.POST.get('last_name')
-		# email = request.POST.get('email')
-		# username = request.POST.get('username')
-		# password1 = request.POST.get('password1')
-		# password_confirmation = request.POST.get('password_confirmation')
-		# form.clean_password2
-
-		# new_user = User.objects.create_user(username=username, email=email, password=password1)
-		# new_user.save()
 			
 		return HttpResponseRedirect('/login/')
 	else:
@@ -340,3 +333,8 @@ def delete_customer(request, customer_id):
 	return HttpResponseRedirect(reverse('customers'))
 
 
+def settings(request):
+	users = User.objects.all()
+	account_form = AccountForm()
+	return render(request, 'settings/settings.html', {'account_form':account_form,
+		'users':users})

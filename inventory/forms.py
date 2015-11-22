@@ -8,6 +8,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import formset_factory
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from django.core import validators
+from django.contrib import messages
 
 
 
@@ -18,12 +20,14 @@ class AccountForm(UserCreationForm):
 		model = User
 		fields = ("username", "email", "password1", "password2")
 
-		def save(self, commit=True):
-			user = super(AccountForm, self).save(commit=False)
-			user.email = self.cleaned_data["email"]
-			if commit:
-				user.save()
-			return user
+		# def save(self, commit=True):
+		# 	user = super(AccountForm, self).save(commit=False)
+		# 	user.email = self.cleaned_data["email"]
+		# 	if commit:
+		# 		user.save()
+		# 	return user
+
+
 
 		def clean_password2(self):
 			password1 = self.cleaned_data.get("password1")
@@ -41,6 +45,15 @@ class AccountForm(UserCreationForm):
 			# self.instance.username = self.cleaned_data.get('username')
 			# password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
 			return password2
+
+		def save(self, commit=True):
+			user = super(AccountForm,self).save(commit=False)
+			user.email = self.cleaned_data["email"]
+			user.set_password(self.cleaned_data["password1"])
+
+			if commit:
+				user.save()
+			return user
 
 		def clean_email(self):
 			email = self.cleaned_data.get("email")
