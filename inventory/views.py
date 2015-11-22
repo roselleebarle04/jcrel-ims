@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404, render_to_response
+from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User, UserManager
@@ -12,12 +12,9 @@ from django.contrib.auth.models import *
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
-from django.template.context import RequestContext
-from django.forms.formsets import formset_factory
-
-
+from django.forms import formset_factory
+from django.db import IntegrityError, transaction
 from django.core import validators
-
 
 from config import settings
 from .models import *
@@ -248,7 +245,7 @@ def update_sale(request, sale_id):
 @login_required
 def arrival(request):
 	arrivalForm = AddArrivalForm(request.POST or None)
-	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 2)
+	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
 	arrivalFormset = formset(request.POST or None)
 
 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
@@ -257,11 +254,11 @@ def arrival(request):
 		arrival_id = a
 		new_items = []
 		for form in arrivalFormset:
-			item = form.cleaned_data.get('arrived_item')
+			arrived_item = form.cleaned_data.get('arrived_item')
 			arrival = arrival_id
 			arrived_quantity = form.cleaned_data.get('arrived_quantity')
 			itemCost = form.cleaned_data.get('itemCost')
-			ai = ArrivedItem(arrived_item=item, arrival=a, arrived_quantity=arrived_quantity, itemCost=itemCost)	
+			ai = ArrivedItem(arrived_item=arrived_item, arrival=a, arrived_quantity=arrived_quantity, itemCost=itemCost)	
 			ai.save()
 			# new_items.append()
 		

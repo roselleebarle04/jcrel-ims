@@ -118,10 +118,13 @@ class Arrival(models.Model):
 	arrival_items = models.ManyToManyField(Item, through='ArrivedItem')
 	
 	def __unicode__(self):
-		return self.dr
+		return self.trckng_no
 
 class ArrivedItem(models.Model):
 	arrival = models.ForeignKey(Arrival)
 	arrived_item = models.ForeignKey(Item)
 	arrived_quantity = models.PositiveIntegerField(default=0)
 	itemCost = models.FloatField(null=True, blank=True)
+
+	def __unicode__(self):
+		return self.arrived_item.store_code

@@ -1,11 +1,11 @@
 from django import forms
-from django.forms import fields, models, formsets, widgets
-from django.forms import BaseFormSet, formset_factory
+# from django.forms import fields, models, formsets, widgets
 from .models import *
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import formset_factory
+from django.forms.formsets import BaseFormSet
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
@@ -114,10 +114,25 @@ class AddArrivalForm(forms.ModelForm):
 		model = Arrival
 		fields = ['date', 'dr', 'trckng_no', 'supp']
 
+	def __init__(self, *args, **kwargs):
+		super(AddArrivalForm, self).__init__(*args, **kwargs)
+		self.fields['date'].widget.attrs['class'] = 'form-control'
+		self.fields['dr'].widget.attrs['class'] = 'form-control'
+		self.fields['trckng_no'].widget.attrs['class'] = 'form-control'
+		self.fields['supp'].widget.attrs['class'] = 'form-control'
+
+
 class AddArrivedItemForm(forms.ModelForm): 
 	class Meta: 
 		model = ArrivedItem
 		fields = ['arrived_item', 'arrived_quantity', 'itemCost']
+
+	def __init__(self, *args, **kwargs):
+		super(AddArrivedItemForm, self).__init__(*args, **kwargs)
+		self.fields['arrived_item'].widget.attrs['class'] = 'form-control'
+		self.fields['arrived_quantity'].widget.attrs['class'] = 'form-control'
+		self.fields['itemCost'].widget.attrs['class'] = 'form-control'
+
 
 class AddArrivedItemFormset(BaseFormSet):
 	def clean(self):
@@ -149,3 +164,4 @@ class AddCustomerForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AddCustomerForm, self).__init__(*args, **kwargs)
 		self.fields['avatar'].widget.attrs['class'] = 'form-control'
+
