@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import fields, models, formsets, widgets
-from django.forms import BaseFormSet, formset_factory
+from django.forms import BaseFormSet, formset_factory, BaseInlineFormSet
 from .models import *
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -103,10 +103,12 @@ class TransferForm(forms.ModelForm):
 			d.store_quantity = current_s
 			d.save()
 
-
 	def __init__(self, *args, **kwargs):
 		super(TransferForm,self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
+
+#def get_ordereditem_formset(form, formset =models.BaseInlineFormSet, **kwargs):
+   # return models.inlineformset_factory(Transfer_item **kwargs)
 
 
 class AddArrivalForm(forms.ModelForm): 

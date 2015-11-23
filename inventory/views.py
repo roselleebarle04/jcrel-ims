@@ -130,15 +130,17 @@ def login(request):
 def transfer_hist(request):
 	transfer_list = Transfer_item.objects.all()
 	transferLen = len(transfer_list)
+	return render(request, 'transfer/transfer_hist.html', {
+		'transfer': transfer_list,
+		'transferLen': transferLen
+		})
+
+def create_transfer(request,template_name ='transfer/transfer_form.html'):
 	form = TransferForm(request.POST or None)
 	if form.is_valid():
 		form.save()
 		return redirect('transfer_hist')
-	return render(request, 'transfer/transfer_hist.html', {
-		'transfer': transfer_list,
-		'transferLen': transferLen,
-		'form' : form,
-		})
+	return render(request,template_name,{'form':form})
 
 def location(request):
 	location_list = Location.objects.all()
