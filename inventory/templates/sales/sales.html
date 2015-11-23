@@ -4,14 +4,15 @@
 {% block content %}  
 
 <div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">Sales History</h1>
-        <a href="#AddSaleModal" class="btn btn-default" data-toggle="modal" data-target="#AddSaleModal" data-backdrop="static" data-keyboard = "false">Add New Sale</a>
+    <h1 class="page-header">Sales History</h1>
+    <div class="col-md-12">
+        <a href="/sales/add" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add New Sale</a>
     </div>
-</div>
+</div> 
+
 <br>
 <div class="row">
-    <div class="col-lg-12"> 
+    <div class="col-lg-12">        
         {% if salesLen > 0 %}
         <table id="sales" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
@@ -24,11 +25,10 @@
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Total Cost</th>
-                    <th width="50"></th>
-                    <th width="50"></th>
+                    <th width="10%"></th>
                 </tr>
-            </thead>            
-            <tbody>
+            </thead>                   
+            <tbody>                
                 {% for sale in sales_list %}
                 <tr>                    
                     <td> {{ sale.date}}</td>
@@ -39,101 +39,20 @@
                     <td> {{ sale.item.srp}} </td>
                     <td> {{ sale.quantity}} </td>
                     <td> {{ sale.calculate_cost}} </td>  
-                    <td>   
-                        <button class="btn btn-default" data-toggle="modal" data-target="#itemsale-{{sale.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span> </button>
-                    </td>
-                    <td>
-                        <!-- <form action="/suppliers/delete/{{s.id}}/"> -->
-                            <button onclick="confirmSaleDelete({{sale.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></button>
-                        <!-- </form> -->
-                    </td>   
-                </tr> 
-                <!-- Modal for each row -->
-                <div class="modal fade" id="itemsale-{{sale.id}}" tabindex="-1" role="dialog" aria-labelledby="itemsale-{{sale.id}}">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="itemsale-{{sale.id}}">Update Sale</h4>
-                            </div>
-                            <form class="form" action="/sales/update/{{sale.id}}/" method="POST">
-                                <div class="modal-body">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        <label>Item</label>
-                                        <input name="item" type="text" class="form-control" value="{{sale.item.item_code}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Quantity</label>
-                                        <input name="quantity" type="text" class="form-control" value="{{sale.quantity}}">
-                                    </div>  
-                                    <div class="form-group">
-                                        <label>Date</label>
-                                        <input name="date" type="text" class="form-control" value="{{sale.date}}">
-                                    </div>  
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="form-group">
-                                        <input class="btn btn-success" type="submit" value="Update">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                        <input type="hidden" name="next" value="{{ next }}" />
-                                    </div>
-                                    <!-- <button type="button" class="btn btn-primary">Save Changes</button> -->
-                                </div>
-                            </form>
-                        </div>
-                    </div>                    
-                </div>
+                    <td>                           
+                        <a href="/sales/update/{{sale.id}}/" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <button onclick="confirmSaleDelete({{sale.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button>
+                    </td>                 
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
         {% else %}
         <p>
-            No sales listed. <a href="#" data-toggle="modal">Add New</a> sale. 
+            No sales listed. <a href="/sales/add">Add New</a> item. 
         </p>
         {% endif %}
     </div>
-</div>
-
-
-<!-- Add Item Modal -->
-<div class="modal fade" id="AddSaleModal" tabindex="-1" role="dialog" aria-labelledby="addSaleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addSaleModal">Add Sale</h4>
-            </div>
-            <form class="form" action="/sales/" method="POST">
-                <div class="modal-body" class="form-group">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        {{form.item.errors}}
-                        <label>Item</label>
-                        {{form.item}}
-                    </div>                    
-                    <div class="form-group">
-                        {{form.quantity.errors}}
-                        <label>Quantity</label>
-                        <input name="quantity" type="text" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        {{form.date.errors}}
-                        <label>Date</label>
-                        {{form.date}}
-                    </div> 
-                </div>
-                <div class="modal-footer">
-                    <div class="form-group">
-                        <input class="btn btn-success" type="submit" value="Save">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <input type="hidden" name="next" value="{{ next }}" />
-                    </div>
-                    <!-- <button type="button" class="btn btn-primary">Save Changes</button> -->
-                </div>
-            </form>
-        </div>
-    </div>                    
 </div>
 
 {% endblock %}

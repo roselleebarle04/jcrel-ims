@@ -132,12 +132,38 @@ def transfer_hist(request):
 		'transferLen': transferLen
 		})
 
-def create_transfer(request,template_name ='transfer/transfer_form.html'):
-	form = TransferForm(request.POST or None)
-	if form.is_valid():
-		form.save()
-		return redirect('transfer_hist')
-	return render(request,template_name,{'form':form})
+
+def create_transfer(request):
+	transferForm = TransferForm(request.POST or None)
+	formset = formset_factory(Transfer_itemForm, formset=Transfer_itemFormset, extra = 1)
+	transferFormset = formset(request.POST or None)
+
+	if transferForm.is_valid() and transferFormset.is_valid():
+		p = transferForm.save(commit=False)
+		p.save()
+		transfer_id = p
+		new_items = []
+
+		
+		for form in transferFormset:
+			item = form.cleaned_data.get('item')
+			transfer = transfer_id
+			quantity_to_transfer = form.cleaned_data.get('quantity_to_transfer')
+			i = Transfer_item(item = item,quantity_to_transfer=quantity_to_transfer, trans=p)	
+			i.save()
+		
+		return HttpResponseRedirect(reverse('transfer_hist'))
+
+	return render(request, 'transfer/transfer_form.html', {
+		'TransferForm' : transferForm, 
+		'formset' : transferFormset, 
+		})
+#def create_transfer(request,template_name ='transfer/transfer_form.html'):
+#	form = TransferForm(request.POST or None)
+#	if form.is_valid():
+#		form.save()
+#		return redirect('transfer_hist')
+#	return render(request,template_name,{'form':form})
 
 def location(request):
 	location_list = Location.objects.all()
@@ -168,25 +194,29 @@ def location_delete(request, location_id):
 def items(request):
 	items_list = Item.objects.all().filter(status=True)
 	itemLen = len(items_list)
+	
+	return render(request, 'items/items.html', {
+		'items': items_list,
+		'itemLen': itemLen,
+		})
+
+def add_item(request):
 	form = AddItemForm(request.POST or None)
 	if form.is_valid():
 		form.save()
 		return redirect('items')
-	return render(request, 'items/items.html', {
-		'items': items_list,
-		'itemLen': itemLen,
-		'form' : form,
-		})
+	return render(request, 'items/add_item.html' , {'form' : form})
 
 def delete_item(request, item_id):
 	item = Item.objects.get(pk = item_id)
 	item.status = False
-	item.drop()
+	item.save()
 	return HttpResponseRedirect(reverse('items'))
 
 def update_item(request, item_id):
+	item = Item.objects.get(pk=item_id)
+
 	if request.method == 'POST':
-		item = Item.objects.get(pk = item_id)
 		item.types = request.POST.get('types')
 		item.category = request.POST.get('category')
 		item.brand = request.POST.get('brand')
@@ -197,37 +227,59 @@ def update_item(request, item_id):
 		item.warehouse_quantity= request.POST.get('warehouse_quantity')
 		item.srp = request.POST.get('srp')
 		item.save()
-	return HttpResponseRedirect(reverse('items'))
+		return HttpResponseRedirect(reverse('items'))
+
+	return render(request, 'items/update_item.html', {'item' : item})
 
 
 @login_required
-def sales(request):
+def sale(request):
+	saleForm = AddSaleForm(request.POST or None)
+	formset = formset_factory(AddSoldItemForm, formset=AddSoldItemFormset, extra = 1)
+	saleFormset = formset(request.POST or None)
 
+	if saleForm.is_valid() and saleFormset.is_valid():
+		# first save purchase details
+		# commit = False means that we can store the purchase instance to the value p
+		p = saleForm.save(commit=False)
+
+		#save the form
+		p.save()
+		sale_id = p
+		new_items = []
+
+		# loop through all forms in the formset, and save each form - add the purchaseId to each form
+		for form in saleFormset:
+			item = form.cleaned_data.get('item')
+			sale = sale_id
+			quantity = form.cleaned_data.get('quantity')
+			item_cost = form.cleaned_data.get('item_cost')
+			new_item = SoldItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
+			new_item.save()
+		
+		return HttpResponseRedirect(reverse('sale'))
+
+	return render(request, 'sales/sale.html', {
+		'AddSaleForm' : saleForm, 
+		'formset' : saleFormset, 
+		})
+def sales(request):
 	sales_list = Sale.objects.all()
 	salesLen = len(sales_list)
-	form = AddSaleForm(request.POST or None)
-	
-	if form.is_valid():
-		item = form.cleaned_data['item']
-		q_sale = form.cleaned_data['quantity']
-		store_qty = item.store_quantity
-		update_qty = store_qty - q_sale
-
-		if update_qty < 0 :
-			form.clean_message()			
-			return render (request, 'sales/modals.html', {'error' : True})
-		else:
-			item.store_quantity = update_qty
-			item.save()
-			
-		form.save()			
-		return redirect('sales')
 
 	return render(request, 'sales/sales.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen,
-		'form' : form,
 		})
+
+def add_sale(request):
+	form = AddSaleForm(request.POST or None)
+	if form.is_valid():
+		form.clean_quantity()
+		form.save()
+		return redirect('sales')
+	return render(request, 'sales/add_sale.html', {'form' : form})
+
 
 def delete_sale(request, sale_id):
 	sale = Sale.objects.get(pk = sale_id)
@@ -235,13 +287,16 @@ def delete_sale(request, sale_id):
 	return HttpResponseRedirect(reverse('sales'))
 
 def update_sale(request, sale_id):
+	sale = Sale.objects.get(pk = sale_id)
 	if request.method == 'POST':
 		sale = Sale.objects.get(pk = sale_id)
 		sale.item.item_code = request.POST.get('item')
 		sale.quantity =  request.POST.get('quantity')
 		sale.date = request.POST.get('date')
 		sale.save()
-	return HttpResponseRedirect(reverse('sales')) 		
+		return HttpResponseRedirect(reverse('sales')) 
+
+	return render(request, 'sales/update_sale.html', {'sale' : sale})	
 
 def suppliers(request):
 	s_list = Supplier.objects.all()
