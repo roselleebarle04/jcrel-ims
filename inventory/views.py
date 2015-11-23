@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from django.shortcuts import render,render_to_response, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User, UserManager
@@ -20,8 +20,6 @@ from django.contrib import messages
 from django.forms import formset_factory
 from django.db import IntegrityError, transaction
 from django.core import validators
-from django.template.context import RequestContext
-
 
 from config import settings
 from .models import *
@@ -34,11 +32,6 @@ from .forms import *
 #     return render(request, 'dashboard/dashboard.html', {
 #     'user' = request.user.username
 #     })
-
-def display_data(request, data, **kwargs):
-    return render_to_response('arrival/arrival_history.html', dict(data=data, **kwargs),
-        context_instance=RequestContext(request))
-
 @login_required
 def dashboard(request):
 	items = Item.objects.all()
@@ -240,36 +233,6 @@ def update_item(request, item_id):
 
 
 @login_required
-def sale(request):
-	saleForm = AddSaleForm(request.POST or None)
-	formset = formset_factory(AddSoldItemForm, formset=AddSoldItemFormset, extra = 1)
-	saleFormset = formset(request.POST or None)
-
-	if saleForm.is_valid() and saleFormset.is_valid():
-		# first save purchase details
-		# commit = False means that we can store the purchase instance to the value p
-		p = saleForm.save(commit=False)
-
-		#save the form
-		p.save()
-		sale_id = p
-		new_items = []
-
-		# loop through all forms in the formset, and save each form - add the purchaseId to each form
-		for form in saleFormset:
-			item = form.cleaned_data.get('item')
-			sale = sale_id
-			quantity = form.cleaned_data.get('quantity')
-			item_cost = form.cleaned_data.get('item_cost')
-			new_item = SoldItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
-			new_item.save()
-		
-		return HttpResponseRedirect(reverse('sale'))
-
-	return render(request, 'sales/sale.html', {
-		'AddSaleForm' : saleForm, 
-		'formset' : saleFormset, 
-		})
 def sales(request):
 	sales_list = Sale.objects.all()
 	salesLen = len(sales_list)
@@ -346,28 +309,38 @@ def arrival(request):
 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
 		# first save purchase details
 		# commit = False means that we can store the purchase instance to the value p
-		a = arrivalForm.save(commit=False)
+		p = arrivalForm.save(commit=False)
 
 		#save the form
-		a.save()
-		arrival_id = a
+		p.save()
+		arrival_id = p
 		new_items = []
 
-		# loop through all forms in the formset, and save each form - add the arrivalid to each form
+		# loop through all forms in the formset, and save each form - add the purchaseId to each form
 		for form in arrivalFormset:
 			item = form.cleaned_data.get('item')
 			arrival = arrival_id
 			quantity = form.cleaned_data.get('quantity')
 			item_cost = form.cleaned_data.get('item_cost')
-			i = ArrivedItem(item=item, arrival=a, quantity=quantity, item_cost=item_cost)	
+			i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
 			i.save()
-
+		
 		return HttpResponseRedirect(reverse('arrival'))
 
 	return render(request, 'arrival/arrival.html', {
 		'AddArrivalForm' : arrivalForm, 
 		'formset' : arrivalFormset, 
 		})
+
+def arrival_history(request):
+	arrival_list = ArrivedItem.objects.all()
+	arrivalLen = len(arrival_list)
+	return render(request, 'arrival/arrival_history.html', {
+		'arrival': arrival_list,
+		'arrivalLen': arrivalLen
+		})
+
+
 def customers(request):
 	c_list = Customer.objects.all()
 	c_len = len(c_list)
