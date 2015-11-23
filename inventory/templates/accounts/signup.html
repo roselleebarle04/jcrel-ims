@@ -22,12 +22,12 @@
 
               <!-- {{ form.as_p }} -->
 
-            {% if form.errors %}
+            <!-- {% if form.errors %}
               {% for error in errors%}
                 {{ error.message }}
                 {% endfor %}
               {% endif %}
-
+ -->
             <div class="form-group">
               <label>Username</label>
               <input name="username" type="text" class="form-control" required autofocus>
@@ -37,11 +37,13 @@
               <input name="email" type="text" class="form-control" required autofocus>
             </div>
             <div class="form-group">
+              {{form.password1.errors}}
               <label>Password</label>
             <!-- {{ form.ValidationError }} -->
               <input name="password1" type="password" id="inputPassword" class="form-control" required>
             </div>
             <div class="form-group">
+                {{form.password2.errors}}
               <label>Confirm Password</label>
             <!-- {{ form.ValidationError }} -->
               <input name="password2" type="password" id="inputPassword" class="form-control" required>
