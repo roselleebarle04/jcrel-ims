@@ -12,6 +12,11 @@ from django.contrib.auth.models import *
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
+from django.template.context import RequestContext
+from django.forms.formsets import formset_factory
+from django.contrib import messages
+
+
 from django.forms import formset_factory
 from django.db import IntegrityError, transaction
 from django.core import validators
@@ -62,21 +67,16 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
+			# form.errors
 			form.clean_password2
 			form.save(True)
 			
 
+			# for error in errors:
+			# 	error.message
 
-		# first_name = request.POST.get('first_name')
-		# last_name = request.POST.get('last_name')
-		# email = request.POST.get('email')
-		# username = request.POST.get('username')
-		# password1 = request.POST.get('password1')
-		# password_confirmation = request.POST.get('password_confirmation')
-		# form.clean_password2
-
-		# new_user = User.objects.create_user(username=username, email=email, password=password1)
-		# new_user.save()
+			# form.clean_password2()
+			form.save()
 			
 		return HttpResponseRedirect('/login/')
 	else:
@@ -134,15 +134,43 @@ def login(request):
 def transfer_hist(request):
 	transfer_list = Transfer_item.objects.all()
 	transferLen = len(transfer_list)
-	form = TransferForm(request.POST or None)
-	if form.is_valid():
-		form.save()
-		return redirect('transfer_hist')
 	return render(request, 'transfer/transfer_hist.html', {
 		'transfer': transfer_list,
-		'transferLen': transferLen,
-		'form' : form,
+		'transferLen': transferLen
 		})
+
+
+def create_transfer(request):
+	transferForm = TransferForm(request.POST or None)
+	formset = formset_factory(Transfer_itemForm, formset=Transfer_itemFormset, extra = 1)
+	transferFormset = formset(request.POST or None)
+
+	if transferForm.is_valid() and transferFormset.is_valid():
+		p = transferForm.save(commit=False)
+		p.save()
+		transfer_id = p
+		new_items = []
+
+		
+		for form in transferFormset:
+			item = form.cleaned_data.get('item')
+			transfer = transfer_id
+			quantity_to_transfer = form.cleaned_data.get('quantity_to_transfer')
+			i = Transfer_item(item = item,quantity_to_transfer=quantity_to_transfer, trans=p)	
+			i.save()
+		
+		return HttpResponseRedirect(reverse('transfer_hist'))
+
+	return render(request, 'transfer/transfer_form.html', {
+		'TransferForm' : transferForm, 
+		'formset' : transferFormset, 
+		})
+#def create_transfer(request,template_name ='transfer/transfer_form.html'):
+#	form = TransferForm(request.POST or None)
+#	if form.is_valid():
+#		form.save()
+#		return redirect('transfer_hist')
+#	return render(request,template_name,{'form':form})
 
 def location(request):
 	location_list = Location.objects.all()
@@ -173,25 +201,29 @@ def location_delete(request, location_id):
 def items(request):
 	items_list = Item.objects.all().filter(status=True)
 	itemLen = len(items_list)
+	
+	return render(request, 'items/items.html', {
+		'items': items_list,
+		'itemLen': itemLen,
+		})
+
+def add_item(request):
 	form = AddItemForm(request.POST or None)
 	if form.is_valid():
 		form.save()
 		return redirect('items')
-	return render(request, 'items/items.html', {
-		'items': items_list,
-		'itemLen': itemLen,
-		'form' : form,
-		})
+	return render(request, 'items/add_item.html' , {'form' : form})
 
 def delete_item(request, item_id):
 	item = Item.objects.get(pk = item_id)
 	item.status = False
-	item.drop()
+	item.save()
 	return HttpResponseRedirect(reverse('items'))
 
 def update_item(request, item_id):
+	item = Item.objects.get(pk=item_id)
+
 	if request.method == 'POST':
-		item = Item.objects.get(pk = item_id)
 		item.types = request.POST.get('types')
 		item.category = request.POST.get('category')
 		item.brand = request.POST.get('brand')
@@ -202,37 +234,29 @@ def update_item(request, item_id):
 		item.warehouse_quantity= request.POST.get('warehouse_quantity')
 		item.srp = request.POST.get('srp')
 		item.save()
-	return HttpResponseRedirect(reverse('items'))
+		return HttpResponseRedirect(reverse('items'))
+
+	return render(request, 'items/update_item.html', {'item' : item})
 
 
 @login_required
 def sales(request):
-
 	sales_list = Sale.objects.all()
 	salesLen = len(sales_list)
-	form = AddSaleForm(request.POST or None)
-	
-	if form.is_valid():
-		item = form.cleaned_data['item']
-		q_sale = form.cleaned_data['quantity']
-		store_qty = item.store_quantity
-		update_qty = store_qty - q_sale
-
-		if update_qty < 0 :
-			form.clean_message()			
-			return render (request, 'sales/modals.html', {'error' : True})
-		else:
-			item.store_quantity = update_qty
-			item.save()
-			
-		form.save()			
-		return redirect('sales')
 
 	return render(request, 'sales/sales.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen,
-		'form' : form,
 		})
+
+def add_sale(request):
+	form = AddSaleForm(request.POST or None)
+	if form.is_valid():
+		form.clean_quantity()
+		form.save()
+		return redirect('sales')
+	return render(request, 'sales/add_sale.html', {'form' : form})
+
 
 def delete_sale(request, sale_id):
 	sale = Sale.objects.get(pk = sale_id)
@@ -240,13 +264,16 @@ def delete_sale(request, sale_id):
 	return HttpResponseRedirect(reverse('sales'))
 
 def update_sale(request, sale_id):
+	sale = Sale.objects.get(pk = sale_id)
 	if request.method == 'POST':
 		sale = Sale.objects.get(pk = sale_id)
 		sale.item.item_code = request.POST.get('item')
 		sale.quantity =  request.POST.get('quantity')
 		sale.date = request.POST.get('date')
 		sale.save()
-	return HttpResponseRedirect(reverse('sales')) 		
+		return HttpResponseRedirect(reverse('sales')) 
+
+	return render(request, 'sales/update_sale.html', {'sale' : sale})	
 
 def suppliers(request):
 	s_list = Supplier.objects.all()
@@ -344,3 +371,8 @@ def delete_customer(request, customer_id):
 	return HttpResponseRedirect(reverse('customers'))
 
 
+def settings(request):
+	users = User.objects.all()
+	account_form = AccountForm()
+	return render(request, 'settings/settings.html', {'account_form':account_form,
+		'users':users})
