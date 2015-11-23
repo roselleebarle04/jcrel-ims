@@ -1,10 +1,6 @@
 from django import forms
-<<<<<<< HEAD
 from django.forms import fields, models, formsets, widgets
 from django.forms import BaseFormSet, formset_factory, BaseInlineFormSet
-=======
-# from .models import Account,Transfer_item, AddArrival, Item, Sale, Supplier
->>>>>>> f7260ce8d64f18d9e7548cfb0e49bd857945fb9a
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
