@@ -83,15 +83,18 @@ class AddSaleForm(forms.ModelForm):
 		self.fields['quantity'].error_messages['required'] = 'Enter quantity.'	
 		self.fields['date'].error_messages['required'] = 'Enter quantity.'
 
-	def clean_message(self):
-		item = form.cleaned_data['item']
-		qty_sale = form.cleaned_data['quantity']
+	def clean_quantity(self):
+		item = self.cleaned_data['item']
+		qty_sale = self.cleaned_data['quantity']
 		store_qty = item.store_quantity
-		update_qty = store_qty - q_sale
-
-		if update_qty < 0 :
-			raise forms.ValidationError("Quantity exceeds the current quantity of items in the store.")
-
+		
+		if store_qty - qty_sale > 0:
+			item.store_quantity = store_qty - qty_sale
+			item.save()
+		else:
+			raise ValidationError("Quantity exceeds the current quantity of items in the store")
+		return self.cleaned_data['quantity']
+		
 class ArrivalForm(forms.ModelForm):
     class Meta:
         model = AddArrival
