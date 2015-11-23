@@ -240,6 +240,8 @@ def update_item(request, item_id):
 
 
 @login_required
+<<<<<<< HEAD
+=======
 def sale(request):
 	items_list = Item.objects.all()
 	saleForm = AddSaleForm(request.POST or None)
@@ -270,8 +272,14 @@ def sale(request):
 	return render(request, 'sales/sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset, 
+<<<<<<< HEAD
 		}) 
 
+=======
+		'items':items_list
+		})
+>>>>>>> 4d1d763965d60295a7c4ff69c3c09d92682b3eb0
+>>>>>>> 1c06309751a2365c2411c29c563184b4b96c813e
 def sales(request):
 	sales_list = SoldItem.objects.all()
 	salesLen = len(sales_list)
@@ -346,40 +354,11 @@ def delete_supplier(request, supplier_id):
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
 
-# def arrival(request):
-# 	# if request.method == 'POST':
-# 	arrivalForm = AddArrivalForm(request.POST or None)
-# 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 2)
-# 	arrivalFormset = formset(request.POST or None)
-
-# 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
-# 		# save purchase details
-# 		a = arrivalForm.save(commit=False)
-# 		a.save()
-# 		arrival_id = a
-# 		new_items = []
-# 		for form in arrivalFormset:
-# 			item = form.cleaned_data.get('arrived_item')
-# 			arrival = arrival_id
-# 			arrived_quantity = form.cleaned_data.get('arrived_quantity')
-# 			itemCost = form.cleaned_data.get('itemCost')
-# 			ai = ArrivedItem(arrived_item=item, arrival=a, arrived_quantity=arrived_quantity, itemCost=itemCost)	
-# 			ai.save()
-# 			# new_items.append()
-		
-# 		# ItemPurchase.bulk_create(new_items)
-# 		return HttpResponseRedirect(reverse('arrival'))
-
-# 	return render(request, 'arrival/arrival.html', {
-# 		'AddArivalForm' : arrivalForm, 
-# 		'formset' : arrivalFormset, 
-# 		})
 
 def arrival(request):
 	items_list = Item.objects.all()
 	arrivalForm = AddArrivalForm(request.POST or None)
 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
-	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra=3)
 	arrivalFormset = formset(request.POST or None)
 
 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
@@ -408,6 +387,16 @@ def arrival(request):
 		'formset' : arrivalFormset,
 		'items':items_list 
 		})
+
+def arrival_history(request):
+	arrival_list = ArrivedItem.objects.all()
+	arrivalLen = len(arrival_list)
+	return render(request, 'arrival/arrival_history.html', {
+		'arrival': arrival_list,
+		'arrivalLen': arrivalLen
+		})
+
+
 def customers(request):
 	items_list = Item.objects.all()
 	c_list = Customer.objects.all()
@@ -450,4 +439,5 @@ def settings(request):
 	users = User.objects.all()
 	account_form = AccountForm()
 	return render(request, 'settings/settings.html', {'account_form':account_form,
+		'users':users})
 		'users':users, 'items':items_list})

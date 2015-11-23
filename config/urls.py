@@ -59,6 +59,7 @@ urlpatterns = [
     url(r'^sales/add/$', inventory_views.add_sale, name = 'add_sale'),
     url(r'^sales/delete/(?P<sale_id>[0-9]+)/$', inventory_views.delete_sale, name = 'delete_sale'),
 
+
     #=================================================================
     url(r'^sale/$', inventory_views.sale, name='sale'),
     url(r'^sale/update/(?P<sale_id>[0-9]+)/$', inventory_views.update_sale, name = 'update_sale'),
@@ -69,6 +70,7 @@ urlpatterns = [
     # url(r'^arrivals/delete/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
     # url(r'^arrivals/update/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_update, name='arrival_update'),
 
+
     url(r'^settings/$', inventory_views.settings, name='settings'),
 
     # url(r'^arrivals/$', inventory_views.arrivals, name = 'arrivals'),
@@ -76,8 +78,8 @@ urlpatterns = [
     # url(r'^arrivals/delete/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
     # url(r'^arrivals/update/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
     url(r'^arrival/$', inventory_views.arrival, name='arrival'),
-
     url(r'^arrival/add/$', inventory_views.arrival, name='arrival'),
+    url(r'^arrival/history/$', inventory_views.arrival_history, name='arrival_history'),
 
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
     url(r'^transfer_form/$', inventory_views.create_transfer, name = 'new_transfer'),
@@ -93,4 +95,3 @@ urlpatterns = [
             # 'inventory.views.reset_confirm', name='password_reset_confirm'),
     # url(r'^success/$', 'inventory.views.success', name='success'),
 ]
-
