@@ -108,9 +108,7 @@ class AddSaleForm(forms.ModelForm):
 	def clean_quantity(self):
 		item = self.cleaned_data['item']
 		qty_sale = self.cleaned_data['quantity']
-		store_qty = item.store_quantity
-<<<<<<< HEAD
-		
+		store_qty = item.store_quantity		
 		if store_qty - qty_sale > 0:
 			item.store_quantity = store_qty - qty_sale
 			item.save()
