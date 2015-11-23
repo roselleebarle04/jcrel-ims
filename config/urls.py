@@ -3,7 +3,6 @@ from django.contrib.auth import views as auth_views
 from django.contrib import admin
 from django.contrib.auth.views import password_reset
 
-
 from . import settings
 from inventory import views as inventory_views
 
@@ -59,11 +58,6 @@ urlpatterns = [
     url(r'^sales/add/$', inventory_views.add_sale, name = 'add_sale'),
     url(r'^sales/delete/(?P<sale_id>[0-9]+)/$', inventory_views.delete_sale, name = 'delete_sale'),
 
-    
-    url(r'^arrivals/$', inventory_views.arrivals, name = 'arrivals'),
-    url(r'^arrivals/add/$', inventory_views.arrival_create, name = 'arrival_form'),    
-    url(r'^arrivals/delete/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
-    url(r'^arrivals/update/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_update, name='arrival_update'),
 
     url(r'^settings/$', inventory_views.settings, name='settings'),
 

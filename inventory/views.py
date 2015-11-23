@@ -129,7 +129,7 @@ def transfer_hist(request):
 	transferLen = len(transfer_list)
 	return render(request, 'transfer/transfer_hist.html', {
 		'transfer': transfer_list,
-		'transferLen': transferLen
+		'transferLen': transferLen,
 		})
 
 
@@ -142,14 +142,12 @@ def create_transfer(request):
 		p = transferForm.save(commit=False)
 		p.save()
 		transfer_id = p
-		new_items = []
-
 		
 		for form in transferFormset:
-			item = form.cleaned_data.get('item')
 			transfer = transfer_id
-			quantity_to_transfer = form.cleaned_data.get('quantity_to_transfer')
-			i = Transfer_item(item = item,quantity_to_transfer=quantity_to_transfer, trans=p)	
+			item = form.cleaned_data['item']
+			quantity_to_transfer = form.cleaned_data['quantity_to_transfer']
+			i = Transfer_item(item = item, quantity_to_transfer=quantity_to_transfer, trans=p)	
 			i.save()
 		
 		return HttpResponseRedirect(reverse('transfer_hist'))
@@ -332,7 +330,6 @@ def delete_supplier(request, supplier_id):
 def arrival(request):
 	arrivalForm = AddArrivalForm(request.POST or None)
 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
-	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra=3)
 	arrivalFormset = formset(request.POST or None)
 
 	if arrivalForm.is_valid() and arrivalFormset.is_valid():

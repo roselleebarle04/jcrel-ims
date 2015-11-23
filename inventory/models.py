@@ -122,14 +122,13 @@ class Location (models.Model):
 		return self.branch_name
 
 
-
 class Transfer (models.Model):
 	transfer_date = models.DateField(default=timezone.now)
 	location = models.ForeignKey(Location)
 	trans_item = models.ManyToManyField(Item, through = 'Transfer_item')
 
 	def __unicode__(self):
-		return self.location
+		return '%s' %(self.location)
 
 class Transfer_item(models.Model):
 	item = models.ForeignKey(Item)

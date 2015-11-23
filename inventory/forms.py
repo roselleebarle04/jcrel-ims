@@ -109,7 +109,7 @@ class AddSaleForm(forms.ModelForm):
 		item = self.cleaned_data['item']
 		qty_sale = self.cleaned_data['quantity']
 		store_qty = item.store_quantity
-<<<<<<< HEAD
+
 		
 		if store_qty - qty_sale > 0:
 			item.store_quantity = store_qty - qty_sale
@@ -118,20 +118,7 @@ class AddSaleForm(forms.ModelForm):
 			raise ValidationError("Quantity exceeds the current quantity of items in the store")
 		return self.cleaned_data['quantity']
 		
-class ArrivalForm(forms.ModelForm):
-    class Meta:
-        model = AddArrival
-        fields = ['date', 'dr', 'tracking_no','supplier', 'itemName', 'qty', 'itemCost']
 
-    def __init__(self, *args, **kwargs):
-		super(ArrivalForm,self).__init__(*args, **kwargs)
-		self.fields['itemName'].widget.attrs['class'] = 'form-control'
-		self.fields['supplier'].widget.attrs['class'] = 'form-control'
-		update_qty = store_qty - q_sale
-
-		if update_qty < 0 :
-			raise forms.ValidationError("Quantity exceeds the current quantity of items in the store.")
-			
 class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer
@@ -151,20 +138,18 @@ class Transfer_itemForm(forms.ModelForm):
 		fields = ['item', 'quantity_to_transfer']
 		
 	
-	# def clean(self):
-	# 	cleaned_data = super(TransferForm,self).clean()
-	# 	d = cleaned_data.get('item')
-	# 	q_transfer =cleaned_data.get('quantity_to_transfer')
-	# 	w_qty = d.warehouse_quantity
-	# 	if  q_transfer > w_qty:
-	# 		msg = "Quantity exceed the current quantity of the Item in the Warehouse"
-	# 		self.add_error('quantity_to_transfer',msg)
-	# 	else:
-	# 		current_w = w_qty - q_transfer
-	# 		current_s = d.store_quantity + q_transfer
-	# 		d.warehouse_quantity = current_w
-	# 		d.store_quantity = current_s
-	# 		d.save()
+	def clean(self):
+		data = self.cleaned_data['item']
+		q_transfer = self.cleaned_data['quantity_to_transfer']
+		w_qty = data.warehouse_quantity
+		if q_transfer> w_qty:
+			raise forms.ValidationError("Quantity Exceed current quantity of the Item in the Warehouse")
+		else:
+			current_w = w_qty - q_transfer
+			current_s = data.store_quantity + q_transfer
+			data.warehouse_quantity = current_w
+			data.store_quantity = current_s
+			data.save()
 
 	def __init__(self, *args, **kwargs):
 		super(Transfer_itemForm, self).__init__(*args, **kwargs)
@@ -174,7 +159,7 @@ class Transfer_itemForm(forms.ModelForm):
 class Transfer_itemFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
-			return
+			returns
 
 
 class LocationForm(forms.ModelForm):
