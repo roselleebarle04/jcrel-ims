@@ -26,6 +26,10 @@ ul.errorlist {
 	width: 150px;
 }
 
+#wrapper .navbar-default.sidebar .sidebar-nav ul li i {
+	color: white;
+}
+
 #wrapper .navbar-default.sidebar .sidebar-nav ul li a{
 	background: #30426A
 }
