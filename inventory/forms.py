@@ -1,10 +1,6 @@
 from django import forms
-<<<<<<< HEAD
 from django.forms import fields, models, formsets, widgets
 from django.forms import BaseFormSet, formset_factory, BaseInlineFormSet
-=======
-# from .models import Account,Transfer_item, AddArrival, Item, Sale, Supplier
->>>>>>> f7260ce8d64f18d9e7548cfb0e49bd857945fb9a
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -125,11 +121,14 @@ class TransferForm(forms.ModelForm):
 			d.save()
 
 	def __init__(self, *args, **kwargs):
-		super(TransferForm,self).__init__(*args, **kwargs)
+		super(TransferForm, self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
-
-#def get_ordereditem_formset(form, formset =models.BaseInlineFormSet, **kwargs):
-   # return models.inlineformset_factory(Transfer_item **kwargs)
+		self.fields['quantity_to_transfer'].widget.attrs['class'] = 'form-control'
+		
+class TransferFormset(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			return
 
 
 class LocationForm(forms.ModelForm):
@@ -189,6 +188,7 @@ class AddArrivedItemFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
 			return
+
 class AddCustomerForm(forms.ModelForm):
 	class Meta: 
 		model = Supplier

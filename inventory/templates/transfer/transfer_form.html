@@ -1,11 +1,73 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-<br>
-<h1> Add Transfer</h1>
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
-</form>
+
+ 
+<style type="text/css">
+    .add-row {
+        margin-top: 10px;
+        width: 150px;
+    }
+
+    .delete-row {
+        width: 80%;
+        margin-left: 10%;
+    }
+    #id_transfer th {
+        padding: 10px;
+        text-align: center;
+    }
+    #id_transfer td {
+        padding: 10px;
+        text-align: center;
+
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+  			<h2> Add Transfer</h2>
+            <table id="id_transfer" width="100%" border="0" cellpadding="50" cellspacing="1500">
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for form in formset %}
+                    <tr id="{{ form.prefix }}-row">
+                        <td>{{ form.item }}</td>
+                        <td>{{form.quantity_to_transfer}}</td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+            {{ formset.management_form }}
+            <br><br>
+            <div class="form-group">
+                <input type="submit" class="form-control btn btn-primary" name="name" value="Submit" />
+            </div>
+        </form>
+    </div>
+</div>
+
+{% block scripts %}
+<script type="text/javascript" src="/static/js/jquery.formset.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#id_transfer tbody tr').formset({
+            // For inline formsets, be sure to set the prefix, as the default prefix
+            // ('form') isn't correct.
+            // Django appears to generate the prefix from the lowercase plural
+            // name of the related model, with camel-case converted to underscores.
+            prefix: 'transfer'
+        })
+    })
+</script>
+{% endblock %}
 
 {% endblock content %}

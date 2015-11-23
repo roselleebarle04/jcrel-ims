@@ -132,12 +132,35 @@ def transfer_hist(request):
 		'transferLen': transferLen
 		})
 
-def create_transfer(request,template_name ='transfer/transfer_form.html'):
-	form = TransferForm(request.POST or None)
-	if form.is_valid():
-		form.save()
-		return redirect('transfer_hist')
-	return render(request,template_name,{'form':form})
+
+def create_transfer(request):
+	transferForm = TransferForm(request.POST or None)
+	formset = formset_factory(TransferForm, formset=TransferFormset, extra = 1)
+	transferFormset = formset(request.POST or None)
+
+	if transferForm.is_valid() and transferFormset.is_valid():
+		p = transferForm.save(commit=False)
+		p.save()
+
+		for form in transferFormset:
+			item = form.cleaned_data['item']
+			quantity_to_transfer = form.cleaned_data['quantity_to_transfer']
+			i = Transfer_item(item=item, quantity_to_transfer=quantity_to_transfer)	
+			i.save()
+		
+		return HttpResponseRedirect(reverse('transfer_hist'))
+
+	return render(request, 'transfer/transfer_form.html', {
+		'TransferForm' : transferForm, 
+		'formset' : transferFormset, 
+		})
+
+#def create_transfer(request,template_name ='transfer/transfer_form.html'):
+#	form = TransferForm(request.POST or None)
+#	if form.is_valid():
+#		form.save()
+#		return redirect('transfer_hist')
+#	return render(request,template_name,{'form':form})
 
 def location(request):
 	location_list = Location.objects.all()
