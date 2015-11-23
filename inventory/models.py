@@ -118,11 +118,27 @@ class Location (models.Model):
 	branch_name = models.CharField(max_length = 50, null = True)
 	address = models.CharField(max_length = 200, null = True)
 
+	def __unicode__(self):
+		return self.branch_name
+
+
+
+class Transfer (models.Model):
+	transfer_date = models.DateField(default=timezone.now)
+	location = models.ForeignKey(Location)
+	trans_item = models.ManyToManyField(Item, through = 'Transfer_item')
+
+	def __unicode__(self):
+		return self.location
 
 class Transfer_item(models.Model):
-	item = models.ForeignKey(Item, blank=True, null=True)
+	item = models.ForeignKey(Item)
+	trans = models.ForeignKey(Transfer)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
-	transfer_date = models.DateField(default=timezone.now)
+	
+	def __unicode__(self):
+		return self.item.item_code
+
 
 class Arrival(models.Model):
 	"""	This model refers to the arrival of the store owner from its suppliers """
@@ -147,5 +163,5 @@ class ArrivedItem(models.Model):
 	#source_location = models.ForeignKey(Location)
 	#destination = models.ForeignKey(Location)
 	def __unicode__(self):
-		return self.item.store_code
+		return self.item.item_code
 
