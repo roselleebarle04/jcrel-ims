@@ -32,7 +32,7 @@ class Item(models.Model):
 	item_code = models.CharField(max_length = 50, unique = True)
 	store_quantity = models.PositiveSmallIntegerField(default = 0)
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
-	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
+	srp = models.FloatField(null=True, blank=True)
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 	def __unicode__(self):
@@ -73,27 +73,42 @@ class Customer(models.Model):
 		return self.name
 
 
+# class Sale(models.Model):
+# 	item = models.ForeignKey(Item)
+# 	quantity = models.PositiveSmallIntegerField(default = 0)
+# 	date = models.DateField(default=timezone.now)
+
+# 	def __unicode__(self):
+# 		return self.item.unicode.__mod__()
+
+# 	@property	
+# 	def calculate_cost(self):
+# 		total = self.quantity * self.item.srp
+# 		return total
+
+# 	@property
+# 	def total_quantity(self):
+# 		qty = self.item.store_quantity + self.item.warehouse_quantity
+# 		print qty
+# 		return qty
+	
+# class Sales_history(models.Model):
+# 	sale = models.ForeignKey(Sale)
 class Sale(models.Model):
-	item = models.ForeignKey(Item)
-	quantity = models.PositiveSmallIntegerField(default = 0)
 	date = models.DateField(default=timezone.now)
+	items = models.ManyToManyField(Item, through='SoldItem')
 
 	def __unicode__(self):
-		return self.item.unicode.__mod__()
+		return self.date
 
-	@property	
-	def calculate_cost(self):
-		total = self.quantity * self.item.srp
-		return total
-
-	@property
-	def total_quantity(self):
-		qty = self.item.store_quantity + self.item.warehouse_quantity
-		print qty
-		return qty
-	
-class Sales_history(models.Model):
+class SoldItem(models.Model):
+	item = models.ForeignKey(Item)
 	sale = models.ForeignKey(Sale)
+	quantity = models.PositiveSmallIntegerField(default = 0)	
+	item_cost = models.FloatField(null=True, blank=True)
+
+	def __unicode__(self):
+		return self.item.__unicode__()
 	
 
 # class Arrival(models.Model):
@@ -118,11 +133,27 @@ class Location (models.Model):
 	branch_name = models.CharField(max_length = 50, null = True)
 	address = models.CharField(max_length = 200, null = True)
 
+	def __unicode__(self):
+		return self.branch_name
+
+
+
+class Transfer (models.Model):
+	transfer_date = models.DateField(default=timezone.now)
+	location = models.ForeignKey(Location)
+	trans_item = models.ManyToManyField(Item, through = 'Transfer_item')
+
+	def __unicode__(self):
+		return self.location
 
 class Transfer_item(models.Model):
-	item = models.ForeignKey(Item, blank=True, null=True)
+	item = models.ForeignKey(Item)
+	trans = models.ForeignKey(Transfer)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
-	transfer_date = models.DateField(default=timezone.now)
+	
+	def __unicode__(self):
+		return self.item.item_code
+
 
 class Arrival(models.Model):
 	"""	This model refers to the arrival of the store owner from its suppliers """
@@ -147,5 +178,4 @@ class ArrivedItem(models.Model):
 	#source_location = models.ForeignKey(Location)
 	#destination = models.ForeignKey(Location)
 	def __unicode__(self):
-		return self.item.store_code
-
+		return self.item.item_code

@@ -135,17 +135,21 @@ def transfer_hist(request):
 
 def create_transfer(request):
 	transferForm = TransferForm(request.POST or None)
-	formset = formset_factory(TransferForm, formset=TransferFormset, extra = 1)
+	formset = formset_factory(Transfer_itemForm, formset=Transfer_itemFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
 
 	if transferForm.is_valid() and transferFormset.is_valid():
 		p = transferForm.save(commit=False)
 		p.save()
+		transfer_id = p
+		new_items = []
 
+		
 		for form in transferFormset:
-			item = form.cleaned_data['item']
-			quantity_to_transfer = form.cleaned_data['quantity_to_transfer']
-			i = Transfer_item(item=item, quantity_to_transfer=quantity_to_transfer)	
+			item = form.cleaned_data.get('item')
+			transfer = transfer_id
+			quantity_to_transfer = form.cleaned_data.get('quantity_to_transfer')
+			i = Transfer_item(item = item,quantity_to_transfer=quantity_to_transfer, trans=p)	
 			i.save()
 		
 		return HttpResponseRedirect(reverse('transfer_hist'))
@@ -154,7 +158,6 @@ def create_transfer(request):
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset, 
 		})
-
 #def create_transfer(request,template_name ='transfer/transfer_form.html'):
 #	form = TransferForm(request.POST or None)
 #	if form.is_valid():
@@ -230,6 +233,36 @@ def update_item(request, item_id):
 
 
 @login_required
+def sale(request):
+	saleForm = AddSaleForm(request.POST or None)
+	formset = formset_factory(AddSoldItemForm, formset=AddSoldItemFormset, extra = 1)
+	saleFormset = formset(request.POST or None)
+
+	if saleForm.is_valid() and saleFormset.is_valid():
+		# first save purchase details
+		# commit = False means that we can store the purchase instance to the value p
+		p = saleForm.save(commit=False)
+
+		#save the form
+		p.save()
+		sale_id = p
+		new_items = []
+
+		# loop through all forms in the formset, and save each form - add the purchaseId to each form
+		for form in saleFormset:
+			item = form.cleaned_data.get('item')
+			sale = sale_id
+			quantity = form.cleaned_data.get('quantity')
+			item_cost = form.cleaned_data.get('item_cost')
+			new_item = SoldItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
+			new_item.save()
+		
+		return HttpResponseRedirect(reverse('sale'))
+
+	return render(request, 'sales/sale.html', {
+		'AddSaleForm' : saleForm, 
+		'formset' : saleFormset, 
+		})
 def sales(request):
 	sales_list = Sale.objects.all()
 	salesLen = len(sales_list)
