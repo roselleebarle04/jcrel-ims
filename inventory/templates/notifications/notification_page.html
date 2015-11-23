@@ -14,25 +14,12 @@
 <div class="row">
     <div class="col-lg-12"> 
         <table id="transfer" class="table table-striped table-bordered" cellspacing="0" width="100%">
-            <!-- <thead>
-                <tr>
-                    <h1>Notifications</h1>
-                    <th>Item Code</th>
-                    <th>Total Quantity</th>
-                    <th>Minimum Required</th>
-                    <th width="50"></th>
-                </tr>
-            </thead> -->
             <tbody>
-                {% for item in items_list %}
+                {% for item in items %}
                     {% if item.total_quantity < 5 %}
                 <tr>
-                    <td><a href="/items/">{{item.category}} {{item.types}} {{item.brand}} {{item.model}}</a> 
+                    <td><a href="/items/"> {{item.types}} {{item.category}} {{item.brand}} {{item.model}}</a> 
                     is below the minimum required quantity of 5.</td>
-                    <!-- Item Code {{item.store_code}} is below the minimum required quantity of 5. -->
-                  <!-- <td>{{item.store_code}} is yada yada yada</td>
-                  <td>{{item.total_quantity}}</td>
-                  <td>5</td> -->
                 </tr>
                     {% endif %}
                 {% endfor %}

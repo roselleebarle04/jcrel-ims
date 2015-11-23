@@ -24,14 +24,6 @@ class AccountForm(UserCreationForm):
 		model = User
 		fields = ("username", "email", "password1", "password2")
 
-		# def save(self, commit=True):
-		# 	user = super(AccountForm, self).save(commit=False)
-		# 	user.email = self.cleaned_data["email"]
-		# 	if commit:
-		# 		user.save()
-		# 	return user
-
-
 
 		def clean_password2(self):
 			password1 = self.cleaned_data.get("password1")
@@ -43,11 +35,7 @@ class AccountForm(UserCreationForm):
 			if password1 != password2:
 				raise forms.ValidationError(self.error_messages['Passwords do not match.'],
 					code='password_mismatch')
-
-			# if password1 and password2 and password1 != password2:
-				# raise forms.ValidationError("Password mismatch")
-			# self.instance.username = self.cleaned_data.get('username')
-			# password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
+				
 			return password2
 
 		def save(self, commit=True):
@@ -58,22 +46,6 @@ class AccountForm(UserCreationForm):
 			if commit:
 				user.save()
 			return user
-
-		def clean_email(self):
-			email = self.cleaned_data.get("email")
-			username = self.cleaned_data.get("username")
-
-# def clean_password2(self):
-#         password1 = self.cleaned_data.get("password1")
-#         password2 = self.cleaned_data.get("password2")
-#         if password1 and password2 and password1 != password2:
-#             raise forms.ValidationError(
-#                 self.error_messages['password_mismatch'],
-#                 code='password_mismatch',
-#             )
-#         self.instance.username = self.cleaned_data.get('username')
-#         password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
-#         return password2
 
 class AddItemForm(forms.ModelForm):
 	class Meta:
@@ -93,29 +65,31 @@ class AddItemForm(forms.ModelForm):
 		self.fields['warehouse_quantity'].error_messages['required'] = 'Enter item\'s warehouse quantity'
 		self.fields['srp'].error_messages['required'] = 'Enter item\'s srp'
         	
-# class AddSaleForm(forms.ModelForm):
-# 	class Meta:
-# 		model = Sale
-# 		fields = ['item', 'quantity', 'date']
+class AddSaleForm(forms.ModelForm):
+	class Meta:
+		model = Sale
+		fields = ['item', 'quantity', 'date']
 
-# 	def __init__(self, *args, **kwargs):
-# 		super(AddSaleForm,self).__init__(*args, **kwargs)
-# 		self.fields['item'].widget.attrs['class'] = 'form-control'
-# 		self.fields['item'].error_messages['required'] = 'Choose an item.'
-# 		self.fields['quantity'].error_messages['required'] = 'Enter quantity.'	
-# 		self.fields['date'].error_messages['required'] = 'Enter quantity.'
+	def __init__(self, *args, **kwargs):
+		super(AddSaleForm,self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['item'].error_messages['required'] = 'Choose an item.'
+		self.fields['quantity'].error_messages['required'] = 'Enter quantity.'	
+		self.fields['date'].error_messages['required'] = 'Enter quantity.'
 
-# 	def clean_quantity(self):
-# 		item = self.cleaned_data['item']
-# 		qty_sale = self.cleaned_data['quantity']
-# 		store_qty = item.store_quantity
+	def clean_quantity(self):
+		item = self.cleaned_data['item']
+		qty_sale = self.cleaned_data['quantity']
+		store_qty = item.store_quantity
+
 		
-# 		if store_qty - qty_sale > 0:
-# 			item.store_quantity = store_qty - qty_sale
-# 			item.save()
-# 		else:
-# 			raise ValidationError("Quantity exceeds the current quantity of items in the store")
-# 		return self.cleaned_data['quantity']
+		if store_qty - qty_sale > 0:
+			item.store_quantity = store_qty - qty_sale
+			item.save()
+		else:
+			raise ValidationError("Quantity exceeds the current quantity of items in the store")
+		return self.cleaned_data['quantity']
+		
 
 class TransferForm(forms.ModelForm):
 	class Meta:
@@ -125,10 +99,7 @@ class TransferForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(TransferForm, self).__init__(*args, **kwargs)
 		self.fields['location'].widget.attrs['class'] = 'form-control'
-		self.fields['transfer_date'].widget.attrs['class'] = 'form-control'
-		
-
-
+		self.fields['transfer_date'].widget.attrs['class'] = 'form-control'	
 
 class Transfer_itemForm(forms.ModelForm):
 	class Meta:
@@ -136,20 +107,18 @@ class Transfer_itemForm(forms.ModelForm):
 		fields = ['item', 'quantity_to_transfer']
 		
 	
-	# def clean(self):
-	# 	cleaned_data = super(TransferForm,self).clean()
-	# 	d = cleaned_data.get('item')
-	# 	q_transfer =cleaned_data.get('quantity_to_transfer')
-	# 	w_qty = d.warehouse_quantity
-	# 	if  q_transfer > w_qty:
-	# 		msg = "Quantity exceed the current quantity of the Item in the Warehouse"
-	# 		self.add_error('quantity_to_transfer',msg)
-	# 	else:
-	# 		current_w = w_qty - q_transfer
-	# 		current_s = d.store_quantity + q_transfer
-	# 		d.warehouse_quantity = current_w
-	# 		d.store_quantity = current_s
-	# 		d.save()
+	def clean(self):
+		data = self.cleaned_data['item']
+		q_transfer = self.cleaned_data['quantity_to_transfer']
+		w_qty = data.warehouse_quantity
+		if q_transfer> w_qty:
+			raise forms.ValidationError("Quantity Exceed current quantity of the Item in the Warehouse")
+		else:
+			current_w = w_qty - q_transfer
+			current_s = data.store_quantity + q_transfer
+			data.warehouse_quantity = current_w
+			data.store_quantity = current_s
+			data.save()
 
 	def __init__(self, *args, **kwargs):
 		super(Transfer_itemForm, self).__init__(*args, **kwargs)
@@ -159,7 +128,7 @@ class Transfer_itemForm(forms.ModelForm):
 class Transfer_itemFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
-			return
+			returns
 
 
 class LocationForm(forms.ModelForm):
@@ -230,23 +199,24 @@ class AddSaleForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AddSaleForm, self).__init__(*args, **kwargs)
 		self.fields['date'].widget.attrs['class'] = 'form-control'
+		
 
-class AddSoldItemForm(forms.ModelForm):
-	class Meta:
-		model = SoldItem
-		fields = ['item', 'quantity', 'item_cost']
+# class AddSoldItemForm(forms.ModelForm):
+# 	class Meta:
+# 		model = SoldItem
+# 		fields = ['item', 'quantity', 'item_cost']
 
-	def __init__(self, *args, **kwargs):
-		super(AddSoldItemForm, self).__init__(*args, **kwargs)
-		self.fields['item'].widget.attrs['class'] = 'form-control'
-		self.fields['quantity'].widget.attrs['class'] = 'form-control'
-		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
+# 	def __init__(self, *args, **kwargs):
+# 		super(AddSoldItemForm, self).__init__(*args, **kwargs)
+# 		self.fields['item'].widget.attrs['class'] = 'form-control'
+# 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+# 		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
+# 		self.fields['item'].queryset = Item.objects.filter(status=True)
 
-class AddSoldItemFormset(BaseFormSet):
-	def clean(self):
-		if any(self.errors):
-			return
-
+# class AddSoldItemFormset(BaseFormSet):
+# 	def clean(self):
+# 		if any(self.errors):
+# 			return
 
 class AddCustomerForm(forms.ModelForm):
 	class Meta: 
