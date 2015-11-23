@@ -61,6 +61,15 @@ class AddItemForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AddItemForm,self).__init__(*args, **kwargs)
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+		self.fields['types'].error_messages['required'] = 'Enter item\'s type.'
+		self.fields['category'].error_messages['required'] = 'Enter item\'s category'
+		self.fields['brand'].error_messages['required'] = 'Enter item\'s brand'
+		self.fields['model'].error_messages['required'] = 'Enter item\'s model'
+		self.fields['supplier'].error_messages['required'] = 'Enter supplier.'		
+		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
+		self.fields['store_quantity'].error_messages['required'] = 'Enter item\'s store quantity'
+		self.fields['warehouse_quantity'].error_messages['required'] = 'Enter item\'s warehouse quantity'
+		self.fields['srp'].error_messages['required'] = 'Enter item\'s srp'
         	
 class AddSaleForm(forms.ModelForm):
 	class Meta:
