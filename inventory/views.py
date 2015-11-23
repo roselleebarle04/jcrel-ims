@@ -240,6 +240,8 @@ def update_item(request, item_id):
 
 
 @login_required
+<<<<<<< HEAD
+=======
 def sale(request):
 	items_list = Item.objects.all()
 	saleForm = AddSaleForm(request.POST or None)
@@ -270,17 +272,21 @@ def sale(request):
 	return render(request, 'sales/sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset, 
+<<<<<<< HEAD
+		}) 
+
+=======
 		'items':items_list
 		})
+>>>>>>> 4d1d763965d60295a7c4ff69c3c09d92682b3eb0
+>>>>>>> 1c06309751a2365c2411c29c563184b4b96c813e
 def sales(request):
-	items_list = Item.objects.all()
-	sales_list = Sale.objects.all()
+	sales_list = SoldItem.objects.all()
 	salesLen = len(sales_list)
 
 	return render(request, 'sales/sales.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen,
-		'items':items_list
 		})
 
 def add_sale(request):
@@ -294,23 +300,23 @@ def add_sale(request):
 
 
 def delete_sale(request, sale_id):
-	items_list = Item.objects.all()
+	sale = SoldItem.objects.get(pk = sale_id)
 	sale = Sale.objects.get(pk = sale_id)
 	sale.delete()
 	return HttpResponseRedirect(reverse('sales'))
 
 def update_sale(request, sale_id):
-	items_list = Item.objects.all()
+	soldItem = SoldItem.objects.get(pk = sale_id)
 	sale = Sale.objects.get(pk = sale_id)
 	if request.method == 'POST':
-		sale = Sale.objects.get(pk = sale_id)
-		sale.item.item_code = request.POST.get('item')
-		sale.quantity =  request.POST.get('quantity')
-		sale.date = request.POST.get('date')
-		sale.save()
+		soldItem = SoldItem.objects.get(pk = sale_id)
+		soldItem.item.item_code = request.POST.get('item')
+		soldItem.quantity =  request.POST.get('quantity')
+		soldItem.sale.date =  request.POST.get('date')
+		soldItem.save()
 		return HttpResponseRedirect(reverse('sales')) 
-
-	return render(request, 'sales/update_sale.html', {'sale' : sale, 'items':items_list})	
+		
+	return render(request, 'sales/update_sale.html', {'soldItem' : soldItem})	
 
 def suppliers(request):
 	items_list = Item.objects.all()
@@ -348,40 +354,11 @@ def delete_supplier(request, supplier_id):
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
 
-# def arrival(request):
-# 	# if request.method == 'POST':
-# 	arrivalForm = AddArrivalForm(request.POST or None)
-# 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 2)
-# 	arrivalFormset = formset(request.POST or None)
-
-# 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
-# 		# save purchase details
-# 		a = arrivalForm.save(commit=False)
-# 		a.save()
-# 		arrival_id = a
-# 		new_items = []
-# 		for form in arrivalFormset:
-# 			item = form.cleaned_data.get('arrived_item')
-# 			arrival = arrival_id
-# 			arrived_quantity = form.cleaned_data.get('arrived_quantity')
-# 			itemCost = form.cleaned_data.get('itemCost')
-# 			ai = ArrivedItem(arrived_item=item, arrival=a, arrived_quantity=arrived_quantity, itemCost=itemCost)	
-# 			ai.save()
-# 			# new_items.append()
-		
-# 		# ItemPurchase.bulk_create(new_items)
-# 		return HttpResponseRedirect(reverse('arrival'))
-
-# 	return render(request, 'arrival/arrival.html', {
-# 		'AddArivalForm' : arrivalForm, 
-# 		'formset' : arrivalFormset, 
-# 		})
 
 def arrival(request):
 	items_list = Item.objects.all()
 	arrivalForm = AddArrivalForm(request.POST or None)
 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
-	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra=3)
 	arrivalFormset = formset(request.POST or None)
 
 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
@@ -410,6 +387,16 @@ def arrival(request):
 		'formset' : arrivalFormset,
 		'items':items_list 
 		})
+
+def arrival_history(request):
+	arrival_list = ArrivedItem.objects.all()
+	arrivalLen = len(arrival_list)
+	return render(request, 'arrival/arrival_history.html', {
+		'arrival': arrival_list,
+		'arrivalLen': arrivalLen
+		})
+
+
 def customers(request):
 	items_list = Item.objects.all()
 	c_list = Customer.objects.all()
@@ -452,4 +439,5 @@ def settings(request):
 	users = User.objects.all()
 	account_form = AccountForm()
 	return render(request, 'settings/settings.html', {'account_form':account_form,
+		'users':users})
 		'users':users, 'items':items_list})

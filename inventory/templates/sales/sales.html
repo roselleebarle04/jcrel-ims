@@ -6,7 +6,7 @@
 <div class="row">
     <h1 class="page-header">Sales History</h1>
     <div class="col-md-12">
-        <a href="/sales/add" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add New Sale</a>
+        <a href="/sale" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add New Sale</a>
     </div>
 </div> 
 
@@ -25,24 +25,19 @@
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Total Cost</th>
-                    <th width="10%"></th>
                 </tr>
             </thead>                   
             <tbody>                
                 {% for sale in sales_list %}
                 <tr>                    
-                    <td> {{ sale.date}}</td>
+                    <td> {{ sale.sale.date}}</td>
                     <td> {{ sale.item.item_code}} </td>
                     <td> {{ sale.item.category}} </td>
                     <td> {{ sale.item.brand}} </td>
                     <td> {{ sale.item.model}} </td>
-                    <td> {{ sale.item.srp}} </td>
+                    <td> {{ sale.item_cost}} </td>
                     <td> {{ sale.quantity}} </td>
-                    <td> {{ sale.calculate_cost}} </td>  
-                    <td>                           
-                        <a href="/sales/update/{{sale.id}}/" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span></a>
-                        <button onclick="confirmSaleDelete({{sale.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button>
-                    </td>                 
+                    <td> {{ sale.calculate_cost}} </td>                                
                 </tr>
                 {% endfor %}
             </tbody>
