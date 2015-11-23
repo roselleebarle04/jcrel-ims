@@ -240,6 +240,36 @@ def update_item(request, item_id):
 
 
 @login_required
+def sale(request):
+	saleForm = AddSaleForm(request.POST or None)
+	formset = formset_factory(AddSoldItemForm, formset=AddSoldItemFormset, extra = 1)
+	saleFormset = formset(request.POST or None)
+
+	if saleForm.is_valid() and saleFormset.is_valid():
+		# first save purchase details
+		# commit = False means that we can store the purchase instance to the value p
+		p = saleForm.save(commit=False)
+
+		#save the form
+		p.save()
+		sale_id = p
+		new_items = []
+
+		# loop through all forms in the formset, and save each form - add the purchaseId to each form
+		for form in saleFormset:
+			item = form.cleaned_data.get('item')
+			sale = sale_id
+			quantity = form.cleaned_data.get('quantity')
+			item_cost = form.cleaned_data.get('item_cost')
+			new_item = SoldItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
+			new_item.save()
+		
+		return HttpResponseRedirect(reverse('sale'))
+
+	return render(request, 'sales/sale.html', {
+		'AddSaleForm' : saleForm, 
+		'formset' : saleFormset, 
+		})
 def sales(request):
 	sales_list = Sale.objects.all()
 	salesLen = len(sales_list)

@@ -32,7 +32,7 @@ class Item(models.Model):
 	item_code = models.CharField(max_length = 50, unique = True)
 	store_quantity = models.PositiveSmallIntegerField(default = 0)
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
-	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
+	srp = models.FloatField(null=True, blank=True)
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 	def __unicode__(self):
@@ -73,27 +73,63 @@ class Customer(models.Model):
 		return self.name
 
 
+# class Sale(models.Model):
+# 	item = models.ForeignKey(Item)
+# 	quantity = models.PositiveSmallIntegerField(default = 0)
+# 	date = models.DateField(default=timezone.now)
+
+# 	def __unicode__(self):
+# 		return self.item.unicode.__mod__()
+
+# 	@property	
+# 	def calculate_cost(self):
+# 		total = self.quantity * self.item.srp
+# 		return total
+
+# 	@property
+# 	def total_quantity(self):
+# 		qty = self.item.store_quantity + self.item.warehouse_quantity
+# 		print qty
+# 		return qty
+	
+# class Sales_history(models.Model):
+# 	sale = models.ForeignKey(Sale)
 class Sale(models.Model):
-	item = models.ForeignKey(Item)
-	quantity = models.PositiveSmallIntegerField(default = 0)
 	date = models.DateField(default=timezone.now)
+	items = models.ManyToManyField(Item, through='SoldItem')
 
 	def __unicode__(self):
-		return self.item.unicode.__mod__()
+		return self.date
 
-	@property	
-	def calculate_cost(self):
-		total = self.quantity * self.item.srp
-		return total
-
-	@property
-	def total_quantity(self):
-		qty = self.item.store_quantity + self.item.warehouse_quantity
-		print qty
-		return qty
-	
-class Sales_history(models.Model):
+class SoldItem(models.Model):
+	item = models.ForeignKey(Item)
 	sale = models.ForeignKey(Sale)
+<<<<<<< HEAD
+=======
+	quantity = models.PositiveSmallIntegerField(default = 0)	
+	item_cost = models.FloatField(null=True, blank=True)
+
+	def __unicode__(self):
+		return self.item.__unicode__()
+	
+
+# class Arrival(models.Model):
+# 	"""	This model refers to the arrival of the store owner from its suppliers """
+# 	date = models.DateField(default=timezone.now)
+# 	dr = models.CharField(max_length=100, null=True, blank=True)
+# 	trckng_no = models.CharField(max_length=100, null=True, blank=True)
+# 	supp = models.ForeignKey(Supplier)
+# 	arrival_items = models.ManyToManyField(Item, through='ArrivedItem')
+	
+# 	def __unicode__(self):
+# 		return self.dr
+
+# class ArrivedItem(models.Model):
+# 	arrival = models.ForeignKey(Arrival)
+# 	arrived_item = models.ForeignKey(Item)
+# 	arrived_quantity = models.PositiveIntegerField(default=0)
+# 	itemCost = models.FloatField(null=True, blank=True)
+>>>>>>> 8a6e189489d9f351a14bf67ec0a263f6ee1b9bee
 
 
 class Location (models.Model):
@@ -129,4 +165,3 @@ class ArrivedItem(models.Model):
 	
 	def __unicode__(self):
 		return self.item.item_code
-

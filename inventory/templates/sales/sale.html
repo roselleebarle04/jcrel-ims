@@ -1,0 +1,85 @@
+ {% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}  
+<style type="text/css">
+    .add-row {
+        margin-top: 10px;
+        width: 150px;
+    }
+
+    .delete-row {
+        width: 80%;
+        margin-left: 10%;
+    }
+    #id_orders_table th {
+        padding: 10px;
+        text-align: center;
+    }
+    #id_orders_table td {
+        padding: 10px;
+        text-align: center;
+
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">Add Sale</h2>
+        <!-- <a href="#" class="btn btn-default" data-toggle="modal" data-target="#addSupplierModal">Add New</a> -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <form class="form" method="POST">
+            {% csrf_token %}
+            {{ AddSaleForm.as_p }}
+            
+            <h2>Sold Items</h2>
+            <table id="id_orders_table" width="100%" border="0" cellpadding="50" cellspacing="1500">
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Item Cost</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for form in formset %}
+                    <tr id="{{ form.prefix }}-row">
+                        <td>{{form.item}}</td>
+                        <td>{{form.quantity}}</td>
+                        <td>{{form.item_cost}}</td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+            {{ formset.management_form }}
+            <br><br>
+            <div class="form-group">
+                <input type="submit" class="form-control btn btn-primary" name="name" value="Submit" />
+            </div>
+        </form>
+    </div>
+</div>
+
+{% block scripts %}
+<script type="text/javascript" src="/static/js/jquery.formset.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#id_orders_table tbody tr').formset({
+            // For inline formsets, be sure to set the prefix, as the default prefix
+            // ('form') isn't correct.
+            // Django appears to generate the prefix from the lowercase plural
+            // name of the related model, with camel-case converted to underscores.
+            prefix: 'ordered_items'
+        })
+    })
+</script>
+{% endblock %}
+
+
+{% endblock %}

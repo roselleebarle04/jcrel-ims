@@ -59,11 +59,14 @@ urlpatterns = [
     url(r'^sales/add/$', inventory_views.add_sale, name = 'add_sale'),
     url(r'^sales/delete/(?P<sale_id>[0-9]+)/$', inventory_views.delete_sale, name = 'delete_sale'),
 
+    #=================================================================
+    url(r'^sale/$', inventory_views.sale, name='sale'),
+
     
-    url(r'^arrivals/$', inventory_views.arrivals, name = 'arrivals'),
-    url(r'^arrivals/add/$', inventory_views.arrival_create, name = 'arrival_form'),    
-    url(r'^arrivals/delete/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
-    url(r'^arrivals/update/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_update, name='arrival_update'),
+    # url(r'^arrivals/$', inventory_views.arrivals, name = 'arrivals'),
+    # url(r'^arrivals/add/$', inventory_views.arrival_create, name = 'arrival_form'),    
+    # url(r'^arrivals/delete/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_delete, name='arrival_delete'),
+    # url(r'^arrivals/update/(?P<arrival_id>[0-9]+)/$', inventory_views.arrival_update, name='arrival_update'),
 
     url(r'^settings/$', inventory_views.settings, name='settings'),
 
