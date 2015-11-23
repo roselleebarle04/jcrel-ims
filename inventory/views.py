@@ -317,7 +317,6 @@ def suppliers(request):
 	return render(request, 'supplier/suppliers.html', {
 		'suppliers': s_list,
 		's_len': s_len,
-		'supplierForm': supplierForm,
 		'items':items_list
 	})
 

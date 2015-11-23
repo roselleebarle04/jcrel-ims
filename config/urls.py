@@ -55,13 +55,10 @@ urlpatterns = [
     url(r'^customers/update/(?P<customers_id>[0-9]+)/$', inventory_views.update_customer, name='update_customer'),
     url(r'^customers/delete/(?P<customers_id>[0-9]+)/$', inventory_views.delete_customer, name='delete_customer'),
 
+    url(r'^sale/$', inventory_views.sale, name='sale'),
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^sales/add/$', inventory_views.add_sale, name = 'add_sale'),
     url(r'^sales/delete/(?P<sale_id>[0-9]+)/$', inventory_views.delete_sale, name = 'delete_sale'),
-
-
-    #=================================================================
-    url(r'^sale/$', inventory_views.sale, name='sale'),
     url(r'^sale/update/(?P<sale_id>[0-9]+)/$', inventory_views.update_sale, name = 'update_sale'),
 
     
