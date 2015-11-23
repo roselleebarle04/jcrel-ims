@@ -28,16 +28,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/nnhtml5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
-
-
-   {% for item in items %}
-                {% if item.total_quantity < 5 %}
-                <div class="alert alert-warning">
-                <strong><a href="/notifications/">Warning!</a></strong> You have item quantities that require attention.
-                </div>
-
-                {% endif %}
-            {% endfor %}
             
 </head>
 <body>
@@ -155,6 +145,16 @@
 
         <!-- Main Content -->
         <div id="page-wrapper">
+          <br>
+          {% for item in items %}
+            {% if item.total_quantity < 5 %}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <strong><a href="/notifications/">Warning!</a></strong> You have item quantities that require attention.
+            </div>
+
+            {% endif %}
+          {% endfor %}
             {% block content %}{% endblock %}
         </div>
 
