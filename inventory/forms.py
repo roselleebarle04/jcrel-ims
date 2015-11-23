@@ -177,7 +177,9 @@ class AddSupplierForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AddSupplierForm, self).__init__(*args, **kwargs)
 		self.fields['avatar'].widget.attrs['class'] = 'form-control'
-
+		self.fields['name'].widget.attrs['class'] = 'form-control'
+		self.fields['address'].widget.attrs['class'] = 'form-control'
+		self.fields['phone'].widget.attrs['class'] = 'form-control'
 # class AddArrivalForm(forms.ModelForm): 
 # 	class Meta: 
 # 		model = Arrival

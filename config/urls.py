@@ -48,6 +48,7 @@ urlpatterns = [
 
     # Suppliers 
     url(r'^suppliers/$', inventory_views.suppliers, name='suppliers'),
+    url(r'^suppliers/add/$', inventory_views.add_supplier, name='add_supplier'),
     url(r'^suppliers/update/(?P<supplier_id>[0-9]+)/$', inventory_views.update_supplier, name='update_supplier'),
     url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
 
