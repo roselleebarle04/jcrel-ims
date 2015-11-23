@@ -215,18 +215,8 @@ def sales(request):
 def add_sale(request):
 	form = AddSaleForm(request.POST or None)
 	if form.is_valid():
-		item = form.cleaned_data['item']
-		q_sale = form.cleaned_data['quantity']
-		store_qty = item.store_quantity
-		update_qty = store_qty - q_sale
-
-		if update_qty < 0 :
-			form.clean_message()			
-			return render (request, 'sales/modals.html', {'error' : True})
-		else:
-			item.store_quantity = update_qty
-			item.save()			
-		form.save()			
+		form.clean_quantity()
+		form.save()
 		return redirect('sales')
 	return render(request, 'sales/add_sale.html', {'form' : form})
 
