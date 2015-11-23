@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render,render_to_response, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User, UserManager
@@ -15,6 +15,8 @@ from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.forms import formset_factory
 from django.db import IntegrityError, transaction
 from django.core import validators
+from django.template.context import RequestContext
+
 
 from config import settings
 from .models import *
@@ -27,6 +29,11 @@ from .forms import *
 #     return render(request, 'dashboard/dashboard.html', {
 #     'user' = request.user.username
 #     })
+
+def display_data(request, data, **kwargs):
+    return render_to_response('arrival/arrival_history.html', dict(data=data, **kwargs),
+        context_instance=RequestContext(request))
+
 @login_required
 def dashboard(request):
 	items = Item.objects.all()
@@ -273,60 +280,31 @@ def delete_supplier(request, supplier_id):
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
 
-# def arrival(request):
-# 	# if request.method == 'POST':
-# 	arrivalForm = AddArrivalForm(request.POST or None)
-# 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 2)
-# 	arrivalFormset = formset(request.POST or None)
-
-# 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
-# 		# save purchase details
-# 		a = arrivalForm.save(commit=False)
-# 		a.save()
-# 		arrival_id = a
-# 		new_items = []
-# 		for form in arrivalFormset:
-# 			item = form.cleaned_data.get('arrived_item')
-# 			arrival = arrival_id
-# 			arrived_quantity = form.cleaned_data.get('arrived_quantity')
-# 			itemCost = form.cleaned_data.get('itemCost')
-# 			ai = ArrivedItem(arrived_item=item, arrival=a, arrived_quantity=arrived_quantity, itemCost=itemCost)	
-# 			ai.save()
-# 			# new_items.append()
-		
-# 		# ItemPurchase.bulk_create(new_items)
-# 		return HttpResponseRedirect(reverse('arrival'))
-
-# 	return render(request, 'arrival/arrival.html', {
-# 		'AddArivalForm' : arrivalForm, 
-# 		'formset' : arrivalFormset, 
-# 		})
 
 def arrival(request):
 	arrivalForm = AddArrivalForm(request.POST or None)
 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
-	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra=3)
 	arrivalFormset = formset(request.POST or None)
 
 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
 		# first save purchase details
 		# commit = False means that we can store the purchase instance to the value p
-		p = arrivalForm.save(commit=False)
+		a = arrivalForm.save(commit=False)
 
 		#save the form
-		p.save()
-		arrival_id = p
+		a.save()
+		arrival_id = a
 		new_items = []
 
-		# loop through all forms in the formset, and save each form - add the purchaseId to each form
+		# loop through all forms in the formset, and save each form - add the arrivalid to each form
 		for form in arrivalFormset:
 			item = form.cleaned_data.get('item')
 			arrival = arrival_id
 			quantity = form.cleaned_data.get('quantity')
 			item_cost = form.cleaned_data.get('item_cost')
-			i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
+			i = ArrivedItem(item=item, arrival=a, quantity=quantity, item_cost=item_cost)	
 			i.save()
-		
+
 		return HttpResponseRedirect(reverse('arrival'))
 
 	return render(request, 'arrival/arrival.html', {

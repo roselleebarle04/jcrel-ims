@@ -128,20 +128,6 @@ class AddSupplierForm(forms.ModelForm):
 		super(AddSupplierForm, self).__init__(*args, **kwargs)
 		self.fields['avatar'].widget.attrs['class'] = 'form-control'
 
-# class AddArrivalForm(forms.ModelForm): 
-# 	class Meta: 
-# 		model = Arrival
-# 		fields = ['date', 'dr', 'trckng_no', 'supp']
-
-# class AddArrivedItemForm(forms.ModelForm): 
-# 	class Meta: 
-# 		model = ArrivedItem
-# 		fields = ['arrived_item', 'arrived_quantity', 'itemCost']
-
-# class AddArrivedItemFormset(BaseFormSet):
-# 	def clean(self):
-# 		if any(self.errors):
-# 			return
 class AddArrivalForm(forms.ModelForm): 
 	class Meta: 
 		model = Arrival

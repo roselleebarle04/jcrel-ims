@@ -94,24 +94,6 @@ class Sale(models.Model):
 	
 class Sales_history(models.Model):
 	sale = models.ForeignKey(Sale)
-	
-
-# class Arrival(models.Model):
-# 	"""	This model refers to the arrival of the store owner from its suppliers """
-# 	date = models.DateField(default=timezone.now)
-# 	dr = models.CharField(max_length=100, null=True, blank=True)
-# 	trckng_no = models.CharField(max_length=100, null=True, blank=True)
-# 	supp = models.ForeignKey(Supplier)
-# 	arrival_items = models.ManyToManyField(Item, through='ArrivedItem')
-	
-# 	def __unicode__(self):
-# 		return self.dr
-
-# class ArrivedItem(models.Model):
-# 	arrival = models.ForeignKey(Arrival)
-# 	arrived_item = models.ForeignKey(Item)
-# 	arrived_quantity = models.PositiveIntegerField(default=0)
-# 	itemCost = models.FloatField(null=True, blank=True)
 
 
 class Location (models.Model):
@@ -140,12 +122,12 @@ class Arrival(models.Model):
 
 class ArrivedItem(models.Model):
 	item = models.ForeignKey(Item)
-	arrival = models.ForeignKey(Arrival)
+	arrival = models.ForeignKey(Arrival, related_name='arrived_item')
 	quantity = models.IntegerField(default=0)
 	item_cost = models.FloatField(null=True, blank=True)
 
 	#source_location = models.ForeignKey(Location)
 	#destination = models.ForeignKey(Location)
 	def __unicode__(self):
-		return self.item.store_code
+		return self.item.item_code
 
