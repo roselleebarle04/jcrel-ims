@@ -4,6 +4,9 @@ from django.forms import BaseFormSet, formset_factory, BaseInlineFormSet
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.forms import formset_factory
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
 from django.forms.formsets import BaseFormSet
 from django.forms import formset_factory
@@ -80,6 +83,15 @@ class AddItemForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AddItemForm,self).__init__(*args, **kwargs)
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+		self.fields['types'].error_messages['required'] = 'Enter item\'s type.'
+		self.fields['category'].error_messages['required'] = 'Enter item\'s category'
+		self.fields['brand'].error_messages['required'] = 'Enter item\'s brand'
+		self.fields['model'].error_messages['required'] = 'Enter item\'s model'
+		self.fields['supplier'].error_messages['required'] = 'Enter supplier.'		
+		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
+		self.fields['store_quantity'].error_messages['required'] = 'Enter item\'s store quantity'
+		self.fields['warehouse_quantity'].error_messages['required'] = 'Enter item\'s warehouse quantity'
+		self.fields['srp'].error_messages['required'] = 'Enter item\'s srp'
         	
 class AddSaleForm(forms.ModelForm):
 	class Meta:
@@ -89,16 +101,37 @@ class AddSaleForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AddSaleForm,self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['item'].error_messages['required'] = 'Choose an item.'
+		self.fields['quantity'].error_messages['required'] = 'Enter quantity.'	
+		self.fields['date'].error_messages['required'] = 'Enter quantity.'
 
-	def clean_message(self):
-		item = form.cleaned_data['item']
-		qty_sale = form.cleaned_data['quantity']
+	def clean_quantity(self):
+		item = self.cleaned_data['item']
+		qty_sale = self.cleaned_data['quantity']
 		store_qty = item.store_quantity
+<<<<<<< HEAD
+		
+		if store_qty - qty_sale > 0:
+			item.store_quantity = store_qty - qty_sale
+			item.save()
+		else:
+			raise ValidationError("Quantity exceeds the current quantity of items in the store")
+		return self.cleaned_data['quantity']
+		
+class ArrivalForm(forms.ModelForm):
+    class Meta:
+        model = AddArrival
+        fields = ['date', 'dr', 'tracking_no','supplier', 'itemName', 'qty', 'itemCost']
+
+    def __init__(self, *args, **kwargs):
+		super(ArrivalForm,self).__init__(*args, **kwargs)
+		self.fields['itemName'].widget.attrs['class'] = 'form-control'
+		self.fields['supplier'].widget.attrs['class'] = 'form-control'
 		update_qty = store_qty - q_sale
 
 		if update_qty < 0 :
 			raise forms.ValidationError("Quantity exceeds the current quantity of items in the store.")
-
+			
 class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer
