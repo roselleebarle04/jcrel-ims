@@ -1,13 +1,20 @@
 from django import forms
+<<<<<<< HEAD
 from django.forms import fields, models, formsets, widgets
 from django.forms import BaseFormSet, formset_factory, BaseInlineFormSet
+=======
+# from .models import Account,Transfer_item, AddArrival, Item, Sale, Supplier
+>>>>>>> f7260ce8d64f18d9e7548cfb0e49bd857945fb9a
 from .models import *
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+
+from django.forms.formsets import BaseFormSet
 from django.forms import formset_factory
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from django.core import validators
+from django.contrib import messages
 
 
 
@@ -18,12 +25,14 @@ class AccountForm(UserCreationForm):
 		model = User
 		fields = ("username", "email", "password1", "password2")
 
-		def save(self, commit=True):
-			user = super(AccountForm, self).save(commit=False)
-			user.email = self.cleaned_data["email"]
-			if commit:
-				user.save()
-			return user
+		# def save(self, commit=True):
+		# 	user = super(AccountForm, self).save(commit=False)
+		# 	user.email = self.cleaned_data["email"]
+		# 	if commit:
+		# 		user.save()
+		# 	return user
+
+
 
 		def clean_password2(self):
 			password1 = self.cleaned_data.get("password1")
@@ -41,6 +50,19 @@ class AccountForm(UserCreationForm):
 			# self.instance.username = self.cleaned_data.get('username')
 			# password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
 			return password2
+
+		def save(self, commit=True):
+			user = super(AccountForm,self).save(commit=False)
+			user.email = self.cleaned_data["email"]
+			user.set_password(self.cleaned_data["password1"])
+
+			if commit:
+				user.save()
+			return user
+
+		def clean_email(self):
+			email = self.cleaned_data.get("email")
+			username = self.cleaned_data.get("username")
 
 # def clean_password2(self):
 #         password1 = self.cleaned_data.get("password1")
@@ -81,7 +103,6 @@ class AddSaleForm(forms.ModelForm):
 		if update_qty < 0 :
 			raise forms.ValidationError("Quantity exceeds the current quantity of items in the store.")
 
-
 class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer_item
@@ -111,21 +132,6 @@ class TransferForm(forms.ModelForm):
    # return models.inlineformset_factory(Transfer_item **kwargs)
 
 
-class AddArrivalForm(forms.ModelForm): 
-	class Meta: 
-		model = Arrival
-		fields = ['date', 'dr', 'trckng_no', 'supp']
-
-class AddArrivedItemForm(forms.ModelForm): 
-	class Meta: 
-		model = ArrivedItem
-		fields = ['arrived_item', 'arrived_quantity', 'itemCost']
-
-class AddArrivedItemFormset(BaseFormSet):
-	def clean(self):
-		if any(self.errors):
-			return
-
 class LocationForm(forms.ModelForm):
 	class Meta:
 		model = Location
@@ -142,6 +148,47 @@ class AddSupplierForm(forms.ModelForm):
 		super(AddSupplierForm, self).__init__(*args, **kwargs)
 		self.fields['avatar'].widget.attrs['class'] = 'form-control'
 
+# class AddArrivalForm(forms.ModelForm): 
+# 	class Meta: 
+# 		model = Arrival
+# 		fields = ['date', 'dr', 'trckng_no', 'supp']
+
+# class AddArrivedItemForm(forms.ModelForm): 
+# 	class Meta: 
+# 		model = ArrivedItem
+# 		fields = ['arrived_item', 'arrived_quantity', 'itemCost']
+
+# class AddArrivedItemFormset(BaseFormSet):
+# 	def clean(self):
+# 		if any(self.errors):
+# 			return
+class AddArrivalForm(forms.ModelForm): 
+	class Meta: 
+		model = Arrival
+		fields = ['date', 'delivery_receipt_no', 'tracking_no', 'supplier']
+
+	def __init__(self, *args, **kwargs):
+		super(AddArrivalForm, self).__init__(*args, **kwargs)
+		self.fields['date'].widget.attrs['class'] = 'form-control'
+		self.fields['delivery_receipt_no'].widget.attrs['class'] = 'form-control'
+		self.fields['tracking_no'].widget.attrs['class'] = 'form-control'
+		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+
+class AddArrivedItemForm(forms.ModelForm): 
+	class Meta: 
+		model = ArrivedItem
+		fields = ['item', 'quantity', 'item_cost']
+
+	def __init__(self, *args, **kwargs):
+		super(AddArrivedItemForm, self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
+
+class AddArrivedItemFormset(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			return
 class AddCustomerForm(forms.ModelForm):
 	class Meta: 
 		model = Supplier

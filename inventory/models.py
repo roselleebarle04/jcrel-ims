@@ -3,7 +3,6 @@ from django.core.urlresolvers import reverse
 # from django.contrib.auth.models import User, UserManager
 from django.contrib.auth.models import *
 from django.utils import timezone
-from django.template.defaultfilters import pluralize
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 
@@ -93,9 +92,26 @@ class Sale(models.Model):
 		print qty
 		return qty
 	
-
 class Sales_history(models.Model):
 	sale = models.ForeignKey(Sale)
+	
+
+# class Arrival(models.Model):
+# 	"""	This model refers to the arrival of the store owner from its suppliers """
+# 	date = models.DateField(default=timezone.now)
+# 	dr = models.CharField(max_length=100, null=True, blank=True)
+# 	trckng_no = models.CharField(max_length=100, null=True, blank=True)
+# 	supp = models.ForeignKey(Supplier)
+# 	arrival_items = models.ManyToManyField(Item, through='ArrivedItem')
+	
+# 	def __unicode__(self):
+# 		return self.dr
+
+# class ArrivedItem(models.Model):
+# 	arrival = models.ForeignKey(Arrival)
+# 	arrived_item = models.ForeignKey(Item)
+# 	arrived_quantity = models.PositiveIntegerField(default=0)
+# 	itemCost = models.FloatField(null=True, blank=True)
 
 
 class Location (models.Model):
@@ -107,23 +123,29 @@ class Transfer_item(models.Model):
 	item = models.ForeignKey(Item, blank=True, null=True)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateField(default=timezone.now)
-	#source_location = models.ForeignKey(Location)
-	#destination = models.ForeignKey(Location)
-
 
 class Arrival(models.Model):
 	"""	This model refers to the arrival of the store owner from its suppliers """
 	date = models.DateField(default=timezone.now)
-	dr = models.CharField(max_length=100, null=True, blank=True)
-	trckng_no = models.CharField(max_length=100, null=True, blank=True)
-	supp = models.ForeignKey(Supplier)
-	arrival_items = models.ManyToManyField(Item, through='ArrivedItem')
-	
+	delivery_receipt_no = models.CharField(max_length=100, null=True, blank=True)
+	tracking_no = models.CharField(max_length=100, null=True, blank=True)
+	items = models.ManyToManyField(Item, through='ArrivedItem')
+	supplier = models.ForeignKey(Supplier)
+
 	def __unicode__(self):
-		return self.dr
+		return self.tracking_no
+
+	# def items_list(self):
+	# 	return ', '.join([a.item for i in self.items.all()])
 
 class ArrivedItem(models.Model):
+	item = models.ForeignKey(Item)
 	arrival = models.ForeignKey(Arrival)
-	arrived_item = models.ForeignKey(Item)
-	arrived_quantity = models.PositiveIntegerField(default=0)
-	itemCost = models.FloatField(null=True, blank=True)
+	quantity = models.IntegerField(default=0)
+	item_cost = models.FloatField(null=True, blank=True)
+
+	#source_location = models.ForeignKey(Location)
+	#destination = models.ForeignKey(Location)
+	def __unicode__(self):
+		return self.item.store_code
+

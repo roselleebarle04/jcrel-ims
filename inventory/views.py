@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404, render_to_response
+from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User, UserManager
@@ -14,10 +14,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.template.context import RequestContext
 from django.forms.formsets import formset_factory
+from django.contrib import messages
 
 
+from django.forms import formset_factory
+from django.db import IntegrityError, transaction
 from django.core import validators
-
 
 from config import settings
 from .models import *
@@ -58,21 +60,16 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
-			# form.clean_password2
-			form.save()
+			# form.errors
+			form.clean_password2
+			form.save(True)
 			
 
+			# for error in errors:
+			# 	error.message
 
-		# first_name = request.POST.get('first_name')
-		# last_name = request.POST.get('last_name')
-		# email = request.POST.get('email')
-		# username = request.POST.get('username')
-		# password1 = request.POST.get('password1')
-		# password_confirmation = request.POST.get('password_confirmation')
-		# form.clean_password2
-
-		# new_user = User.objects.create_user(username=username, email=email, password=password1)
-		# new_user.save()
+			# form.clean_password2()
+			form.save()
 			
 		return HttpResponseRedirect('/login/')
 	else:
@@ -246,37 +243,6 @@ def update_sale(request, sale_id):
 		sale.save()
 	return HttpResponseRedirect(reverse('sales')) 		
 
-
-@login_required
-def arrival(request):
-	# if request.method == 'POST':
-	arrivalForm = AddArrivalForm(request.POST or None)
-	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 2)
-	arrivalFormset = formset(request.POST or None)
-
-	if arrivalForm.is_valid() and arrivalFormset.is_valid():
-		# save purchase details
-		a = arrivalForm.save(commit=False)
-		a.save()
-		arrival_id = a
-		new_items = []
-		for form in arrivalFormset:
-			item = form.cleaned_data.get('arrived_item')
-			arrival = arrival_id
-			arrived_quantity = form.cleaned_data.get('arrived_quantity')
-			itemCost = form.cleaned_data.get('itemCost')
-			ai = ArrivedItem(arrived_item=item, arrival=a, arrived_quantity=arrived_quantity, itemCost=itemCost)	
-			ai.save()
-			# new_items.append()
-		
-		# ItemPurchase.bulk_create(new_items)
-		return HttpResponseRedirect(reverse('arrival'))
-
-	return render(request, 'arrival/arrival.html', {
-		'AddArivalForm' : arrivalForm, 
-		'formset' : arrivalFormset, 
-		})
-
 def suppliers(request):
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)
@@ -309,6 +275,66 @@ def delete_supplier(request, supplier_id):
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
 
+# def arrival(request):
+# 	# if request.method == 'POST':
+# 	arrivalForm = AddArrivalForm(request.POST or None)
+# 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 2)
+# 	arrivalFormset = formset(request.POST or None)
+
+# 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
+# 		# save purchase details
+# 		a = arrivalForm.save(commit=False)
+# 		a.save()
+# 		arrival_id = a
+# 		new_items = []
+# 		for form in arrivalFormset:
+# 			item = form.cleaned_data.get('arrived_item')
+# 			arrival = arrival_id
+# 			arrived_quantity = form.cleaned_data.get('arrived_quantity')
+# 			itemCost = form.cleaned_data.get('itemCost')
+# 			ai = ArrivedItem(arrived_item=item, arrival=a, arrived_quantity=arrived_quantity, itemCost=itemCost)	
+# 			ai.save()
+# 			# new_items.append()
+		
+# 		# ItemPurchase.bulk_create(new_items)
+# 		return HttpResponseRedirect(reverse('arrival'))
+
+# 	return render(request, 'arrival/arrival.html', {
+# 		'AddArivalForm' : arrivalForm, 
+# 		'formset' : arrivalFormset, 
+# 		})
+
+def arrival(request):
+	arrivalForm = AddArrivalForm(request.POST or None)
+	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
+	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra=3)
+	arrivalFormset = formset(request.POST or None)
+
+	if arrivalForm.is_valid() and arrivalFormset.is_valid():
+		# first save purchase details
+		# commit = False means that we can store the purchase instance to the value p
+		p = arrivalForm.save(commit=False)
+
+		#save the form
+		p.save()
+		arrival_id = p
+		new_items = []
+
+		# loop through all forms in the formset, and save each form - add the purchaseId to each form
+		for form in arrivalFormset:
+			item = form.cleaned_data.get('item')
+			arrival = arrival_id
+			quantity = form.cleaned_data.get('quantity')
+			item_cost = form.cleaned_data.get('item_cost')
+			i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
+			i.save()
+		
+		return HttpResponseRedirect(reverse('arrival'))
+
+	return render(request, 'arrival/arrival.html', {
+		'AddArrivalForm' : arrivalForm, 
+		'formset' : arrivalFormset, 
+		})
 def customers(request):
 	c_list = Customer.objects.all()
 	c_len = len(c_list)
@@ -342,3 +368,8 @@ def delete_customer(request, customer_id):
 	return HttpResponseRedirect(reverse('customers'))
 
 
+def settings(request):
+	users = User.objects.all()
+	account_form = AccountForm()
+	return render(request, 'settings/settings.html', {'account_form':account_form,
+		'users':users})
