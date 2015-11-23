@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>JCREL INVENTORY</title>
 
   <!-- Bootstrap Core CSS -->
@@ -30,6 +29,16 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
 
+
+   {% for item in items %}
+                {% if item.total_quantity < 5 %}
+                <div class="alert alert-warning">
+                <strong>Warning!</strong> You have item quantities that require attention.
+                </div>
+
+                {% endif %}
+            {% endfor %}
+            
 </head>
 <body>
 
@@ -54,7 +63,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
                         <li>
-                            <a href="#">
+                            <a href="#">  
                                 <div>
                                     <i class="fa fa-comment fa-fw"></i> New Comment
                                     <span class="pull-right text-muted small">4 minutes ago</span>

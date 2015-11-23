@@ -34,6 +34,7 @@ from .forms import *
 #     })
 @login_required
 def dashboard(request):
+	items_list = Item.objects.all()
 	items = Item.objects.all()
 	sales = Sale.objects.all()
 	items_len = len(items)
@@ -44,15 +45,12 @@ def dashboard(request):
 		'sales': sales,
 		'items_len' : items_len,
 		'sales_len':sales_len,
+		'items':items_list
 		})
-
-def login(request):
-	return render(request, 'accounts/login.html', {})
 
 def signup(request):
 
 	if request.method == 'POST':	
-		# form = AccountForm(request.POST)	
 		form = UserCreationForm(request.POST or None)
 
 		if form.is_valid():
@@ -61,24 +59,17 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
-			# form.errors
-			# form.clean_password2
-			# form.save()
-			
-
-			# for error in errors:
-			# 	error.message
-
 			form.save()
 			
 			return HttpResponseRedirect('/login/')
 	else:
+		# form = AccountForm()
 		form = UserCreationForm()
-		# form = UserCreationForm()
 
 	return render(request, 'accounts/signup.html', {'form':form})
 
 def change_password(request):
+	items_list = Item.objects.all()
 	if request.method == 'POST':
 
 		username = request.POST.get('username')
@@ -90,25 +81,26 @@ def change_password(request):
 
 		return HttpResponseRedirect('/login/')
 
-	return render(request, 'accounts/change_password.html', {})
+	return render(request, 'accounts/change_password.html', {'items':items_list})
 
 
 @login_required
 def notifications(request):
 	items_list = Item.objects.all()
-	itemLen = len(items_list)
+	itemLength = len(items_list)
 
 	for i in items_list:
 		print "%s %d" % (i.item_code, i.total_quantity)
 
 	return render(request, 'notifications/notification_page.html', {
-		'items_list':items_list,
-		'itemLen': itemLen
+		'items':items_list,
+		'itemLength': itemLength
 		})
 
 
 @login_required
 def inventory_reports(request):
+	items_list = Item.objects.all()
 	filterby = request.GET.get('filter')
 	items = Item.objects.all()
 	itemsLen = len(items)
@@ -116,24 +108,30 @@ def inventory_reports(request):
 		'filterby': filterby,
 		'items': items,
 		'items_length': itemsLen,
+		'items':items_list
 	})
 
 @login_required
 def sales_reports(request):
-	return render(request, 'reports/sales_reports.html', {})
+	items_list = Item.objects.all()
+	return render(request, 'reports/sales_reports.html', {'items':items_list})
+
 def login(request):
 	return render(request, 'dashboard/login.html', {})
 
 def transfer_hist(request):
+	items_list = Item.objects.all()
 	transfer_list = Transfer_item.objects.all()
 	transferLen = len(transfer_list)
 	return render(request, 'transfer/transfer_hist.html', {
 		'transfer': transfer_list,
-		'transferLen': transferLen
+		'transferLen': transferLen,
+		'items':items_list
 		})
 
 
 def create_transfer(request):
+	items_list = Item.objects.all()
 	transferForm = TransferForm(request.POST or None)
 	formset = formset_factory(Transfer_itemForm, formset=Transfer_itemFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
@@ -157,6 +155,7 @@ def create_transfer(request):
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset, 
+		'items':items_list
 		})
 #def create_transfer(request,template_name ='transfer/transfer_form.html'):
 #	form = TransferForm(request.POST or None)
@@ -166,6 +165,7 @@ def create_transfer(request):
 #	return render(request,template_name,{'form':form})
 
 def location(request):
+	items_list = Item.objects.all()
 	location_list = Location.objects.all()
 	locationLen = len(location_list)
 	form = LocationForm(request.POST or None)
@@ -176,15 +176,18 @@ def location(request):
 		'location': location_list,
 		'locationLen': locationLen,
 		'form' : form,
+		'items':items_list
 		})
 
 
 def transfer_delete(request, transfer_id):
+	items_list = Item.objects.all()
 	t_item = Transfer_item.objects.filter(pk=transfer_id)
 	t_item.delete()
 	return HttpResponseRedirect(reverse('transfer_hist'))
 
 def location_delete(request, location_id):
+	items_list = Item.objects.all()
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
@@ -198,22 +201,26 @@ def items(request):
 	return render(request, 'items/items.html', {
 		'items': items_list,
 		'itemLen': itemLen,
+		# 'items_list':items_list
 		})
 
 def add_item(request):
+	items_list = Item.objects.all()
 	form = AddItemForm(request.POST or None)
 	if form.is_valid():
 		form.save()
 		return redirect('items')
-	return render(request, 'items/add_item.html' , {'form' : form})
+	return render(request, 'items/add_item.html' , {'form' : form, 'items':items_list})
 
 def delete_item(request, item_id):
+	items_list = Item.objects.all()
 	item = Item.objects.get(pk = item_id)
 	item.status = False
 	item.save()
 	return HttpResponseRedirect(reverse('items'))
 
 def update_item(request, item_id):
+	items_list = Item.objects.all()
 	item = Item.objects.get(pk=item_id)
 
 	if request.method == 'POST':
@@ -229,11 +236,12 @@ def update_item(request, item_id):
 		item.save()
 		return HttpResponseRedirect(reverse('items'))
 
-	return render(request, 'items/update_item.html', {'item' : item})
+	return render(request, 'items/update_item.html', {'item' : item, 'items':items_list})
 
 
 @login_required
 def sale(request):
+	items_list = Item.objects.all()
 	saleForm = AddSaleForm(request.POST or None)
 	formset = formset_factory(AddSoldItemForm, formset=AddSoldItemFormset, extra = 1)
 	saleFormset = formset(request.POST or None)
@@ -262,31 +270,37 @@ def sale(request):
 	return render(request, 'sales/sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset, 
+		'items':items_list
 		})
 def sales(request):
+	items_list = Item.objects.all()
 	sales_list = Sale.objects.all()
 	salesLen = len(sales_list)
 
 	return render(request, 'sales/sales.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen,
+		'items':items_list
 		})
 
 def add_sale(request):
+	items_list = Item.objects.all()
 	form = AddSaleForm(request.POST or None)
 	if form.is_valid():
 		form.clean_quantity()
 		form.save()
 		return redirect('sales')
-	return render(request, 'sales/add_sale.html', {'form' : form})
+	return render(request, 'sales/add_sale.html', {'form' : form, 'items':items_list})
 
 
 def delete_sale(request, sale_id):
+	items_list = Item.objects.all()
 	sale = Sale.objects.get(pk = sale_id)
 	sale.delete()
 	return HttpResponseRedirect(reverse('sales'))
 
 def update_sale(request, sale_id):
+	items_list = Item.objects.all()
 	sale = Sale.objects.get(pk = sale_id)
 	if request.method == 'POST':
 		sale = Sale.objects.get(pk = sale_id)
@@ -296,9 +310,10 @@ def update_sale(request, sale_id):
 		sale.save()
 		return HttpResponseRedirect(reverse('sales')) 
 
-	return render(request, 'sales/update_sale.html', {'sale' : sale})	
+	return render(request, 'sales/update_sale.html', {'sale' : sale, 'items':items_list})	
 
 def suppliers(request):
+	items_list = Item.objects.all()
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)
 
@@ -312,10 +327,12 @@ def suppliers(request):
 	return render(request, 'supplier/suppliers.html', {
 		'suppliers': s_list,
 		's_len': s_len,
-		'supplierForm': supplierForm
+		'supplierForm': supplierForm,
+		'items':items_list
 	})
 
 def update_supplier(request, supplier_id):
+	items_list = Item.objects.all()
 	if request.method == 'POST':
 		supplier = Supplier.objects.get(pk=supplier_id)
 		supplier.avatar = request.FILES.get('avatar')
@@ -326,6 +343,7 @@ def update_supplier(request, supplier_id):
 	return HttpResponseRedirect(reverse('suppliers'))
 
 def delete_supplier(request, supplier_id):
+	items_list = Item.objects.all()
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
@@ -360,6 +378,7 @@ def delete_supplier(request, supplier_id):
 # 		})
 
 def arrival(request):
+	items_list = Item.objects.all()
 	arrivalForm = AddArrivalForm(request.POST or None)
 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra=3)
@@ -388,9 +407,11 @@ def arrival(request):
 
 	return render(request, 'arrival/arrival.html', {
 		'AddArrivalForm' : arrivalForm, 
-		'formset' : arrivalFormset, 
+		'formset' : arrivalFormset,
+		'items':items_list 
 		})
 def customers(request):
+	items_list = Item.objects.all()
 	c_list = Customer.objects.all()
 	c_len = len(c_list)
 
@@ -404,10 +425,12 @@ def customers(request):
 	return render(request, 'customers.html', {
 		'customers': c_list,
 		'c_len': c_len,
-		'customerForm': customerForm
+		'customerForm': customerForm,
+		'items':items_list
 	})
 
 def update_customer(request, supplier_id):
+	items_list = Item.objects.all()
 	if request.method == 'POST':
 		customer = Supplier.objects.get(pk=supplier_id)
 		customer.avatar = request.FILES.get('avatar')
@@ -418,13 +441,15 @@ def update_customer(request, supplier_id):
 	return HttpResponseRedirect(reverse('customers'))
 
 def delete_customer(request, customer_id):
+	items_list = Item.objects.all()
 	s = Customer.objects.get(pk=customer_id)
 	s.delete()
 	return HttpResponseRedirect(reverse('customers'))
 
 
 def settings(request):
+	items_list = Item.objects.all()
 	users = User.objects.all()
 	account_form = AccountForm()
 	return render(request, 'settings/settings.html', {'account_form':account_form,
-		'users':users})
+		'users':users, 'items':items_list})
