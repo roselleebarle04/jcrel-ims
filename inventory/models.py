@@ -99,7 +99,7 @@ class Sale(models.Model):
 	items = models.ManyToManyField(Item, through='SoldItem')
 
 	def __unicode__(self):
-		return self.date
+		return " ".join((unicode(self.date)))
 
 class SoldItem(models.Model):
 	item = models.ForeignKey(Item)
@@ -109,6 +109,11 @@ class SoldItem(models.Model):
 
 	def __unicode__(self):
 		return self.item.__unicode__()
+
+	@property	
+	def calculate_cost(self):
+		total = self.quantity * self.item_cost
+		return total
 	
 
 # class Arrival(models.Model):

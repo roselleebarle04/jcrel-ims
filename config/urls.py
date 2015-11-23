@@ -61,6 +61,7 @@ urlpatterns = [
 
     #=================================================================
     url(r'^sale/$', inventory_views.sale, name='sale'),
+    url(r'^sale/update/(?P<sale_id>[0-9]+)/$', inventory_views.update_sale, name = 'update_sale'),
 
     
     # url(r'^arrivals/$', inventory_views.arrivals, name = 'arrivals'),

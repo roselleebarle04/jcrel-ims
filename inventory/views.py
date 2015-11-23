@@ -262,9 +262,10 @@ def sale(request):
 	return render(request, 'sales/sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset, 
-		})
+		}) 
+
 def sales(request):
-	sales_list = Sale.objects.all()
+	sales_list = SoldItem.objects.all()
 	salesLen = len(sales_list)
 
 	return render(request, 'sales/sales.html', {
@@ -282,21 +283,21 @@ def add_sale(request):
 
 
 def delete_sale(request, sale_id):
-	sale = Sale.objects.get(pk = sale_id)
+	sale = SoldItem.objects.get(pk = sale_id)
 	sale.delete()
 	return HttpResponseRedirect(reverse('sales'))
 
 def update_sale(request, sale_id):
-	sale = Sale.objects.get(pk = sale_id)
+	soldItem = SoldItem.objects.get(pk = sale_id)
 	if request.method == 'POST':
-		sale = Sale.objects.get(pk = sale_id)
-		sale.item.item_code = request.POST.get('item')
-		sale.quantity =  request.POST.get('quantity')
-		sale.date = request.POST.get('date')
-		sale.save()
+		soldItem = SoldItem.objects.get(pk = sale_id)
+		soldItem.item.item_code = request.POST.get('item')
+		soldItem.quantity =  request.POST.get('quantity')
+		soldItem.sale.date =  request.POST.get('date')
+		soldItem.save()
 		return HttpResponseRedirect(reverse('sales')) 
 
-	return render(request, 'sales/update_sale.html', {'sale' : sale})	
+	return render(request, 'sales/update_sale.html', {'soldItem' : soldItem})	
 
 def suppliers(request):
 	s_list = Supplier.objects.all()
