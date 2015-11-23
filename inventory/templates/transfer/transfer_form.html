@@ -26,7 +26,18 @@
 
 <div class="row">
     <div class="col-lg-12">
-  			<h2> Add Transfer</h2>
+        <h2 class="page-header">Add Transfer</h2>
+        <!-- <a href="#" class="btn btn-default" data-toggle="modal" data-target="#addSupplierModal">Add New</a> -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <form class="form" method="POST">
+            {% csrf_token %}
+            {{TransferForm.as_p }}
+            
+
+  			<h2>Transfered Items</h2>
             <table id="id_transfer" width="100%" border="0" cellpadding="50" cellspacing="1500">
                 <thead>
                     <tr>

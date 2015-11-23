@@ -119,31 +119,44 @@ class AddItemForm(forms.ModelForm):
 
 class TransferForm(forms.ModelForm):
 	class Meta:
+		model = Transfer
+		fields = ['location', 'transfer_date']
+
+	def __init__(self, *args, **kwargs):
+		super(TransferForm, self).__init__(*args, **kwargs)
+		self.fields['location'].widget.attrs['class'] = 'form-control'
+		self.fields['transfer_date'].widget.attrs['class'] = 'form-control'
+		
+
+
+
+class Transfer_itemForm(forms.ModelForm):
+	class Meta:
 		model = Transfer_item
 		fields = ['item', 'quantity_to_transfer']
 		
 	
-	def clean(self):
-		cleaned_data = super(TransferForm,self).clean()
-		d = cleaned_data.get('item')
-		q_transfer =cleaned_data.get('quantity_to_transfer')
-		w_qty = d.warehouse_quantity
-		if  q_transfer > w_qty:
-			msg = "Quantity exceed the current quantity of the Item in the Warehouse"
-			self.add_error('quantity_to_transfer',msg)
-		else:
-			current_w = w_qty - q_transfer
-			current_s = d.store_quantity + q_transfer
-			d.warehouse_quantity = current_w
-			d.store_quantity = current_s
-			d.save()
+	# def clean(self):
+	# 	cleaned_data = super(TransferForm,self).clean()
+	# 	d = cleaned_data.get('item')
+	# 	q_transfer =cleaned_data.get('quantity_to_transfer')
+	# 	w_qty = d.warehouse_quantity
+	# 	if  q_transfer > w_qty:
+	# 		msg = "Quantity exceed the current quantity of the Item in the Warehouse"
+	# 		self.add_error('quantity_to_transfer',msg)
+	# 	else:
+	# 		current_w = w_qty - q_transfer
+	# 		current_s = d.store_quantity + q_transfer
+	# 		d.warehouse_quantity = current_w
+	# 		d.store_quantity = current_s
+	# 		d.save()
 
 	def __init__(self, *args, **kwargs):
-		super(TransferForm, self).__init__(*args, **kwargs)
+		super(Transfer_itemForm, self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity_to_transfer'].widget.attrs['class'] = 'form-control'
 		
-class TransferFormset(BaseFormSet):
+class Transfer_itemFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
 			return

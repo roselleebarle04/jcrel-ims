@@ -35,6 +35,10 @@ class TransferItemAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Transfer_item)
 
+class Transferdmin(admin.ModelAdmin):
+	pass
+admin.site.register(Transfer)
+
 class ArrivedItemAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(ArrivedItem, ArrivedItemAdmin)

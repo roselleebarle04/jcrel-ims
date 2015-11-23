@@ -135,17 +135,21 @@ def transfer_hist(request):
 
 def create_transfer(request):
 	transferForm = TransferForm(request.POST or None)
-	formset = formset_factory(TransferForm, formset=TransferFormset, extra = 1)
+	formset = formset_factory(Transfer_itemForm, formset=Transfer_itemFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
 
 	if transferForm.is_valid() and transferFormset.is_valid():
 		p = transferForm.save(commit=False)
 		p.save()
+		transfer_id = p
+		new_items = []
 
+		
 		for form in transferFormset:
-			item = form.cleaned_data['item']
-			quantity_to_transfer = form.cleaned_data['quantity_to_transfer']
-			i = Transfer_item(item=item, quantity_to_transfer=quantity_to_transfer)	
+			item = form.cleaned_data.get('item')
+			transfer = transfer_id
+			quantity_to_transfer = form.cleaned_data.get('quantity_to_transfer')
+			i = Transfer_item(item = item,quantity_to_transfer=quantity_to_transfer, trans=p)	
 			i.save()
 		
 		return HttpResponseRedirect(reverse('transfer_hist'))
@@ -154,7 +158,6 @@ def create_transfer(request):
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset, 
 		})
-
 #def create_transfer(request,template_name ='transfer/transfer_form.html'):
 #	form = TransferForm(request.POST or None)
 #	if form.is_valid():
