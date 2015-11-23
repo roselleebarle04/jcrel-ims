@@ -180,7 +180,7 @@ class AddSupplierForm(forms.ModelForm):
 		self.fields['name'].widget.attrs['class'] = 'form-control'
 		self.fields['address'].widget.attrs['class'] = 'form-control'
 		self.fields['phone'].widget.attrs['class'] = 'form-control'
-# class AddArrivalForm(forms.ModelForm): 
+ # class AddArrivalForm(forms.ModelForm): 
 # 	class Meta: 
 # 		model = Arrival
 # 		fields = ['date', 'dr', 'trckng_no', 'supp']
