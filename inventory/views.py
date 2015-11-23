@@ -52,28 +52,28 @@ def login(request):
 def signup(request):
 
 	if request.method == 'POST':	
-		form = AccountForm(request.POST)	
-		# form = UserCreationForm(request.POST)
-		if form.is_valid:
+		# form = AccountForm(request.POST)	
+		form = UserCreationForm(request.POST or None)
+
+		if form.is_valid():
 			username = request.POST.get("username")
 			email = request.POST.get("email")
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
 			# form.errors
-			form.clean_password2
-			form.save(True)
+			# form.clean_password2
+			# form.save()
 			
 
 			# for error in errors:
 			# 	error.message
 
-			# form.clean_password2()
 			form.save()
 			
-		return HttpResponseRedirect('/login/')
+			return HttpResponseRedirect('/login/')
 	else:
-		form = AccountForm()
+		form = UserCreationForm()
 		# form = UserCreationForm()
 
 	return render(request, 'accounts/signup.html', {'form':form})
