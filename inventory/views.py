@@ -240,8 +240,6 @@ def update_item(request, item_id):
 
 
 @login_required
-<<<<<<< HEAD
-=======
 def sale(request):
 	items_list = Item.objects.all()
 	saleForm = AddSaleForm(request.POST or None)
@@ -272,14 +270,9 @@ def sale(request):
 	return render(request, 'sales/sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset, 
-<<<<<<< HEAD
+		'items':items_list
 		}) 
 
-=======
-		'items':items_list
-		})
->>>>>>> 4d1d763965d60295a7c4ff69c3c09d92682b3eb0
->>>>>>> 1c06309751a2365c2411c29c563184b4b96c813e
 def sales(request):
 	sales_list = SoldItem.objects.all()
 	salesLen = len(sales_list)
@@ -439,5 +432,4 @@ def settings(request):
 	users = User.objects.all()
 	account_form = AccountForm()
 	return render(request, 'settings/settings.html', {'account_form':account_form,
-		'users':users})
 		'users':users, 'items':items_list})
