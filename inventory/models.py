@@ -79,18 +79,12 @@ class Sale(models.Model):
 	date = models.DateField(default=timezone.now)
 
 	def __unicode__(self):
-		return self.item.unicode.__mod__()
-
+		return " ".join((unicode(self.date)))
+	
 	@property	
 	def calculate_cost(self):
-		total = self.quantity * self.item.srp
+		total = self.quantity * self.item_cost
 		return total
-
-	@property
-	def total_quantity(self):
-		qty = self.item.store_quantity + self.item.warehouse_quantity
-		print qty
-		return qty
 	
 class Sales_history(models.Model):
 	sale = models.ForeignKey(Sale)
@@ -163,4 +157,3 @@ class ArrivedItem(models.Model):
 	#destination = models.ForeignKey(Location)
 	def __unicode__(self):
 		return self.item.item_code
-

@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>JCREL INVENTORY</title>
 
   <!-- Bootstrap Core CSS -->
@@ -30,6 +29,16 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
 
+
+   {% for item in items %}
+                {% if item.total_quantity < 5 %}
+                <div class="alert alert-warning">
+                <strong><a href="/notifications/">Warning!</a></strong> You have item quantities that require attention.
+                </div>
+
+                {% endif %}
+            {% endfor %}
+            
 </head>
 <body>
 
@@ -54,7 +63,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
                         <li>
-                            <a href="#">
+                            <a href="#">  
                                 <div>
                                     <i class="fa fa-comment fa-fw"></i> New Comment
                                     <span class="pull-right text-muted small">4 minutes ago</span>
@@ -103,10 +112,10 @@
                             <a href="#"><i class="fa fa-dashboard fa-fw"></i> Sales<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li class="no-border">
-                                    <a href="/sales"><span class="glyphicon glyphicon-plus"></span> New Sales</a>
+                                    <a href="/sale"><span class="glyphicon glyphicon-plus"></span> New Sales</a>
                                 </li>
                                 <li class="no-border">
-                                    <a href="#"><span class="glyphicon glyphicon-list-alt"></span> Sales History</a>
+                                    <a href="/sales"><span class="glyphicon glyphicon-list-alt"></span> Sales History</a>
                                 </li>
                             </ul>
                         </li>
@@ -117,7 +126,7 @@
                                     <a href="/arrival/add"><span class="glyphicon glyphicon-plus"></span> New Arrivals</a>
                                 </li>
                                 <li class="no-border">
-                                    <a href="#"><span class="glyphicon glyphicon-list-alt"></span> Arrival History</a>
+                                    <a href="/arrival/history"><span class="glyphicon glyphicon-list-alt"></span> Arrival History</a>
                                 </li>
                             </ul>
                         </li>

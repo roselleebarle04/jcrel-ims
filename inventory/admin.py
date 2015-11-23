@@ -47,4 +47,3 @@ class LocationAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Location)
 
-

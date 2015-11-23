@@ -24,14 +24,6 @@ class AccountForm(UserCreationForm):
 		model = User
 		fields = ("username", "email", "password1", "password2")
 
-		# def save(self, commit=True):
-		# 	user = super(AccountForm, self).save(commit=False)
-		# 	user.email = self.cleaned_data["email"]
-		# 	if commit:
-		# 		user.save()
-		# 	return user
-
-
 
 		def clean_password2(self):
 			password1 = self.cleaned_data.get("password1")
@@ -43,11 +35,7 @@ class AccountForm(UserCreationForm):
 			if password1 != password2:
 				raise forms.ValidationError(self.error_messages['Passwords do not match.'],
 					code='password_mismatch')
-
-			# if password1 and password2 and password1 != password2:
-				# raise forms.ValidationError("Password mismatch")
-			# self.instance.username = self.cleaned_data.get('username')
-			# password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
+				
 			return password2
 
 		def save(self, commit=True):
@@ -58,22 +46,6 @@ class AccountForm(UserCreationForm):
 			if commit:
 				user.save()
 			return user
-
-		def clean_email(self):
-			email = self.cleaned_data.get("email")
-			username = self.cleaned_data.get("username")
-
-# def clean_password2(self):
-#         password1 = self.cleaned_data.get("password1")
-#         password2 = self.cleaned_data.get("password2")
-#         if password1 and password2 and password1 != password2:
-#             raise forms.ValidationError(
-#                 self.error_messages['password_mismatch'],
-#                 code='password_mismatch',
-#             )
-#         self.instance.username = self.cleaned_data.get('username')
-#         password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
-#         return password2
 
 class AddItemForm(forms.ModelForm):
 	class Meta:
@@ -127,10 +99,7 @@ class TransferForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(TransferForm, self).__init__(*args, **kwargs)
 		self.fields['location'].widget.attrs['class'] = 'form-control'
-		self.fields['transfer_date'].widget.attrs['class'] = 'form-control'
-		
-
-
+		self.fields['transfer_date'].widget.attrs['class'] = 'form-control'	
 
 class Transfer_itemForm(forms.ModelForm):
 	class Meta:
@@ -216,6 +185,33 @@ class AddArrivedItemForm(forms.ModelForm):
 		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
 
 class AddArrivedItemFormset(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			return
+
+class AddSaleForm(forms.ModelForm):
+	class Meta:
+		model = Sale
+		fields = ['date']
+
+	def __init__(self, *args, **kwargs):
+		super(AddSaleForm, self).__init__(*args, **kwargs)
+		self.fields['date'].widget.attrs['class'] = 'form-control'
+		
+
+class AddSoldItemForm(forms.ModelForm):
+	class Meta:
+		model = SoldItem
+		fields = ['item', 'quantity', 'item_cost']
+
+	def __init__(self, *args, **kwargs):
+		super(AddSoldItemForm, self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
+		self.fields['item'].queryset = Item.objects.filter(status=True)
+
+class AddSoldItemFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
 			return
