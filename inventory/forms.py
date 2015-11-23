@@ -79,6 +79,9 @@ class AddSaleForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AddSaleForm,self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['item'].error_messages['required'] = 'Choose an item.'
+		self.fields['quantity'].error_messages['required'] = 'Enter quantity.'	
+		self.fields['date'].error_messages['required'] = 'Enter quantity.'
 
 	def clean_message(self):
 		item = form.cleaned_data['item']
