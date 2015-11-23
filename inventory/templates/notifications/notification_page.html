@@ -18,7 +18,7 @@
                 {% for item in items %}
                     {% if item.total_quantity < 5 %}
                 <tr>
-                    <td><a href="/items/">{{item.category}} {{item.types}} {{item.brand}} {{item.model}}</a> 
+                    <td><a href="/items/"> {{item.types}} {{item.category}} {{item.brand}} {{item.model}}</a> 
                     is below the minimum required quantity of 5.</td>
                 </tr>
                     {% endif %}
