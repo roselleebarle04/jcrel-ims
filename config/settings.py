@@ -17,7 +17,7 @@ EMAIL_HOST_USER = 'motivatedjcrel@gmail.com'
 EMAIL_HOST_PASSWORD = 'teammotivated'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -53,7 +53,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # Applications
-    'inventory',
+    'inventory', 
 )
 
 MIDDLEWARE_CLASSES = (
@@ -84,6 +84,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.core.context_processors.media',
+                'django.core.context_processors.request',
             ],
         },
     },

@@ -77,7 +77,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -100,13 +100,21 @@
                             <a href="/suppliers"><i class="fa fa-glass"></i> Suppliers</a>
                         </li>
                         <li>
-                            <a href="/sales"><i class="fa fa-dashboard fa-fw"></i> Sales</a>
+                            <a href="#"><i class="fa fa-dashboard fa-fw"></i> Sales<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li class="no-border">
+                                    <a href="/sales"><span class="glyphicon glyphicon-plus"></span> New Sales</a>
+                                </li>
+                                <li class="no-border">
+                                    <a href="#"><span class="glyphicon glyphicon-list-alt"></span> Sales History</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-truck"></i> Arrivals<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li class="no-border">
-                                    <a href="/arrivals"><span class="glyphicon glyphicon-plus"></span> New Arrivals</a>
+                                    <a href="/arrival/add"><span class="glyphicon glyphicon-plus"></span> New Arrivals</a>
                                 </li>
                                 <li class="no-border">
                                     <a href="#"><span class="glyphicon glyphicon-list-alt"></span> Arrival History</a>
@@ -117,6 +125,7 @@
                             <a href="/transfer_hist"><i class="fa fa-home"></i> Transfer</a>
                         </li>
                         <li>
+                            <a href="/location"><i class=" fa fa-map-marker"></i> Location</a>
                           <a href="/customers"><i class="fa fa-user"></i> Customer</a>
                         </li>
                         <li>
@@ -182,6 +191,15 @@
         window.location = '/transfer/delete/' + transfer_id + '/'; 
       else 
         window.location = '/transfer_hist/';
+    }
+
+     function confirmLocationDelete(location_id){
+      console.log(location_id);
+      var r = confirm('Are you sure?'); 
+      if (r==true) 
+        window.location = '/location/delete/' + location_id + '/'; 
+      else 
+        window.location = '/location/';
     }
   </script>
 

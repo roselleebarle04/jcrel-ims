@@ -1,7 +1,10 @@
 from django.db import models 
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import *
 from django.utils import timezone
+from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 
 #TRIGGER
 
@@ -18,27 +21,28 @@ class Account(models.Model):
 	def __str__(self):
 		return self.last_name
 
-	def get_absolute_url(self):
-		return reverse('server_edit', kwargs={'pk': self.pk})
-
 
 class Item(models.Model):
-	status = models.CharField(max_length=50, null=True, default="INACTIVE") 		# Active or Inactive
+	status = models.BooleanField(default=True)		# Active or Inactive
 	types = models.CharField(max_length = 50, null=True)
 	category = models.CharField(max_length = 50, null=True)
 	brand = models.CharField(max_length = 50, null=True)
 	model = models.CharField(max_length = 50, null=True)
 	supplier = models.ForeignKey("Supplier", blank=True, null=True, on_delete=models.SET_NULL)
-	supplier_code = models.CharField(max_length = 50, unique = True)
-	store_code = models.CharField(max_length = 50, unique = True)
+	item_code = models.CharField(max_length = 50, unique = True)
 	store_quantity = models.PositiveSmallIntegerField(default = 0)
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
-	unit_cost = models.DecimalField( default = 0, max_digits = 100, decimal_places = 2)
 	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 	def __unicode__(self):
-		return self.types + '; ' + self.category + '; ' + self.brand + '; ' + self.model
+		return " ".join((
+            unicode(self.item_code),
+            unicode(self.types),
+            unicode(self.category),
+            unicode(self.brand),
+            unicode(self.model)
+        ))
 
 	@property
 	def total_quantity(self):
@@ -75,7 +79,7 @@ class Sale(models.Model):
 	date = models.DateField(default=timezone.now)
 
 	def __unicode__(self):
-		return self.item.store_code
+		return self.item.unicode.__mod__()
 
 	@property	
 	def calculate_cost(self):
@@ -88,21 +92,60 @@ class Sale(models.Model):
 		print qty
 		return qty
 	
+class Sales_history(models.Model):
+	sale = models.ForeignKey(Sale)
+	
+
+# class Arrival(models.Model):
+# 	"""	This model refers to the arrival of the store owner from its suppliers """
+# 	date = models.DateField(default=timezone.now)
+# 	dr = models.CharField(max_length=100, null=True, blank=True)
+# 	trckng_no = models.CharField(max_length=100, null=True, blank=True)
+# 	supp = models.ForeignKey(Supplier)
+# 	arrival_items = models.ManyToManyField(Item, through='ArrivedItem')
+	
+# 	def __unicode__(self):
+# 		return self.dr
+
+# class ArrivedItem(models.Model):
+# 	arrival = models.ForeignKey(Arrival)
+# 	arrived_item = models.ForeignKey(Item)
+# 	arrived_quantity = models.PositiveIntegerField(default=0)
+# 	itemCost = models.FloatField(null=True, blank=True)
 
 
-class AddArrival(models.Model):
-	date = models.DateField(default=timezone.now)
-	dr = models.PositiveIntegerField(default=0)
-	tracking_no = models.PositiveIntegerField(default=0)
-	supplier = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.SET_NULL)
-	itemName = models.ForeignKey(Item)
-	qty = models.PositiveIntegerField(default=0)
-	itemCost = models.FloatField(null=True, blank=True)
+class Location (models.Model):
+	branch_name = models.CharField(max_length = 50, null = True)
+	address = models.CharField(max_length = 200, null = True)
 
-	def __unicode__(self):
-		return self.itemName.category
 
 class Transfer_item(models.Model):
 	item = models.ForeignKey(Item, blank=True, null=True)
 	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
 	transfer_date = models.DateField(default=timezone.now)
+
+class Arrival(models.Model):
+	"""	This model refers to the arrival of the store owner from its suppliers """
+	date = models.DateField(default=timezone.now)
+	delivery_receipt_no = models.CharField(max_length=100, null=True, blank=True)
+	tracking_no = models.CharField(max_length=100, null=True, blank=True)
+	items = models.ManyToManyField(Item, through='ArrivedItem')
+	supplier = models.ForeignKey(Supplier)
+
+	def __unicode__(self):
+		return self.tracking_no
+
+	# def items_list(self):
+	# 	return ', '.join([a.item for i in self.items.all()])
+
+class ArrivedItem(models.Model):
+	item = models.ForeignKey(Item)
+	arrival = models.ForeignKey(Arrival)
+	quantity = models.IntegerField(default=0)
+	item_cost = models.FloatField(null=True, blank=True)
+
+	#source_location = models.ForeignKey(Location)
+	#destination = models.ForeignKey(Location)
+	def __unicode__(self):
+		return self.item.store_code
+
