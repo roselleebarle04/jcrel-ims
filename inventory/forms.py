@@ -201,26 +201,26 @@ class AddSaleForm(forms.ModelForm):
 		self.fields['date'].widget.attrs['class'] = 'form-control'
 		
 
-# class AddSoldItemForm(forms.ModelForm):
-# 	class Meta:
-# 		model = SoldItem
-# 		fields = ['item', 'quantity', 'item_cost']
+class AddSoldItemForm(forms.ModelForm):
+	class Meta:
+		model = SoldItem
+		fields = ['item', 'quantity', 'item_cost']
 
-# 	def __init__(self, *args, **kwargs):
-# 		super(AddSoldItemForm, self).__init__(*args, **kwargs)
-# 		self.fields['item'].widget.attrs['class'] = 'form-control'
-# 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
-# 		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
-# 		self.fields['item'].queryset = Item.objects.filter(status=True)
+	def __init__(self, *args, **kwargs):
+		super(AddSoldItemForm, self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
+		self.fields['item'].queryset = Item.objects.filter(status=True)
 
-# class AddSoldItemFormset(BaseFormSet):
-# 	def clean(self):
-# 		if any(self.errors):
-# 			return
+class AddSoldItemFormset(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			return
 
 class AddCustomerForm(forms.ModelForm):
 	class Meta: 
-		model = Supplier
+		model = Customer
 		fields = ['avatar', 'name', 'address', 'phone']
 
 	# Override the django default fields
