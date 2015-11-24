@@ -81,7 +81,7 @@ class Sale(models.Model):
 		return " ".join((unicode(self.date)))
 
 class SoldItem(models.Model):
-	item = models.ForeignKey(Item)
+	item = models.ForeignKey(Item, null=True)
 	sale = models.ForeignKey(Sale)
 	quantity = models.PositiveSmallIntegerField(default = 0)	
 	item_cost = models.FloatField(null=True, blank=True)

@@ -260,18 +260,18 @@ def sales(request):
 			sale = sale_id
 			quantity = form.cleaned_data.get('quantity')
 			item_cost = form.cleaned_data.get('item_cost')
-			i = ArrivedItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
+			i = SoldItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
 			i.save()
 		
-		return HttpResponseRedirect(reverse('sale'))
+		return HttpResponseRedirect(reverse('sales'))
 
 	return render(request, 'sales/sale.html', {
-		'AddArrivalForm' : saleForm, 
+		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset,
 		'items':items_list 
 		})
 
-def sales(request):
+def sales_history(request):
 	sales_list = SoldItem.objects.all()
 	salesLen = len(sales_list)
 
