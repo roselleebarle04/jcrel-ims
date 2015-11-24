@@ -59,6 +59,8 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
+			form = User.objects.create_user(username, email, password1)
+
 			form.save()
 			
 			return HttpResponseRedirect('/login/')
@@ -131,7 +133,6 @@ def transfer_hist(request):
 
 
 def create_transfer(request):
-	items_list = Item.objects.all()
 	transferForm = TransferForm(request.POST or None)
 	formset = formset_factory(Transfer_itemForm, formset=Transfer_itemFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
@@ -153,7 +154,6 @@ def create_transfer(request):
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset, 
-		'items':items_list
 		})
 #def create_transfer(request,template_name ='transfer/transfer_form.html'):
 #	form = TransferForm(request.POST or None)
