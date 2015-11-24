@@ -131,7 +131,6 @@ def transfer_hist(request):
 
 
 def create_transfer(request):
-	items_list = Item.objects.all()
 	transferForm = TransferForm(request.POST or None)
 	formset = formset_factory(Transfer_itemForm, formset=Transfer_itemFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
