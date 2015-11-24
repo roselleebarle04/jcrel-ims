@@ -238,7 +238,7 @@ def update_item(request, item_id):
 
 
 @login_required
-def sale(request):
+def sales(request):
 	items_list = Item.objects.all()
 	saleForm = AddSaleForm(request.POST or None)
 	formset = formset_factory(AddSoldItemForm, formset=AddSoldItemFormset, extra = 1)
@@ -260,17 +260,16 @@ def sale(request):
 			sale = sale_id
 			quantity = form.cleaned_data.get('quantity')
 			item_cost = form.cleaned_data.get('item_cost')
-			# saleForm.clean_quantity()
-			new_item = SoldItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
-			new_item.save()
+			i = ArrivedItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
+			i.save()
 		
 		return HttpResponseRedirect(reverse('sale'))
 
 	return render(request, 'sales/sale.html', {
-		'AddSaleForm' : saleForm, 
-		'formset' : saleFormset, 
-		'items':items_list
-		}) 
+		'AddArrivalForm' : saleForm, 
+		'formset' : saleFormset,
+		'items':items_list 
+		})
 
 def sales(request):
 	sales_list = SoldItem.objects.all()
