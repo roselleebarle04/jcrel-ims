@@ -59,6 +59,8 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
+			form = User.objects.create_user(username, email, password1)
+
 			form.save()
 			
 			return HttpResponseRedirect('/login/')

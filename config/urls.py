@@ -60,6 +60,11 @@ urlpatterns = [
     url(r'^sales/add/$', inventory_views.add_sale, name = 'add_sale'),
     url(r'^sales/delete/(?P<sale_id>[0-9]+)/$', inventory_views.delete_sale, name = 'delete_sale'),
 
+<<<<<<< HEAD
+=======
+    url(r'^sale/$', inventory_views.sale, name='sale'),
+
+>>>>>>> 45ad59cd0abd4281534ee07dc36bb45f8de23fdd
 
     #=================================================================
     url(r'^sale/$', inventory_views.sale, name='sale'),
