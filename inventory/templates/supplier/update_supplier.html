@@ -1,0 +1,95 @@
+ {% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}  
+<br>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Update Supplier</h4>
+                </div>
+                <div class="panel-body">
+                    <form class="form" action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{form.avatar.errors}}
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label>Avatar</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <img src="/media/{{supplier.avatar}}" style="width: 150px" height="150px" class="img-circle" style="margin-bottom: 10px">
+                                    <input type="file" class="form-control" name="avatar" value="{{supplier.avatar}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{form.name.errors}}
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="name" value="{{supplier.name}}">
+                        </div>
+                        <div class="form-group">
+                            {{form.address.errors}}
+                            <label>Address</label>
+                            <input type="text" class="form-control" name="address" value="{{supplier.address}}">
+                        </div>
+                        <div class="form-group">
+                            {{form.phone.errors}}
+                            <label>Phone</label>
+                            <input type="text" class="form-control" name="phone" value="{{supplier.phone}}">
+                        </div>
+                        <div class="form-group">
+                          <button type="submit" class="btn btn-success">Save</button>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                          <input type="hidden" name="next" value="{{ next }}" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<!-- 
+                <div class="modal fade" id="supplier-{{s.id}}" tabindex="-1" role="dialog" aria-labelledby="supplier-{{s.id}}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="supplier-{{s.id}}">Update Supplier</h4>
+                            </div>
+                            <form class="form" action="/suppliers/update/{{s.id}}/" method="POST" enctype="multipart/form-data">
+                                <div class="modal-body">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label>Avatar</label> 
+                                        <input type="file" name="avatar" class="form-control" value="{{s.avatar}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input name="name" type="text" class="form-control" value="{{s.name}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input name="address" type="text" class="form-control" value="{{s.address}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        <input name="phone" type="text" class="form-control" value="{{s.phone}}">
+                                    </div>
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="form-group">
+                                        <input class="btn btn-success" type="submit" value="Update">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                        <input type="hidden" name="next" value="{{ next }}" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+                 -->

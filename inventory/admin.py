@@ -15,6 +15,9 @@ class SupplierAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Supplier, SupplierAdmin)
 
+class CustomerAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(Customer, CustomerAdmin)
 # class ArrivalAdmin(admin.ModelAdmin):
 # 	pass
 # admin.site.register(Arrival, ArrivalAdmin)

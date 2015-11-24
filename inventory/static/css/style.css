@@ -3,6 +3,16 @@ body, html, p {
 	font-family: 'Montserrat', sans-serif;
 }
 
+ul.errorlist {
+	list-style: none;
+	padding: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left:0;
+	color: red;
+	font-size: 11px;
+}
+
 #wrapper {
 	background: #30426a;
 }

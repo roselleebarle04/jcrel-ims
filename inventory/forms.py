@@ -146,8 +146,10 @@ class AddSupplierForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AddSupplierForm, self).__init__(*args, **kwargs)
 		self.fields['avatar'].widget.attrs['class'] = 'form-control'
-
-# class AddArrivalForm(forms.ModelForm): 
+		self.fields['name'].widget.attrs['class'] = 'form-control'
+		self.fields['address'].widget.attrs['class'] = 'form-control'
+		self.fields['phone'].widget.attrs['class'] = 'form-control'
+ # class AddArrivalForm(forms.ModelForm): 
 # 	class Meta: 
 # 		model = Arrival
 # 		fields = ['date', 'dr', 'trckng_no', 'supp']
@@ -218,7 +220,7 @@ class AddSoldItemFormset(BaseFormSet):
 
 class AddCustomerForm(forms.ModelForm):
 	class Meta: 
-		model = Supplier
+		model = Customer
 		fields = ['avatar', 'name', 'address', 'phone']
 
 	# Override the django default fields

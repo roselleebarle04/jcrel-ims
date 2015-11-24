@@ -55,7 +55,7 @@ class Item(models.Model):
 
 class Supplier(models.Model):
 	""" Suppliers can be also be paying users """
-	avatar = models.ImageField('avatar', upload_to='avatar', null=True, blank=True)
+	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
 	name = models.CharField(max_length=200, null=True)
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
@@ -64,7 +64,7 @@ class Supplier(models.Model):
 		return self.name
 
 class Customer(models.Model):
-	avatar = models.ImageField('avatar', upload_to='avatar', null=True, blank=True)
+	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
 	name = models.CharField(max_length=200, null=True)
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
@@ -74,7 +74,7 @@ class Customer(models.Model):
 
 
 class Sale(models.Model):
-	item = models.ForeignKey(Item)
+	item = models.ManyToManyField(Item, through='SoldItem')
 	quantity = models.PositiveSmallIntegerField(default = 0)
 	date = models.DateField(default=timezone.now)
 
@@ -89,7 +89,19 @@ class Sale(models.Model):
 class Sales_history(models.Model):
 	sale = models.ForeignKey(Sale)
 	
+class SoldItem(models.Model):
+ 	item = models.ForeignKey(Item)
+ 	sale = models.ForeignKey(Sale)
+ 	quantity = models.PositiveSmallIntegerField(default = 0)	
+ 	item_cost = models.FloatField(null=True, blank=True)
+ 
+ 	def __unicode__(self):
+ 		return self.item.__unicode__()
 
+ 	@property
+ 	def calculate_cost(self):
+ 		total = self.quantity * self.item_cost
+ 		return total
 # class Arrival(models.Model):
 # 	"""	This model refers to the arrival of the store owner from its suppliers """
 # 	date = models.DateField(default=timezone.now)
