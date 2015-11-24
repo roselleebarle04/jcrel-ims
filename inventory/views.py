@@ -260,6 +260,7 @@ def sale(request):
 			sale = sale_id
 			quantity = form.cleaned_data.get('quantity')
 			item_cost = form.cleaned_data.get('item_cost')
+			# saleForm.clean_quantity()
 			new_item = SoldItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
 			new_item.save()
 		
