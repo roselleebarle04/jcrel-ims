@@ -126,15 +126,11 @@ def transfer_hist(request):
 	return render(request, 'transfer/transfer_hist.html', {
 		'transfer': transfer_list,
 		'transferLen': transferLen,
-<<<<<<< HEAD
-=======
 		'items':items_list
->>>>>>> 785f1bb110de457a11a139676acf73bf1a79436f
 		})
 
 
 def create_transfer(request):
-	items_list = Item.objects.all()
 	transferForm = TransferForm(request.POST or None)
 	formset = formset_factory(Transfer_itemForm, formset=Transfer_itemFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
