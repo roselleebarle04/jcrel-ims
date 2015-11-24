@@ -224,6 +224,7 @@
   <div id="wrapper">
 
         <!-- Navigation -->
+        <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -251,7 +252,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a class="text-center" href="#">
+                            <a class="text-center" href="/notifications/">
                                 <strong>See All Alerts</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
@@ -265,7 +266,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -276,6 +277,7 @@
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
+                    <p style="background: #2d3e63"><a style="color:white;" class="text-center navbar-brand hidden-xs" href="/">JCREL INVENTORY</a></p>
                     <ul class="nav" id="side-menu">
                         <li>
                             <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
@@ -287,13 +289,21 @@
                             <a href="/suppliers"><i class="fa fa-glass"></i> Suppliers</a>
                         </li>
                         <li>
-                            <a href="/sales"><i class="fa fa-dashboard fa-fw"></i> Sales</a>
+                            <a href="#"><i class="fa fa-dashboard fa-fw"></i> Sales<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li class="no-border">
+                                    <a href="/sale"><span class="glyphicon glyphicon-plus"></span> New Sales</a>
+                                </li>
+                                <li class="no-border">
+                                    <a href="#"><span class="glyphicon glyphicon-list-alt"></span> Sales History</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-truck"></i> Arrivals<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li class="no-border">
-                                    <a href="/arrival_list"><span class="glyphicon glyphicon-plus"></span> Add New Arrivals</a>
+                                    <a href="/arrival/add"><span class="glyphicon glyphicon-plus"></span> New Arrivals</a>
                                 </li>
                                 <li class="no-border">
                                     <a href="#"><span class="glyphicon glyphicon-list-alt"></span> Arrival History</a>
@@ -302,6 +312,10 @@
                         </li>
                         <li>
                             <a href="/transfer_hist"><i class="fa fa-home"></i> Transfer</a>
+                        </li>
+                        <li>
+                            <a href="/location"><i class=" fa fa-map-marker"></i> Location</a>
+                          <a href="/customers"><i class="fa fa-user"></i> Customer</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> Reporting<span class="fa arrow"></span></a>

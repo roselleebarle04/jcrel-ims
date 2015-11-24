@@ -313,30 +313,30 @@ def suppliers(request):
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)
 
-	# Add Supplier Pop-up Form - Handling
-	# NOTE: Remove add_supplier view since it's already integrated here.
-	supplierForm = AddSupplierForm(request.POST or None, request.FILES)
-	if  supplierForm.is_valid():
-		supplierForm.save()
-		return HttpResponseRedirect(reverse('suppliers'))
-
 	return render(request, 'supplier/suppliers.html', {
 		'suppliers': s_list,
 		's_len': s_len,
-		'supplierForm': supplierForm,
 		'items':items_list
 	})
 
+def add_supplier(request):
+	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
+	if  supplierForm.is_valid():
+		supplierForm.save()
+		return HttpResponseRedirect(reverse('suppliers'))
+	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
+
 def update_supplier(request, supplier_id):
+	supplier = Supplier.objects.get(pk=supplier_id)
 	items_list = Item.objects.all()
 	if request.method == 'POST':
-		supplier = Supplier.objects.get(pk=supplier_id)
 		supplier.avatar = request.FILES.get('avatar')
 		supplier.name = request.POST.get('name')
 		supplier.phone = request.POST.get('phone')
 		supplier.address = request.POST.get('address')
 		supplier.save()
-	return HttpResponseRedirect(reverse('suppliers'))
+		return HttpResponseRedirect(reverse('suppliers'))
+	return render(request, 'supplier/update_supplier.html', {'supplier': supplier})
 
 def delete_supplier(request, supplier_id):
 	items_list = Item.objects.all()
