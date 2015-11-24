@@ -152,7 +152,6 @@ def create_transfer(request):
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset, 
-		'items':items_list
 		})
 #def create_transfer(request,template_name ='transfer/transfer_form.html'):
 #	form = TransferForm(request.POST or None)
