@@ -128,7 +128,7 @@ class Transfer_itemForm(forms.ModelForm):
 class Transfer_itemFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
-			returns
+			return
 
 
 class LocationForm(forms.ModelForm):

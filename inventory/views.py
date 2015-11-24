@@ -380,10 +380,12 @@ def arrival(request):
 		})
 
 def arrival_history(request):
-	arrival_list = ArrivedItem.objects.all()
-	arrivalLen = len(arrival_list)
+	arr = Arrival.objects.all()
+	# arrival_list = ArrivedItem.objects.all()
+	arrivalLen = len(arr)
+
 	return render(request, 'arrival/arrival_history.html', {
-		'arrival': arrival_list,
+		'arrival': arr,
 		'arrivalLen': arrivalLen
 		})
 

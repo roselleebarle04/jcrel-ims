@@ -25,15 +25,18 @@
                 </tr>
             </thead>
             <tbody>
-    {% for a in arrival %}
+        {% for a in arrival %}
             <tr>
-                <td>{{ a.arrival.date }}</td>
-                <td>{{ a.arrival.tracking_no }}</td>
-                <td>{{ a.arrival.delivery_receipt_no }}</td>
-                <td>{{ a.item }}</td>
-                <td>{{ a.quantity }}</td>
-                <td>{{ a.item_cost }}</td>
-                  
+                <td>{{ a.date }}</td>
+                <td>{{ a.tracking_no }}</td>
+                <td>{{ a.delivery_receipt_no }}</td>
+                <td>             
+                {% for i in a.items.all %} 
+                    <p>{{i.item}}</p>
+                {% endfor %}
+                </td>
+                <!-- <td>{{ a.quantity }}</td> -->
+                <!-- <td>{{ a.item_cost }}</td> -->
             </tr>
                 {% endfor %}
                 {% else %}
