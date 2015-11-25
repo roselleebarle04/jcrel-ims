@@ -213,6 +213,7 @@ def update_item(request, item_id):
 	return render(request, 'items/update_item.html', {'item' : item, 'items':items_list})
 
 
+#add Sale
 @login_required
 def sales(request):
 	items_list = Item.objects.all()
@@ -248,7 +249,7 @@ def sales(request):
 		})
 
 def sales_history(request):
-	sales_list = SoldItem.objects.all()
+	sales_list = SoldItem.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 
 	return render(request, 'sales/sales.html', {
@@ -256,34 +257,11 @@ def sales_history(request):
 		'salesLen' : salesLen,
 		})
 
-def add_sale(request):
-	items_list = Item.objects.all()
-	form = AddSaleForm(request.POST or None)
-	if form.is_valid():
-		form.clean_quantity()
-		form.save()
-		return redirect('sales')
-	return render(request, 'sales/add_sale.html', {'form' : form, 'items':items_list})
-
-
 def delete_sale(request, sale_id):
 	sale = SoldItem.objects.get(pk = sale_id)
-	sale = Sale.objects.get(pk = sale_id)
-	sale.delete()
+	sale.is_active = False
+	sale.save()
 	return HttpResponseRedirect(reverse('sales'))
-
-def update_sale(request, sale_id):
-	soldItem = SoldItem.objects.get(pk = sale_id)
-	sale = Sale.objects.get(pk = sale_id)
-	if request.method == 'POST':
-		soldItem = SoldItem.objects.get(pk = sale_id)
-		soldItem.item.item_code = request.POST.get('item')
-		soldItem.quantity =  request.POST.get('quantity')
-		soldItem.sale.date =  request.POST.get('date')
-		soldItem.save()
-		return HttpResponseRedirect(reverse('sales')) 
-		
-	return render(request, 'sales/update_sale.html', {'soldItem' : soldItem})	
 
 def suppliers(request):
 	items_list = Item.objects.all()

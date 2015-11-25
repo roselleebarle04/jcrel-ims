@@ -72,27 +72,28 @@ class Customer(models.Model):
 	def __unicode__(self):
 		return self.name
 
-	
 class Sale(models.Model):
 	date = models.DateField(default=timezone.now)
 	items = models.ManyToManyField(Item, through='SoldItem')
 
 	def __unicode__(self):
-		return " ".join((unicode(self.date)))
+		return self.date
 
 class SoldItem(models.Model):
-	item = models.ForeignKey(Item, null=True)
+	is_active = models.BooleanField(default=True)
+	item = models.ForeignKey(Item)
 	sale = models.ForeignKey(Sale)
 	quantity = models.PositiveSmallIntegerField(default = 0)	
-	item_cost = models.FloatField(null=True, blank=True)
+	item_cost = models.FloatField(blank=True)
 
 	def __unicode__(self):
 		return self.item.__unicode__()
 
 	@property	
-	def calculate_cost(self):
-		total = self.quantity * self.item_cost
+	def total_cost(self):
+		total = self.item_cost * self.quantity
 		return total
+
 # class Arrival(models.Model):
 # 	"""	This model refers to the arrival of the store owner from its suppliers """
 # 	date = models.DateField(default=timezone.now)

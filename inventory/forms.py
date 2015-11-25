@@ -73,7 +73,6 @@ class AddSaleForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AddSaleForm, self).__init__(*args, **kwargs)
 		self.fields['date'].widget.attrs['class'] = 'form-control'
-		
 
 class AddSoldItemForm(forms.ModelForm):
 	class Meta:
@@ -85,8 +84,6 @@ class AddSoldItemForm(forms.ModelForm):
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
-		self.fields['quantity'].error_messages['required'] = 'Enter quantity'
-		self.fields['item'].queryset = Item.objects.filter(status=True)
 
 class AddSoldItemFormset(BaseFormSet):
 	def clean(self):

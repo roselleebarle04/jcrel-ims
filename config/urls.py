@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^password_change/done/$', auth_views.password_change_done, {'template_name':'registration/password_change_done.html'},
         name="password_change_done"),
 
+<<<<<<< HEAD
     # url(r'^/accounts/password/reset/$', password_reset, {'template_name': 'my_templates/password_reset.html'}),
 
     # url(r'^signup/$', inventory_views.signup, name='signup'),
@@ -91,6 +92,8 @@ urlpatterns = [
     url(r'^location/delete/(?P<location_id>[0-9]+)/$$', inventory_views.location_delete, name='location_delete'),
 
 
+=======
+>>>>>>> 3e18a03389ac004634cf335de4c7fff080d50477
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     # url(r'^reset/$', 'inventory.views.reset', name='reset'),
     # url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',

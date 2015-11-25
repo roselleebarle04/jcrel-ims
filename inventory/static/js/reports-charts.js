@@ -1,3 +1,19 @@
+$.ajax({
+    type: 'POST' ,
+    url: '{% url "reports_data" %}',
+    datatype: 'json' ,
+    async: true,
+    data:{
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        sentence: $('#word').val()
+    },
+
+    success: function(json) {
+        console.log(json.message);
+        $('#output').html(json.message);
+    }
+});
+
 var ctx = document.getElementById("myChart").getContext("2d");
 
 // Generate dataset for each product, containing stock quantities in all locations charted
