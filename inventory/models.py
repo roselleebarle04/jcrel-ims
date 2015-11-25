@@ -79,6 +79,9 @@ class Sale(models.Model):
 	def __unicode__(self):
 		return self.date
 
+	def items_list(self):
+		return ', '.join([a.item for i in self.items.all()])
+
 class SoldItem(models.Model):
 	is_active = models.BooleanField(default=True)
 	item = models.ForeignKey(Item)
