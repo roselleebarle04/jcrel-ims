@@ -138,7 +138,6 @@ class Transfer_item(models.Model):
 
 class Arrival(models.Model):
 	"""	This model refers to the arrival of the store owner from its suppliers """
-	is_active = models.BooleanField(default=True)
 	date = models.DateField(default=timezone.now)
 	delivery_receipt_no = models.CharField(max_length=100, null=True, blank=True)
 	tracking_no = models.CharField(max_length=100, null=True, blank=True)
@@ -152,6 +151,7 @@ def items_list(self):
 	return ', '.join([a.item for i in self.items.all()])
 
 class ArrivedItem(models.Model):
+	is_active = models.BooleanField(default=True)
 	item = models.ForeignKey(Item)
 	arrival = models.ForeignKey(Arrival)
 	quantity = models.IntegerField(default=0)

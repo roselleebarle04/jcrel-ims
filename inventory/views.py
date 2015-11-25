@@ -152,16 +152,6 @@ def transfer_delete(request, transfer_id):
 	t_item.delete()
 	return HttpResponseRedirect(reverse('transfer_hist'))
 
-def arrival_delete(request, arrival_id):
-	items_list = Item.objects.all()
-<<<<<<< HEAD
-	a_item = ArrivedItem.objects.filter(pk=arrival_id)
-	a_item.is_active = False 
-=======
-	a_item = ArrivedItem.objects.filter(item=arrival_id)
-	a_item.delete()
->>>>>>> f86b0cfddceb1de45cb7c970e3e6ca2145870e51
-	return HttpResponseRedirect(reverse('arrival_history'))
 
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
@@ -265,41 +255,12 @@ def delete_sale(request, sale_id):
 	sale.save()
 	return HttpResponseRedirect(reverse('sales'))
 
-def suppliers(request):
-	items_list = Item.objects.all()
-	s_list = Supplier.objects.all()
-	s_len = len(s_list)
 
-	return render(request, 'supplier/suppliers.html', {
-		'suppliers': s_list,
-		's_len': s_len,
-		'items':items_list
-	})
-
-def add_supplier(request):
-	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
-	if  supplierForm.is_valid():
-		supplierForm.save()
-		return HttpResponseRedirect(reverse('suppliers'))
-	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
-
-def update_supplier(request, supplier_id):
-	supplier = Supplier.objects.get(pk=supplier_id)
-	items_list = Item.objects.all()
-	if request.method == 'POST':
-		supplier.avatar = request.FILES.get('avatar')
-		supplier.name = request.POST.get('name')
-		supplier.phone = request.POST.get('phone')
-		supplier.address = request.POST.get('address')
-		supplier.save()
-		return HttpResponseRedirect(reverse('suppliers'))
-	return render(request, 'supplier/update_supplier.html', {'supplier': supplier})
-
-def delete_supplier(request, supplier_id):
-	items_list = Item.objects.all()
-	s = Supplier.objects.get(pk=supplier_id)
-	s.delete()
-	return HttpResponseRedirect(reverse('suppliers'))
+def arrival_delete(request, arrival_id):
+	a_item = ArrivedItem.objects.get(pk=arrival_id)
+	a_item.is_active = False 
+	a_item.save()
+	return HttpResponseRedirect(reverse('arrival_history'))
 
 
 def arrival(request):
@@ -337,20 +298,54 @@ def arrival(request):
 		})
 
 def arrival_history(request):
-<<<<<<< HEAD
-	# arr = Arrival.objects.filter(is_active=True)
-	arrival_list = ArrivedItem.objects.all()
+	arrival_list = ArrivedItem.objects.filter(is_active=True)
 	arrivalLen = len(arrival_list)
-=======
-	arr = ArrivedItem.objects.all()
-	# arrival_list = ArrivedItem.objects.all()
-	arrivalLen = len(arr)
->>>>>>> f86b0cfddceb1de45cb7c970e3e6ca2145870e51
+	# arr = ArrivedItem.objects.all()
+	# arrivalLen = len(arr)
 
 	return render(request, 'arrival/arrival_history.html', {
-		'arrival': arrival_list,
+		'arrival_list': arrival_list,
 		'arrivalLen': arrivalLen
 		})
+
+
+
+def suppliers(request):
+	items_list = Item.objects.all()
+	s_list = Supplier.objects.all()
+	s_len = len(s_list)
+
+	return render(request, 'supplier/suppliers.html', {
+		'suppliers': s_list,
+		's_len': s_len,
+		'items':items_list
+	})
+
+def add_supplier(request):
+	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
+	if  supplierForm.is_valid():
+		supplierForm.save()
+		return HttpResponseRedirect(reverse('suppliers'))
+	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
+
+def update_supplier(request, supplier_id):
+	supplier = Supplier.objects.get(pk=supplier_id)
+	items_list = Item.objects.all()
+	if request.method == 'POST':
+		supplier.avatar = request.FILES.get('avatar')
+		supplier.name = request.POST.get('name')
+		supplier.phone = request.POST.get('phone')
+		supplier.address = request.POST.get('address')
+		supplier.save()
+		return HttpResponseRedirect(reverse('suppliers'))
+	return render(request, 'supplier/update_supplier.html', {'supplier': supplier})
+
+def delete_supplier(request, supplier_id):
+	items_list = Item.objects.all()
+	s = Supplier.objects.get(pk=supplier_id)
+	s.delete()
+	return HttpResponseRedirect(reverse('suppliers'))
+
 
 
 def customers(request):
