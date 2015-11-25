@@ -153,9 +153,10 @@ def transfer_delete(request, transfer_id):
 	return HttpResponseRedirect(reverse('transfer_hist'))
 
 def arrival_delete(request, arrival_id):
-	items_list = Item.objects.all()
-	a_item = ArrivedItem.objects.filter(item=arrival_id)
-	a_item.delete()
+	# items_list = Item.objects.all()
+	a_item = ArrivedItem.objects.get(item=arrival_id)
+	a_item.is_active = False
+	a_item.save()
 	return HttpResponseRedirect(reverse('arrival_history'))
 
 def location_delete(request, location_id):
@@ -332,7 +333,7 @@ def arrival(request):
 		})
 
 def arrival_history(request):
-	arr = ArrivedItem.objects.all()
+	arr = ArrivedItem.objects.filter(is_active=True)
 	# arrival_list = ArrivedItem.objects.all()
 	arrivalLen = len(arr)
 

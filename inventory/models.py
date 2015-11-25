@@ -154,6 +154,7 @@ def items_list(self):
 	return ', '.join([a.item for i in self.items.all()])
 
 class ArrivedItem(models.Model):
+	is_active = models.BooleanField(default=True)
 	item = models.ForeignKey(Item)
 	arrival = models.ForeignKey(Arrival)
 	quantity = models.IntegerField(default=0)
