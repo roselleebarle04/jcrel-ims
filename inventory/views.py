@@ -154,6 +154,12 @@ def transfer_delete(request, transfer_id):
 	t_item.delete()
 	return HttpResponseRedirect(reverse('transfer_hist'))
 
+def arrival_delete(request, arrival_id):
+	items_list = Item.objects.all()
+	t_item = ArrivedItem.objects.filter(pk=arrival_id)
+	t_item.delete()
+	return HttpResponseRedirect(reverse('arrival_history'))
+
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
 	lo = Location.objects.get(pk=location_id)
@@ -319,12 +325,12 @@ def delete_supplier(request, supplier_id):
 def arrival(request):
 	items_list = Item.objects.all()
 	arrivalForm = AddArrivalForm(request.POST or None)
-	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
+	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 5)
 	arrivalFormset = formset(request.POST or None)
 
 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
-		# first save purchase details
-		# commit = False means that we can store the purchase instance to the value p
+		# first save arrival details
+		# commit = False means that we can store the arrival instance to the value p
 		p = arrivalForm.save(commit=False)
 
 		#save the form
@@ -332,7 +338,7 @@ def arrival(request):
 		arrival_id = p
 		new_items = []
 
-		# loop through all forms in the formset, and save each form - add the purchaseId to each form
+		# loop through all forms in the formset, and save each form - add the arrivalId to each form
 		for form in arrivalFormset:
 			item = form.cleaned_data.get('item')
 			arrival = arrival_id

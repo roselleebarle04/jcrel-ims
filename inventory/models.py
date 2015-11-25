@@ -147,8 +147,8 @@ class Arrival(models.Model):
 	def __unicode__(self):
 		return self.tracking_no
 
-	# def items_list(self):
-	# 	return ', '.join([a.item for i in self.items.all()])
+def items_list(self):
+	return ', '.join([a.item for i in self.items.all()])
 
 class ArrivedItem(models.Model):
 	item = models.ForeignKey(Item)
