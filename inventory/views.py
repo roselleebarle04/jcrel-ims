@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
-from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
+
 from django.contrib.auth.models import User, UserManager
 from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm
@@ -13,17 +13,15 @@ from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.template.context import RequestContext
+
 from django.forms.formsets import formset_factory
-from django.contrib import messages
-
-
-from django.forms import formset_factory
 from django.db import IntegrityError, transaction
 from django.core import validators
 
 from config import settings
 from .models import *
 from .forms import *
+from .formsets import *
 
 
 @login_required
@@ -156,7 +154,7 @@ def transfer_delete(request, transfer_id):
 
 def arrival_delete(request, arrival_id):
 	items_list = Item.objects.all()
-	a_item = ArrivedItem.objects.filter(pk=arrival_id)
+	a_item = ArrivedItem.objects.filter(item=arrival_id)
 	a_item.delete()
 	return HttpResponseRedirect(reverse('arrival_history'))
 
@@ -165,7 +163,6 @@ def location_delete(request, location_id):
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
-
 
 @login_required
 def items(request):
