@@ -26,12 +26,6 @@ from .models import *
 from .forms import *
 
 
-# @login_required
-# def dashboard(request):
-# 	print request.user.username
-#     return render(request, 'dashboard/dashboard.html', {
-#     'user' = request.user.username
-#     })
 @login_required
 def dashboard(request):
 	items_list = Item.objects.all()
@@ -49,7 +43,6 @@ def dashboard(request):
 		})
 
 def signup(request):
-
 	if request.method == 'POST':	
 		form = UserCreationForm(request.POST or None)
 
@@ -85,7 +78,6 @@ def change_password(request):
 
 	return render(request, 'accounts/change_password.html', {'items':items_list})
 
-
 @login_required
 def notifications(request):
 	items_list = Item.objects.all()
@@ -98,28 +90,6 @@ def notifications(request):
 		'items':items_list,
 		'itemLength': itemLength
 		})
-
-
-@login_required
-def inventory_reports(request):
-	items_list = Item.objects.all()
-	filterby = request.GET.get('filter')
-	items = Item.objects.all()
-	itemsLen = len(items)
-	return render(request, 'reports/inventory_reports.html', {
-		'filterby': filterby,
-		'items': items,
-		'items_length': itemsLen,
-		'items':items_list
-	})
-
-@login_required
-def sales_reports(request):
-	items_list = Item.objects.all()
-	return render(request, 'reports/sales_reports.html', {'items':items_list})
-
-def login(request):
-	return render(request, 'dashboard/login.html', {})
 
 def transfer_hist(request):
 	items_list = Item.objects.all()
@@ -386,10 +356,12 @@ def arrival(request):
 		})
 
 def arrival_history(request):
-	arrival_list = ArrivedItem.objects.all()
-	arrivalLen = len(arrival_list)
+	arr = Arrival.objects.all()
+	# arrival_list = ArrivedItem.objects.all()
+	arrivalLen = len(arr)
+
 	return render(request, 'arrival/arrival_history.html', {
-		'arrival': arrival_list,
+		'arrival': arr,
 		'arrivalLen': arrivalLen
 		})
 

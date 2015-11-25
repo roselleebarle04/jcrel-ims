@@ -5,18 +5,19 @@ from django.contrib.auth.views import password_reset
 
 from . import settings
 from inventory import views as inventory_views
+from inventory import urls as inventory_urls
+
 
 urlpatterns = [
-    url(r'^$', inventory_views.dashboard, name='dashboard'),
+    url(r'^', include(inventory_urls)),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^signup/$', inventory_views.signup, name="signup"),
     url(r'^login/$', auth_views.login, {'template_name':'accounts/login.html'}),
     url(r'^logout/$', auth_views.logout, {'template_name':'accounts/logout.html'}),
     url(r'^change_password/$', inventory_views.change_password, name="change_password"),
     url(r'^notifications/$', inventory_views.notifications, name="notifications"),
-    # url(r'^forgot_password/$', inventory_views.forgot_password, name="forgot_password"),
+    url(r'^settings/$', inventory_views.settings, name='settings'),
 
-    #password reset
     url(r'^password_reset/$', auth_views.password_reset, 
         {'template_name':'accounts/password_reset_form.html', 'email_template_name':'accounts/password_reset_email.html',
         'subject_template_name':'accounts/password_reset_subject.txt'}, name="password_reset"),
@@ -32,6 +33,7 @@ urlpatterns = [
     url(r'^password_change/done/$', auth_views.password_change_done, {'template_name':'registration/password_change_done.html'},
         name="password_change_done"),
 
+<<<<<<< HEAD
     # url(r'^/accounts/password/reset/$', password_reset, {'template_name': 'my_templates/password_reset.html'}),
 
     # url(r'^signup/$', inventory_views.signup, name='signup'),
@@ -94,9 +96,7 @@ urlpatterns = [
     url(r'^location/delete/(?P<location_id>[0-9]+)/$$', inventory_views.location_delete, name='location_delete'),
 
 
+=======
+>>>>>>> 5bfa34aa13e31897d5fabf1ece8ae50d5e89aa88
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-    # url(r'^reset/$', 'inventory.views.reset', name='reset'),
-    # url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-            # 'inventory.views.reset_confirm', name='password_reset_confirm'),
-    # url(r'^success/$', 'inventory.views.success', name='success'),
 ]

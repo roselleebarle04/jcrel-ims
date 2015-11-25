@@ -26,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-    {% for a in arrival %}
+        {% for a in arrival %}
             <tr>
                 <td>{{ a.arrival.date }}</td>
                 <td>{{ a.arrival.tracking_no }}</td>
@@ -34,8 +34,12 @@
                 <td>{{ a.item }}</td>
                 <td>{{ a.quantity }}</td>
                 <td>{{ a.item_cost }}</td>
+<<<<<<< HEAD
                 <!-- <td><button onclick="confirmArrivalDelete({{a.id}});" class="btn btn-danger btn-sm" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span> Delete</button></td> -->
                   
+=======
+                <td><button onclick="confirmArrivalDelete({{a.id}});" class="btn btn-danger btn-sm" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span> Delete</button></td>
+>>>>>>> 5bfa34aa13e31897d5fabf1ece8ae50d5e89aa88
             </tr>
                 {% endfor %}
                 {% else %}
