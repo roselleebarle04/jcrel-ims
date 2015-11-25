@@ -47,9 +47,9 @@ function confirmArrivalDelete(arrival_id){
   console.log(arrival_id);
   var r = confirm('Are you sure?'); 
   if (r==true) 
-    window.location = '/arrivals/delete/' + arrival_id + '/'; 
+    window.location = '/arrival/delete/' + arrival_id + '/'; 
   else 
-    window.location = '/arrivals/';
+    window.location = '/arrival/';
 }
     
 $(document).ready(function(){
