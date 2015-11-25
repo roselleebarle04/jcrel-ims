@@ -253,7 +253,7 @@ def delete_sale(request, sale_id):
 	sale = SoldItem.objects.get(pk = sale_id)
 	sale.is_active = False
 	sale.save()
-	return HttpResponseRedirect(reverse('sales'))
+	return HttpResponseRedirect(reverse('history'))
 
 
 def arrival_delete(request, arrival_id):

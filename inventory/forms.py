@@ -79,6 +79,29 @@ class AddSoldItemForm(forms.ModelForm):
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
 
+<<<<<<< HEAD
+=======
+	def clean_quantity(self):
+		item = self.cleaned_data['item']
+		qty_sale = self.cleaned_data['quantity']
+		store_qty = item.store_quantity
+		update_qty = store_qty - qty_sale
+		
+		if qty_sale < store_qty:
+			item.store_quantity = update_qty 
+			print update_qty
+			item.save()
+		else:
+			raise ValidationError("Quantity exceeds the current quantity of items in the store")
+		
+		return self.cleaned_data['quantity']
+
+class AddSoldItemFormset(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			return
+			
+>>>>>>> 2eb657dc8376a4ea939aeb474dd0a84f45cedf50
 class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer
