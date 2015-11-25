@@ -19,10 +19,10 @@ function confirmItemDelete(item_id){
 function confirmSaleDelete(sale_id){
   console.log(sale_id);
   var r = confirm('Are you sure?'); 
-  if (r==true) 
+  if (r==true)
     window.location = '/sales/delete/' + sale_id + '/'; 
   else 
-    window.location = '/sales/';
+    window.location = '/sales/history/';
 }
 
 function confirmTransferDelete(transfer_id){

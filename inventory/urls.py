@@ -31,9 +31,7 @@ urlpatterns = [
 
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^sales/history/$', inventory_views.sales_history, name='history'),
-    url(r'^sales/add/$', inventory_views.add_sale, name = 'add_sale'),
     url(r'^sales/delete/(?P<sale_id>[0-9]+)/$', inventory_views.delete_sale, name = 'delete_sale'),
-    url(r'^sale/update/(?P<sale_id>[0-9]+)/$', inventory_views.update_sale, name = 'update_sale'),
    
     url(r'^arrival/$', inventory_views.arrival, name='arrival'),
     url(r'^arrival/add/$', inventory_views.arrival, name='arrival'),
