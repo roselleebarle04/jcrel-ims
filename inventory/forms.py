@@ -227,3 +227,4 @@ class AddCustomerForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AddCustomerForm, self).__init__(*args, **kwargs)
 		self.fields['avatar'].widget.attrs['class'] = 'form-control'
+
