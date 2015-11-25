@@ -47,7 +47,7 @@
                 </thead>
                 <tbody>
                     {% for form in formset %}
-                    <tr id="{{ form.prefix }}-row">
+                    <tr id="{{ form.prefix }}-row"  class="dynamic-form">
                         <td>{{form.item}}</td>
                         <td>{{form.quantity}}</td>
                         <td>{{form.item_cost}}</td>
@@ -72,7 +72,10 @@
 {{ block.super }}
 <script type="text/javascript" src="/static/js/jquery.formset.js"></script>
 <script type="text/javascript">
+<<<<<<< HEAD
     <!--
+=======
+>>>>>>> fb0822985610d377d599599e362eed8d36909a97
     $(function () {
         $('.add-row').click(function() {
             return addForm(this, 'form');
@@ -81,7 +84,10 @@
             return deleteForm(this, 'form');
         })
     })
+<<<<<<< HEAD
     //-->
+=======
+>>>>>>> fb0822985610d377d599599e362eed8d36909a97
     </script>
 {% endblock %}
 
