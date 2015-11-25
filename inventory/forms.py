@@ -85,6 +85,21 @@ class AddSoldItemForm(forms.ModelForm):
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
 
+	def clean_quantity(self):
+		item = self.cleaned_data['item']
+		qty_sale = self.cleaned_data['quantity']
+		store_qty = item.store_quantity
+		update_qty = store_qty - qty_sale
+		
+		if qty_sale < store_qty:
+			item.store_quantity = update_qty 
+			print update_qty
+			item.save()
+		else:
+			raise ValidationError("Quantity exceeds the current quantity of items in the store")
+		
+		return self.cleaned_data['quantity']
+
 class AddSoldItemFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
@@ -148,20 +163,7 @@ class AddSupplierForm(forms.ModelForm):
 		self.fields['name'].widget.attrs['class'] = 'form-control'
 		self.fields['address'].widget.attrs['class'] = 'form-control'
 		self.fields['phone'].widget.attrs['class'] = 'form-control'
- # class AddArrivalForm(forms.ModelForm): 
-# 	class Meta: 
-# 		model = Arrival
-# 		fields = ['date', 'dr', 'trckng_no', 'supp']
 
-# class AddArrivedItemForm(forms.ModelForm): 
-# 	class Meta: 
-# 		model = ArrivedItem
-# 		fields = ['arrived_item', 'arrived_quantity', 'itemCost']
-
-# class AddArrivedItemFormset(BaseFormSet):
-# 	def clean(self):
-# 		if any(self.errors):
-# 			return
 class AddArrivalForm(forms.ModelForm): 
 	class Meta: 
 		model = Arrival
