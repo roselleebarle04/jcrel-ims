@@ -47,16 +47,17 @@
                 </thead>
                 <tbody>
                     {% for form in formset %}
-                    <tr id="{{ form.prefix }}-row">
+                    <tr id="{{ form.prefix }}-row"  class="dynamic-form">
                         <td>{{form.item}}</td>
                         <td>{{form.quantity}}</td>
                         <td>{{form.item_cost}}</td>
-                        <td></td>
+                        <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger">Remove</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
 
             </table>
+            <a href="javascript:void(0)" class="add-row btn btn-info">Add More</a>
             {{ formset.management_form }}
             <br><br>
             <div class="form-group">
@@ -71,16 +72,15 @@
 {{ block.super }}
 <script type="text/javascript" src="/static/js/jquery.formset.js"></script>
 <script type="text/javascript">
-    $(function() {
-        $('#id_orders_table tbody tr').formset({
-            // For inline formsets, be sure to set the prefix, as the default prefix
-            // ('form') isn't correct.
-            // Django appears to generate the prefix from the lowercase plural
-            // name of the related model, with camel-case converted to underscores.
-            prefix: 'ordered_items'
+    $(function () {
+        $('.add-row').click(function() {
+            return addForm(this, 'form');
+        });
+        $('.delete-row').click(function() {
+            return deleteForm(this, 'form');
         })
     })
-</script>
+    </script>
 {% endblock %}
 
 
