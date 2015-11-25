@@ -84,7 +84,7 @@ class SoldItem(models.Model):
 	item = models.ForeignKey(Item, null=True)
 	sale = models.ForeignKey(Sale)
 	quantity = models.PositiveSmallIntegerField(default = 0)	
-	item_cost = models.FloatField(null=True, blank=True)
+	item_cost = models.FloatField(blank=True)
 
 	def __unicode__(self):
 		return self.item.__unicode__()
