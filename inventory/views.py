@@ -325,7 +325,7 @@ def delete_supplier(request, supplier_id):
 def arrival(request):
 	items_list = Item.objects.all()
 	arrivalForm = AddArrivalForm(request.POST or None)
-	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 5)
+	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
 	arrivalFormset = formset(request.POST or None)
 
 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
@@ -340,6 +340,7 @@ def arrival(request):
 
 		# loop through all forms in the formset, and save each form - add the arrivalId to each form
 		for form in arrivalFormset:
+			print form.cleaned_data
 			item = form.cleaned_data.get('item')
 			arrival = arrival_id
 			quantity = form.cleaned_data.get('quantity')
@@ -356,7 +357,7 @@ def arrival(request):
 		})
 
 def arrival_history(request):
-	arr = Arrival.objects.all()
+	arr = ArrivedItem.objects.all()
 	# arrival_list = ArrivedItem.objects.all()
 	arrivalLen = len(arr)
 
