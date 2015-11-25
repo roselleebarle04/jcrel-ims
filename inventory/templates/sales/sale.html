@@ -65,8 +65,10 @@
         </form>
     </div>
 </div>
+{% endblock %}
 
 {% block scripts %}
+{{ block.super }}
 <script type="text/javascript" src="/static/js/jquery.formset.js"></script>
 <script type="text/javascript">
     $(function() {
@@ -82,4 +84,3 @@
 {% endblock %}
 
 
-{% endblock %}
