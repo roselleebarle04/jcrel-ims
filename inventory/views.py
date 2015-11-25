@@ -249,7 +249,7 @@ def sales(request):
 		})
 
 def sales_history(request):
-	sales_list = SoldItem.objects.filter()
+	sales_list = SoldItem.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 
 	return render(request, 'sales/sales.html', {
@@ -259,6 +259,7 @@ def sales_history(request):
 
 def delete_sale(request, sale_id):
 	sale = SoldItem.objects.get(pk = sale_id)
+	sale.is_active = False
 	sale.save()
 	return HttpResponseRedirect(reverse('sales'))
 

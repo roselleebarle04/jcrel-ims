@@ -25,6 +25,7 @@
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Total Cost</th>
+                    <th>Action</th>
                 </tr>
             </thead>                   
             <tbody>                
@@ -37,7 +38,10 @@
                     <td> {{ sale.item.model}} </td>
                     <td> {{ sale.item_cost}} </td>
                     <td> {{ sale.quantity}} </td>
-                    <td> {{ sale.total_cost}} </td>                                                   
+                    <td> {{ sale.total_cost}} </td>
+                    <td>
+                        <button onclick="confirmSaleDelete({{sale.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button>
+                    </td>                                     
                 </tr>
                 {% endfor %}
             </tbody>

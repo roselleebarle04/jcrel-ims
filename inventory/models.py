@@ -80,6 +80,7 @@ class Sale(models.Model):
 		return self.date
 
 class SoldItem(models.Model):
+	is_active = models.BooleanField(default=True)
 	item = models.ForeignKey(Item)
 	sale = models.ForeignKey(Sale)
 	quantity = models.PositiveSmallIntegerField(default = 0)	
