@@ -7,14 +7,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import formset_factory
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-
-from django.forms.formsets import BaseFormSet
-from django.forms import formset_factory
-from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
 from django.core import validators
 from django.contrib import messages
-
 
 
 class AccountForm(UserCreationForm):
@@ -85,11 +79,6 @@ class AddSoldItemForm(forms.ModelForm):
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
 
-class AddSoldItemFormset(BaseFormSet):
-	def clean(self):
-		if any(self.errors):
-			return
-			
 class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer
@@ -124,12 +113,6 @@ class Transfer_itemForm(forms.ModelForm):
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity_to_transfer'].widget.attrs['class'] = 'form-control'
 		
-class Transfer_itemFormset(BaseFormSet):
-	def clean(self):
-		if any(self.errors):
-			return
-
-
 class LocationForm(forms.ModelForm):
 	class Meta:
 		model = Location
@@ -148,20 +131,7 @@ class AddSupplierForm(forms.ModelForm):
 		self.fields['name'].widget.attrs['class'] = 'form-control'
 		self.fields['address'].widget.attrs['class'] = 'form-control'
 		self.fields['phone'].widget.attrs['class'] = 'form-control'
- # class AddArrivalForm(forms.ModelForm): 
-# 	class Meta: 
-# 		model = Arrival
-# 		fields = ['date', 'dr', 'trckng_no', 'supp']
 
-# class AddArrivedItemForm(forms.ModelForm): 
-# 	class Meta: 
-# 		model = ArrivedItem
-# 		fields = ['arrived_item', 'arrived_quantity', 'itemCost']
-
-# class AddArrivedItemFormset(BaseFormSet):
-# 	def clean(self):
-# 		if any(self.errors):
-# 			return
 class AddArrivalForm(forms.ModelForm): 
 	class Meta: 
 		model = Arrival
@@ -184,11 +154,6 @@ class AddArrivedItemForm(forms.ModelForm):
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
-
-class AddArrivedItemFormset(BaseFormSet):
-	def clean(self):
-		if any(self.errors):
-			return
 
 class AddCustomerForm(forms.ModelForm):
 	class Meta: 

@@ -26,6 +26,7 @@
                 </tr>
             </thead>
             <tbody>
+<<<<<<< HEAD
                 {% for a in arrival %}
                 <tr>
                     <td>{{ a.arrival.date }}</td>
@@ -36,6 +37,18 @@
                     <td>{{ a.item_cost }}</td>
                     <td><button onclick="confirmArrivalDelete({{a.id}});" class="btn btn-danger btn-sm" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span> Delete</button></td>
                 </tr>
+=======
+        {% for a in arrival %}
+            <tr>
+                <td>{{ a.arrival.date }}</td>
+                <td>{{ a.arrival.tracking_no }}</td>
+                <td>{{ a.arrival.delivery_receipt_no }}</td>
+                <td>{{ a.item }}</td>
+                <td>{{ a.quantity }}</td>
+                <td>{{ a.item_cost }}</td>
+                <td><button onclick="confirmArrivalDelete({{a.id}});" class="btn btn-danger btn-sm" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span> Delete</button></td>
+            </tr>
+>>>>>>> f86b0cfddceb1de45cb7c970e3e6ca2145870e51
                 {% endfor %}
                 {% else %}
                 <p>No arrivals listed. </p>
