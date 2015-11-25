@@ -11,14 +11,20 @@ from .models import *
 @login_required
 def inventory_reports(request):
 	items_list = Item.objects.all()
-	filterby = request.GET.get('filter')
-	items = Item.objects.all()
-	itemsLen = len(items)
+	supplier_list = Supplier.objects.all()
+
+	# To be rendered in filter form
+	item_options = Item.objects.all() 
+
+	if request.method == 'POST':
+		item_pk = request.POST.get('item')
+		items_list = Item.objects.filter(pk=item_pk)
+		
+	itemsLen = len(items_list)
 	return render(request, 'reports/inventory_reports.html', {
-		'filterby': filterby,
-		'items': items,
-		'items_length': itemsLen,
-		'items':items_list
+		'items':items_list,
+		'item_options': item_options,
+		'items_length': itemsLen
 	})
 
 @login_required
