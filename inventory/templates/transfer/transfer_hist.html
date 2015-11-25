@@ -7,7 +7,6 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Transfer History</h1>
-        <a href="/transfer_form" class="btn btn-default" role="button">Add Transfer</a>
     </div>
 </div>
 <br>
@@ -19,6 +18,7 @@
                 <tr bgcolor="#FFFF99">
                     <th>Item</th>
                     <th>Quantity</th>
+                    <th>Date</th>
                     <th width="50"></th>
                 </tr>
             </thead>
@@ -27,15 +27,10 @@
             <tr>
              <td>{{t.item}}</td>
              <td>{{t.quantity_to_transfer}}</td>
+             <td>{{t.trans.transfer_date}}</td>
                   <td><button onclick="confirmTransferDelete({{t.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></button></td>
                 </tr>
                 {% endfor %}
-                
-                {% else %}
-
-        <p>
-            No transfers listed. <a href="/transfer_form">Add New</a> transfer. 
-        </p>
                 {% endif %}
             </tbody>
         </table>
