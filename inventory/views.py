@@ -59,6 +59,8 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
+			form = User.objects.create_user(username, email, password1)
+
 			form.save()
 			
 			return HttpResponseRedirect('/login/')
@@ -131,7 +133,6 @@ def transfer_hist(request):
 
 
 def create_transfer(request):
-	items_list = Item.objects.all()
 	transferForm = TransferForm(request.POST or None)
 	formset = formset_factory(Transfer_itemForm, formset=Transfer_itemFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
@@ -153,7 +154,6 @@ def create_transfer(request):
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset, 
-		'items':items_list
 		})
 #def create_transfer(request,template_name ='transfer/transfer_form.html'):
 #	form = TransferForm(request.POST or None)
@@ -244,7 +244,7 @@ def update_item(request, item_id):
 
 
 @login_required
-def sale(request):
+def sales(request):
 	items_list = Item.objects.all()
 	saleForm = AddSaleForm(request.POST or None)
 	formset = formset_factory(AddSoldItemForm, formset=AddSoldItemFormset, extra = 1)
@@ -266,18 +266,18 @@ def sale(request):
 			sale = sale_id
 			quantity = form.cleaned_data.get('quantity')
 			item_cost = form.cleaned_data.get('item_cost')
-			new_item = SoldItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
-			new_item.save()
+			i = SoldItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
+			i.save()
 		
-		return HttpResponseRedirect(reverse('sale'))
+		return HttpResponseRedirect(reverse('sales'))
 
 	return render(request, 'sales/sale.html', {
 		'AddSaleForm' : saleForm, 
-		'formset' : saleFormset, 
-		'items':items_list
-		}) 
+		'formset' : saleFormset,
+		'items':items_list 
+		})
 
-def sales(request):
+def sales_history(request):
 	sales_list = SoldItem.objects.all()
 	salesLen = len(sales_list)
 
