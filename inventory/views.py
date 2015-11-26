@@ -123,12 +123,7 @@ def create_transfer(request):
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset, 
 		})
-#def create_transfer(request,template_name ='transfer/transfer_form.html'):
-#	form = TransferForm(request.POST or None)
-#	if form.is_valid():
-#		form.save()
-#		return redirect('transfer_hist')
-#	return render(request,template_name,{'form':form})
+
 
 def location(request):
 	items_list = Item.objects.all()
