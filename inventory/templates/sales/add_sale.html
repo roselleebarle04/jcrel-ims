@@ -40,7 +40,6 @@
                     <tr>
                         <th scope="col">Item</th>
                         <th scope="col">Quantity</th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,14 +47,13 @@
                     <tr id="{{ form.prefix }}-row"  class="dynamic-form">
                         <td>{{form.item}}</td>
                         <td>{{form.quantity}}</td>
-                        <td>{{form.item.srp}}</td>
                         <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger">Remove</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
 
             </table>
-            <a href="javascript:void(0)" class="add-row btn btn-info">Add More</a>
+            <center><a href="javascript:void(0)" class="add-row btn btn-info">Add More</a></center>
             {{ formset.management_form }}
             <br><br>
             <div class="form-group">
