@@ -96,23 +96,6 @@ class SoldItem(models.Model):
 		total = self.item_cost * self.quantity
 		return total
 
-# class Arrival(models.Model):
-# 	"""	This model refers to the arrival of the store owner from its suppliers """
-# 	date = models.DateField(default=timezone.now)
-# 	dr = models.CharField(max_length=100, null=True, blank=True)
-# 	trckng_no = models.CharField(max_length=100, null=True, blank=True)
-# 	supp = models.ForeignKey(Supplier)
-# 	arrival_items = models.ManyToManyField(Item, through='ArrivedItem')
-	
-# 	def __unicode__(self):
-# 		return self.dr
-
-# class ArrivedItem(models.Model):
-# 	arrival = models.ForeignKey(Arrival)
-# 	arrived_item = models.ForeignKey(Item)
-# 	arrived_quantity = models.PositiveIntegerField(default=0)
-# 	itemCost = models.FloatField(null=True, blank=True)
-
 
 class Location (models.Model):
 	branch_name = models.CharField(max_length = 50, null = True)
