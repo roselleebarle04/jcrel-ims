@@ -16,6 +16,14 @@ class Account(models.Model):
 		return u'Profile of user: %s' %self.user.username
 
 
+class Location (models.Model):
+	branch_name = models.CharField(max_length = 50, null = True)
+	address = models.CharField(max_length = 200, null = True)
+
+	def __unicode__(self):
+		return self.branch_name
+
+
 
 class Item(models.Model):
 	status = models.BooleanField(default=True)		# Active or Inactive
@@ -30,7 +38,6 @@ class Item(models.Model):
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
 	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-
 	def __unicode__(self):
 		return " ".join((
             unicode(self.item_code),
@@ -94,14 +101,6 @@ class SoldItem(models.Model):
 	def total_cost(self):
 		total = self.item.srp * self.quantity
 		return total
-
-
-class Location (models.Model):
-	branch_name = models.CharField(max_length = 50, null = True)
-	address = models.CharField(max_length = 200, null = True)
-
-	def __unicode__(self):
-		return self.branch_name
 
 
 class Transfer (models.Model):

@@ -31,6 +31,8 @@
                   <td><button onclick="confirmTransferDelete({{t.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></button></td>
                 </tr>
                 {% endfor %}
+                {% else %}
+                <p>No transfers listed. </p>
                 {% endif %}
             </tbody>
         </table>
