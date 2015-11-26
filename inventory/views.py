@@ -336,12 +336,11 @@ def arrival_history(request):
 		'arrivalLen': arrivalLen
 		})
 
-# def arrival_delete(request, arrival_id):
-# 	# items_list = Item.objects.all()
-# 	a_item = ArrivedItem.objects.get(pk=arrival_id)
-# 	a_item.is_active = False
-# 	a_item.save()
-# 	return HttpResponseRedirect(reverse('arrival_history'))
+def arrival_delete(request, arrival_id):
+	a_item = ArrivedItem.objects.get(pk=arrival_id)
+	a_item.is_active = False
+	a_item.save()
+	return HttpResponseRedirect(reverse('arrival_history'))
 
 
 def customers(request):
