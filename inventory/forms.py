@@ -47,6 +47,19 @@ class AccountForm(UserCreationForm):
 				user.save()
 			return user
 
+class AccountSettingsForm(forms.ModelForm):
+
+	class Meta:
+		model = AccountSettings
+		fields = ['avatar']
+
+	# def clean_avatar(self):
+	# 	avatar = self.cleaned_data['avatar']
+
+	# def __init__(self, *args, **kwargs):
+	# 	super(AccountSettingsForm,self).__init__(*args, **kwargs)
+	# 	self.fields['avatar'].widget.attrs['class'] = 'form-control'
+
 class AddItemForm(forms.ModelForm):
 	class Meta:
 		model = Item

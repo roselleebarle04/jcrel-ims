@@ -1,25 +1,21 @@
 from django.db import models 
 from django.core.urlresolvers import reverse
-# from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import User, UserManager
 from django.contrib.auth.models import *
 from django.utils import timezone
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
+from django.conf import settings
 
 #TRIGGER
 
-class Account(models.Model):
-	first_name = models.CharField(max_length=50)
-	last_name = models.CharField(max_length=50)
-	email = models.EmailField()
-	password = models.CharField(max_length=50)
+class AccountSettings(models.Model):
+	user = models.ForeignKey(User)
+	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
 
-	def publish(self):
-		self.published_date = timezone.now()
-		self.save()
+	def __unicode__(self):
+		return u'Profile of user: %s' %self.user.username
 
-	def __str__(self):
-		return self.last_name
 
 
 class Item(models.Model):
