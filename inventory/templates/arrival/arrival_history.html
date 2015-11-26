@@ -19,19 +19,21 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>From</label>
-                                <input name="from" type="date" class="form-control">
+                                <input name="from" type="date" class="form-control" value="" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>To</label>
-                                <input name="to" type="date" class="form-control">
+                                <input name="to" type="date" class="form-control" value="" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label>Supplier</label>
-                            <select name="supplier" class="form-control">
-                                <option>Supplier</option>
+                            <select name="supplier" class="form-control" required>
+                                {% for s in suppliers %}
+                                <option value="{{s.id}}">{{s.name}}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="col-md-3">

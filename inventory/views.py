@@ -328,21 +328,26 @@ def arrival(request):
 def arrival_history(request):
 	arr = Arrival.objects.all()
 	arrivalLen = len(arr)
+	suppliers = Supplier.objects.all()
 
 	if request.method == 'POST': 
-		date_from = request.POST.get('from')
+		date_from = request.POST.get('from') 
 		date_to = request.POST.get('to')
-		product = request.POST.get('supplier')
-		filtered_arr = Arrival.apply_filter(date_from, date_to)
+		supplier = request.POST.get('supplier')
+
+		filtered_arr = Arrival.apply_filter(date_from, date_to, supplier)
+		
 		arrivalLen = len(filtered_arr)
 		return render(request, 'arrival/arrival_history.html', {
 			'arrival': filtered_arr,
-			'arrivalLen': arrivalLen
+			'arrivalLen': arrivalLen,
+			'suppliers': suppliers,
 		})
 
 	return render(request, 'arrival/arrival_history.html', {
 		'arrival': arr,
-		'arrivalLen': arrivalLen
+		'arrivalLen': arrivalLen,
+		'suppliers' : suppliers,
 	})
 
 def arrival_delete(request, arrival_id):

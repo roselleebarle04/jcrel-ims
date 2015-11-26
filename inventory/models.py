@@ -139,17 +139,10 @@ class Arrival(models.Model):
 		return ', '.join([a.item for i in self.items.all()])
 
 	@staticmethod
-	def apply_filter(start, end=None, supplier=None):
-		if not end:
-			end = timezone.now()
-
-		if not supplier:
-			items = Arrival.objects.filter(date__gt=start, date__lt=end)
-		else:
-			items = Arrival.objects.filter(supplier=supplier).filter(date__gt=start, date__lt=end)
+	def apply_filter(start, end, supplier):
+		items = Arrival.objects.filter(supplier=supplier).filter(date__gt=start, date__lt=end)
 		return items
-		# out = []
-		# for item in items 
+
 	def get_grand_total(self):
 		grand_total = 0
 		items_set = self.arriveditem_set.all()
