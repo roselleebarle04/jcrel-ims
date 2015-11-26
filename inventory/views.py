@@ -50,10 +50,16 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
-			form = User.objects.create_user(username, email, password1)
+			# user = User.objects.create_user(username, email, password1)
+			new_user = form.save(commit=False)
+			new_user.save()
 
-			form.save()
-			
+			avatar = request.FILES.get("avatar")
+
+			# We need to create an account for the user created.
+			new_account = Account(user=new_user, avatar=avatar)
+			new_account.save()
+
 			return HttpResponseRedirect('/login/')
 	else:
 		# form = AccountForm()
@@ -408,71 +414,31 @@ def delete_customer(request, customer_id):
 
 
 def settings(request):
-	items_list = Item.objects.all()
-	users = User.objects.all()
-	# account_settings_form = AccountSettingsForm.objects.get(user=request.user)
-	account = Account.objects.all()
+	try:
+		account = Account.objects.filter(user=request.user.id)[0]
+	except:
+		account = ''
+	return render(request, 'settings/settings.html', {'account':account})
 
-	return render(request, 'settings/settings.html', {'account':account,
-		'users':users, 'items':items_list})
-
-def update_settings_photo(request, user_id):
-	account_form = AccountForm(request.POST or None, request.FILES or None)
-
-	if account_form.is_valid():
-		new_avatar = account_form.cleaned_data['avatar']
-		account_form = Account.objects.get(user_id=request.session['auth_user_id'])
-		account_form.avatar = new_avatar
-		account_form.save()
-
+def update_settings(request):
+	# If the account is already created for the user, just update the avatar, 
+	# but not that the original user might not hava an account, yet - TODO
+	user = request.user
+	try:
+		account = Account.objects.filter(user=user.id)[0]
+	except: 
+		account = ''
+	if request.method == 'POST':
+		new_avatar = request.FILES.get('avatar')
+		
+		if account:
+			account.avatar = new_avatar
+			account.save()
+		else:
+			new_account = Account(user=user, avatar=new_avatar)
+			new_account.save()
 		return HttpResponseRedirect(reverse('settings'))
-	# account_form = AccountSettingsForm(request.POST or None, request.FILES or None)
-	# if account_form.is_valid():
-	# 	new_avatar = account_form.cleaned_data['avatar']
-	# 	current_user = request.user
-	# 	print "User.id is %s " % current_user.id
-	# 	account_form = AccountSettings.objects.get(user=user_id)
-	# 	account_form.avatar = new_avatar
-	# 	account_form.save()
-	
-	# 	return HttpResponseRedirect(reverse('settings'))
-	# else:
-	# 	account_form = AccountSettingsForm()
 
-	return render(request, 'settings/update_settings.html/', {'account_form': account_form})
-
-# def suppliers(request):
-# 	items_list = Item.objects.all()
-# 	s_list = Supplier.objects.all()
-# 	s_len = len(s_list)
-
-# 	return render(request, 'supplier/suppliers.html', {
-# 		'suppliers': s_list,
-# 		's_len': s_len,
-# 		'items':items_list
-# 	})
-
-# def add_supplier(request):
-# 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
-# 	if  supplierForm.is_valid():
-# 		supplierForm.save()
-# 		return HttpResponseRedirect(reverse('suppliers'))
-# 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
-
-# def update_supplier(request, supplier_id):
-# 	supplier = Supplier.objects.get(pk=supplier_id)
-# 	items_list = Item.objects.all()
-# 	if request.method == 'POST':
-# 		supplier.avatar = request.FILES.get('avatar')
-# 		supplier.name = request.POST.get('name')
-# 		supplier.phone = request.POST.get('phone')
-# 		supplier.address = request.POST.get('address')
-# 		supplier.save()
-# 		return HttpResponseRedirect(reverse('suppliers'))
-# 	return render(request, 'supplier/update_supplier.html', {'supplier': supplier})
-
-# def delete_supplier(request, supplier_id):
-# 	items_list = Item.objects.all()
-# 	s = Supplier.objects.get(pk=supplier_id)
-# 	s.delete()
-# 	return HttpResponseRedirect(reverse('suppliers'))
+	return render(request, 'settings/update_settings.html', {
+		'account': account,
+		})

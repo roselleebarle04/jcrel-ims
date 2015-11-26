@@ -12,7 +12,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">Register</div>
         <div class="panel-body">
-          <form action="/signup/" class="form" method="POST">
+          <form action="/signup/" class="form" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <!-- {% if form.errors %}
                 {% for field in form %}
@@ -28,6 +28,10 @@
                 {% endfor %}
               {% endif %}
  -->
+            <div class="form-group">
+              <label>Avatar</label>
+              <input type="file" name="avatar" class="form-control" required>
+            </div>
             <div class="form-group">
               <label>Username</label>
               <input name="username" type="text" class="form-control" required autofocus>

@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 import json
 
 from .models import *
@@ -11,10 +12,12 @@ from .models import *
 
 def reports_data(request):
 	if request.method == 'POST' and request.is_ajax():
-		response_data={}
-		response_data['title']='NO'
-		response_data['message']='NO'
-		return HttpResponse(json.dumps(response_data),content_type="application/json")
+		items = Item.objects.all()
+		# response_data={}
+		# response_data['title']='NO'
+		# response_data['message']='NO'
+		data = serializers.serialize("json", Item.objects.all())
+		return HttpResponse(json.dumps(data),content_type="application/json")
 	return HttpResponse({})
 
 @login_required
