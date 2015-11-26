@@ -7,11 +7,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import formset_factory
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-
-from django.forms.formsets import BaseFormSet
-from django.forms import formset_factory
-from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
 from django.core import validators
 from django.contrib import messages
 
@@ -77,13 +72,14 @@ class AddSaleForm(forms.ModelForm):
 class AddSoldItemForm(forms.ModelForm):
 	class Meta:
 		model = SoldItem
-		fields = ['item', 'quantity', 'item_cost']
+		fields = ['item', 'quantity']
 
 	def __init__(self, *args, **kwargs):
 		super(AddSoldItemForm, self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
-		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
+		self.fields['item'].queryset = Item.objects.filter(status=True)
+		# self.fields['item_cost'] = self.fields['item'].srp
 
 	def clean_quantity(self):
 		item = self.cleaned_data['item']
