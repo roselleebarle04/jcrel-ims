@@ -41,19 +41,34 @@ class AccountForm(UserCreationForm):
 				user.save()
 			return user
 
+class AccountSettingsForm(forms.ModelForm):
+
+	class Meta:
+		model = AccountSettings
+		fields = ['avatar']
+
+	# def clean_avatar(self):
+	# 	avatar = self.cleaned_data['avatar']
+
+	# def __init__(self, *args, **kwargs):
+	# 	super(AccountSettingsForm,self).__init__(*args, **kwargs)
+	# 	self.fields['avatar'].widget.attrs['class'] = 'form-control'
+
 class AddItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
-		fields = ['types', 'category', 'brand', 'model', 'supplier', 'item_code','store_quantity', 'warehouse_quantity', 'srp']
+		fields = ['types', 'category', 'brand', 'model', 'supplier', 'location', 'item_code','store_quantity', 'warehouse_quantity', 'srp']
 
 	def __init__(self, *args, **kwargs):
 		super(AddItemForm,self).__init__(*args, **kwargs)
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+		self.fields['location'].widget.attrs['class'] = 'form-control'
 		self.fields['types'].error_messages['required'] = 'Enter item\'s type.'
 		self.fields['category'].error_messages['required'] = 'Enter item\'s category'
 		self.fields['brand'].error_messages['required'] = 'Enter item\'s brand'
 		self.fields['model'].error_messages['required'] = 'Enter item\'s model'
-		self.fields['supplier'].error_messages['required'] = 'Enter supplier.'		
+		self.fields['supplier'].error_messages['required'] = 'Choose supplier.'	
+		self.fields['location'].error_messages['required'] = 'Choose location.'		
 		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
 		self.fields['store_quantity'].error_messages['required'] = 'Enter item\'s store quantity'
 		self.fields['warehouse_quantity'].error_messages['required'] = 'Enter item\'s warehouse quantity'
@@ -156,14 +171,15 @@ class AddSupplierForm(forms.ModelForm):
 class AddArrivalForm(forms.ModelForm): 
 	class Meta: 
 		model = Arrival
-		fields = ['date', 'delivery_receipt_no', 'tracking_no', 'supplier']
+		fields = ['date', 'supplier', 'delivery_receipt_no', 'tracking_no']
 
 	def __init__(self, *args, **kwargs):
 		super(AddArrivalForm, self).__init__(*args, **kwargs)
 		self.fields['date'].widget.attrs['class'] = 'form-control'
+		self.fields['supplier'].widget.attrs['class'] = 'form-control'
 		self.fields['delivery_receipt_no'].widget.attrs['class'] = 'form-control'
 		self.fields['tracking_no'].widget.attrs['class'] = 'form-control'
-		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+		
 
 class AddArrivedItemForm(forms.ModelForm): 
 	class Meta: 

@@ -5,20 +5,16 @@ from django.contrib.auth.models import *
 from django.utils import timezone
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
+from django.conf import settings
 
 
-class Account(models.Model):
-	first_name = models.CharField(max_length=50)
-	last_name = models.CharField(max_length=50)
-	email = models.EmailField()
-	password = models.CharField(max_length=50)
+class AccountSettings(models.Model):
+	user = models.ForeignKey(User)
+	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
 
-	def publish(self):
-		self.published_date = timezone.now()
-		self.save()
+	def __unicode__(self):
+		return u'Profile of user: %s' %self.user.username
 
-	def __str__(self):
-		return self.last_name
 
 
 class Item(models.Model):
@@ -28,6 +24,7 @@ class Item(models.Model):
 	brand = models.CharField(max_length = 50, null=True)
 	model = models.CharField(max_length = 50, null=True)
 	supplier = models.ForeignKey("Supplier", blank=True, null=True, on_delete=models.SET_NULL)
+	location = models.ForeignKey("Location", null=True, on_delete=models.SET_NULL)
 	item_code = models.CharField(max_length = 50, unique = True)
 	store_quantity = models.PositiveSmallIntegerField(default = 0)
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
@@ -154,7 +151,7 @@ class ArrivedItem(models.Model):
 	is_active = models.BooleanField(default=True)
 	item = models.ForeignKey(Item)
 	arrival = models.ForeignKey(Arrival)
-	quantity = models.IntegerField(default=0)
+	quantity = models.IntegerField()
 	item_cost = models.FloatField(null=True, blank=True)
 
 	#source_location = models.ForeignKey(Location)
