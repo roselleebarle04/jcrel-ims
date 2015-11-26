@@ -48,6 +48,9 @@ class Item(models.Model):
 		qty = self.store_quantity + self.warehouse_quantity
 		return qty	
 
+	def get_description(self):
+		return self.category + ' ' + self.brand + ' ' + self.model
+
 	class Meta:
 		ordering = ('created',)
 	
@@ -135,6 +138,25 @@ class Arrival(models.Model):
 	def items_list(self):
 		return ', '.join([a.item for i in self.items.all()])
 
+	@staticmethod
+	def apply_filter(start, end=None, supplier=None):
+		if not end:
+			end = timezone.now()
+
+		if not supplier:
+			items = Arrival.objects.filter(date__gt=start, date__lt=end)
+		else:
+			items = Arrival.objects.filter(supplier=supplier).filter(date__gt=start, date__lt=end)
+		return items
+		# out = []
+		# for item in items 
+	def get_grand_total(self):
+		grand_total = 0
+		items_set = self.arriveditem_set.all()
+		for item in items_set: 
+			grand_total = grand_total + item.calculate_total()
+		return grand_total
+
 class ArrivedItem(models.Model):
 	is_active = models.BooleanField(default=True)
 	item = models.ForeignKey(Item)
@@ -145,4 +167,9 @@ class ArrivedItem(models.Model):
 	#source_location = models.ForeignKey(Location)
 	#destination = models.ForeignKey(Location)
 	def __unicode__(self):
-		return self.item.item_code
+		return self.item.item_code + self.quantity
+
+	def calculate_total(self):
+		return self.item_cost * self.quantity
+
+

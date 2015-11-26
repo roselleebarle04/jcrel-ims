@@ -3,6 +3,29 @@ body, html, p {
 	font-family: 'Montserrat', sans-serif;
 }
 
+body a, html a {
+	color: #2d3e63;
+}
+
+.page-header {
+	font-weight: bold;
+	margin-top: 0;
+	font-size: 28px;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.alert.alert-dark, .panel.panel-dark{
+	/*background-color: #fff;*/
+	background-color: #333;
+	color: white;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+}
+
+.panel.panel-gray {
+	background-color: 
+}
+
 ul.errorlist {
 	list-style: none;
 	padding: 0;
