@@ -5,7 +5,7 @@ from .models import *
 
 class AccountAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(AccountSettings, AccountAdmin)
+admin.site.register(Account, AccountAdmin)
 
 class ItemAdmin(admin.ModelAdmin):
 	pass

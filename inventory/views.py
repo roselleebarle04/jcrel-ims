@@ -57,7 +57,7 @@ def signup(request):
 			avatar = request.FILES.get("avatar")
 
 			# We need to create an account for the user created.
-			new_account = AccountSettings(user=new_user, avatar=avatar)
+			new_account = Account(user=new_user, avatar=avatar)
 			new_account.save()
 
 			return HttpResponseRedirect('/login/')
@@ -414,20 +414,18 @@ def delete_customer(request, customer_id):
 
 
 def settings(request):
-	account = AccountSettings.objects.filter(user=request.user.id)[0]
-	print account.avatar
-	# try:
-	# except:
-	# 	account = ''
-	# 	pass
+	try:
+		account = Account.objects.filter(user=request.user.id)[0]
+	except:
+		account = ''
 	return render(request, 'settings/settings.html', {'account':account})
 
-def update_settings_photo(request):
+def update_settings(request):
 	# If the account is already created for the user, just update the avatar, 
 	# but not that the original user might not hava an account, yet - TODO
 	user = request.user
 	try:
-		account = AccountSettings.objects.filter(user=user.id)[0]
+		account = Account.objects.filter(user=user.id)[0]
 	except: 
 		account = ''
 	if request.method == 'POST':
@@ -437,46 +435,10 @@ def update_settings_photo(request):
 			account.avatar = new_avatar
 			account.save()
 		else:
-			new_account = AccountSettings(user=user, avatar=new_avatar)
+			new_account = Account(user=user, avatar=new_avatar)
 			new_account.save()
 		return HttpResponseRedirect(reverse('settings'))
 
-	return render(request, 'settings/update_settings.html/', {
+	return render(request, 'settings/update_settings.html', {
 		'account': account,
 		})
-
-# def suppliers(request):
-# 	items_list = Item.objects.all()
-# 	s_list = Supplier.objects.all()
-# 	s_len = len(s_list)
-
-# 	return render(request, 'supplier/suppliers.html', {
-# 		'suppliers': s_list,
-# 		's_len': s_len,
-# 		'items':items_list
-# 	})
-
-# def add_supplier(request):
-# 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
-# 	if  supplierForm.is_valid():
-# 		supplierForm.save()
-# 		return HttpResponseRedirect(reverse('suppliers'))
-# 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
-
-# def update_supplier(request, supplier_id):
-# 	supplier = Supplier.objects.get(pk=supplier_id)
-# 	items_list = Item.objects.all()
-# 	if request.method == 'POST':
-# 		supplier.avatar = request.FILES.get('avatar')
-# 		supplier.name = request.POST.get('name')
-# 		supplier.phone = request.POST.get('phone')
-# 		supplier.address = request.POST.get('address')
-# 		supplier.save()
-# 		return HttpResponseRedirect(reverse('suppliers'))
-# 	return render(request, 'supplier/update_supplier.html', {'supplier': supplier})
-
-# def delete_supplier(request, supplier_id):
-# 	items_list = Item.objects.all()
-# 	s = Supplier.objects.get(pk=supplier_id)
-# 	s.delete()
-# 	return HttpResponseRedirect(reverse('suppliers'))

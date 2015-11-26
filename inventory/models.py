@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 from django.conf import settings
 
 
-class AccountSettings(models.Model):
+class Account(models.Model):
 	user = models.ForeignKey(User)
 	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
 
