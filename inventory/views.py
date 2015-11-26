@@ -123,12 +123,6 @@ def create_transfer(request):
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset, 
 		})
-#def create_transfer(request,template_name ='transfer/transfer_form.html'):
-#	form = TransferForm(request.POST or None)
-#	if form.is_valid():
-#		form.save()
-#		return redirect('transfer_hist')
-#	return render(request,template_name,{'form':form})
 
 def location(request):
 	items_list = Item.objects.all()
@@ -151,7 +145,13 @@ def transfer_delete(request, transfer_id):
 	t_item = Transfer_item.objects.filter(pk=transfer_id)
 	t_item.delete()
 	return HttpResponseRedirect(reverse('transfer_hist'))
-
+	
+def arrival_delete(request, arrival_id):
+	# items_list = Item.objects.all()
+	a_item = ArrivedItem.objects.get(item=arrival_id)
+	a_item.is_active = False
+	a_item.save()
+	return HttpResponseRedirect(reverse('arrival_history'))
 
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
@@ -228,13 +228,12 @@ def sales(request):
 			item = form.cleaned_data.get('item')
 			sale = sale_id
 			quantity = form.cleaned_data.get('quantity')
-			item_cost = form.cleaned_data.get('item_cost')
-			i = SoldItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
+			i = SoldItem(item=item, sale=p, quantity=quantity)	
 			i.save()
 		
 		return HttpResponseRedirect(reverse('sales'))
 
-	return render(request, 'sales/sale.html', {
+	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset,
 		'items':items_list 
@@ -244,7 +243,7 @@ def sales_history(request):
 	sales_list = SoldItem.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 
-	return render(request, 'sales/sales.html', {
+	return render(request, 'sales/sales_history.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen,
 		})
@@ -352,30 +351,35 @@ def customers(request):
 	c_list = Customer.objects.all()
 	c_len = len(c_list)
 
-	# Add Supplier Pop-up Form - Handling
-	# NOTE: Remove add_supplier view since it's already integrated here.
+	return render(request, 'customer/customers.html', {
+		'customers': c_list,
+		'c_len': c_len,
+		'items':items_list
+	})
+
+def add_customer(request):
+	print 'hi'
 	customerForm = AddCustomerForm(request.POST or None, request.FILES)
 	if  customerForm.is_valid():
 		customerForm.save()
 		return HttpResponseRedirect(reverse('customers'))
 
-	return render(request, 'customers.html', {
-		'customers': c_list,
-		'c_len': c_len,
-		'customerForm': customerForm,
-		'items':items_list
+	return render(request, 'customer/add_customer.html', {
+		'form': customerForm,
 	})
 
-def update_customer(request, supplier_id):
-	items_list = Item.objects.all()
+def update_customer(request, customer_id):
+	customer = Customer.objects.get(pk=customer_id)
 	if request.method == 'POST':
-		customer = Supplier.objects.get(pk=supplier_id)
 		customer.avatar = request.FILES.get('avatar')
 		customer.name = request.POST.get('name')
 		customer.phone = request.POST.get('phone')
 		customer.address = request.POST.get('address')
 		customer.save()
-	return HttpResponseRedirect(reverse('customers'))
+		return HttpResponseRedirect(reverse('customers'))
+	return render(request, 'customer/update_customer.html', {
+		'customer': customer
+ 	})
 
 def delete_customer(request, customer_id):
 	items_list = Item.objects.all()

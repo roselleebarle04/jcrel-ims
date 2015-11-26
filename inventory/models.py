@@ -83,17 +83,16 @@ class Sale(models.Model):
 
 class SoldItem(models.Model):
 	is_active = models.BooleanField(default=True)
-	item = models.ForeignKey(Item)
+	item = models.ForeignKey(Item, blank=False)
 	sale = models.ForeignKey(Sale)
-	quantity = models.PositiveSmallIntegerField(default = 0)	
-	item_cost = models.FloatField(blank=True)
+	quantity = models.PositiveSmallIntegerField(default = 0, null=True)
 
 	def __unicode__(self):
 		return self.item.__unicode__()
 
 	@property	
 	def total_cost(self):
-		total = self.item_cost * self.quantity
+		total = self.item.srp * self.quantity
 		return total
 
 
@@ -133,8 +132,8 @@ class Arrival(models.Model):
 	def __unicode__(self):
 		return self.tracking_no
 
-def items_list(self):
-	return ', '.join([a.item for i in self.items.all()])
+	def items_list(self):
+		return ', '.join([a.item for i in self.items.all()])
 
 class ArrivedItem(models.Model):
 	is_active = models.BooleanField(default=True)
