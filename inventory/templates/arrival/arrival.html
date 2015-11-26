@@ -39,7 +39,6 @@
             </div>
             <br><br><br><br>
             <h5> <a href="/suppliers/add/" class="btn btn-info btn-sm" role="button">Add Supplier</a></h5>
-            <br>
             <br><br><br><br><br><br><br><br><br>
 
             <h2>Arrived Items</h2>
@@ -58,17 +57,14 @@
                         <td>{{ form.item }}</td>
                         <td>{{form.quantity}}</td>
                         <td>{{form.item_cost}}</td>
-                        <td>
-                            <a href="javascript:void(0)" class="btn btn-info ">Add More</a>
-                            {{ formset.management_form }}
-                        </td>
                         <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger ">Remove</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
 
             </table>
-            
+            <center><a href="javascript:void(0) " class=" add-row btn btn-info ">Add More</a></center>
+            {{ formset.management_form }}
             <br><br>
             <div class="form-group">
                 <input type="submit" class="form-control btn btn-primary" name="name" value="Submit" />
