@@ -17,12 +17,13 @@
                         <div class="form-group">
                             {{form.branch_name.errors}}
                             <label>Branch Name</label>
-                            <input name="types" type="text" class="form-control" >
+                            <input name="branch_name" type="text" class="form-control" >
                         </div>
                         <div class="form-group">
                             {{form.address.errors}}
                             <label>Address</label>
-                            <input name="category" type="text" class="form-control">
+                            <input name="address" type="text" class="form-control">
+                            <br>
                         <div class="form-actions">
                             <input class="btn btn-success" type="submit" value="Save" />
                             <input class="btn btn-danger" type="button" onclick="window.location.replace('/location')" value="Cancel" />

@@ -153,11 +153,20 @@ def arrival_delete(request, arrival_id):
 	a_item.save()
 	return HttpResponseRedirect(reverse('arrival_history'))
 
+def add_location(request):
+	location_list = Location.objects.all()
+	form = LocationForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('location')
+	return render(request, 'transfer/add_location.html' , {'form' : form, 'location':location_list})
+
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
+
 
 @login_required
 def items(request):

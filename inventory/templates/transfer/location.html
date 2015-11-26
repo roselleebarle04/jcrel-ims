@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Location List</h1>
-        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#addLocationModal">Add New Location</a>
+        <a href="/location/add" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>Add New Location</a>
     </div>
 </div>
 <br>
@@ -27,48 +27,17 @@
                 <tr>
                   <td>{{l.branch_name}}</td>
                   <td>{{l.address}}</td>
-                  <td><button onclick="confirmLocationDelete({{l.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span> Delete</button></td>
+                  <td><button onclick="confirmLocationDelete({{l.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></button></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         {% else %}
         <p>
-            No locations listed. <a href="#" data-toggle="modal" data-target="#addLocationModal">Add New</a> location. 
+            No locations listed. <a href="/location/add">Add New</a> location. 
         </p>
         {% endif %}
     </div>
 </div>
-      <div class="modal fade" id="addLocationModal" tabindex="-1" role="dialog" aria-labelledby="addLocationrModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addLocationModal">Add Location</h4>
-            </div>
-            <form class="form" action="/location/" method="POST">
-                <div class="modal-body">
-                        {% csrf_token %}
-                        <div class="form-group">
-                        {{form.branch_name.errors}}
-                            <label>Branch Name</label>
-                            <input name="branch_name" type="text" class="form-control">
-                        </div>
-                        <div class="form-group">
-                        {{form.address.errors}}
-                            <label>Address</label>
-                            <input name="address" type="text" class="form-control">
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="form-group">
-                      <button type="submit" class="btn btn-success">Save</button>
-                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                      <input type="hidden" name="next" value="{{ next }}"/>
-                    </div>
-                </div>
-            </form>
-    </div>
-  </div>
 
 {% endblock content %}
