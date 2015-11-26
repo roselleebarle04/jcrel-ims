@@ -35,7 +35,7 @@ urlpatterns = [
    
     url(r'^arrival/$', inventory_views.arrival, name='arrival'),
     url(r'^arrival/add/$', inventory_views.arrival, name='arrival'),
-    # url(r'^arrival/delete/(?P<arrival_id>[0-9]+)/$$', inventory_views.arrival_delete, name='arrival_delete'),
+    url(r'^arrival/delete/(?P<arrival_id>[0-9]+)/$$', inventory_views.arrival_delete, name='arrival_delete'),
     url(r'^arrival/history/$', inventory_views.arrival_history, name='arrival_history'),
 
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
