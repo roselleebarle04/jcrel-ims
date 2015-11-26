@@ -16,5 +16,21 @@ class Command(BaseCommand):
     	location1 = Location(branch_name='BR1', address='Brgy. San Miguel, Iligan City')
     	location1.save()
 
+        # Create new sale
+        sale1 = Sale(date=timezone.now())
+        sale1.save()
+
+        # Now add items to the sale
+        sale_item1 = SoldItem(item=item1, sale=sale1, quantity=100)
+        sale_item1.save()
+
+        # Create new arrival
+        arrival1 = Arrival(delivery_receipt_no='DR-123', tracking_no='TR-123', supplier=supplier1)
+        arrival1.save()
+
+        # Add items to the arrival
+        arrival_item1 = ArrivedItem(item=item1, arrival=arrival1,quantity=100,item_cost=100.1)
+        arrival_item1.save()
+
     def handle(self, *args, **options):
         self._create_data()
