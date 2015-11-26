@@ -41,8 +41,6 @@ class Item(models.Model):
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
 	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-	location = models.ForeignKey(Location)
-
 	def __unicode__(self):
 		return " ".join((
             unicode(self.item_code),
