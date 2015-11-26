@@ -48,10 +48,10 @@ urlpatterns = [
 
         # Account Settings
     url(r'^settings/$', inventory_views.settings, name='settings'),
-    url(r'^suppliers/add/$', inventory_views.add_supplier, name='add_supplier'),
-    url(r'^settings/update_settings_photo/(?P<user_id>[0-9]+)/$', inventory_views.update_settings_photo,
+    # url(r'^suppliers/add/$', inventory_views.add_supplier, name='add_supplier'),
+    url(r'^settings/update_settings_photo/$', inventory_views.update_settings_photo,
      name='update_settings_photo'),
-    url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
+    # url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
 
 
 
