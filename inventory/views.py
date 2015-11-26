@@ -411,24 +411,33 @@ def settings(request):
 	items_list = Item.objects.all()
 	users = User.objects.all()
 	# account_settings_form = AccountSettingsForm.objects.get(user=request.user)
-	account_settings = AccountSettings.objects.all()
+	account = Account.objects.all()
 
-	return render(request, 'settings/settings.html', {'account_settings':account_settings,
+	return render(request, 'settings/settings.html', {'account':account,
 		'users':users, 'items':items_list})
 
-def update_settings_photo(request,user_id):
-	account_form = AccountSettingsForm(request.POST or None, request.FILES or None)
+def update_settings_photo(request, user_id):
+	account_form = AccountForm(request.POST or None, request.FILES or None)
+
 	if account_form.is_valid():
 		new_avatar = account_form.cleaned_data['avatar']
-		current_user = request.user
-		print "User.id is %s " % current_user.id
-		account_form = AccountSettings.objects.get(user=user_id)
+		account_form = Account.objects.get(user_id=request.session['auth_user_id'])
 		account_form.avatar = new_avatar
 		account_form.save()
-	
+
 		return HttpResponseRedirect(reverse('settings'))
-	else:
-		account_form = AccountSettingsForm()
+	# account_form = AccountSettingsForm(request.POST or None, request.FILES or None)
+	# if account_form.is_valid():
+	# 	new_avatar = account_form.cleaned_data['avatar']
+	# 	current_user = request.user
+	# 	print "User.id is %s " % current_user.id
+	# 	account_form = AccountSettings.objects.get(user=user_id)
+	# 	account_form.avatar = new_avatar
+	# 	account_form.save()
+	
+	# 	return HttpResponseRedirect(reverse('settings'))
+	# else:
+	# 	account_form = AccountSettingsForm()
 
 	return render(request, 'settings/update_settings.html/', {'account_form': account_form})
 
