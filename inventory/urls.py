@@ -26,8 +26,9 @@ urlpatterns = [
     url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
 
     url(r'^customers/$', inventory_views.customers, name='customers'),
-    url(r'^customers/update/(?P<customers_id>[0-9]+)/$', inventory_views.update_customer, name='update_customer'),
-    url(r'^customers/delete/(?P<customers_id>[0-9]+)/$', inventory_views.delete_customer, name='delete_customer'),
+    url(r'^customers/add/$', inventory_views.add_customer, name='add_customer'),
+    url(r'^customers/update/(?P<customer_id>[0-9]+)/$', inventory_views.update_customer, name='update_customer'),
+    url(r'^customers/delete/(?P<customer_id>[0-9]+)/$', inventory_views.delete_customer, name='delete_customer'),
 
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^sales/history/$', inventory_views.sales_history, name='history'),

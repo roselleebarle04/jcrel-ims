@@ -123,12 +123,6 @@ def create_transfer(request):
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset, 
 		})
-#def create_transfer(request,template_name ='transfer/transfer_form.html'):
-#	form = TransferForm(request.POST or None)
-#	if form.is_valid():
-#		form.save()
-#		return redirect('transfer_hist')
-#	return render(request,template_name,{'form':form})
 
 def location(request):
 	items_list = Item.objects.all()
@@ -369,30 +363,35 @@ def customers(request):
 	c_list = Customer.objects.all()
 	c_len = len(c_list)
 
-	# Add Supplier Pop-up Form - Handling
-	# NOTE: Remove add_supplier view since it's already integrated here.
+	return render(request, 'customer/customers.html', {
+		'customers': c_list,
+		'c_len': c_len,
+		'items':items_list
+	})
+
+def add_customer(request):
+	print 'hi'
 	customerForm = AddCustomerForm(request.POST or None, request.FILES)
 	if  customerForm.is_valid():
 		customerForm.save()
 		return HttpResponseRedirect(reverse('customers'))
 
-	return render(request, 'customers.html', {
-		'customers': c_list,
-		'c_len': c_len,
-		'customerForm': customerForm,
-		'items':items_list
+	return render(request, 'customer/add_customer.html', {
+		'form': customerForm,
 	})
 
-def update_customer(request, supplier_id):
-	items_list = Item.objects.all()
+def update_customer(request, customer_id):
+	customer = Customer.objects.get(pk=customer_id)
 	if request.method == 'POST':
-		customer = Supplier.objects.get(pk=supplier_id)
 		customer.avatar = request.FILES.get('avatar')
 		customer.name = request.POST.get('name')
 		customer.phone = request.POST.get('phone')
 		customer.address = request.POST.get('address')
 		customer.save()
-	return HttpResponseRedirect(reverse('customers'))
+		return HttpResponseRedirect(reverse('customers'))
+	return render(request, 'customer/update_customer.html', {
+		'customer': customer
+ 	})
 
 def delete_customer(request, customer_id):
 	items_list = Item.objects.all()
