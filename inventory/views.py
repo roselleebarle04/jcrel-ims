@@ -273,7 +273,7 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
-		return HttpResponseRedirect(reverse('suppliers'))
+		return HttpResponseRedirect(reverse('arriva]l'))
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
@@ -307,21 +307,25 @@ def arrival(request):
 		p = arrivalForm.save(commit=False)
 
 		#save the form
-		p.save()
+		
 		arrival_id = p
 		new_items = []
 
 		# loop through all forms in the formset, and save each form - add the arrivalId to each form
-		for form in arrivalFormset:
-			print form.cleaned_data
-			item = form.cleaned_data.get('item')
-			arrival = arrival_id
-			quantity = form.cleaned_data.get('quantity')
-			item_cost = form.cleaned_data.get('item_cost')
-			i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
-			i.save()
-		
-		return HttpResponseRedirect(reverse('arrival'))
+		try:
+			for form in arrivalFormset:
+				print form.cleaned_data
+				item = form.cleaned_data.get('item')
+				arrival = arrival_id
+				quantity = form.cleaned_data.get('quantity')
+				item_cost = form.cleaned_data.get('item_cost')
+				i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
+				i.save()
+			p.save()
+			return HttpResponseRedirect(reverse('arrival'))
+			
+		except ValueError:
+			pass
 
 	return render(request, 'arrival/arrival.html', {
 		'AddArrivalForm' : arrivalForm, 

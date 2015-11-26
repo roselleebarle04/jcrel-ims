@@ -140,7 +140,7 @@ class ArrivedItem(models.Model):
 	is_active = models.BooleanField(default=True)
 	item = models.ForeignKey(Item)
 	arrival = models.ForeignKey(Arrival)
-	quantity = models.IntegerField(default=0)
+	quantity = models.IntegerField()
 	item_cost = models.FloatField(null=True, blank=True)
 
 	#source_location = models.ForeignKey(Location)
