@@ -76,7 +76,7 @@ class Sale(models.Model):
 	items = models.ManyToManyField(Item, through='SoldItem')
 
 	def __unicode__(self):
-		return self.date
+		return ' '.join(unicode(self.date))
 
 	def items_list(self):
 		return ', '.join([a.item for i in self.items.all()])
