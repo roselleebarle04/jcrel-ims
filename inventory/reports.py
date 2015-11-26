@@ -4,9 +4,18 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+import json
 
 from .models import *
 
+
+def reports_data(request):
+	if request.method == 'POST' and request.is_ajax():
+		response_data={}
+		response_data['title']='NO'
+		response_data['message']='NO'
+		return HttpResponse(json.dumps(response_data),content_type="application/json")
+	return HttpResponse({})
 
 @login_required
 def inventory_reports(request):
@@ -24,7 +33,7 @@ def inventory_reports(request):
 	return render(request, 'reports/inventory_reports.html', {
 		'items':items_list,
 		'item_options': item_options,
-		'items_length': itemsLen
+		'items_length': itemsLen,
 	})
 
 @login_required

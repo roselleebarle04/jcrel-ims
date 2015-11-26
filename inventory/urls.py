@@ -11,6 +11,7 @@ from . import reports as reports_views
 urlpatterns = [
     url(r'^$', inventory_views.dashboard, name='dashboard'),
 
+    url(r'^reports/data/', reports_views.reports_data, name='reports_data'),
     url(r'^reports/inventory/', reports_views.inventory_reports, name='inventory_reports'),
     url(r'^reports/sales/', reports_views.sales_reports, name='sales_reports'),
 
@@ -25,17 +26,17 @@ urlpatterns = [
     url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
 
     url(r'^customers/$', inventory_views.customers, name='customers'),
-    url(r'^customers/update/(?P<customers_id>[0-9]+)/$', inventory_views.update_customer, name='update_customer'),
-    url(r'^customers/delete/(?P<customers_id>[0-9]+)/$', inventory_views.delete_customer, name='delete_customer'),
+    url(r'^customers/add/$', inventory_views.add_customer, name='add_customer'),
+    url(r'^customers/update/(?P<customer_id>[0-9]+)/$', inventory_views.update_customer, name='update_customer'),
+    url(r'^customers/delete/(?P<customer_id>[0-9]+)/$', inventory_views.delete_customer, name='delete_customer'),
 
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^sales/history/$', inventory_views.sales_history, name='history'),
-    url(r'^sales/add/$', inventory_views.add_sale, name = 'add_sale'),
     url(r'^sales/delete/(?P<sale_id>[0-9]+)/$', inventory_views.delete_sale, name = 'delete_sale'),
-    url(r'^sale/update/(?P<sale_id>[0-9]+)/$', inventory_views.update_sale, name = 'update_sale'),
    
     url(r'^arrival/$', inventory_views.arrival, name='arrival'),
     url(r'^arrival/add/$', inventory_views.arrival, name='arrival'),
+    url(r'^arrival/delete/(?P<arrival_id>[0-9]+)/$$', inventory_views.arrival_delete, name='arrival_delete'),
     url(r'^arrival/history/$', inventory_views.arrival_history, name='arrival_history'),
 
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
@@ -44,6 +45,16 @@ urlpatterns = [
 
     url(r'^location/$', inventory_views.location, name = 'location'),
     url(r'^location/delete/(?P<location_id>[0-9]+)/$$', inventory_views.location_delete, name='location_delete'),
+
+        # Account Settings
+    url(r'^settings/$', inventory_views.settings, name='settings'),
+    url(r'^suppliers/add/$', inventory_views.add_supplier, name='add_supplier'),
+    url(r'^settings/update_settings_photo/(?P<user_id>[0-9]+)/$', inventory_views.update_settings_photo,
+     name='update_settings_photo'),
+    url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
+
+
+
 ]
 
     

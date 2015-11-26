@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
-from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
+
 from django.contrib.auth.models import User, UserManager
 from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm
@@ -13,17 +13,15 @@ from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.template.context import RequestContext
+
 from django.forms.formsets import formset_factory
-from django.contrib import messages
-
-
-from django.forms import formset_factory
 from django.db import IntegrityError, transaction
 from django.core import validators
 
 from config import settings
 from .models import *
 from .forms import *
+from .formsets import *
 
 
 @login_required
@@ -125,12 +123,6 @@ def create_transfer(request):
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset, 
 		})
-#def create_transfer(request,template_name ='transfer/transfer_form.html'):
-#	form = TransferForm(request.POST or None)
-#	if form.is_valid():
-#		form.save()
-#		return redirect('transfer_hist')
-#	return render(request,template_name,{'form':form})
 
 def location(request):
 	items_list = Item.objects.all()
@@ -153,11 +145,12 @@ def transfer_delete(request, transfer_id):
 	t_item = Transfer_item.objects.filter(pk=transfer_id)
 	t_item.delete()
 	return HttpResponseRedirect(reverse('transfer_hist'))
-
+	
 def arrival_delete(request, arrival_id):
-	items_list = Item.objects.all()
-	a_item = ArrivedItem.objects.filter(pk=arrival_id)
-	a_item.delete()
+	# items_list = Item.objects.all()
+	a_item = ArrivedItem.objects.get(item=arrival_id)
+	a_item.is_active = False
+	a_item.save()
 	return HttpResponseRedirect(reverse('arrival_history'))
 
 def location_delete(request, location_id):
@@ -165,7 +158,6 @@ def location_delete(request, location_id):
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
-
 
 @login_required
 def items(request):
@@ -203,6 +195,7 @@ def update_item(request, item_id):
 		item.brand = request.POST.get('brand')
 		item.model = request.POST.get('model')
 		item.supplier.name = request.POST.get('supplier')
+		item.location = request.POST.get('location')
 		item.item_code = request.POST.get('item_code')
 		item.store_quantity= request.POST.get('store_quantity')
 		item.warehouse_quantity= request.POST.get('warehouse_quantity')
@@ -213,6 +206,7 @@ def update_item(request, item_id):
 	return render(request, 'items/update_item.html', {'item' : item, 'items':items_list})
 
 
+#add Sale
 @login_required
 def sales(request):
 	items_list = Item.objects.all()
@@ -230,60 +224,39 @@ def sales(request):
 		sale_id = p
 		new_items = []
 
-		# loop through all forms in the formset, and save each form - add the purchaseId to each form
-		for form in saleFormset:
-			item = form.cleaned_data.get('item')
-			sale = sale_id
-			quantity = form.cleaned_data.get('quantity')
-			item_cost = form.cleaned_data.get('item_cost')
-			i = SoldItem(item=item, sale=p, quantity=quantity, item_cost=item_cost)	
-			i.save()
-		
-		return HttpResponseRedirect(reverse('sales'))
+		try:
+			# loop through all forms in the formset, and save each form - add the purchaseId to each form
+			for form in saleFormset:
+				item = form.cleaned_data.get('item')
+				sale = sale_id
+				quantity = form.cleaned_data.get('quantity')
+				i = SoldItem(item=item, sale=p, quantity=quantity)	
+				i.save()
+			
+			return HttpResponseRedirect(reverse('sales'))
+		except ValueError:
+			pass
 
-	return render(request, 'sales/sale.html', {
+	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset,
 		'items':items_list 
 		})
 
 def sales_history(request):
-	sales_list = SoldItem.objects.all()
+	sales_list = SoldItem.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 
-	return render(request, 'sales/sales.html', {
+	return render(request, 'sales/sales_history.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen,
 		})
 
-def add_sale(request):
-	items_list = Item.objects.all()
-	form = AddSaleForm(request.POST or None)
-	if form.is_valid():
-		form.clean_quantity()
-		form.save()
-		return redirect('sales')
-	return render(request, 'sales/add_sale.html', {'form' : form, 'items':items_list})
-
-
 def delete_sale(request, sale_id):
 	sale = SoldItem.objects.get(pk = sale_id)
-	sale = Sale.objects.get(pk = sale_id)
-	sale.delete()
-	return HttpResponseRedirect(reverse('sales'))
-
-def update_sale(request, sale_id):
-	soldItem = SoldItem.objects.get(pk = sale_id)
-	sale = Sale.objects.get(pk = sale_id)
-	if request.method == 'POST':
-		soldItem = SoldItem.objects.get(pk = sale_id)
-		soldItem.item.item_code = request.POST.get('item')
-		soldItem.quantity =  request.POST.get('quantity')
-		soldItem.sale.date =  request.POST.get('date')
-		soldItem.save()
-		return HttpResponseRedirect(reverse('sales')) 
-		
-	return render(request, 'sales/update_sale.html', {'soldItem' : soldItem})	
+	sale.is_active = False
+	sale.save()
+	return HttpResponseRedirect(reverse('history'))
 
 def suppliers(request):
 	items_list = Item.objects.all()
@@ -300,7 +273,7 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
-		return HttpResponseRedirect(reverse('suppliers'))
+		return HttpResponseRedirect(reverse('arriva]l'))
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
@@ -325,7 +298,7 @@ def delete_supplier(request, supplier_id):
 def arrival(request):
 	items_list = Item.objects.all()
 	arrivalForm = AddArrivalForm(request.POST or None)
-	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 5)
+	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
 	arrivalFormset = formset(request.POST or None)
 
 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
@@ -334,20 +307,25 @@ def arrival(request):
 		p = arrivalForm.save(commit=False)
 
 		#save the form
-		p.save()
+		
 		arrival_id = p
 		new_items = []
 
 		# loop through all forms in the formset, and save each form - add the arrivalId to each form
-		for form in arrivalFormset:
-			item = form.cleaned_data.get('item')
-			arrival = arrival_id
-			quantity = form.cleaned_data.get('quantity')
-			item_cost = form.cleaned_data.get('item_cost')
-			i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
-			i.save()
-		
-		return HttpResponseRedirect(reverse('arrival'))
+		try:
+			for form in arrivalFormset:
+				print form.cleaned_data
+				item = form.cleaned_data.get('item')
+				arrival = arrival_id
+				quantity = form.cleaned_data.get('quantity')
+				item_cost = form.cleaned_data.get('item_cost')
+				i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
+				i.save()
+			p.save()
+			return HttpResponseRedirect(reverse('arrival'))
+			
+		except ValueError:
+			pass
 
 	return render(request, 'arrival/arrival.html', {
 		'AddArrivalForm' : arrivalForm, 
@@ -356,7 +334,7 @@ def arrival(request):
 		})
 
 def arrival_history(request):
-	arr = Arrival.objects.all()
+	arr = ArrivedItem.objects.filter(is_active=True)
 	# arrival_list = ArrivedItem.objects.all()
 	arrivalLen = len(arr)
 
@@ -365,36 +343,47 @@ def arrival_history(request):
 		'arrivalLen': arrivalLen
 		})
 
+def arrival_delete(request, arrival_id):
+	a_item = ArrivedItem.objects.get(pk=arrival_id)
+	a_item.is_active = False
+	a_item.save()
+	return HttpResponseRedirect(reverse('arrival_history'))
+
 
 def customers(request):
 	items_list = Item.objects.all()
 	c_list = Customer.objects.all()
 	c_len = len(c_list)
 
-	# Add Supplier Pop-up Form - Handling
-	# NOTE: Remove add_supplier view since it's already integrated here.
+	return render(request, 'customer/customers.html', {
+		'customers': c_list,
+		'c_len': c_len,
+		'items':items_list
+	})
+
+def add_customer(request):
+	print 'hi'
 	customerForm = AddCustomerForm(request.POST or None, request.FILES)
 	if  customerForm.is_valid():
 		customerForm.save()
 		return HttpResponseRedirect(reverse('customers'))
 
-	return render(request, 'customers.html', {
-		'customers': c_list,
-		'c_len': c_len,
-		'customerForm': customerForm,
-		'items':items_list
+	return render(request, 'customer/add_customer.html', {
+		'form': customerForm,
 	})
 
-def update_customer(request, supplier_id):
-	items_list = Item.objects.all()
+def update_customer(request, customer_id):
+	customer = Customer.objects.get(pk=customer_id)
 	if request.method == 'POST':
-		customer = Supplier.objects.get(pk=supplier_id)
 		customer.avatar = request.FILES.get('avatar')
 		customer.name = request.POST.get('name')
 		customer.phone = request.POST.get('phone')
 		customer.address = request.POST.get('address')
 		customer.save()
-	return HttpResponseRedirect(reverse('customers'))
+		return HttpResponseRedirect(reverse('customers'))
+	return render(request, 'customer/update_customer.html', {
+		'customer': customer
+ 	})
 
 def delete_customer(request, customer_id):
 	items_list = Item.objects.all()

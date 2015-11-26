@@ -18,13 +18,6 @@ admin.site.register(Supplier, SupplierAdmin)
 class CustomerAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Customer, CustomerAdmin)
-# class ArrivalAdmin(admin.ModelAdmin):
-# 	pass
-# admin.site.register(Arrival, ArrivalAdmin)
-
-# class ArrivedItemAdmin(admin.ModelAdmin):
-# 	pass
-# admin.site.register(ArrivedItem, ArrivedItemAdmin)
 
 class SaleAdmin(admin.ModelAdmin):
 	pass

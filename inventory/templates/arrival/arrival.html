@@ -9,10 +9,11 @@
         width: 150px;
     }
 
-    .delete-row {
+    /*.delete-row {
         width: 80%;
         margin-left: 10%;
-    }
+    }*/
+
     #id_orders_table th {
         padding: 10px;
         text-align: center;
@@ -26,15 +27,20 @@
 <div class="row">
     <div class="col-lg-12">
         <h2 class="page-header">Add Arrival</h2>
-        <!-- <a href="#" class="btn btn-default" data-toggle="modal" data-target="#addSupplierModal">Add New</a> -->
     </div>
 </div>
+
 <div class="row">
     <div class="col-lg-12">
         <form class="form" method="POST">
             {% csrf_token %}
-            {{ AddArrivalForm.as_p }}
-            
+            <div class="col-lg-10">
+                {{ AddArrivalForm.as_p }}
+            </div>
+            <br><br><br><br>
+            <h5> <a href="/suppliers/add/" class="btn btn-info btn-sm" role="button">Add Supplier</a></h5>
+            <br><br><br><br><br><br><br><br><br>
+
             <h2>Arrived Items</h2>
             <table id="id_orders_table" width="100%" border="0" cellpadding="50" cellspacing="1500">
                 <thead>
@@ -46,17 +52,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for form in formset %}
-                    <tr id="{{ form.prefix }}-row">
+                    {% for form in formset.forms %}
+                    <tr id="{{ form.prefix }}-row" class="dynamic-form">
                         <td>{{ form.item }}</td>
                         <td>{{form.quantity}}</td>
                         <td>{{form.item_cost}}</td>
-                        <td></td>
+                        <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger ">Remove</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
 
             </table>
+            <center><a href="javascript:void(0) " class=" add-row btn btn-info ">Add More</a></center>
             {{ formset.management_form }}
             <br><br>
             <div class="form-group">
@@ -66,20 +73,23 @@
     </div>
 </div>
 
+{% endblock %}
+
 {% block scripts %}
+{{block.super}}
 <script type="text/javascript" src="/static/js/jquery.formset.js"></script>
 <script type="text/javascript">
-    $(function() {
-        $('#id_orders_table tbody tr').formset({
-            // For inline formsets, be sure to set the prefix, as the default prefix
-            // ('form') isn't correct.
-            // Django appears to generate the prefix from the lowercase plural
-            // name of the related model, with camel-case converted to underscores.
-            prefix: 'ordered_items'
+    <!--
+    $(function () {
+        $('.add-row').click(function() {
+            return addForm(this, 'form');
+        });
+        $('.delete-row').click(function() {
+            return deleteForm(this, 'form');
         })
     })
-</script>
+    //-->
+    </script>
 {% endblock %}
 
 
-{% endblock %}

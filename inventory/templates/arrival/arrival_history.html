@@ -22,7 +22,7 @@
                     <th>Item</th>
                     <th>Quantity</th>
                     <th>Item Cost</th>
-                    <!-- <th></th> -->
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -35,15 +35,19 @@
                 <td>{{ a.quantity }}</td>
                 <td>{{ a.item_cost }}</td>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
                 <!-- <td><button onclick="confirmArrivalDelete({{a.id}});" class="btn btn-danger btn-sm" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span> Delete</button></td> -->
                   
+>>>>>>> 2eb657dc8376a4ea939aeb474dd0a84f45cedf50
 =======
+                  
+>>>>>>> d52c1b1e44104ba4498d6057e45fe6afd2f1c691
                 <td><button onclick="confirmArrivalDelete({{a.id}});" class="btn btn-danger btn-sm" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span> Delete</button></td>
->>>>>>> 5bfa34aa13e31897d5fabf1ece8ae50d5e89aa88
             </tr>
                 {% endfor %}
                 {% else %}
-        <p>No arrivals listed. </p>
+                <p>No arrivals listed. </p>
                 {% endif %}
             </tbody>
         </table>
