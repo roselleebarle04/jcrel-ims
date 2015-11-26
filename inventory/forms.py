@@ -155,14 +155,15 @@ class AddSupplierForm(forms.ModelForm):
 class AddArrivalForm(forms.ModelForm): 
 	class Meta: 
 		model = Arrival
-		fields = ['date', 'delivery_receipt_no', 'tracking_no', 'supplier']
+		fields = ['date', 'supplier', 'delivery_receipt_no', 'tracking_no']
 
 	def __init__(self, *args, **kwargs):
 		super(AddArrivalForm, self).__init__(*args, **kwargs)
 		self.fields['date'].widget.attrs['class'] = 'form-control'
+		self.fields['supplier'].widget.attrs['class'] = 'form-control'
 		self.fields['delivery_receipt_no'].widget.attrs['class'] = 'form-control'
 		self.fields['tracking_no'].widget.attrs['class'] = 'form-control'
-		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+		
 
 class AddArrivedItemForm(forms.ModelForm): 
 	class Meta: 
