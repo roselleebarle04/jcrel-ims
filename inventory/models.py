@@ -20,6 +20,14 @@ class Account(models.Model):
 	def __str__(self):
 		return self.last_name
 
+class Location (models.Model):
+	branch_name = models.CharField(max_length = 50, null = True)
+	address = models.CharField(max_length = 200, null = True)
+
+	def __unicode__(self):
+		return self.branch_name
+
+
 
 class Item(models.Model):
 	status = models.BooleanField(default=True)		# Active or Inactive
@@ -33,6 +41,7 @@ class Item(models.Model):
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
 	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+	location = models.ForeignKey(Location)
 
 	def __unicode__(self):
 		return " ".join((
@@ -112,14 +121,6 @@ class SoldItem(models.Model):
 # 	arrived_item = models.ForeignKey(Item)
 # 	arrived_quantity = models.PositiveIntegerField(default=0)
 # 	itemCost = models.FloatField(null=True, blank=True)
-
-
-class Location (models.Model):
-	branch_name = models.CharField(max_length = 50, null = True)
-	address = models.CharField(max_length = 200, null = True)
-
-	def __unicode__(self):
-		return self.branch_name
 
 
 class Transfer (models.Model):
