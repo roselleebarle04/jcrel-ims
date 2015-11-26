@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
-from django.forms import ModelForm
 from django.http import HttpResponse, HttpResponseRedirect
+
 from django.contrib.auth.models import User, UserManager
 from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm
@@ -13,17 +13,15 @@ from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.template.context import RequestContext
+
 from django.forms.formsets import formset_factory
-from django.contrib import messages
-
-
-from django.forms import formset_factory
 from django.db import IntegrityError, transaction
 from django.core import validators
 
 from config import settings
 from .models import *
 from .forms import *
+from .formsets import *
 
 
 @login_required
@@ -125,12 +123,7 @@ def create_transfer(request):
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset, 
 		})
-#def create_transfer(request,template_name ='transfer/transfer_form.html'):
-#	form = TransferForm(request.POST or None)
-#	if form.is_valid():
-#		form.save()
-#		return redirect('transfer_hist')
-#	return render(request,template_name,{'form':form})
+
 
 def location(request):
 	items_list = Item.objects.all()
@@ -155,9 +148,10 @@ def transfer_delete(request, transfer_id):
 	return HttpResponseRedirect(reverse('transfer_hist'))
 
 def arrival_delete(request, arrival_id):
-	items_list = Item.objects.all()
-	a_item = ArrivedItem.objects.filter(pk=arrival_id)
-	a_item.delete()
+	# items_list = Item.objects.all()
+	a_item = ArrivedItem.objects.get(item=arrival_id)
+	a_item.is_active = False
+	a_item.save()
 	return HttpResponseRedirect(reverse('arrival_history'))
 
 def location_delete(request, location_id):
@@ -165,7 +159,6 @@ def location_delete(request, location_id):
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
-
 
 @login_required
 def items(request):
@@ -302,7 +295,7 @@ def delete_supplier(request, supplier_id):
 def arrival(request):
 	items_list = Item.objects.all()
 	arrivalForm = AddArrivalForm(request.POST or None)
-	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 5)
+	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
 	arrivalFormset = formset(request.POST or None)
 
 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
@@ -317,6 +310,7 @@ def arrival(request):
 
 		# loop through all forms in the formset, and save each form - add the arrivalId to each form
 		for form in arrivalFormset:
+			print form.cleaned_data
 			item = form.cleaned_data.get('item')
 			arrival = arrival_id
 			quantity = form.cleaned_data.get('quantity')
@@ -333,7 +327,7 @@ def arrival(request):
 		})
 
 def arrival_history(request):
-	arr = Arrival.objects.all()
+	arr = ArrivedItem.objects.filter(is_active=True)
 	# arrival_list = ArrivedItem.objects.all()
 	arrivalLen = len(arr)
 

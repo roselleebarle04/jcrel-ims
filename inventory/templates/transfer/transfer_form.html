@@ -1,18 +1,19 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block content %}
 
- 
+
+
+{% block content %}
 <style type="text/css">
     .add-row {
         margin-top: 10px;
         width: 150px;
     }
 
-    .delete-row {
+   /* .delete-row {
         width: 80%;
         margin-left: 10%;
-    }
+    }*/
     #id_transfer th {
         padding: 10px;
         text-align: center;
@@ -48,16 +49,17 @@
                 </thead>
                 <tbody>
                     {% for form in formset %}
-                    <tr id="{{ form.prefix }}-row">
+                    <tr id="{{ form.prefix }}-row"  class="dynamic-form">
                         <td>{{ form.item }}</td>
                         <td>{{form.quantity_to_transfer}}</td>
-                        <td></td>
+                        <td> <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger">Remove</a></td></td>
                     </tr>
                     {% endfor %}
                 </tbody>
 
             </table>
-            {{ formset.management_form }}
+            <a href="javascript:void(0)" class="add-row btn btn-info">Add More</a>
+           {{ formset.management_form }}
             <br><br>
             <div class="form-group">
                 <input type="submit" class="form-control btn btn-primary" name="name" value="Submit" />
@@ -72,15 +74,14 @@
 {{block.super}}
 <script type="text/javascript" src="/static/js/jquery.formset.js"></script>
 <script type="text/javascript">
-    $(function() {
-        $('#id_transfer tbody tr').formset({
-            // For inline formsets, be sure to set the prefix, as the default prefix
-            // ('form') isn't correct.
-            // Django appears to generate the prefix from the lowercase plural
-            // name of the related model, with camel-case converted to underscores.
-            prefix: 'transfer'
+    $(function () {
+        $('.add-row').click(function() {
+            return addForm(this, 'form');
+        });
+        $('.delete-row').click(function() {
+            return deleteForm(this, 'form');
         })
     })
-</script>
+    </script>
 {% endblock %}
 

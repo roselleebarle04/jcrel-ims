@@ -6,7 +6,6 @@ from django.utils import timezone
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 
-#TRIGGER
 
 class Account(models.Model):
 	first_name = models.CharField(max_length=50)
@@ -154,6 +153,7 @@ class Arrival(models.Model):
 		return ', '.join([a.item for i in self.items.all()])
 
 class ArrivedItem(models.Model):
+	is_active = models.BooleanField(default=True)
 	item = models.ForeignKey(Item)
 	arrival = models.ForeignKey(Arrival)
 	quantity = models.IntegerField(default=0)

@@ -11,7 +11,6 @@ from django.core import validators
 from django.contrib import messages
 
 
-
 class AccountForm(UserCreationForm):
 	email = forms.EmailField(required=True)
 
@@ -96,11 +95,6 @@ class AddSoldItemForm(forms.ModelForm):
 		
 		return self.cleaned_data['quantity']
 
-class AddSoldItemFormset(BaseFormSet):
-	def clean(self):
-		if any(self.errors):
-			return
-			
 class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer
@@ -135,12 +129,6 @@ class Transfer_itemForm(forms.ModelForm):
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity_to_transfer'].widget.attrs['class'] = 'form-control'
 		
-class Transfer_itemFormset(BaseFormSet):
-	def clean(self):
-		if any(self.errors):
-			return
-
-
 class LocationForm(forms.ModelForm):
 	class Meta:
 		model = Location
@@ -182,11 +170,6 @@ class AddArrivedItemForm(forms.ModelForm):
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
-
-class AddArrivedItemFormset(BaseFormSet):
-	def clean(self):
-		if any(self.errors):
-			return
 
 class AddCustomerForm(forms.ModelForm):
 	class Meta: 
