@@ -95,6 +95,11 @@ class AddSoldItemForm(forms.ModelForm):
 		
 		return self.cleaned_data['quantity']
 
+class AddSoldItemFormset(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			return
+			
 class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer
