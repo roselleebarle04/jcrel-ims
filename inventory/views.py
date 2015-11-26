@@ -195,6 +195,7 @@ def update_item(request, item_id):
 		item.brand = request.POST.get('brand')
 		item.model = request.POST.get('model')
 		item.supplier.name = request.POST.get('supplier')
+		item.location = request.POST.get('location')
 		item.item_code = request.POST.get('item_code')
 		item.store_quantity= request.POST.get('store_quantity')
 		item.warehouse_quantity= request.POST.get('warehouse_quantity')
@@ -223,15 +224,18 @@ def sales(request):
 		sale_id = p
 		new_items = []
 
-		# loop through all forms in the formset, and save each form - add the purchaseId to each form
-		for form in saleFormset:
-			item = form.cleaned_data.get('item')
-			sale = sale_id
-			quantity = form.cleaned_data.get('quantity')
-			i = SoldItem(item=item, sale=p, quantity=quantity)	
-			i.save()
-		
-		return HttpResponseRedirect(reverse('sales'))
+		try:
+			# loop through all forms in the formset, and save each form - add the purchaseId to each form
+			for form in saleFormset:
+				item = form.cleaned_data.get('item')
+				sale = sale_id
+				quantity = form.cleaned_data.get('quantity')
+				i = SoldItem(item=item, sale=p, quantity=quantity)	
+				i.save()
+			
+			return HttpResponseRedirect(reverse('sales'))
+		except ValueError:
+			pass
 
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 

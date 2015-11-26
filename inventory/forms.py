@@ -44,16 +44,18 @@ class AccountForm(UserCreationForm):
 class AddItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
-		fields = ['types', 'category', 'brand', 'model', 'supplier', 'item_code','store_quantity', 'warehouse_quantity', 'srp']
+		fields = ['types', 'category', 'brand', 'model', 'supplier', 'location', 'item_code','store_quantity', 'warehouse_quantity', 'srp']
 
 	def __init__(self, *args, **kwargs):
 		super(AddItemForm,self).__init__(*args, **kwargs)
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+		self.fields['location'].widget.attrs['class'] = 'form-control'
 		self.fields['types'].error_messages['required'] = 'Enter item\'s type.'
 		self.fields['category'].error_messages['required'] = 'Enter item\'s category'
 		self.fields['brand'].error_messages['required'] = 'Enter item\'s brand'
 		self.fields['model'].error_messages['required'] = 'Enter item\'s model'
-		self.fields['supplier'].error_messages['required'] = 'Enter supplier.'		
+		self.fields['supplier'].error_messages['required'] = 'Choose supplier.'	
+		self.fields['location'].error_messages['required'] = 'Choose location.'		
 		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
 		self.fields['store_quantity'].error_messages['required'] = 'Enter item\'s store quantity'
 		self.fields['warehouse_quantity'].error_messages['required'] = 'Enter item\'s warehouse quantity'

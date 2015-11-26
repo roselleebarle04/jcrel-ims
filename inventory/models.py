@@ -28,6 +28,7 @@ class Item(models.Model):
 	brand = models.CharField(max_length = 50, null=True)
 	model = models.CharField(max_length = 50, null=True)
 	supplier = models.ForeignKey("Supplier", blank=True, null=True, on_delete=models.SET_NULL)
+	location = models.ForeignKey("Location", null=True, on_delete=models.SET_NULL)
 	item_code = models.CharField(max_length = 50, unique = True)
 	store_quantity = models.PositiveSmallIntegerField(default = 0)
 	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
