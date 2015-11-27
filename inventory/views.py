@@ -168,6 +168,7 @@ def add_location(request):
 	if form.is_valid():
 		form.save()
 		return redirect('location')
+	return render(request, 'transfer/add_location.html', {})
 @login_required
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
@@ -322,6 +323,7 @@ def arrival(request):
 		# first save arrival details
 		# commit = False means that we can store the arrival instance to the value p
 		p = arrivalForm.save(commit=False)
+		p.save()
 
 		#save the form
 		
@@ -338,10 +340,9 @@ def arrival(request):
 				item_cost = form.cleaned_data.get('item_cost')
 				i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
 				i.save()
-			p.save()
 			return HttpResponseRedirect(reverse('arrival'))
-			
 		except ValueError:
+			print 'ValueError'
 			pass
 
 	return render(request, 'arrival/arrival.html', {
