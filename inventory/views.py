@@ -161,6 +161,7 @@ def arrival_delete(request, arrival_id):
 	a_item.is_active = False
 	a_item.save()
 	return HttpResponseRedirect(reverse('arrival_history'))
+
 @login_required
 def add_location(request):
 	location_list = Location.objects.all()
@@ -168,13 +169,26 @@ def add_location(request):
 	if form.is_valid():
 		form.save()
 		return redirect('location')
-	return render(request, 'transfer/add_location.html', {})
+	return render(request, 'transfer/add_location.html' , {'form' : form, 'location':location_list})
+
+def update_location(request, location_id):
+	location_list = Location.objects.all()
+	location = Location.objects.get(pk=location_id)
+	if request.method == 'POST':
+		location.branch_name = request.POST.get('branch_name')
+		location.address = request.POST.get('address')
+		location.save()
+		return HttpResponseRedirect(reverse('location'))
+	return render(request, 'transfer/update_location.html', {'location': location})
+
 @login_required
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
+
+
 
 
 @login_required
@@ -291,7 +305,7 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
-		return HttpResponseRedirect(reverse('arriva]l'))
+		return HttpResponseRedirect(reverse('suppliers'))
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
