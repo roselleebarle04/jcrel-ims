@@ -16,9 +16,9 @@ body a, html a {
 
 .alert.alert-dark, .panel.panel-dark{
 	/*background-color: #fff;*/
-	background-color: #333;
-	color: white;
-	border: 1px solid #ccc;
+	background-color: #FFFF99;
+	color: black;
+	/*border: 1px solid #ccc;*/
 	border-radius: 10px;
 }
 
