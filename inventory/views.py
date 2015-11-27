@@ -161,6 +161,7 @@ def arrival_delete(request, arrival_id):
 	a_item.is_active = False
 	a_item.save()
 	return HttpResponseRedirect(reverse('arrival_history'))
+
 @login_required
 def add_location(request):
 	location_list = Location.objects.all()
@@ -168,12 +169,16 @@ def add_location(request):
 	if form.is_valid():
 		form.save()
 		return redirect('location')
+	return render(request, 'transfer/add_location.html' , {'form' : form, 'location':location_list})
+
 @login_required
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
+
+
 
 
 @login_required
@@ -322,6 +327,7 @@ def arrival(request):
 		# first save arrival details
 		# commit = False means that we can store the arrival instance to the value p
 		p = arrivalForm.save(commit=False)
+		p.save()
 
 		#save the form
 		
