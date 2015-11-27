@@ -57,4 +57,5 @@ $(document).ready(function(){
     $('#items').DataTable(); 
     $('#sales').DataTable(); 
     $('#customers').DataTable();
+    $('#location').DataTable();
 });
