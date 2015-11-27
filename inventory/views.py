@@ -50,7 +50,7 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
-			# user = User.objects.create_user(username, email, password1)
+			user = User.objects.create_user(username, email, password1)
 			new_user = form.save(commit=False)
 			new_user.save()
 
