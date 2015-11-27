@@ -171,6 +171,16 @@ def add_location(request):
 		return redirect('location')
 	return render(request, 'transfer/add_location.html' , {'form' : form, 'location':location_list})
 
+def update_location(request, location_id):
+	location = Location.objects.get(pk=location_id)
+	location_list = Location.objects.all()
+	if request.method == 'POST':
+		location.branch_name = request.POST.get('branch_name')
+		location.address = request.POST.get('address')
+		location.save()
+		return HttpResponseRedirect(reverse('location'))
+	return render(request, 'transfer/update_location.html', {'location': location})
+
 @login_required
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
