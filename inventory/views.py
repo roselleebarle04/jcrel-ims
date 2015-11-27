@@ -95,6 +95,7 @@ def notifications(request):
 		'itemLength': itemLength
 		})
 
+@login_required
 def transfer_hist(request):
 	items_list = Item.objects.all()
 	transfer_list = Transfer_item.objects.all()
@@ -105,7 +106,7 @@ def transfer_hist(request):
 		'items':items_list
 		})
 
-
+@login_required
 def create_transfer(request):
 	transferForm = TransferForm(request.POST or None)
 	formset = formset_factory(Transfer_itemForm, formset=Transfer_itemFormset, extra = 1)
@@ -130,6 +131,7 @@ def create_transfer(request):
 		'formset' : transferFormset, 
 		})
 
+@login_required
 def location(request):
 	items_list = Item.objects.all()
 	location_list = Location.objects.all()
@@ -145,25 +147,34 @@ def location(request):
 		'items':items_list
 		})
 
-
+@login_required
 def transfer_delete(request, transfer_id):
 	items_list = Item.objects.all()
 	t_item = Transfer_item.objects.filter(pk=transfer_id)
 	t_item.delete()
 	return HttpResponseRedirect(reverse('transfer_hist'))
-	
+
+@login_required
 def arrival_delete(request, arrival_id):
 	# items_list = Item.objects.all()
 	a_item = ArrivedItem.objects.get(item=arrival_id)
 	a_item.is_active = False
 	a_item.save()
 	return HttpResponseRedirect(reverse('arrival_history'))
-
+@login_required
+def add_location(request):
+	location_list = Location.objects.all()
+	form = LocationForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		return redirect('location')
+@login_required
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
+
 
 @login_required
 def items(request):
