@@ -168,6 +168,7 @@ def add_location(request):
 	if form.is_valid():
 		form.save()
 		return redirect('location')
+	return render(request, 'transfer/add_location.html', {})
 @login_required
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
@@ -290,7 +291,7 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
-		return HttpResponseRedirect(reverse('arriva]l'))
+		return HttpResponseRedirect(reverse('arrival'))
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
