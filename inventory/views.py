@@ -50,8 +50,13 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
-			user = User.objects.create_user(username, email, password1)
-			new_user = form.save(commit=False)
+			# form = User.objects.create_user(username, email, password1)
+			# # form.save()
+			# new_user = form.save(commit=False)
+			# new_user.save()
+
+			
+			new_user = User.objects.create_user(username, email, password1)
 			new_user.save()
 
 			avatar = request.FILES.get("avatar")
@@ -59,6 +64,7 @@ def signup(request):
 			# We need to create an account for the user created.
 			new_account = Account(user=new_user, avatar=avatar)
 			new_account.save()
+
 
 			return HttpResponseRedirect('/login/')
 	else:
