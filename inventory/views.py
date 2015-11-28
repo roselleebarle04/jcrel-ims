@@ -169,10 +169,8 @@ def add_location(request):
 	if form.is_valid():
 		form.save()
 		return redirect('location')
-<<<<<<< HEAD
 	return render(request, 'transfer/add_location.html', {})
-=======
-	return render(request, 'transfer/add_location.html' , {'form' : form, 'location':location_list})
+	# return render(request, 'transfer/add_location.html' , {'form' : form, 'location':location_list})
 
 def update_location(request, location_id):
 	location_list = Location.objects.all()
@@ -184,7 +182,6 @@ def update_location(request, location_id):
 		return HttpResponseRedirect(reverse('location'))
 	return render(request, 'transfer/update_location.html', {'location': location})
 
->>>>>>> d9b7100ed6a4cc420d048e34259ae5f46e11dc8c
 @login_required
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
@@ -309,11 +306,8 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
-<<<<<<< HEAD
 		return HttpResponseRedirect(reverse('arrival'))
-=======
 		return HttpResponseRedirect(reverse('suppliers'))
->>>>>>> d9b7100ed6a4cc420d048e34259ae5f46e11dc8c
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
@@ -363,17 +357,10 @@ def arrival(request):
 				item_cost = form.cleaned_data.get('item_cost')
 				i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
 				i.save()
-<<<<<<< HEAD
 				messages.success(request, 'New Arrival has been added.')
-=======
->>>>>>> d9b7100ed6a4cc420d048e34259ae5f46e11dc8c
 			return HttpResponseRedirect(reverse('arrival'))
 		except ValueError:
-<<<<<<< HEAD
 			messages.warning(request, 'Please fill in all input boxes before submitting ')
-=======
-			print 'ValueError'
->>>>>>> d9b7100ed6a4cc420d048e34259ae5f46e11dc8c
 			pass
 
 	return render(request, 'arrival/arrival.html', {
