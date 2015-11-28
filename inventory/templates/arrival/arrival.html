@@ -34,7 +34,7 @@
     <div class="col-lg-12">
         <form class="form" method="POST">
             {% csrf_token %}
-            <div class="col-lg-10">
+            <div class="col-md-10">
                 {{ AddArrivalForm.as_p }}
             </div>
             <br><br><br><br>
@@ -42,13 +42,28 @@
             <br><br><br><br><br><br><br><br><br>
 
             <h2>Arrived Items</h2>
+            <div class="container">
+                {% if messages %}
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-5">                    
+                            {% for message in messages %}
+                            <p 
+                            {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
+                            {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
+                            {% endif %}>{{ message }}
+                            </p>
+                            {% endfor %}                    
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
             <table id="id_orders_table" width="100%" border="0" cellpadding="50" cellspacing="1500">
                 <thead>
                     <tr>
                         <th scope="col">Item</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Item Cost</th>
-                        <th scope="col"></th>
+                        <!-- <th scope="col"></th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -57,14 +72,14 @@
                         <td>{{ form.item }}</td>
                         <td>{{form.quantity}}</td>
                         <td>{{form.item_cost}}</td>
-                        <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger ">Remove</a></td>
+                        <!-- <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger ">Remove</a></td> -->
                     </tr>
                     {% endfor %}
                 </tbody>
 
             </table>
             <center><a href="javascript:void(0) " class=" add-row btn btn-info ">Add More</a></center>
-            {{ formset.management_form }}
+            {{ formset.management_form }}            
             <br><br>
             <div class="form-group">
                 <input type="submit" class="form-control btn btn-primary" name="name" value="Submit" />

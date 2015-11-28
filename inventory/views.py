@@ -50,7 +50,7 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
-			# user = User.objects.create_user(username, email, password1)
+			user = User.objects.create_user(username, email, password1)
 			new_user = form.save(commit=False)
 			new_user.save()
 
@@ -161,6 +161,7 @@ def arrival_delete(request, arrival_id):
 	a_item.is_active = False
 	a_item.save()
 	return HttpResponseRedirect(reverse('arrival_history'))
+
 @login_required
 def add_location(request):
 	location_list = Location.objects.all()
@@ -169,12 +170,29 @@ def add_location(request):
 		form.save()
 		return redirect('location')
 	return render(request, 'transfer/add_location.html', {})
+<<<<<<< HEAD
+=======
+	# return render(request, 'transfer/add_location.html' , {'form' : form, 'location':location_list})
+
+def update_location(request, location_id):
+	location_list = Location.objects.all()
+	location = Location.objects.get(pk=location_id)
+	if request.method == 'POST':
+		location.branch_name = request.POST.get('branch_name')
+		location.address = request.POST.get('address')
+		location.save()
+		return HttpResponseRedirect(reverse('location'))
+	return render(request, 'transfer/update_location.html', {'location': location})
+
+>>>>>>> 723f4401aa9289a238be6b928f5940550ca14e45
 @login_required
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
+
+
 
 
 @login_required
@@ -292,6 +310,10 @@ def add_supplier(request):
 	if  supplierForm.is_valid():
 		supplierForm.save()
 		return HttpResponseRedirect(reverse('arrival'))
+<<<<<<< HEAD
+=======
+		return HttpResponseRedirect(reverse('suppliers'))
+>>>>>>> 723f4401aa9289a238be6b928f5940550ca14e45
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
@@ -323,26 +345,28 @@ def arrival(request):
 		# first save arrival details
 		# commit = False means that we can store the arrival instance to the value p
 		p = arrivalForm.save(commit=False)
+		p.save()
 
 		#save the form
 		
 		arrival_id = p
 		new_items = []
-
+		p.save()
+		
 		# loop through all forms in the formset, and save each form - add the arrivalId to each form
 		try:
 			for form in arrivalFormset:
-				print form.cleaned_data
+				# print form.cleaned_data
 				item = form.cleaned_data.get('item')
 				arrival = arrival_id
 				quantity = form.cleaned_data.get('quantity')
 				item_cost = form.cleaned_data.get('item_cost')
 				i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
 				i.save()
-			p.save()
+				messages.success(request, 'New Arrival has been added.')
 			return HttpResponseRedirect(reverse('arrival'))
-			
 		except ValueError:
+			messages.warning(request, 'Please fill in all input boxes before submitting ')
 			pass
 
 	return render(request, 'arrival/arrival.html', {
