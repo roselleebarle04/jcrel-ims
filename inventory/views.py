@@ -170,8 +170,6 @@ def add_location(request):
 		form.save()
 		return redirect('location')
 	return render(request, 'transfer/add_location.html', {})
-<<<<<<< HEAD
-=======
 	# return render(request, 'transfer/add_location.html' , {'form' : form, 'location':location_list})
 
 def update_location(request, location_id):
@@ -184,7 +182,6 @@ def update_location(request, location_id):
 		return HttpResponseRedirect(reverse('location'))
 	return render(request, 'transfer/update_location.html', {'location': location})
 
->>>>>>> 723f4401aa9289a238be6b928f5940550ca14e45
 @login_required
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
@@ -310,10 +307,8 @@ def add_supplier(request):
 	if  supplierForm.is_valid():
 		supplierForm.save()
 		return HttpResponseRedirect(reverse('arrival'))
-<<<<<<< HEAD
-=======
 		return HttpResponseRedirect(reverse('suppliers'))
->>>>>>> 723f4401aa9289a238be6b928f5940550ca14e45
+
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
