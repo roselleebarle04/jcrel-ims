@@ -46,7 +46,7 @@ urlpatterns = [
     url(r'^location/$', inventory_views.location, name = 'location'),
     url(r'^location/add/$', inventory_views.add_location, name = 'add_location'),
     url(r'^location/delete/(?P<location_id>[0-9]+)/$$', inventory_views.location_delete, name='location_delete'),
-
+    url(r'^location/update/(?P<location_id>[0-9]+)/$', inventory_views.update_location, name='update_location'),
         # Account Settings
     url(r'^settings/$', inventory_views.settings, name='settings'),
     # url(r'^suppliers/add/$', inventory_views.add_supplier, name='add_supplier'),

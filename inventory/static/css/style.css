@@ -15,15 +15,14 @@ body a, html a {
 }
 
 .alert.alert-dark, .panel.panel-dark{
-	/*background-color: #fff;*/
-	background-color: #FFFF99;
-	color: black;
+	background-color: #333;
+	/*background-color: #FFFF99;*/
+	color: white;
 	/*border: 1px solid #ccc;*/
 	border-radius: 10px;
 }
 
 .panel.panel-gray {
-	background-color: 
 }
 
 ul.errorlist {
