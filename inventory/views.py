@@ -168,6 +168,7 @@ def add_location(request):
 	if form.is_valid():
 		form.save()
 		return redirect('location')
+	return render(request, 'transfer/add_location.html', {})
 @login_required
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
@@ -290,7 +291,7 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
-		return HttpResponseRedirect(reverse('arriva]l'))
+		return HttpResponseRedirect(reverse('arrival'))
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
@@ -327,21 +328,23 @@ def arrival(request):
 		
 		arrival_id = p
 		new_items = []
-
+		p.save()
+		
 		# loop through all forms in the formset, and save each form - add the arrivalId to each form
 		try:
 			for form in arrivalFormset:
-				print form.cleaned_data
+				# print form.cleaned_data
 				item = form.cleaned_data.get('item')
 				arrival = arrival_id
 				quantity = form.cleaned_data.get('quantity')
 				item_cost = form.cleaned_data.get('item_cost')
 				i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
 				i.save()
-			p.save()
+				messages.success(request, 'New Arrival has been added.')
 			return HttpResponseRedirect(reverse('arrival'))
 			
 		except ValueError:
+			messages.warning(request, 'Please fill in all input boxes before submitting ')
 			pass
 
 	return render(request, 'arrival/arrival.html', {
