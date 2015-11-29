@@ -3,16 +3,17 @@
 
 
 {% block content %}  
+
 <style type="text/css">
     .add-row {
-        margin-top: 10px;
-        width: 150px;
+        margin-top: 20px;
+        width: 200px;
     }
 
-    /*.delete-row {
+    .delete-row {
         width: 80%;
         margin-left: 10%;
-    }*/
+    }
 
     #id_orders_table th {
         padding: 10px;
@@ -23,32 +24,68 @@
         text-align: center;
 
     }
+
+   /*
+    thead{
+        background-color: #62bcfa;
+        border: 7px solid #fae596;
+        font-size: 115%;
+    }
+    tbody{
+        border: 7px solid #fae596;
+        background-color: #e3e0cf
+    }
+    p{
+        border:5px solid #fae596; 
+        background: #62bcfa;
+    }*/
+    /*h2, h1{
+        background-color: #c5d5cb;
+    }*/
+
 </style>
+
 <div class="row">
     <div class="col-lg-12">
-        <h2 class="page-header">Add Arrival</h2>
+        <h1>Add Arrival</h1>
     </div>
 </div>
+<br>
 
 <div class="row">
     <div class="col-lg-12">
         <form class="form" method="POST">
             {% csrf_token %}
-            <div class="col-lg-10">
+            <div class="col-md-6">
                 {{ AddArrivalForm.as_p }}
             </div>
             <br><br><br><br>
-            <h5> <a href="/suppliers/add/" class="btn btn-info btn-sm" role="button">Add Supplier</a></h5>
+            <h5> <a href="/suppliers/add/" class="btn btn-lg btn-link" role="button"><mark>Add Supplier</mark></a></h5>
             <br><br><br><br><br><br><br><br><br>
 
-            <h2>Arrived Items</h2>
+            <h2>Arrived Items</h2>  
+            <div class="container">
+                {% if messages %}
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-5">                    
+                            {% for message in messages %}
+                            <p 
+                            {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
+                            {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
+                            {% endif %}>{{ message }}
+                            </p>
+                            {% endfor %}                    
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
             <table id="id_orders_table" width="100%" border="0" cellpadding="50" cellspacing="1500">
                 <thead>
                     <tr>
                         <th scope="col">Item</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Item Cost</th>
-                        <th scope="col"></th>
+                        <!-- <th scope="col"></th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -57,17 +94,17 @@
                         <td>{{ form.item }}</td>
                         <td>{{form.quantity}}</td>
                         <td>{{form.item_cost}}</td>
-                        <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger ">Remove</a></td>
+                        <!-- <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger ">Remove</a></td> -->
                     </tr>
                     {% endfor %}
                 </tbody>
 
             </table>
-            <center><a href="javascript:void(0) " class=" add-row btn btn-info ">Add More</a></center>
-            {{ formset.management_form }}
+            <center><a href="javascript:void(0) " class=" add-row btn btn-info btn-lg ">Add More</a></center>
+            {{ formset.management_form }}            
             <br><br>
             <div class="form-group">
-                <input type="submit" class="form-control btn btn-primary" name="name" value="Submit" />
+                <input type="submit" class="form-control btn btn-success" name="name" value="Submit" />
             </div>
         </form>
     </div>

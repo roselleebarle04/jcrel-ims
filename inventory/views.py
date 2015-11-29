@@ -50,8 +50,13 @@ def signup(request):
 			password1 = request.POST.get("password1")
 			password2 = request.POST.get("password2")
 
-			user = User.objects.create_user(username, email, password1)
-			new_user = form.save(commit=False)
+			# form = User.objects.create_user(username, email, password1)
+			# # form.save()
+			# new_user = form.save(commit=False)
+			# new_user.save()
+
+			
+			new_user = User.objects.create_user(username, email, password1)
 			new_user.save()
 
 			avatar = request.FILES.get("avatar")
@@ -59,6 +64,7 @@ def signup(request):
 			# We need to create an account for the user created.
 			new_account = Account(user=new_user, avatar=avatar)
 			new_account.save()
+
 
 			return HttpResponseRedirect('/login/')
 	else:
@@ -169,7 +175,8 @@ def add_location(request):
 	if form.is_valid():
 		form.save()
 		return redirect('location')
-	return render(request, 'transfer/add_location.html' , {'form' : form, 'location':location_list})
+	return render(request, 'transfer/add_location.html', {})
+	# return render(request, 'transfer/add_location.html' , {'form' : form, 'location':location_list})
 
 def update_location(request, location_id):
 	location_list = Location.objects.all()
@@ -305,7 +312,9 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
+		return HttpResponseRedirect(reverse('arrival'))
 		return HttpResponseRedirect(reverse('suppliers'))
+
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
@@ -343,20 +352,22 @@ def arrival(request):
 		
 		arrival_id = p
 		new_items = []
-
+		p.save()
+		
 		# loop through all forms in the formset, and save each form - add the arrivalId to each form
 		try:
 			for form in arrivalFormset:
-				print form.cleaned_data
+				# print form.cleaned_data
 				item = form.cleaned_data.get('item')
 				arrival = arrival_id
 				quantity = form.cleaned_data.get('quantity')
 				item_cost = form.cleaned_data.get('item_cost')
 				i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
 				i.save()
+				messages.success(request, 'New Arrival has been added.')
 			return HttpResponseRedirect(reverse('arrival'))
 		except ValueError:
-			print 'ValueError'
+			messages.warning(request, 'Please fill in all input boxes before submitting ')
 			pass
 
 	return render(request, 'arrival/arrival.html', {
