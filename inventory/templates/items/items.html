@@ -24,8 +24,7 @@
                     <th>Model</th>
                     <th>Supplier</th>
                     <th>Location</th>
-                    <th width="10%">Store Quantity</th>
-                    <th width="10%">Warehouse Quantity</th>
+                    <th width="10%">Quantity</th>
                     <th>SRP</th>
                     <th width="10%">Actions</th>
                 </tr>
@@ -41,8 +40,7 @@
                     <td>{{ item.model }}</td>
                     <td>{{ item.supplier.name}}</td>
                     <td>{{ item.location }}</td>
-                    <td>{{ item.store_quantity }}</td>
-                    <td>{{ item.warehouse_quantity }}</td>
+                    <td>{{ item.quantity }}</td>
                     <td>{{ item.srp }}</td>  
                     <td>                           
                         <a href="/items/update/{{item.id}}/" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span> </a>

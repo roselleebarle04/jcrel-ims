@@ -175,8 +175,9 @@ def add_location(request):
 	if form.is_valid():
 		form.save()
 		return redirect('location')
-	return render(request, 'transfer/add_location.html', {})
-	# return render(request, 'transfer/add_location.html' , {'form' : form, 'location':location_list})
+
+	return render (request, 'transfer/add_location.html', {'form' : form, 'location':location_list})
+
 
 def update_location(request, location_id):
 	location_list = Location.objects.all()
@@ -236,8 +237,7 @@ def update_item(request, item_id):
 		item.supplier.name = request.POST.get('supplier')
 		item.location = request.POST.get('location')
 		item.item_code = request.POST.get('item_code')
-		item.store_quantity= request.POST.get('store_quantity')
-		item.warehouse_quantity= request.POST.get('warehouse_quantity')
+		item.quantity= request.POST.get('quantity')
 		item.srp = request.POST.get('srp')
 		item.save()
 		return HttpResponseRedirect(reverse('items'))
@@ -312,9 +312,13 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
+<<<<<<< HEAD
+		return HttpResponseRedirect(reverse('suppliers'))
+=======
 		return HttpResponseRedirect(reverse('arrival'))
 		return HttpResponseRedirect(reverse('suppliers'))
 
+>>>>>>> 6508f9677afe6de18b2a98562616f51a7fb009fd
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):

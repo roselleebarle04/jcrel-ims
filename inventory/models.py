@@ -34,10 +34,10 @@ class Item(models.Model):
 	supplier = models.ForeignKey("Supplier", blank=True, null=True, on_delete=models.SET_NULL)
 	location = models.ForeignKey("Location", null=True, on_delete=models.SET_NULL)
 	item_code = models.CharField(max_length = 50, unique = True)
-	store_quantity = models.PositiveSmallIntegerField(default = 0)
-	warehouse_quantity = models.PositiveSmallIntegerField(default = 0)
+	quantity = models.PositiveSmallIntegerField(default = 0)
 	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+	
 	def __unicode__(self):
 		return " ".join((
             unicode(self.item_code),
@@ -47,10 +47,10 @@ class Item(models.Model):
             unicode(self.model)
         ))
 
-	@property
-	def total_quantity(self):
-		qty = self.store_quantity + self.warehouse_quantity
-		return qty	
+	# @property
+	# def total_quantity(self):
+	# 	qty = self.store_quantity + self.warehouse_quantity
+	# 	return qty	
 
 	def get_description(self):
 		return self.category + ' ' + self.brand + ' ' + self.model
@@ -163,7 +163,8 @@ class ArrivedItem(models.Model):
 	#source_location = models.ForeignKey(Location)
 	#destination = models.ForeignKey(Location)
 	def __unicode__(self):
-		return self.item.item_code + self.quantity
+		return " ".join((unicode(self.item.item_code),unicode(self.quantity)))
+		# return self.item.item_code + self.quantity
 
 	def calculate_total(self):
 		return self.item_cost * self.quantity
