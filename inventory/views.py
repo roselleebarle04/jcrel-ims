@@ -94,7 +94,7 @@ def notifications(request):
 	itemLength = len(items_list)
 
 	for i in items_list:
-		print "%s %d" % (i.item_code, i.total_quantity)
+		print "%s %d" % (i.item_code, i.quantity)
 
 	return render(request, 'notifications/notification_page.html', {
 		'items':items_list,
