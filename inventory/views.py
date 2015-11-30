@@ -137,6 +137,32 @@ def create_transfer(request):
 		'formset' : transferFormset, 
 		})
 
+def additemwlocation(request):
+	itemlocationForm = ItemLocationForm(request.POST or None)
+	formset = formset_factory(AddItemForm, formset=AddItemFormset, extra = 1)
+	itemlocationFormset = formset(request.POST or None)
+
+	if itemlocationForm.is_valid() and itemlocationFormset.is_valid():
+		p = itemlocationForm.save(commit=False)
+		p.save()
+		add_id = p
+		
+		for form in transferFormset:
+			add = add_id
+			item = form.cleaned_data['item']
+			quantity = form.cleaned_data['quantity']
+			i = AddItem(item = item, quantity=quantity, loc=p)	
+			i.save()
+		
+		return HttpResponseRedirect(reverse('items'))
+
+	return render(request, 'items/itemwLocation.html', {
+		'ItemLocationForm' : itemlocationForm, 
+		'formset' : itemlocationFormset, 
+		})
+
+
+
 @login_required
 def location(request):
 	items_list = Item.objects.all()

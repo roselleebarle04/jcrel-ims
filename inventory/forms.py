@@ -45,13 +45,13 @@ class AddItemForm(forms.ModelForm):
 class ItemLocationForm(forms.ModelForm):
 	class Meta:
 		model = ItemLocation
-		fields = ['itemlocation', 'quantity']
+		fields = ['destination']
 
 	def __init__(self, *args, **kwargs):
 		super(ItemLocationForm,self).__init__(*args, **kwargs)
-		self.fields['itemlocation'].error_messages['required'] = 'Enter item\' location'
-		self.fields['quantity'].error_messages['required'] = 'Enter item\' quantity'
-        	
+		self.fields['destination'].error_messages['required'] = 'Enter item\' location'
+		
+
 class AddSaleForm(forms.ModelForm):
 	class Meta:
 		model = Sale

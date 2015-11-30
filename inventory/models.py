@@ -61,17 +61,16 @@ class Item(models.Model):
 
 
 class ItemLocation(models.Model):
-	itemlocation = models.ForeignKey(Location)
+	destination = models.ForeignKey(Location)
 	item = models.ManyToManyField(Item, through = 'AddItem')
-	quantity = models.PositiveSmallIntegerField(default = 0)
-
+	
 	def __unicode__(self):
-		return self.itemlocation
+		return self.item_location
 
 class AddItem(models.Model):
 	item = models.ForeignKey(Item)
+	quantity = models.PositiveSmallIntegerField(default = 0)
 	loc = models.ForeignKey(ItemLocation)
-
 
 
 class Supplier(models.Model):
