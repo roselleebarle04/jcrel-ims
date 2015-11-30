@@ -17,16 +17,17 @@
   <link rel="stylesheet" type="text/css" href="/static/css/style.css"> 
   <link rel="stylesheet" type="text/css" href="/static/components/dashboard/css/sb-admin-2.css">
   <link rel="stylesheet" type="text/css" href="/static/css/dataTables.bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="/static/components/metisMenu/dist/metisMenu.min.css">
+  <!-- <link rel="stylesheet" type="text/css" href="/static/components/metisMenu/dist/metisMenu.min.css"> -->
   <link rel="stylesheet" type="text/css" href="/static/components/dashboard/css/timeline.css">
 
   <!-- Fonts -->
   <link href='/static/css/fonts.css' rel='stylesheet' type='text/css'>
+
   {% endblock %}
 
   <link href='/static/css/toastr.min.css' rel='stylesheet'>
-  <script type="text/javascript" src="/statics/js/jquery-1.11.3.min.js"></script>
-  <script type="text/javascript" src="/statics/js/toastr.min.jss"></script>
+  <script type="text/javascript" src="/static/js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="/static/js/toastr.min.jss"></script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,6 +38,14 @@
 <!--   <link rel="stylesheet" href="dist/css/toastr8.css"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
              -->
+
+  
+<!-- notifs -->
+  <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/notif_bubble.css">
+  <script type="text/javascript" src="static/js/base.js"></script>
+
+
 </head>
 <body>
   <!-- <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -44,7 +53,7 @@
 
   <!-- // <script src="{% static "/dist/js/toastr8.js" %}"></script> -->
 
-  <div id="alert" class="hide"></div>
+  <!-- <div id="alert" class="hide"></div> -->
 
   <div id="wrapper">
 
@@ -61,26 +70,29 @@
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
+                <li id="notification_li" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    <span id="notification_count">3</span>
+                        <i class="fa fa-bell fa-fw" ></i> 
+                         <i class="fa fa-caret-down"></i>
+
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="#">  
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
+                    <div id="notificationContainer">
+                      <div id="notificationTitle">Notifications</div>
+                      <div id="notificationsBody" class="notifications"></div>
+                      <div id="notificationFooter"><a class="text-center" href="/notifications/">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a></div>
+                       </div>
+                        <!-- <li>
                             <a class="text-center" href="/notifications/">
                                 <strong>See All Alerts</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
+            
                     </ul>
                 </li>
                 <li class="dropdown">
