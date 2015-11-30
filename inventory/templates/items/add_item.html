@@ -2,6 +2,13 @@
 {% load staticfiles %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.toastmessage.css">
+{% include "toastmessages_fragment.html" %}
+
+<script src="{{ STATIC_URL }}/js/jquery.toastmessage.js"></script>
+<script type="text/javascript">
+    $().toastmessage('showSuccessToast', "Hello there! Message is shown.");
+</script>
 
 <!-- <div class="row">
         <h1 class="page-header">Add Item</h1>
@@ -60,12 +67,14 @@
                             <input name="srp" type="text" class="form-control">
                         </div>
                         <div class="form-actions">
-                            <input class="btn btn-success" type="submit" id="submit" value="Save" />
+                            <input class="btn btn-success" type="submit" id="submit_button" value="Save" />
                             <input class="btn btn-danger" type="button" onclick="window.location.replace('/items')" value="Cancel" />
+                           <!-- $(document).ready(function() {
+                            $('#submit_button').click(function(){
+                            toastr8.info('Item has been successfully added!');
+                            });
+                           }); -->
                         </div>
-                        $('#submit').click(function(){
-                            
-                        });
                         <!-- <button type="button" class="btn btn-primary">Save Changes</button> -->        
                     </form>                    
                 </div>

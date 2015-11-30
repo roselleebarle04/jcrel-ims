@@ -1,0 +1,11 @@
+<script type="text/javascript">//<![CDATA[
+  $(window).load(function(){
+    {% for message in messages %}
+      {% if message.tags in 'success,warning,error, notice' %}
+        $().toastmessage('showToast', {text : "{{ message }}", stayTime: 10000, type : '{{ message.tags|lower }}'});
+      {% else %}
+      	$().toastmessage('showToast', {text : "{{ message }}", stayTime: 10000, type : 'notice'});
+      {% endif %}
+    {% endfor %}
+  });
+//]]></script>

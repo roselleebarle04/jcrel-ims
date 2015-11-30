@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -29,12 +30,15 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/nnhtml5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
-  <link rel="stylesheet" href=""/>
-            
+<!--   <link rel="stylesheet" href="dist/css/toastr8.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+             -->
 </head>
 <body>
-  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-  <script src="dist/js/toastr8.js"></script>
+  <!-- <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="{% static "/js/toastr8.js" %}"></script> -->
+
+  <!-- // <script src="{% static "/dist/js/toastr8.js" %}"></script> -->
 
   <div id="wrapper">
 
