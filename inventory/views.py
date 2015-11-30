@@ -94,7 +94,7 @@ def notifications(request):
 	itemLength = len(items_list)
 
 	for i in items_list:
-		print "%s %d" % (i.item_code, i.total_quantity)
+		print "%s %d" % (i.item_code, i.quantity)
 
 	return render(request, 'notifications/notification_page.html', {
 		'items':items_list,
@@ -338,7 +338,14 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
+<<<<<<< HEAD
 		return HttpResponseRedirect(reverse('suppliers'))
+=======
+		return HttpResponseRedirect(reverse('suppliers'))
+		return HttpResponseRedirect(reverse('arrival'))
+		return HttpResponseRedirect(reverse('suppliers'))
+
+>>>>>>> 1c2c650aba8f2b0de8713112628c4e59d28e0861
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
