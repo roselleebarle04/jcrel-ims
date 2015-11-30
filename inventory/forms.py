@@ -17,13 +17,13 @@ class AccountForm(UserCreationForm):
 		model = Account
 		fields = ['avatar']
 
-class AddItemForm(forms.ModelForm):
+class AddNewItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
 		fields = ['types', 'category', 'brand', 'model', 'supplier', 'item_code', 'srp']
 
 	def __init__(self, *args, **kwargs):
-		super(AddItemForm,self).__init__(*args, **kwargs)
+		super(AddNewItemForm,self).__init__(*args, **kwargs)
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
 		self.fields['types'].error_messages['required'] = 'Enter item\'s type.'
 		self.fields['category'].error_messages['required'] = 'Enter item\'s category'
@@ -32,6 +32,25 @@ class AddItemForm(forms.ModelForm):
 		self.fields['supplier'].error_messages['required'] = 'Choose supplier.'	
 		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
 		self.fields['srp'].error_messages['required'] = 'Enter item\'s srp'
+
+class AddItemForm(forms.ModelForm):
+	class Meta:
+		model = AddItem
+		fields = ['item']
+
+	def __init__(self, *args, **kwargs):
+		super(AddItemForm,self).__init__(*args, **kwargs)
+		self.fields['item'].error_messages['required'] = 'Enter item'
+
+class ItemLocationForm(forms.ModelForm):
+	class Meta:
+		model = ItemLocation
+		fields = ['itemlocation', 'quantity']
+
+	def __init__(self, *args, **kwargs):
+		super(ItemLocationForm,self).__init__(*args, **kwargs)
+		self.fields['itemlocation'].error_messages['required'] = 'Enter item\' location'
+		self.fields['quantity'].error_messages['required'] = 'Enter item\' quantity'
         	
 class AddSaleForm(forms.ModelForm):
 	class Meta:
