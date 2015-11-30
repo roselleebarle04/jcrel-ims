@@ -19,6 +19,8 @@ urlpatterns = [
     url(r'^items/add/$', inventory_views.add_item, name='add_item'),
     url(r'^items/delete/(?P<item_id>[0-9]+)/$', inventory_views.delete_item, name = 'delete_item'), 
     url(r'^items/update/(?P<item_id>[0-9]+)/$', inventory_views.update_item, name = 'update_item'), 
+    url(r'^items/wlocation/$', inventory_views.additemwlocation, name='additemwlocation'),
+
 
     url(r'^suppliers/$', inventory_views.suppliers, name='suppliers'),
     url(r'^suppliers/add/$', inventory_views.add_supplier, name='add_supplier'),

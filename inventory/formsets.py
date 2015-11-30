@@ -15,4 +15,9 @@ class AddSoldItemFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
 			return
+
+class AddItemFormset(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			return
 	
