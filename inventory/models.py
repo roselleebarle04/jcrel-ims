@@ -23,6 +23,12 @@ class Location (models.Model):
 	def __unicode__(self):
 		return self.branch_name
 
+class WarningItems(models.Model):
+	below_min = models.IntegerField(default=0)
+
+	def __unicode__(self):
+		return below_min
+
 
 
 class Item(models.Model):
@@ -37,6 +43,7 @@ class Item(models.Model):
 	quantity = models.PositiveSmallIntegerField(default = 0)
 	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+	# below_min = models.IntegerField(default=0)
 	
 	def __unicode__(self):
 		return " ".join((
@@ -47,13 +54,21 @@ class Item(models.Model):
             unicode(self.model)
         ))
 
-	# @property
-	# def total_quantity(self):
-	# 	qty = self.store_quantity + self.warehouse_quantity
-	# 	return qty	
+    
+
+	@property
+	def below_min(self):
+		items = Item.objects.all()
+		counter = 0
+
+		for item in items:
+			if item.quantity < 0:
+				counter = counter + 1
+		return counter	
 
 	def get_description(self):
 		return self.category + ' ' + self.brand + ' ' + self.model
+
 
 	class Meta:
 		ordering = ('created',)

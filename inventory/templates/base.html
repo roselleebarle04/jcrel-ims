@@ -78,7 +78,14 @@
                 <li id="notification_li" class="dropdown-toggle">
                     <a id="notificationLink" class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <!-- <a href="#"> -->
-                    <span id="notification_count">3</span>
+                    <span id="notification_count">
+                        {% if below_min < 10%}
+                          {{below_min}}
+                          {% endif %}
+                      <!-- {% if warning.below_min > 0 %}
+                        {{warning.below_min}}
+                      {% endif %} -->
+                    </span>
                         <i class="fa fa-bell fa-fw" ></i> 
                          <i class="fa fa-caret-down"></i>
 
@@ -179,16 +186,16 @@
 
         <!-- Main Content -->
         <div id="page-wrapper">
-          <br>
+          <!-- <br>
           {% for item in items %}
-            {% if item.quantity < 5 %}
+            {% if item.quantity < 10 %}
             <div class="alert alert-warning alert-dismissible" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <strong><a href="/notifications/">Warning!</a></strong> You have item quantities that require attention.
             </div>
 
             {% endif %}
-          {% endfor %}
+          {% endfor %} -->
             {% block content %}{% endblock %}
         </div>
 
