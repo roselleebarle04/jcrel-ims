@@ -35,10 +35,10 @@ def dashboard(request):
 	sales_len = len(sales)
 	below_min = 0
 
-	for i in items:
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	# print "below_min: %d" % (items_list.below_min)
 # 
