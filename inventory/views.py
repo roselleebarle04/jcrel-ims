@@ -168,6 +168,8 @@ def add_location(request):
 	if form.is_valid():
 		form.save()
 		return redirect('location')
+
+	return render (request, 'transfer/add_location.html', {'form' : form, 'location':location_list})
 @login_required
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
@@ -327,6 +329,7 @@ def arrival(request):
 		
 		arrival_id = p
 		new_items = []
+		p.save()
 
 		# loop through all forms in the formset, and save each form - add the arrivalId to each form
 		try:

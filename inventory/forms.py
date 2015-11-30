@@ -19,7 +19,7 @@ class AccountForm(UserCreationForm):
 class AddItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
-		fields = ['types', 'category', 'brand', 'model', 'supplier', 'location', 'item_code','store_quantity', 'warehouse_quantity', 'srp']
+		fields = ['types', 'category', 'brand', 'model', 'supplier', 'location', 'item_code','quantity', 'srp']
 
 	def __init__(self, *args, **kwargs):
 		super(AddItemForm,self).__init__(*args, **kwargs)
@@ -32,8 +32,7 @@ class AddItemForm(forms.ModelForm):
 		self.fields['supplier'].error_messages['required'] = 'Choose supplier.'	
 		self.fields['location'].error_messages['required'] = 'Choose location.'		
 		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
-		self.fields['store_quantity'].error_messages['required'] = 'Enter item\'s store quantity'
-		self.fields['warehouse_quantity'].error_messages['required'] = 'Enter item\'s warehouse quantity'
+		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
 		self.fields['srp'].error_messages['required'] = 'Enter item\'s srp'
         	
 class AddSaleForm(forms.ModelForm):
