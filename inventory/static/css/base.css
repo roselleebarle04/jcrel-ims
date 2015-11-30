@@ -10,13 +10,13 @@ border: 1px solid rgba(100, 100, 100, .4);
 overflow: visible;
 position: absolute;
 top: 40px;
-/*margin-top: 20px;*/
+margin-top: 20cm;
 margin-left: -170px;
 width: 400px;
 z-index: -1;
-display: none; // Enable this after jquery implementation 
+display: none; 
 }
-// Popup Arrow
+
 #notificationContainer:before {
 content: '';
 display: block;
@@ -44,6 +44,9 @@ border-bottom: 1px solid #dddddd;
 {
 padding: 33px 0px 0px 0px !important;
 min-height:300px;
+}
+div {
+	display: block;
 }
 #notificationFooter
 {
