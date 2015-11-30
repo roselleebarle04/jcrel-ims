@@ -6,6 +6,9 @@ body, html, p {
 body a, html a {
 	color: #2d3e63;
 }
+body{
+	background: rgba(0,0,0,.1); 
+}
 
 .page-header {
 	font-weight: bold;
@@ -15,15 +18,13 @@ body a, html a {
 }
 
 .alert.alert-dark, .panel.panel-dark{
-	/*background-color: #fff;*/
-	background-color: #FFFF99;
-	color: black;
-	/*border: 1px solid #ccc;*/
+	background-color: white;
+	/*background-color: #FFFF99;*/
+	color: #5a5c51;
 	border-radius: 10px;
 }
 
 .panel.panel-gray {
-	background-color: 
 }
 
 ul.errorlist {
@@ -35,9 +36,9 @@ ul.errorlist {
 	color: red;
 	font-size: 11px;
 }
-
+	
 #wrapper {
-	background: #30426a;
+	background: #DFE6E5;
 }
 
 .export-btn-group {
@@ -50,25 +51,34 @@ ul.errorlist {
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li i {
+	color: #5a5c51;
+}
+#wrapper .navbar-default.sidebar .sidebar-nav ul li:hover i {
 	color: white;
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li a{
-	background: #30426A
+	background: transparent;
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li a:hover, #wrapper .navbar-default.sidebar .sidebar-nav ul li a:focus {
     text-decoration: none;
-    background-color: #2d3e63;
+    background-color: #4BC7AC;
 }
 
 #wrapper .navbar.navbar-default {
-	background: white;
+	background: rgba(0,0,0,.09);
 	border-color: transparent;
+}
+#wrapper .navbar.navbar-default ul.navbar-right li a {
+	color: #5A5C51;
+}
+#wrapper .navbar.navbar-default ul.navbar-right li a i {
+	color: #6BCEBB;
 }
 
 #wrapper .navbar-default.sidebar {
-	background: #30426A;
+	background: #DFE6E5;
 	margin-top: 0;
 }
 
@@ -93,12 +103,13 @@ ul.errorlist {
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li a{
-	color: white;
+	color: #5a5c51;
 	font-size: 15px;
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li a:hover{
-	background: #2d3e63;
+	background: #4BC7AC;
+	color: white;
 }
 
 #wrapper #page-wrapper {

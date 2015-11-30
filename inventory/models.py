@@ -119,6 +119,13 @@ class Transfer_item(models.Model):
 	def __unicode__(self):
 		return self.item.item_code
 
+class ItemLocation(models.Model):
+	itemlocation = models.ForeignKey(Location)
+	item = models.ForeignKey(Item)
+	quantity = models.PositiveSmallIntegerField(default = 0)
+
+	def __unicode__(self):
+		return self.itemlocation
 
 class Arrival(models.Model):
 	"""	This model refers to the arrival of the store owner from its suppliers """
