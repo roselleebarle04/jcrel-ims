@@ -312,13 +312,10 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
-<<<<<<< HEAD
 		return HttpResponseRedirect(reverse('suppliers'))
-=======
 		return HttpResponseRedirect(reverse('arrival'))
 		return HttpResponseRedirect(reverse('suppliers'))
 
->>>>>>> 6508f9677afe6de18b2a98562616f51a7fb009fd
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
