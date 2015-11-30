@@ -274,6 +274,7 @@ def sales(request):
 			
 			return HttpResponseRedirect(reverse('sales'))
 		except ValueError:
+			messages.warning(request, 'Please fill in all input boxes before submitting ')
 			pass
 
 	return render(request, 'sales/add_sale.html', {
@@ -283,7 +284,7 @@ def sales(request):
 		})
 
 def sales_history(request):
-	sales_list = SoldItem.objects.filter(is_active=True)
+	sales_list = SoldItem.objects.filter(is_active=True)#SoldItem.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 
 	return render(request, 'sales/sales_history.html', {
@@ -312,13 +313,8 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
-<<<<<<< HEAD
 		return HttpResponseRedirect(reverse('suppliers'))
-=======
-		return HttpResponseRedirect(reverse('arrival'))
-		return HttpResponseRedirect(reverse('suppliers'))
-
->>>>>>> 6508f9677afe6de18b2a98562616f51a7fb009fd
+		
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
