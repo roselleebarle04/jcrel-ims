@@ -36,11 +36,12 @@ class AddNewItemForm(forms.ModelForm):
 class AddItemForm(forms.ModelForm):
 	class Meta:
 		model = AddItem
-		fields = ['item']
+		fields = ['item','quantity']
 
 	def __init__(self, *args, **kwargs):
 		super(AddItemForm,self).__init__(*args, **kwargs)
 		self.fields['item'].error_messages['required'] = 'Enter item'
+		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
 
 class ItemLocationForm(forms.ModelForm):
 	class Meta:
@@ -49,7 +50,7 @@ class ItemLocationForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(ItemLocationForm,self).__init__(*args, **kwargs)
-		self.fields['destination'].error_messages['required'] = 'Enter item\' location'
+		self.fields['destination'].error_messages['required'] = 'Enter item\'s location'
 		
 
 class AddSaleForm(forms.ModelForm):

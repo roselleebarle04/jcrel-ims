@@ -32,9 +32,7 @@ class Item(models.Model):
 	brand = models.CharField(max_length = 50, null=True)
 	model = models.CharField(max_length = 50, null=True)
 	supplier = models.ForeignKey("Supplier", blank=True, null=True, on_delete=models.SET_NULL)
-	#location = models.ForeignKey("Location", null=True, on_delete=models.SET_NULL)
 	item_code = models.CharField(max_length = 50, unique = True)
-	#quantity = models.PositiveSmallIntegerField(default = 0)
 	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 	
@@ -65,12 +63,15 @@ class ItemLocation(models.Model):
 	item = models.ManyToManyField(Item, through = 'AddItem')
 	
 	def __unicode__(self):
-		return self.item_location
+		return '%s' %(self.destination)
 
 class AddItem(models.Model):
 	item = models.ForeignKey(Item)
 	quantity = models.PositiveSmallIntegerField(default = 0)
 	loc = models.ForeignKey(ItemLocation)
+
+	def __unicode__(self):
+		return self.item.item_code
 
 
 class Supplier(models.Model):

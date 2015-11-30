@@ -147,7 +147,7 @@ def additemwlocation(request):
 		p.save()
 		add_id = p
 		
-		for form in transferFormset:
+		for form in itemlocationFormset:
 			add = add_id
 			item = form.cleaned_data['item']
 			quantity = form.cleaned_data['quantity']
@@ -338,14 +338,8 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
-<<<<<<< HEAD
-		return HttpResponseRedirect(reverse('suppliers'))
-=======
-		return HttpResponseRedirect(reverse('suppliers'))
-		return HttpResponseRedirect(reverse('arrival'))
-		return HttpResponseRedirect(reverse('suppliers'))
 
->>>>>>> 1c2c650aba8f2b0de8713112628c4e59d28e0861
+		return HttpResponseRedirect(reverse('suppliers'))
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):

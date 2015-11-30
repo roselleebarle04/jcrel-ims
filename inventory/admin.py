@@ -47,3 +47,13 @@ class LocationAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Location)
 
+class AddItemAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(AddItem)
+
+class ItemLocationAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(ItemLocation)
+
+
+
