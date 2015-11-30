@@ -216,8 +216,7 @@ def update_item(request, item_id):
 		item.supplier.name = request.POST.get('supplier')
 		item.location = request.POST.get('location')
 		item.item_code = request.POST.get('item_code')
-		item.store_quantity= request.POST.get('store_quantity')
-		item.warehouse_quantity= request.POST.get('warehouse_quantity')
+		item.quantity= request.POST.get('quantity')
 		item.srp = request.POST.get('srp')
 		item.save()
 		return HttpResponseRedirect(reverse('items'))
@@ -292,7 +291,7 @@ def add_supplier(request):
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	if  supplierForm.is_valid():
 		supplierForm.save()
-		return HttpResponseRedirect(reverse('arriva]l'))
+		return HttpResponseRedirect(reverse('suppliers'))
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm })
 
 def update_supplier(request, supplier_id):
