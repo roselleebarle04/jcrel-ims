@@ -42,7 +42,9 @@
 
   
 <!-- notifs -->
-  <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+  <link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- <link rel="stylesheet" type="text/css" href="/static/css/base.css"> -->
   <link rel="stylesheet" type="text/css" href="/static/css/notif_bubble.css">
   <link rel="stylesheet" type="text/css" href="/static/css/nav.css">
   <script type="text/javascript" src="static/js/base.js"></script>
@@ -73,8 +75,9 @@
             </div>
 
             <ul class="nav navbar-top-links navbar-right" id="nav">
-                <li id="notification_li" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <li id="notification_li" class="dropdown-toggle">
+                    <a id="notificationLink" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a href="#"> -->
                     <span id="notification_count">3</span>
                         <i class="fa fa-bell fa-fw" ></i> 
                          <i class="fa fa-caret-down"></i>
@@ -86,7 +89,7 @@
                       <div id="notificationsBody" class="notifications"></div>
                       <div id="notificationFooter"><a class="text-center" href="/notifications/">
                                 <strong>See All Alerts</strong>
-                                <i class="fa fa-angle-right"></i>
+                                <!-- <i class="fa fa-angle-right"></i> -->
                             </a></div>
                        </div>
                         <!-- <li>

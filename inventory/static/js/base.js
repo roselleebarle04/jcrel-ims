@@ -1,4 +1,4 @@
-<script type="text/javascript" src="static/js/jquery.min.1.11.js"></script>
+<script type="text/javascript" src="static/js/jquery.min.js"></script>
 <script type="text/javascript" >
 $(document).ready(function()
 {
