@@ -594,8 +594,8 @@ def add_supplier(request):
 
 	if  supplierForm.is_valid():
 		supplierForm.save()
-		return HttpResponseRedirect(reverse('arrival'))
-	
+		return HttpResponseRedirect(reverse('suppliers'))
+
 	return render(request, 'supplier/add_supplier.html', {
 	 'form': supplierForm,
 	  'all_items':items_list,
@@ -603,7 +603,28 @@ def add_supplier(request):
 	  'warning':warning,
 	  'below_min':below_min })
 
-	return HttpResponseRedirect(reverse('suppliers'))
+def add_supplier_arrival(request):
+	items_list = Item.objects.all()
+	items = AddItem.objects.all()
+	warning = WarningItems.objects.all()
+	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
+	below_min = 0
+
+	for i in items:
+		if i.quantity < 10:
+			below_min = below_min + 1
+			print "below_min %d" % (below_min)
+
+	if  supplierForm.is_valid():
+		supplierForm.save()
+		return HttpResponseRedirect(reverse('arrival'))
+
+	return render(request, 'supplier/add_supplier.html', {
+	 'form': supplierForm,
+	  'all_items':items_list,
+	  'items':items,
+	  'warning':warning,
+	  'below_min':below_min })
 
 def update_supplier(request, supplier_id):
 	items = AddItem.objects.all()
