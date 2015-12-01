@@ -53,27 +53,42 @@
             <thead>
                 <tr style="background:#333;color:white;">
                     <th>Date</th>
-                    <th>Item Code</th>
-                    <th>Category</th>
+                    <th>Item</th>
+                    <!-- <th>Category</th>
                     <th>Brand</th>
                     <th>Model</th>
                     <th>Price</th>
                     <th>Quantity</th>
-                    <th>Total Cost</th>
-                    <th>Action</th>
+                    <th>Total Cost</th> -->
+                    <th width="7%">Action</th>
                 </tr>
             </thead>                   
             <tbody>                
                 {% for sale in sales_list %}
                 <tr>                    
                     <td> {{ sale.sale.date}}</td>
-                    <td> {{ sale.item.item_code}} </td>
-                    <td> {{ sale.item.category}} </td>
-                    <td> {{ sale.item.brand}} </td>
-                    <td> {{ sale.item.model}} </td>
-                    <td> {{ sale.item.srp}} </td>
-                    <td> {{ sale.quantity}} </td>
-                    <td> {{ sale.total_cost}} </td>
+                    <td>
+                        <table class="table table-bordered" style="margin-bottom:0; font-size:12px;">
+                            <tr>
+                                <td><strong>Item</strong></td>
+                                <td><strong>Quantity</strong></td>
+                                <td><strong>Unit Cost</strong></td>
+                                <td><strong>Total Cost</strong></td>
+                            </tr>
+                            {% for i in sale.solditem_set.all %}
+                            <tr>
+                                <td>{{i.item.get_description}}</td>
+                                <td>{{i.item.srp}}</td>
+                                <td>{{i.quantity}}</td>
+                                <td>{{ i.total_cost }}</td>
+                            </tr>
+                             {% endfor %}
+                            <tr>
+                                <td colspan="3"><strong>Grand Total</strong></td>
+                                <td><strong>{{ sale.get_grand_total}}</strong></td>
+                            </tr>
+                        </table>
+                    </td>
                     <td>
                         <button onclick="confirmSaleDelete({{sale.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button>
                     </td>                                     
