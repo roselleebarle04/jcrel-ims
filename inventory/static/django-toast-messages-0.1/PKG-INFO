@@ -1,0 +1,48 @@
+Metadata-Version: 1.1
+Name: django-toast-messages
+Version: 0.1
+Summary: jQuery-powered sexy floating messages
+Home-page: https://github.com/Arpaso/toastmessage
+Author: Arpaso
+Author-email: arvid@arpaso.com
+License: UNKNOWN
+Download-URL: https://github.com/Arpaso/toastmessage/tarball/0.1
+Description: Django toast messages
+        =====================
+        
+        Provides django template tag for displaying toast message for 10 seconds after window load.
+        
+        Usage
+        =====
+        
+        **template.html**::
+        
+            <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.toastmessage.css">
+            {% include "toastmessages_fragment.html" %}
+        
+            <script src="{{ STATIC_URL }}/js/jquery.toastmessage.js"></script>
+            <script type="text/javascript">
+                $().toastmessage('showSuccessToast', "Hello there! Message is shown.");
+            </script>
+        
+        
+        
+        Written by the development team of Arpaso company: http://arpaso.com
+        
+        Regards to
+        ~~~~~~~~~~
+        
+        jQuery-powered sexy floating messages - http://akquinet.github.com/jquery-toastmessage-plugin/
+        
+        
+Keywords: django,toastmessage,django-toastmessage,tag
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 2
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: User Interfaces
+Classifier: Framework :: Django

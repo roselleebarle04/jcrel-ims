@@ -23,6 +23,12 @@ class Location (models.Model):
 	def __unicode__(self):
 		return self.branch_name
 
+class WarningItems(models.Model):
+	below_min = models.IntegerField(default=0)
+
+	def __unicode__(self):
+		return below_min
+
 
 
 class Item(models.Model):
@@ -32,12 +38,13 @@ class Item(models.Model):
 	brand = models.CharField(max_length = 50, null=True)
 	model = models.CharField(max_length = 50, null=True)
 	supplier = models.ForeignKey("Supplier", blank=True, null=True, on_delete=models.SET_NULL)
-	location = models.ForeignKey("Location", null=True, on_delete=models.SET_NULL)
 	item_code = models.CharField(max_length = 50, unique = True)
 	quantity = models.PositiveSmallIntegerField(default = 0)
 	srp = models.PositiveIntegerField(default = 0)
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+	# below_min = models.IntegerField(default=0)
 	
+		
 	def __unicode__(self):
 		return " ".join((
             unicode(self.item_code),
@@ -47,17 +54,29 @@ class Item(models.Model):
             unicode(self.model)
         ))
 
-	# @property
-	# def total_quantity(self):
-	# 	qty = self.store_quantity + self.warehouse_quantity
-	# 	return qty	
-
 	def get_description(self):
 		return self.category + ' ' + self.brand + ' ' + self.model
 
+
 	class Meta:
 		ordering = ('created',)
+
+
+class ItemLocation(models.Model):
+	destination = models.ForeignKey(Location)
+	item = models.ManyToManyField(Item, through = 'AddItem')
 	
+	def __unicode__(self):
+		return '%s' %(self.destination)
+
+class AddItem(models.Model):
+	item = models.ForeignKey(Item)
+	quantity = models.PositiveSmallIntegerField(default = 0)
+	loc = models.ForeignKey(ItemLocation)
+
+	def __unicode__(self):
+		return self.item.item_code
+
 
 class Supplier(models.Model):
 	""" Suppliers can be also be paying users """
@@ -126,13 +145,6 @@ class Transfer_item(models.Model):
 	def __unicode__(self):
 		return self.item.item_code
 
-class ItemLocation(models.Model):
-	itemlocation = models.ForeignKey(Location)
-	item = models.ForeignKey(Item)
-	quantity = models.PositiveSmallIntegerField(default = 0)
-
-	def __unicode__(self):
-		return self.itemlocation
 
 class Arrival(models.Model):
 	"""	This model refers to the arrival of the store owner from its suppliers """

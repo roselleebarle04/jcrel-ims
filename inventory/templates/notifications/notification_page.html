@@ -16,10 +16,10 @@
         <table id="transfer" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <tbody>
                 {% for item in items %}
-                    {% if item.total_quantity < 5 %}
+                    {% if item.quantity < 10 %}
                 <tr>
-                    <td><a href="/items/"> {{item.types}} {{item.category}} {{item.brand}} {{item.model}}</a> 
-                    is below the minimum required quantity of 5.</td>
+                    <td><a href="/items/">{{item.quantity}} {{item.types}} {{item.category}} {{item.brand}} {{item.model}}</a> 
+                    is below the minimum required quantity of 10.</td>
                 </tr>
                     {% endif %}
                 {% endfor %}
