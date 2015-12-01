@@ -482,6 +482,7 @@ def sales(request):
 			
 			return HttpResponseRedirect(reverse('sales'))
 		except ValueError:
+			messages.warning(request, 'Please fill in all input boxes before submitting ')
 			pass
 
 	return render(request, 'sales/add_sale.html', {
@@ -514,6 +515,32 @@ def sales_history(request):
 		'warning':warning, 
 		'below_min': below_min
 		})
+
+
+# def arrival_history(request):
+# 	arr = Arrival.objects.all()
+# 	arrivalLen = len(arr)
+# 	suppliers = Supplier.objects.all()
+
+# 	if request.method == 'POST': 
+# 		date_from = request.POST.get('from') 
+# 		date_to = request.POST.get('to')
+# 		supplier = request.POST.get('supplier')
+
+# 		filtered_arr = Arrival.apply_filter(date_from, date_to, supplier)
+		
+# 		arrivalLen = len(filtered_arr)
+# 		return render(request, 'arrival/arrival_history.html', {
+# 			'arrival': filtered_arr,
+# 			'arrivalLen': arrivalLen,
+# 			'suppliers': suppliers,
+# 		})
+
+# 	return render(request, 'arrival/arrival_history.html', {
+# 		'arrival': arr,
+# 		'arrivalLen': arrivalLen,
+# 		'suppliers' : suppliers,
+# 	})
 
 def delete_sale(request, sale_id):
 	warning = WarningItems.objects.all()
@@ -567,15 +594,25 @@ def add_supplier(request):
 
 	if  supplierForm.is_valid():
 		supplierForm.save()
+<<<<<<< HEAD
 		return HttpResponseRedirect(reverse('arrival'))
+=======
+		return HttpResponseRedirect(reverse('suppliers'))
+
+>>>>>>> f8e1a1e7435807d4c1979d63d47b7eb39fafa01c
 	return render(request, 'supplier/add_supplier.html', {
 	 'form': supplierForm,
 	  'all_items':items_list,
 	  'items':items,
 	  'warning':warning,
 	  'below_min':below_min })
+<<<<<<< HEAD
 	
 	# return render(request, 'supplier/add_supplier.html', { 'form': supplierForm, 'below_min':below_min })
+=======
+
+	return HttpResponseRedirect(reverse('suppliers'))
+>>>>>>> f8e1a1e7435807d4c1979d63d47b7eb39fafa01c
 
 def update_supplier(request, supplier_id):
 	items = AddItem.objects.all()
