@@ -35,7 +35,7 @@ class Item(models.Model):
 	location = models.ForeignKey("Location", null=True, on_delete=models.SET_NULL)
 	item_code = models.CharField(max_length = 50, unique = True)
 	quantity = models.PositiveSmallIntegerField(default = 0)
-	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
+	srp = models.PositiveIntegerField(default = 0)
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 	
 	def __unicode__(self):
@@ -87,6 +87,13 @@ class Sale(models.Model):
 
 	def items_list(self):
 		return ', '.join([a.item for i in self.items.all()])
+
+	def get_grand_total(self):
+		grand_total = 0
+		items_set = self.solditem_set.all()
+		for item in items_set: 
+			grand_total = grand_total + item.total_cost()
+		return grand_total
 
 class SoldItem(models.Model):
 	is_active = models.BooleanField(default=True)

@@ -284,13 +284,39 @@ def sales(request):
 		})
 
 def sales_history(request):
-	sales_list = SoldItem.objects.filter(is_active=True)#SoldItem.objects.filter(is_active=True)
+	sales_list = SoldItem.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 
 	return render(request, 'sales/sales_history.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen,
 		})
+
+
+# def arrival_history(request):
+# 	arr = Arrival.objects.all()
+# 	arrivalLen = len(arr)
+# 	suppliers = Supplier.objects.all()
+
+# 	if request.method == 'POST': 
+# 		date_from = request.POST.get('from') 
+# 		date_to = request.POST.get('to')
+# 		supplier = request.POST.get('supplier')
+
+# 		filtered_arr = Arrival.apply_filter(date_from, date_to, supplier)
+		
+# 		arrivalLen = len(filtered_arr)
+# 		return render(request, 'arrival/arrival_history.html', {
+# 			'arrival': filtered_arr,
+# 			'arrivalLen': arrivalLen,
+# 			'suppliers': suppliers,
+# 		})
+
+# 	return render(request, 'arrival/arrival_history.html', {
+# 		'arrival': arr,
+# 		'arrivalLen': arrivalLen,
+# 		'suppliers' : suppliers,
+# 	})
 
 def delete_sale(request, sale_id):
 	sale = SoldItem.objects.get(pk = sale_id)
