@@ -567,16 +567,15 @@ def add_supplier(request):
 
 	if  supplierForm.is_valid():
 		supplierForm.save()
-
+		return HttpResponseRedirect(reverse('arrival'))
 	return render(request, 'supplier/add_supplier.html', {
 	 'form': supplierForm,
 	  'all_items':items_list,
 	  'items':items,
 	  'warning':warning,
 	  'below_min':below_min })
-
-	return HttpResponseRedirect(reverse('suppliers'))
-	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm, 'below_min':below_min })
+	
+	# return render(request, 'supplier/add_supplier.html', { 'form': supplierForm, 'below_min':below_min })
 
 def update_supplier(request, supplier_id):
 	items = AddItem.objects.all()
