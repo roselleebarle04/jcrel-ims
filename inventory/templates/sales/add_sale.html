@@ -35,6 +35,21 @@
             {{ AddSaleForm.as_p }}
             
             <h2>Sold Items</h2>
+            <div class="container">
+                {% if messages %}
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4">                    
+                            {% for message in messages %}
+                            <p 
+                            {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
+                            {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
+                            {% endif %}>{{ message }}
+                            </p>
+                            {% endfor %}                    
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
             <table id="id_orders_table" width="100%" border="0" cellpadding="50" cellspacing="1500">
                 <thead>
                     <tr>
@@ -48,7 +63,7 @@
                         {{form.items.error}}
                         <td>{{form.item}}</td>
                         <td>{{form.quantity}}</td>
-                        <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger">Remove</a></td>
+                       <!--  <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger">Remove</a></td> -->
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -58,7 +73,7 @@
             {{ formset.management_form }}
             <br><br>
             <div class="form-group">
-                <input type="submit" class="form-control btn btn-primary" name="name" value="Submit" />
+                <input type="submit" class="form-control btn btn-success" name="name" value="Submit" />
             </div>
         </form>
     </div>

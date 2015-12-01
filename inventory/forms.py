@@ -17,25 +17,42 @@ class AccountForm(UserCreationForm):
 		model = Account
 		fields = ['avatar']
 
-class AddItemForm(forms.ModelForm):
+class AddNewItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
-		fields = ['types', 'category', 'brand', 'model', 'supplier', 'location', 'item_code','quantity', 'srp']
+		fields = ['types', 'category', 'brand', 'model', 'supplier', 'item_code', 'srp']
 
 	def __init__(self, *args, **kwargs):
-		super(AddItemForm,self).__init__(*args, **kwargs)
+		super(AddNewItemForm,self).__init__(*args, **kwargs)
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
-		self.fields['location'].widget.attrs['class'] = 'form-control'
 		self.fields['types'].error_messages['required'] = 'Enter item\'s type.'
 		self.fields['category'].error_messages['required'] = 'Enter item\'s category'
 		self.fields['brand'].error_messages['required'] = 'Enter item\'s brand'
 		self.fields['model'].error_messages['required'] = 'Enter item\'s model'
 		self.fields['supplier'].error_messages['required'] = 'Choose supplier.'	
-		self.fields['location'].error_messages['required'] = 'Choose location.'		
 		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
-		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
 		self.fields['srp'].error_messages['required'] = 'Enter item\'s srp'
-        	
+
+class AddItemForm(forms.ModelForm):
+	class Meta:
+		model = AddItem
+		fields = ['item','quantity']
+
+	def __init__(self, *args, **kwargs):
+		super(AddItemForm,self).__init__(*args, **kwargs)
+		self.fields['item'].error_messages['required'] = 'Enter item'
+		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
+
+class ItemLocationForm(forms.ModelForm):
+	class Meta:
+		model = ItemLocation
+		fields = ['destination']
+
+	def __init__(self, *args, **kwargs):
+		super(ItemLocationForm,self).__init__(*args, **kwargs)
+		self.fields['destination'].error_messages['required'] = 'Enter item\'s location'
+		
+
 class AddSaleForm(forms.ModelForm):
 	class Meta:
 		model = Sale
@@ -70,11 +87,6 @@ class AddSoldItemForm(forms.ModelForm):
 			raise ValidationError("Quantity exceeds the current quantity of items in the store")
 		
 		return self.cleaned_data['quantity']
-
-class AddSoldItemFormset(BaseFormSet):
-	def clean(self):
-		if any(self.errors):
-			return
 			
 class TransferForm(forms.ModelForm):
 	class Meta:

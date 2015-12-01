@@ -74,7 +74,7 @@ ul.errorlist {
 	color: #5A5C51;
 }
 #wrapper .navbar.navbar-default ul.navbar-right li a i {
-	color: #6BCEBB;
+	color: #5A5C51;
 }
 
 #wrapper .navbar-default.sidebar {
@@ -114,4 +114,5 @@ ul.errorlist {
 
 #wrapper #page-wrapper {
 	background: #f3f3f3;
+	padding: 30px;
 }

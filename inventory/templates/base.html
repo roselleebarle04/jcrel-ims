@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,12 +17,18 @@
   <link rel="stylesheet" type="text/css" href="/static/css/style.css"> 
   <link rel="stylesheet" type="text/css" href="/static/components/dashboard/css/sb-admin-2.css">
   <link rel="stylesheet" type="text/css" href="/static/css/dataTables.bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="/static/components/metisMenu/dist/metisMenu.min.css">
+  <!-- <link rel="stylesheet" type="text/css" href="/static/components/metisMenu/dist/metisMenu.min.css"> -->
   <link rel="stylesheet" type="text/css" href="/static/components/dashboard/css/timeline.css">
 
   <!-- Fonts -->
   <link href='/static/css/fonts.css' rel='stylesheet' type='text/css'>
+  <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+
   {% endblock %}
+
+  <link href='/static/css/toastr.min.css' rel='stylesheet'>
+  <script type="text/javascript" src="/static/js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="/static/js/toastr.min.jss"></script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,16 +36,37 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/nnhtml5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <link rel="stylesheet" href="dist/css/toastr8.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
             
+
+  
+<!-- notifs -->
+  <link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- <link rel="stylesheet" type="text/css" href="/static/css/base.css"> -->
+  <link rel="stylesheet" type="text/css" href="/static/css/notif_bubble.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/nav.css">
+  <script type="text/javascript" src="static/js/base.js"></script>
+  <script type="text/javascript" src="/static/js/jquery2.min.js"></script>
+
+
 </head>
 <body>
+  <!-- <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="{% static "/js/toastr8.js" %}"></script> -->
+
+  <!-- // <script src="{% static "/dist/js/toastr8.js" %}"></script> -->
+
+  <!-- <div id="alert" class="hide"></div> -->
+
   <div id="wrapper">
 
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
+                <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> -->
+                    <!-- <span class="sr-only">Toggle navigation</span> -->
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -46,27 +74,39 @@
                 <a class="navbar-brand" href="/">JCREL INVENTORY</a>
             </div>
 
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <ul class="nav navbar-top-links navbar-right" id="nav">
+                <li id="notification_li" class="dropdown-toggle">
+                    <a id="notificationLink" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a href="#"> -->
+                        <span id="notification_count">
+                        {% if below_min < 10%}
+                          {{below_min}}
+                          {% endif %}
+                          </span>
+                      <!-- {% if warning.below_min > 0 %}
+                        {{warning.below_min}}
+                      {% endif %} -->
+                    
+                        <i class="fa fa-bell fa-fw" ></i> 
+                         <i class="fa fa-caret-down"></i>
+
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="#">  
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
+                    <div id="notificationContainer">
+                      <div id="notificationTitle">Notifications</div>
+                      <div id="notificationsBody" class="notifications"></div>
+                      <div id="notificationFooter"><a class="text-center" href="/notifications/">
+                                <strong>See All Alerts</strong>
+                                <!-- <i class="fa fa-angle-right"></i> -->
+                            </a></div>
+                       </div>
+                        <!-- <li>
                             <a class="text-center" href="/notifications/">
                                 <strong>See All Alerts</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
+            
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -93,7 +133,19 @@
                             <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="/items"><i class="fa fa-table fa-fw"></i> Items</a>
+                            <a href="#"><i class="fa fa-table fa-fw"></i>Items<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li class="no-border">
+                                    <a href="/items/add/"><span class="glyphicon glyphicon-plus"></span>New Item</a>
+                                </li>
+                                <li class="no-border">
+                                    <a href="/items/wlocation/"><span class="glyphicon glyphicon-plus"></span> Assign Item Location</a>
+                                </li>
+                                <li class="no-border">
+                                    <a href="/items"><span class="glyphicon glyphicon-list-alt"></span> List of Items</a>
+                                </li>
+                            </ul>
+                        </li>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-dashboard fa-fw"></i> Sales<span class="fa arrow"></span></a>
@@ -147,16 +199,16 @@
 
         <!-- Main Content -->
         <div id="page-wrapper">
-          <br>
+          <!-- <br>
           {% for item in items %}
-            {% if item.total_quantity < 5 %}
+            {% if item.quantity < 10 %}
             <div class="alert alert-warning alert-dismissible" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <strong><a href="/notifications/">Warning!</a></strong> You have item quantities that require attention.
             </div>
 
             {% endif %}
-          {% endfor %}
+          {% endfor %} -->
             {% block content %}{% endblock %}
         </div>
 

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+
+{% block content %}
+<style type="text/css">
+    .add-row {
+        margin-top: 10px;
+        width: 150px;
+    }
+
+   /* .delete-row {
+        width: 80%;
+        margin-left: 10%;
+    }*/
+    #id_add th {
+        padding: 10px;
+        text-align: center;
+    }
+    #id_add td {
+        padding: 10px;
+        text-align: center;
+
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">Add Items to Specific Location</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <form class="form" method="POST">
+            {% csrf_token %}
+            {{ItemLocationForm.as_p }}
+            
+
+  			<h2>Items</h2>
+            <table id="id_add" width="100%" border="0" cellpadding="50" cellspacing="1500">
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for form in formset %}
+                    <tr id="{{ form.prefix }}-row"  class="dynamic-form">
+                        <td>{{ form.item }}</td>
+                        <td>{{form.quantity}}</td>
+                        <td> <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger">Remove</a></td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+            <a href="javascript:void(0)" class="add-row btn btn-info">Add More</a>
+           {{ formset.management_form }}
+            <br><br>
+            <div class="form-group">
+                <input type="submit" class="form-control btn btn-primary" name="name" value="Submit" />
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+{{block.super}}
+<script type="text/javascript" src="/static/js/jquery.formset.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.add-row').click(function() {
+            return addForm(this, 'form');
+        });
+        $('.delete-row').click(function() {
+            return deleteForm(this, 'form');
+        })
+    })
+    </script>
+{% endblock %}
+
