@@ -35,23 +35,17 @@ def dashboard(request):
 	sales_len = len(sales)
 	below_min = 0
 
-	# for i in items:
-	# 	if i.quantity < 10:
-	# 		below_min = below_min + 1
-	# 		print "below_min %d" % (below_min)
+	for i in items_list:
+		if i.quantity < 10:
+			below_min = below_min + 1
+			print "below_min %d" % (below_min)
 
-	# print "below_min: %d" % (items_list.below_min)
-# 
-	# for i in items_list:
-	# 	if i.quantity < 10:
-	# 		warning.below_min = warning.below_min + 1
-	# 		# for w in warning:
-	# 			# w.below_min = w.below_min + 1
-	# 		print "below_min: %d" % (warning.below_min)
-	# 		print "Items %s" % (i.category)
+
 
 	return render(request, 'dashboard.html', {
 		'user':request.user.username,
+
+
 		'items' : items,
 		'sales': sales,
 		'items_len' : items_len,
@@ -602,7 +596,7 @@ def add_supplier(request):
 	  'items':items,
 	  'warning':warning,
 	  'below_min':below_min })
-	
+
 	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm, 'below_min':below_min })
 
 	# return HttpResponseRedirect(reverse('suppliers'))
