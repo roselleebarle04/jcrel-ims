@@ -629,10 +629,6 @@ def add_supplier_arrival(request):
 	  'items':items,
 	  'warning':warning,
 	  'below_min':below_min })
-	
-	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm, 'below_min':below_min })
-
-	# return HttpResponseRedirect(reverse('suppliers'))
 
 def update_supplier(request, supplier_id):
 	items = AddItem.objects.all()

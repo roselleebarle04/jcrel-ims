@@ -84,7 +84,7 @@ class AddSoldItemForm(forms.ModelForm):
 			item.quantity = update_qty
 			item.save()
 		else:
-			raise ValidationError("Quantity exceeds the current quantity of items in the store")
+			raise ValidationError("Quantity exceeds the current quantity of the item.")
 		
 		return self.cleaned_data['quantity']
 			
