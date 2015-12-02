@@ -1,0 +1,9 @@
+#nav{list-style:none;margin: 0px;padding: 0px;}
+#nav li {
+float: left;
+margin-right: 20px;
+font-size: 14px;
+font-weight:bold;
+}
+#nav li a{color:#333333;text-decoration:none}
+#nav li a:hover{color:#006699;text-decoration:none}

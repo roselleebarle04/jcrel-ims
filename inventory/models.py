@@ -23,6 +23,12 @@ class Location (models.Model):
 	def __unicode__(self):
 		return self.branch_name
 
+class WarningItems(models.Model):
+	below_min = models.IntegerField(default=0)
+
+	def __unicode__(self):
+		return below_min
+
 
 class ItemLocation(models.Model):
 	destination = models.ForeignKey(Location)
@@ -41,9 +47,15 @@ class Item(models.Model):
 	model = models.CharField(max_length = 50, null=True)
 	supplier = models.ForeignKey("Supplier", blank=True, null=True, on_delete=models.SET_NULL)
 	item_code = models.CharField(max_length = 50, unique = True)
+<<<<<<< HEAD
 	location = models.ManyToManyField(Location, through = 'ItemLocation' )
 	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
+=======
+	quantity = models.PositiveSmallIntegerField(default = 0)
+	srp = models.PositiveIntegerField(default = 0)
+>>>>>>> f30ea29f05d39af6c768284cecc94945cedb56c0
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+	# below_min = models.IntegerField(default=0)
 	
 		
 	def __unicode__(self):
@@ -55,13 +67,9 @@ class Item(models.Model):
             unicode(self.model)
         ))
 
-	# @property
-	# def total_quantity(self):
-	# 	qty = self.store_quantity + self.warehouse_quantity
-	# 	return qty	
-
 	def get_description(self):
 		return self.category + ' ' + self.brand + ' ' + self.model
+
 
 	class Meta:
 		ordering = ('created',)
@@ -104,6 +112,13 @@ class Sale(models.Model):
 
 	def items_list(self):
 		return ', '.join([a.item for i in self.items.all()])
+
+	def get_grand_total(self):
+		grand_total = 0
+		items_set = self.solditem_set.all()
+		for item in items_set: 
+			grand_total = grand_total + item.total_cost()
+		return grand_total
 
 class SoldItem(models.Model):
 	is_active = models.BooleanField(default=True)

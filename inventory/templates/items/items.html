@@ -32,13 +32,13 @@
                     <th>Type</th>
                     <th>Brand</th>
                     <th>Model</th>
-                    <th>Supplier</th>
+                    <th>Supplier</th> 
                     <th>SRP</th>
                     <th width="10%">Actions</th>
                 </tr>
             </thead>            
             <tbody>                
-                {% for item in items %}
+                {% for item in all_items %}
                 {% if item.status %}
                 <tr style="background:white;">                    
                     <td>{{ item.item_code }}</td>         

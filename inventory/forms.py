@@ -88,11 +88,6 @@ class AddSoldItemForm(forms.ModelForm):
 			raise ValidationError("Quantity exceeds the current quantity of items in the store")
 		
 		return self.cleaned_data['quantity']
-
-class AddSoldItemFormset(BaseFormSet):
-	def clean(self):
-		if any(self.errors):
-			return
 			
 class TransferForm(forms.ModelForm):
 	class Meta:
