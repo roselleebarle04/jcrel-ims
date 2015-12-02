@@ -138,27 +138,27 @@ def create_transfer(request):
 		})
 
 def additemwlocation(request):
-	itemlocationForm = ItemLocationForm(request.POST or None)
-	formset = formset_factory(AddItemForm, formset=AddItemFormset, extra = 1)
-	itemlocationFormset = formset(request.POST or None)
+	addnewitemForm = AddNewItemForm(request.POST or None)
+	formset = formset_factory(ItemLocationForm, formset=ItemLocationFormset, extra = 1)
+	addnewitemFormset = formset(request.POST or None)
 
-	if itemlocationForm.is_valid() and itemlocationFormset.is_valid():
-		p = itemlocationForm.save(commit=False)
+	if addnewitemForm.is_valid() and addnewitemFormset.is_valid():
+		p = addnewitemForm.save(commit=False)
 		p.save()
 		add_id = p
 		
-		for form in itemlocationFormset:
+		for form in addnewitemFormset:
 			add = add_id
-			item = form.cleaned_data['item']
+			dest = form.cleaned_data['destination']
 			quantity = form.cleaned_data['quantity']
-			i = AddItem(item = item, quantity=quantity, loc=p)	
+			i = ItemLocation(destination = dest, quantity=quantity, item = p)	
 			i.save()
 		
 		return HttpResponseRedirect(reverse('items'))
 
 	return render(request, 'items/itemwLocation.html', {
-		'ItemLocationForm' : itemlocationForm, 
-		'formset' : itemlocationFormset, 
+		'AddNewItemForm' : addnewitemForm, 
+		'formset' : addnewitemFormset, 
 		})
 
 
