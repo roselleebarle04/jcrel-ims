@@ -27,15 +27,14 @@ from .formsets import *
 @login_required
 def dashboard(request):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	items = ItemLocation.objects.all()
 	warning = WarningItems.objects.all()
-	items = Item.objects.all()
 	sales = Sale.objects.all()
 	items_len = len(items)
 	sales_len = len(sales)
 	
 
-	for i in items_list:
+	for i in items:
 		below_min = 0
 		if i.quantity < 10:
 			below_min = below_min + 1
@@ -120,19 +119,17 @@ def change_password(request):
 
 @login_required
 def notifications(request):
-	items_list = Item.objects.all()
-	items = AddItem.objects.all()
-	itemLength = len(items_list)
+	items = ItemLocation.objects.all()
+	itemLength = len(items)
 	warning = WarningItems.objects.all()
 
-	for i in items_list:
+	for i in items:
 		below_min = 0
 		if i.quantity < 10:
 			below_min = below_min + 1
 			print "below_min %d" % (below_min)
 
 	return render(request, 'notifications/notification_page.html', {
-		'all_items':items_list,
 		'items':items,
 		'itemLength': itemLength,
 		'warning':warning,
@@ -142,12 +139,12 @@ def notifications(request):
 @login_required
 def transfer_hist(request):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	items = ItemLocation.objects.all()
 	transfer_list = Transfer_item.objects.all()
 	transferLen = len(transfer_list)
 	warning = WarningItems.objects.all()
 
-	for i in items_list:
+	for i in items:
 		below_min = 0
 		if i.quantity < 10:
 			below_min = below_min + 1
@@ -165,7 +162,7 @@ def transfer_hist(request):
 @login_required
 def create_transfer(request):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	items = ItemLocation.objects.all()
 	warning = WarningItems.objects.all()
 	transferForm = TransferForm(request.POST or None)
 	formset = formset_factory(Transfer_itemForm, formset=Transfer_itemFormset, extra = 1)
@@ -183,7 +180,7 @@ def create_transfer(request):
 			i = Transfer_item(item = item, quantity_to_transfer=quantity_to_transfer, trans=p)	
 			i.save()
 
-	for i in items_list:
+	for i in items:
 		below_min = 0
 		if i.quantity < 10:
 			below_min = below_min + 1
@@ -201,19 +198,10 @@ def create_transfer(request):
 		})
 
 def additemwlocation(request):
-<<<<<<< HEAD
 	addnewitemForm = AddNewItemForm(request.POST or None)
 	formset = formset_factory(ItemLocationForm, formset=ItemLocationFormset, extra = 1)
 	addnewitemFormset = formset(request.POST or None)
-=======
-	itemlocationForm = ItemLocationForm(request.POST or None)
-	items = AddItem.objects.all()
-	items_list = Item.objects.all()
-	formset = formset_factory(AddItemForm, formset=AddItemFormset, extra = 1)
-	itemlocationFormset = formset(request.POST or None)
 	
->>>>>>> f30ea29f05d39af6c768284cecc94945cedb56c0
-
 	if addnewitemForm.is_valid() and addnewitemFormset.is_valid():
 		p = addnewitemForm.save(commit=False)
 		p.save()
@@ -228,21 +216,10 @@ def additemwlocation(request):
 		
 		return HttpResponseRedirect(reverse('items'))
 
-	for i in items_list:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
 
 	return render(request, 'items/itemwLocation.html', {
-<<<<<<< HEAD
 		'AddNewItemForm' : addnewitemForm, 
 		'formset' : addnewitemFormset, 
-=======
-		'ItemLocationForm' : itemlocationForm, 
-		'formset' : itemlocationFormset, 
-		'all_items':items_list
->>>>>>> f30ea29f05d39af6c768284cecc94945cedb56c0
 		})
 
 
@@ -250,14 +227,15 @@ def additemwlocation(request):
 @login_required
 def location(request):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	items = ItemLocation.objects.all()
 	location_list = Location.objects.all()
 	warning = WarningItems.objects.all()
 	locationLen = len(location_list)
 	form = LocationForm(request.POST or None)
 	
 
-	for i in items_list:
+	for i in items:
+		below_min = 0
 		if i.quantity < 10:
 			below_min = below_min + 1
 			print "below_min %d" % (below_min)
@@ -266,7 +244,7 @@ def location(request):
 		form.save()
 		return redirect('location')
 
-	for i in items_list:
+	for i in items:
 		below_min = 0
 		if i.quantity < 10:
 			below_min = below_min + 1
@@ -387,7 +365,7 @@ def location_delete(request, location_id):
 @login_required
 def items(request):
 	items_list = Item.objects.all().filter(status=True)
-	items = AddItem.objects.all()
+	items = ItemLocation.objects.all()
 	itemLen = len(items_list)
 	warning = WarningItems.objects.all()
 	
@@ -480,7 +458,7 @@ def update_item(request, item_id):
 @login_required
 def sales(request):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	items = ItemLocation.objects.all()
 	warning = WarningItems.objects.all()
 	saleForm = AddSaleForm(request.POST or None)
 	formset = formset_factory(AddSoldItemForm, formset=AddSoldItemFormset, extra = 1)
@@ -527,7 +505,7 @@ def sales(request):
 		})
 
 def sales_history(request):
-	items = AddItem.objects.all()
+	items = ItemLocation.objects.all()
 	sales_list = SoldItem.objects.filter(is_active=True)
 	warning = WarningItems.objects.all()
 	salesLen = len(sales_list)
@@ -594,7 +572,7 @@ def delete_sale(request, sale_id):
 
 def suppliers(request):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	items = ItemLocation.objects.all()
 	warning = WarningItems.objects.all()
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)
@@ -713,7 +691,7 @@ def delete_supplier(request, supplier_id):
 
 def arrival(request):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	items = ItemLocation.objects.all()
 	warning = WarningItems.objects.all()
 	arrivalForm = AddArrivalForm(request.POST or None)
 	formset = formset_factory(AddArrivedItemForm, formset=AddArrivedItemFormset, extra = 1)
@@ -765,7 +743,7 @@ def arrival(request):
 		})
 
 def arrival_history(request):
-	items = AddItem.objects.all()
+	items =ItemLocation.objects.all()
 	arr = Arrival.objects.all()
 	warning = WarningItems.objects.all()
 	arrivalLen = len(arr)
@@ -827,7 +805,7 @@ def arrival_delete(request, arrival_id):
 
 
 def customers(request):
-	items = AddItem.objects.all()
+	items = ItemLocation.objects.all()
 	items_list = Item.objects.all()
 	warning = WarningItems.objects.all()
 	c_list = Customer.objects.all()

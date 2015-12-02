@@ -47,13 +47,8 @@ class Item(models.Model):
 	model = models.CharField(max_length = 50, null=True)
 	supplier = models.ForeignKey("Supplier", blank=True, null=True, on_delete=models.SET_NULL)
 	item_code = models.CharField(max_length = 50, unique = True)
-<<<<<<< HEAD
 	location = models.ManyToManyField(Location, through = 'ItemLocation' )
 	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
-=======
-	quantity = models.PositiveSmallIntegerField(default = 0)
-	srp = models.PositiveIntegerField(default = 0)
->>>>>>> f30ea29f05d39af6c768284cecc94945cedb56c0
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 	# below_min = models.IntegerField(default=0)
 	
