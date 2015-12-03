@@ -316,13 +316,6 @@ def add_location(request):
 	warning = WarningItems.objects.all()
 	location_list = Location.objects.all()
 	form = LocationForm(request.POST or None)
-	
-
-	# for i in items_list:
-	# 	below_min = 0
-	# 	if i.quantity < 10:
-	# 		below_min = below_min + 1
-	# 		print "below_min %d" % (below_min)
 
 	if form.is_valid():
 		form.save()
