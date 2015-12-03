@@ -10,7 +10,7 @@ from . import reports as reports_views
 
 
 urlpatterns = [
-    url(r'^$', inventory_views.dashboard, name='dashboard'),
+    url(r'^dashboard/$', inventory_views.dashboard, name='dashboard'),
 
     url(r'^reports/data/', reports_views.reports_data, name='reports_data'),
     url(r'^reports/inventory/', reports_views.inventory_reports, name='inventory_reports'),
@@ -60,7 +60,7 @@ urlpatterns = [
      name='update_settings'),
     # url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
 
-    url(r'^landing_page/$', inventory_views.landing_page, name='landing_page'),
+    url(r'^$', inventory_views.landing_page, name='landing_page'),
 
 
 ]

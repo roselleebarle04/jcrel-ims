@@ -19,7 +19,6 @@ a:hover {
   border: 1px solid #fff;
 }
 
-
 /*
  * Base structure
  */
@@ -47,6 +46,7 @@ body {
 .site-wrapper-inner {
   display: table-cell;
   vertical-align: top;
+  background: rgba(0,0,0,0,0.02);
 }
 .cover-container {
   margin-right: auto;
@@ -56,6 +56,7 @@ body {
 /* Padding for spacing */
 .inner {
   padding: 30px;
+  /*background: white */
 }
 
 
@@ -69,18 +70,25 @@ body {
 
 .masthead-nav > li {
   display: inline-block;
+  /*background: white*/
 }
+
 .masthead-nav > li + li {
   margin-left: 20px;
+
+}
+.masthead {
+  background: rgba(255,255,255,.1);
 }
 .masthead-nav > li > a {
   padding-right: 0;
   padding-left: 0;
-  font-size: 16px;
+.  font-size: 16px;
   font-weight: bold;
   color: #fff; /* IE8 proofing */
   color: rgba(255,255,255,.75);
   border-bottom: 2px solid transparent;
+
 }
 .masthead-nav > li > a:hover,
 .masthead-nav > li > a:focus {
@@ -93,6 +101,7 @@ body {
 .masthead-nav > .active > a:focus {
   color: #fff;
   border-bottom-color: #fff;
+
 }
 
 @media (min-width: 768px) {
@@ -101,6 +110,7 @@ body {
   }
   .masthead-nav {
     float: right;
+
   }
 }
 
