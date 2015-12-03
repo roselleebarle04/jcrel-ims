@@ -43,9 +43,9 @@ class ArrivalAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Arrival, ArrivalAdmin)
 
-# class RegisterArrivedItemAdmin(admin.ModelAdmin):
-# 	pass
-# admin.site.register(RegisterArrivedItem, RegisterArrivedItemAdmin)
+class RegisterArrivedItemAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(RegisterArrivedItem, RegisterArrivedItemAdmin)
 
 class LocationAdmin(admin.ModelAdmin):
 	pass
