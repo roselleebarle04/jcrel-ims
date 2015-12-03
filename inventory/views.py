@@ -767,20 +767,20 @@ def arrival(request):
 		# 'below_min':below_min 
 		})
 
-# def register_arrived_item(request):
-# 	item_list = RegisterArrivedItem.objects.all()
-# 	warning = WarningItems.objects.all()
+def register_arrived_item(request):
+	item_list = RegisterArrivedItem.objects.all()
+	warning = WarningItems.objects.all()
 
-# 	registerForm = RegisterArrivedItemForm(request.POST or None, request.FILES)
+	registerForm = RegisterArrivedItemForm(request.POST or None, request.FILES)
 
-# 	if  registerForm.is_valid():
-# 		registerForm.save()
-# 		return HttpResponseRedirect(reverse('arrival'))
+	if  registerForm.is_valid():
+		registerForm.save()
+		return HttpResponseRedirect(reverse('arrival'))
 
-# 	return render(request, 'arrival/register_arrived_item.html', {
-# 		'form': registerForm,
-# 		'all_items':item_list,
-# 	})
+	return render(request, 'arrival/register_arrived_item.html', {
+		'form': registerForm,
+		'all_items':item_list,
+	})
 
 def arrival_history(request):
 	items =ItemLocation.objects.all()

@@ -42,7 +42,7 @@ urlpatterns = [
     url(r'^arrival/add/supplier/$', inventory_views.add_supplier_arrival, name='add_supplier_arrival'),
     url(r'^arrival/delete/(?P<arrival_id>[0-9]+)/$$', inventory_views.arrival_delete, name='arrival_delete'),
     url(r'^arrival/history/$', inventory_views.arrival_history, name='arrival_history'),
-    # url(r'^register/$', inventory_views.register_arrived_item, name='register_arrived_item'),
+    url(r'^register/$', inventory_views.register_arrived_item, name='register_arrived_item'),
 
 
     url(r'^transfer_hist/$', inventory_views.transfer_hist, name = 'transfer_hist'),
