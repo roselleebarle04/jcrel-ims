@@ -747,6 +747,7 @@ def arrival(request):
 				i.save()
 				messages.success(request, 'New Arrival has been added.')
 			return HttpResponseRedirect(reverse('arrival'))
+			
 		except ValueError:
 			messages.warning(request, 'Please fill in all input boxes before submitting ')
 			pass
@@ -765,6 +766,21 @@ def arrival(request):
 		'warning':warning,
 		# 'below_min':below_min 
 		})
+
+# def register_arrived_item(request):
+# 	item_list = RegisterArrivedItem.objects.all()
+# 	warning = WarningItems.objects.all()
+
+# 	registerForm = RegisterArrivedItemForm(request.POST or None, request.FILES)
+
+# 	if  registerForm.is_valid():
+# 		registerForm.save()
+# 		return HttpResponseRedirect(reverse('arrival'))
+
+# 	return render(request, 'arrival/register_arrived_item.html', {
+# 		'form': registerForm,
+# 		'all_items':item_list,
+# 	})
 
 def arrival_history(request):
 	items =ItemLocation.objects.all()
