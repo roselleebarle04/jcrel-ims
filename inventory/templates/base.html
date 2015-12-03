@@ -66,13 +66,14 @@
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> -->
-                    <!-- <span class="sr-only">Toggle navigation</span> -->
+                    <!-- <span class="sr-only">Toggle navigation</span> class="dropdown-toggle" data-toggle="dropdown" -->
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 <!-- </button> -->
                 <a class="navbar-brand" href="/dashboard">JCREL INVENTORY</a>
             </div>
+
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -100,8 +101,7 @@
                             </a>
                         </li>
                     </ul>
-            <ul class="nav navbar-top-links navbar-right" id="nav">
-               
+                </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i>{{ user }} <i class="fa fa-caret-down"></i>
@@ -109,8 +109,6 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
-                       <!--  <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li> -->
                         <li><a href="/settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
@@ -162,26 +160,25 @@
                             </ul>
                         </li>
                         <li>
+                            <a href="#"><i class="fa fa-home"></i> Transfer<span class="fa arrow"></span></a>
+                             <ul class="nav nav-second-level">
+                                <li class="no-border">
+                                    <a href="/transfer_form"><span class="glyphicon glyphicon-plus"></span>New Transfer</a>
+                                </li>
+                                <li class="no-border">
+                                    <a href="/transfer_hist"><span class="glyphicon glyphicon-list-alt"></span> Transfer History</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
                             <a href="/suppliers"><i class="fa fa-glass"></i> Suppliers</a>
                         </li>
                         <li>
                           <a href="/customers"><i class="fa fa-user"></i> Customer</a>
                         </li>
-                        
-                         <li>
-                            <a href="#"><i class="fa fa-map-marker"></i> Location<span class="fa arrow"></span></a>
-                             <ul class="nav nav-second-level">
-                                <li class="no-border">
-                                    <a href="/location"><span class="glyphicon glyphicon-plus"></span>Add Location</a>
-                                </li>
-                                <li class="no-border">
-                                    <a href="/transfer_form"><span class="glyphicon glyphicon-plus"></span> Transfer Item</a>
-                                </li>
-                            </ul>
+                        <li>
+                            <a href="/location"><i class=" fa fa-map-marker"></i> Location</a>
                         </li>
-
-                            <!-- <a href="/location"><i class=" fa fa-map-marker"></i> Location</a> -->
-            
                        <!--  <li>
                             <a href="/reports/inventory"><i class="fa fa-wrench fa-fw"></i> Reports</a>
                         </li> -->
@@ -199,7 +196,6 @@
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <strong><a href="/notifications/">Warning!</a></strong> You have item quantities that require attention.
             </div>
-
             {% endif %}
           {% endfor %} -->
             {% block content %}{% endblock %}
