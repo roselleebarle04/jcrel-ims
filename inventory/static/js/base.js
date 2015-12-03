@@ -1,12 +1,13 @@
-<script type="text/javascript" src="static/js/jquery.min.js"></script>
-<script type="text/javascript" >
+<script type="text/javascript" src="static/js/jquery2.min.js"></script>
+<script type="text/javascript">
 $(document).ready(function()
 {
 $("#notificationLink").click(function()
 {
-$("#notificationContainer").fadeToggle(300);
+$("#notificationContainer").fadeIn(300);
 $("#notification_count").fadeOut("slow");
-return false;
+//return false;
+e.stopPropagation();
 });
 
 //Document Click hiding the popup 
@@ -18,7 +19,8 @@ $("#notificationContainer").hide();
 //Popup on click
 $("#notificationContainer").click(function()
 {
-return false;
+//return false;
+e.stopPropagation();
 });
 
 });
