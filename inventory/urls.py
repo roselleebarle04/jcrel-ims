@@ -60,6 +60,7 @@ urlpatterns = [
      name='update_settings'),
     # url(r'^suppliers/delete/(?P<supplier_id>[0-9]+)/$', inventory_views.delete_supplier, name='delete_supplier'),
 
+    url(r'^landing_page/$', inventory_views.landing_page, name='landing_page'),
 
 
 ]

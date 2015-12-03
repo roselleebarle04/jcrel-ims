@@ -55,6 +55,9 @@ def dashboard(request):
 		'below_min':below_min
 		})
 
+def landing_page(request):
+	return render(request, 'landing_page.html')
+
 def signup(request):
 	if request.method == 'POST':	
 		form = UserCreationForm(request.POST or None)
