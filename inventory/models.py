@@ -161,7 +161,7 @@ class Arrival(models.Model):
 	tracking_no = models.CharField(max_length=100, null=True, blank=True)
 	items = models.ManyToManyField(Item, through='ItemArrival')
 	supplier = models.ForeignKey(Supplier)
-	location = models.ForeignKey(Location)
+	# location = models.ForeignKey(Location)
 
 	def __unicode__(self):
 		return self.tracking_no

@@ -1,8 +1,25 @@
 body, html, p {
 	overflow-x: hidden;
 	font-family: 'Montserrat', sans-serif;
+	color: white;
 }
 
+body table {
+	/*color: white;*/
+	background-color: white;
+	color: black;
+}
+
+.white {
+	color: white;
+}
+
+.page-header {
+	border-bottom: 0;
+}
+body p {
+	color: white;
+}
 body a, html a {
 	color: #4BC7AC;
 }
@@ -104,7 +121,7 @@ ul.errorlist {
 	border-color: transparent;
 }
 #wrapper .navbar.navbar-default ul.navbar-right li a {
-	color: #34B8B8;
+	color: white;
 }
 #wrapper .navbar.navbar-default ul.navbar-right li a i {
 	color: white;

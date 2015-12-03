@@ -55,6 +55,7 @@ def list_items(request):
 
 	return render(request, 'items/items.html', {
 		'items': active_items,
+		'itemLen': itemLen,
 	})
 
 def notifications(request):
@@ -231,6 +232,7 @@ def list_locations(request):
 		'items' : items,
 		'locations' : locations,
 		'item_locations' : item_locations,
+		'itemlen' : len(item_locations),
 	})
 
 @login_required
@@ -419,7 +421,7 @@ def add_supplier(request):
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
-	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
+	supplierForm = SupplierForm(request.POST or None, request.FILES or None)
 
 	if  supplierForm.is_valid():
 		supplierForm.save()
@@ -557,10 +559,7 @@ def customers(request):
 def add_customer(request):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
-	warning = WarningItems.objects.all()
-	
-	print 'hi'
-	customerForm = AddCustomerForm(request.POST or None, request.FILES)
+	customerForm = CustomerForm(request.POST or None, request.FILES)
 
 	if  customerForm.is_valid():
 		customerForm.save()
@@ -568,9 +567,6 @@ def add_customer(request):
 
 	return render(request, 'customer/add_customer.html', {
 		'form': customerForm,
-		'all_items':items_list,
-		# 'below_min':below_min,
-		# 'items':items
 	})
 
 def update_customer(request, customer_id):
