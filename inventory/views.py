@@ -32,10 +32,12 @@ def dashboard(request):
 	sales = Sale.objects.all()
 	items_len = len(items)
 	sales_len = len(sales)
+	is_zero = 0
+	below_min = is_zero
 	
 
 	for i in items:
-		below_min = 0
+
 		if i.quantity < 10:
 			below_min = below_min + 1
 			print "below_min %d" % (below_min)
@@ -88,7 +90,7 @@ def signup(request):
 
 def change_password(request):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	
 
@@ -111,27 +113,31 @@ def change_password(request):
 
 	return render(request, 'accounts/change_password.html', {
 		'all_items':items_list,
-		'items':items,
+		# 'items':items,
 		'warning':warning,
-		'below_min':below_min})
+		# 'below_min':below_min
+		})
 
 @login_required
 def notifications(request):
 	items = ItemLocation.objects.all()
 	itemLength = len(items)
 	warning = WarningItems.objects.all()
+	# is_zero = 0
+	# below_min = is_zero
+	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return render(request, 'notifications/notification_page.html', {
 		'items':items,
 		'itemLength': itemLength,
 		'warning':warning,
-		'below_min':below_min
+		# 'below_min':below_min
 		})
 
 @login_required
@@ -154,7 +160,7 @@ def transfer_hist(request):
 		'items':items,
 		'all_items':items_list,
 		'warning':warning,
-		'below_min':below_min
+		# 'below_min':below_min
 		})
 
 @login_required
@@ -192,7 +198,7 @@ def create_transfer(request):
 		'all_items':items_list,
 		'items':items,
 		'warning':warning,
-		'below_min':below_min
+		# 'below_min':below_min
 		})
 
 def additemwlocation(request):
@@ -255,13 +261,13 @@ def location(request):
 		'all_items':items_list,
 		'items':items,
 		'warning':warning,
-		'below_min':below_min
+		# 'below_min':below_min
 		})
 
 @login_required
 def transfer_delete(request, transfer_id):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	t_item = Transfer_item.objects.filter(pk=transfer_id)
 	t_item.delete()
@@ -278,7 +284,7 @@ def transfer_delete(request, transfer_id):
 @login_required
 def arrival_delete(request, arrival_id):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	a_item = ArrivedItem.objects.get(item=arrival_id)
 	a_item.is_active = False
@@ -296,62 +302,71 @@ def arrival_delete(request, arrival_id):
 @login_required
 def add_location(request):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	location_list = Location.objects.all()
 	form = LocationForm(request.POST or None)
 	
 
-	for i in items_list:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items_list:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	if form.is_valid():
 		form.save()
 		return redirect('location')
 
-	return render (request, 'transfer/add_location.html', {'form' : form, 'location':location_list,
-		'all_items':items_list, 'warning':warning, 
-		'items':items, 'below_min':below_min})
+	return render (request, 'transfer/add_location.html', {
+		'form' : form, 
+		'location':location_list,
+		'all_items':items_list, 
+		'warning':warning, 
+		# 'items':items, 
+		# 'below_min':below_min
+		})
 
 
 def update_location(request, location_id):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	location_list = Location.objects.all()
 	location = Location.objects.get(pk=location_id)
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	if request.method == 'POST':
 		location.branch_name = request.POST.get('branch_name')
 		location.address = request.POST.get('address')
 		location.save()
 		return HttpResponseRedirect(reverse('location'))
-	return render(request, 'transfer/update_location.html', {'location': location, 
-		'all_items':items_list, 'warning':warning,
-		'items':items, 'below_min':below_min})
+	return render(request, 'transfer/update_location.html', {
+		'location': location, 
+		'all_items':items_list, 
+		'warning':warning,
+		# 'items':items, 
+		# 'below_min':below_min
+		})
 
 @login_required
 def location_delete(request, location_id):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
@@ -379,12 +394,12 @@ def items(request):
 		'items':items,
 		'itemLen': itemLen,
 		'warning':warning,
-		'below_min':below_min
+		# 'below_min':below_min
 		})
 
 def add_item(request):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	form = AddItemForm(request.POST or None)
 	
@@ -400,39 +415,43 @@ def add_item(request):
 			below_min = below_min + 1
 			print "below_min %d" % (below_min)
 
-	return render(request, 'items/add_item.html' , {'form' : form,
-	 'all_items':items_list, 'warning':warning,
-	 'items':items, 'below_min':below_min})
+	return render(request, 'items/add_item.html' , {
+		'form' : form,
+		'all_items':items_list, 
+		'warning':warning,
+		# 'items':items, 
+	 # 'below_min':below_min
+	 })
 
 def delete_item(request, item_id):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	item = Item.objects.get(pk = item_id)
 	item.status = False
 	item.save()
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return HttpResponseRedirect(reverse('items'))
 
 def update_item(request, item_id):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	items = ItemLocation.objects.all()
 	warning = WarningItems.objects.all()
 	item = Item.objects.get(pk=item_id)
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	if request.method == 'POST':
 		item.types = request.POST.get('types')
@@ -442,14 +461,18 @@ def update_item(request, item_id):
 		item.supplier.name = request.POST.get('supplier')
 		item.location = request.POST.get('location')
 		item.item_code = request.POST.get('item_code')
-		item.quantity= request.POST.get('quantity')
+		items.quantity= request.POST.get('quantity')
 		item.srp = request.POST.get('srp')
 		item.save()
 		return HttpResponseRedirect(reverse('items'))
 
-	return render(request, 'items/update_item.html', {'item' : item,
-	 'all_items':items_list,'items':items,
-	  'warning':warning, 'below_min':below_min})
+	return render(request, 'items/update_item.html', {
+		'item' : item,
+		'all_items':items_list,
+		'items':items,
+		'warning':warning, 
+		# 'below_min':below_min
+		})
 
 
 #add Sale
@@ -499,7 +522,7 @@ def sales(request):
 		'items':items,
 		'all_items':items_list,
 		'warning':warning,
-		'below_min':below_min
+		# 'below_min':below_min
 		})
 
 def sales_history(request):
@@ -522,7 +545,7 @@ def sales_history(request):
 		'items':items,
 		'all_items':items_list,
 		'warning':warning, 
-		'below_min': below_min
+		# 'below_min': below_min
 		})
 
 
@@ -553,18 +576,18 @@ def sales_history(request):
 
 def delete_sale(request, sale_id):
 	warning = WarningItems.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
 	sale = SoldItem.objects.get(pk = sale_id)
 	sale.is_active = False
 	sale.save()
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return HttpResponseRedirect(reverse('history'))
 
@@ -588,21 +611,21 @@ def suppliers(request):
 		'items':items,
 		'all_items':items_list,
 		'warning':warning,
-		'below_min':below_min
+		# 'below_min':below_min
 	})
 
 def add_supplier(request):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items_:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	if  supplierForm.is_valid():
 		supplierForm.save()
@@ -611,26 +634,27 @@ def add_supplier(request):
 	return render(request, 'supplier/add_supplier.html', {
 	 'form': supplierForm,
 	  'all_items':items_list,
-	  'items':items,
+	  # 'items':items,
 	  'warning':warning,
-	  'below_min':below_min })
+	  # 'below_min':below_min 
+	  })
 
-	return render(request, 'supplier/add_supplier.html', { 'form': supplierForm, 'below_min':below_min })
+	# return render(request, 'supplier/add_supplier.html', { 'form': supplierForm, 'below_min':below_min })
 
 	# return HttpResponseRedirect(reverse('suppliers'))
 
 def add_supplier_arrival(request):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	supplierForm = AddSupplierForm(request.POST or None, request.FILES or None)
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	if  supplierForm.is_valid():
 		supplierForm.save()
@@ -639,22 +663,23 @@ def add_supplier_arrival(request):
 	return render(request, 'supplier/add_supplier.html', {
 	 'form': supplierForm,
 	  'all_items':items_list,
-	  'items':items,
+	  # 'items':items,
 	  'warning':warning,
-	  'below_min':below_min })
+	  # 'below_min':below_min 
+	  })
 
 def update_supplier(request, supplier_id):
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	supplier = Supplier.objects.get(pk=supplier_id)
 	warning = WarningItems.objects.all()
 	items_list = Item.objects.all()
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	if request.method == 'POST':
 		supplier.avatar = request.FILES.get('avatar')
@@ -665,22 +690,23 @@ def update_supplier(request, supplier_id):
 		return HttpResponseRedirect(reverse('suppliers'))
 	return render(request, 'supplier/update_supplier.html', {
 		'supplier': supplier,
-		'items':items,
+		# 'items':items,
 		'all_items':items_list,
 		'warning':warning,
-		'below_min':below_min})
+		# 'below_min':below_min
+		})
 
 def delete_supplier(request, supplier_id):
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
 	warning = WarningItems.objects.all()
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
@@ -737,7 +763,7 @@ def arrival(request):
 		'items':items,
 		'all_items':items_list,
 		'warning':warning,
-		'below_min':below_min 
+		# 'below_min':below_min 
 		})
 
 def arrival_history(request):
@@ -770,7 +796,7 @@ def arrival_history(request):
 			'items':items,
 			'all_items':items_list,
 			'warning':warning,
-			'below_min':below_min
+			# 'below_min':below_min
 		})
 
 
@@ -781,11 +807,11 @@ def arrival_history(request):
 		'items':items,
 		'all_items':items_list,
 		'warning':warning,
-		'below_min':below_min
+		# 'below_min':below_min
 	})
 
 def arrival_delete(request, arrival_id):
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
 	warning = WarningItems.objects.all()
 	a_item = ArrivedItem.objects.get(pk=arrival_id)
@@ -793,11 +819,11 @@ def arrival_delete(request, arrival_id):
 	a_item.save()
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return HttpResponseRedirect(reverse('arrival_history'))
 
@@ -822,11 +848,11 @@ def customers(request):
 		'all_items':items_list,
 		'items':items,
 		'warning':warning,
-		'below_min':below_min
+		# 'below_min':below_min
 	})
 
 def add_customer(request):
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
 	warning = WarningItems.objects.all()
 	
@@ -837,21 +863,21 @@ def add_customer(request):
 		customerForm.save()
 		return HttpResponseRedirect(reverse('customers'))
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return render(request, 'customer/add_customer.html', {
 		'form': customerForm,
 		'all_items':items_list,
-		'below_min':below_min,
-		'items':items
+		# 'below_min':below_min,
+		# 'items':items
 	})
 
 def update_customer(request, customer_id):
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
 	warning = WarningItems.objects.all()
 	customer = Customer.objects.get(pk=customer_id)
@@ -865,39 +891,39 @@ def update_customer(request, customer_id):
 		customer.save()
 		return HttpResponseRedirect(reverse('customers'))
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return render(request, 'customer/update_customer.html', {
 		'customer': customer,
-		'items':items,
+		# 'items':items,
 		'all_items':items_list,
 		'warning':warning,
-		'below_min':below_min
+		# 'below_min':below_min
  	})
 
 def delete_customer(request, customer_id):
 	items_list = Item.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	s = Customer.objects.get(pk=customer_id)
 	s.delete()
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return HttpResponseRedirect(reverse('customers'))
 
 
 def settings(request):
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
 	warning = WarningItems.objects.all()
 	
@@ -907,18 +933,19 @@ def settings(request):
 	except:
 		account = ''
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return render(request, 'settings/settings.html', {
 		'account':account,
-		'items':items,
+		# 'items':items,
 		'all_items':items_list,
 		'warning':warning,
-		'below_min':below_min})
+		# 'below_min':below_min
+		})
 
 def update_settings(request):
 	# If the account is already created for the user, just update the avatar, 
@@ -926,7 +953,7 @@ def update_settings(request):
 
 	items_list = Item.objects.all()
 	warning = WarningItems.objects.all()
-	items = AddItem.objects.all()
+	# items = AddItem.objects.all()
 	
 
 	user = request.user
@@ -945,16 +972,16 @@ def update_settings(request):
 			new_account.save()
 		return HttpResponseRedirect(reverse('settings'))
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return render(request, 'settings/update_settings.html', {
 		'account': account,
 		'all_items':items_list,
 		'warning':warning,
-		'below_min':below_min,
-		'items':items
+		# 'below_min':below_min,
+		# 'items':items
 		})
