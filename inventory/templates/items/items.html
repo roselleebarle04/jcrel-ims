@@ -32,28 +32,34 @@
                     <th>Type</th>
                     <th>Brand</th>
                     <th>Model</th>
-                    <th>Supplier</th> 
+                    <th>Supplier</th>
+                    <th>Location</th>
+                    <th>Quantity</th>
                     <th>SRP</th>
                     <th width="10%">Actions</th>
                 </tr>
             </thead>            
-            <tbody>                
-                {% for item in all_items %}
-                {% if item.status %}
+            <tbody>
+                {% for i in items %}                
+               <!--  {% for item in all_items %}
+                {% if item.status %} -->
                 <tr style="background:white;">                    
-                    <td>{{ item.item_code }}</td>         
-                    <td>{{ item.category }}</td>
-                    <td>{{ item.types }}</td>
-                    <td>{{ item.brand }}</td>
-                    <td>{{ item.model }}</td>
-                    <td>{{ item.supplier.name}}</td>
-                    <td>{{ item.srp }}</td>  
+                    <td>{{ i.item.item_code }}</td>         
+                    <td>{{ i.item.category }}</td>
+                    <td>{{ i.item.types }}</td>
+                    <td>{{ i.item.brand }}</td>
+                    <td>{{ i.item.model }}</td>
+                    <td>{{ i.item.supplier.name}}</td>
+                    <td>{{ i.destination.branch_name}}</td>
+                    <td>{{ i.quantity }}</td>
+                    <td>{{ i.item.srp }}</td>  
                     <td>                           
                         <a href="/items/update/{{item.id}}/" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span> </a>
                         <button onclick="confirmItemDelete({{item.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button>
                     </td>                 
                 </tr> 
-                {% endif %}
+               <!--  {% endif %}
+                {% endfor %} -->
                 {% endfor %}
             </tbody>
         </table>
