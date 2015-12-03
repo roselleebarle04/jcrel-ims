@@ -195,7 +195,7 @@ def create_transfer(request):
 		'items':items,
 		'warning':warning,
 		# 'below_min':below_min
-		})
+		}) 
 
 def additemwlocation(request):
 	addnewitemForm = AddNewItemForm(request.POST or None)
