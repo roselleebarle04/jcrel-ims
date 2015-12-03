@@ -193,8 +193,6 @@ def create_transfer(request):
 			below_min = below_min + 1
 			print "below_min %d" % (below_min)
 		
-		return HttpResponseRedirect(reverse('transfer_hist'))
-
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset,
