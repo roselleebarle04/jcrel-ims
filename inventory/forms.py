@@ -185,6 +185,8 @@ class RegisterArrivedItemForm(forms.ModelForm):
 		self.fields['category'].widget.attrs['class'] = 'form-control'
 		self.fields['brand'].widget.attrs['class'] = 'form-control'
 		self.fields['model'].widget.attrs['class'] = 'form-control'
+		
+
 
 class AddCustomerForm(forms.ModelForm):
 	class Meta: 
