@@ -71,12 +71,12 @@ class Item(models.Model):
 
 
 
-# class AddItem(models.Model):
-# 	item = models.ForeignKey(Item)
-# 	quantity = models.PositiveSmallIntegerField(default = 0)
-# 	loc = models.ForeignKey(ItemLocation)
-# 	def __unicode__(self):
-# 		return self.item.item_code
+class AddItem(models.Model):
+	item = models.ForeignKey(Item)
+	quantity = models.PositiveSmallIntegerField(default = 0)
+	loc = models.ForeignKey(ItemLocation)
+	def __unicode__(self):
+		return self.item.item_code
 
 
 class Supplier(models.Model):
