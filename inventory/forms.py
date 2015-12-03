@@ -39,15 +39,15 @@ class AddNewItemForm(forms.ModelForm):
 		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
 		self.fields['srp'].error_messages['required'] = 'Enter item\'s srp'
 
-# class AddItemForm(forms.ModelForm):
-# 	class Meta:
-# 		model = AddItem
-# 		fields = ['item','quantity']
+class AddItemForm(forms.ModelForm):
+	class Meta:
+		model = AddItem
+		fields = ['item','quantity']
 
-# 	def __init__(self, *args, **kwargs):
-# 		super(AddItemForm,self).__init__(*args, **kwargs)
-# 		self.fields['item'].error_messages['required'] = 'Enter item'
-# 		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
+	def __init__(self, *args, **kwargs):
+		super(AddItemForm,self).__init__(*args, **kwargs)
+		self.fields['item'].error_messages['required'] = 'Enter item'
+		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
 
 class ItemLocationForm(forms.ModelForm):
 	class Meta:
@@ -173,6 +173,18 @@ class AddArrivedItemForm(forms.ModelForm):
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
+
+class RegisterArrivedItemForm(forms.ModelForm):
+	class Meta:
+		model = RegisterArrivedItem
+		fields = ['types', 'category', 'brand', 'model']
+
+	def __init__(self, *args, **kwargs):
+		super(RegisterArrivedItemForm, self).__init__(*args, **kwargs)
+		self.fields['types'].widget.attrs['class'] = 'form-control'
+		self.fields['category'].widget.attrs['class'] = 'form-control'
+		self.fields['brand'].widget.attrs['class'] = 'form-control'
+		self.fields['model'].widget.attrs['class'] = 'form-control'
 
 class AddCustomerForm(forms.ModelForm):
 	class Meta: 

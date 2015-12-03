@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">Register Item</div>
+                <div class="panel-body">
+                    <form class="form" method="POST">                        
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{form.types.errors}}
+                            <label>Types</label>
+                            <input name="types" type="text" class="form-control" >
+                        </div>
+                        <div class="form-group">
+                            {{form.category.errors}}
+                            <label>Category</label>
+                            <input name="category" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            {{form.brand.errors}}
+                            <label>Brand</label>
+                            <input name="brand" type="text" class="form-control">
+                        </div>
+                        <div class= "form-group">
+                            {{form.model.errors}}
+                            <label>Model</label>
+                            <input name="model" type="text" class="form-control">
+                        </div>
+                        <div class="form-actions">
+                            <input class="btn btn-success" type="submit" id="btn-success" value="Save" />
+                            <input class="btn btn-danger" type="button" onclick="window.location.replace('/arrival')" value="Cancel" />
+                        </div>       
+                    </form>                    
+                </div>
+        </div>      
+    </div>
+</div>
+
+{% endblock content %}

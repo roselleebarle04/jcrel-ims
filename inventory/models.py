@@ -147,12 +147,26 @@ class Transfer_item(models.Model):
 		return self.item.item_code
 
 
+class RegisterArrivedItem(models.Model):
+	types = models.CharField(max_length = 50, null=True)
+	category = models.CharField(max_length = 50, null=True)
+	brand = models.CharField(max_length = 50, null=True)
+	model = models.CharField(max_length = 50, null=True)
+
+	def __unicode__(self):
+		return " ".join((
+            unicode(self.types),
+            unicode(self.category),
+            unicode(self.brand),
+            unicode(self.model)
+        ))
+
 class Arrival(models.Model):
 	"""	This model refers to the arrival of the store owner from its suppliers """
 	date = models.DateField(default=timezone.now)
 	delivery_receipt_no = models.CharField(max_length=100, null=True, blank=True)
 	tracking_no = models.CharField(max_length=100, null=True, blank=True)
-	items = models.ManyToManyField(Item, through='ArrivedItem')
+	items = models.ManyToManyField(RegisterArrivedItem, through='ArrivedItem')
 	supplier = models.ForeignKey(Supplier)
 
 	def __unicode__(self):
@@ -166,6 +180,7 @@ class Arrival(models.Model):
 		items = Arrival.objects.filter(supplier=supplier).filter(date__gt=start, date__lt=end)
 		return items
 
+	@property
 	def get_grand_total(self):
 		grand_total = 0
 		items_set = self.arriveditem_set.all()
@@ -175,7 +190,7 @@ class Arrival(models.Model):
 
 class ArrivedItem(models.Model):
 	is_active = models.BooleanField(default=True)
-	item = models.ForeignKey(Item)
+	item = models.ForeignKey(RegisterArrivedItem)
 	arrival = models.ForeignKey(Arrival)
 	quantity = models.IntegerField()
 	item_cost = models.FloatField(null=True, blank=True)
@@ -184,6 +199,7 @@ class ArrivedItem(models.Model):
 	def __unicode__(self):
 		return " ".join((unicode(self.item.item_code),unicode(self.quantity)))
 		
+	@property
 	def calculate_total(self):
 		return self.item_cost * self.quantity
 
