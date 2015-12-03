@@ -24,15 +24,13 @@ body{
     padding: 10px;
     text-align: center; 
 }
+
 h2{
     color: #34B8B8;
 }
+
 form{
     color: #34B8B8;
-}
-
-.navbar-default .navbar-collapse, .navbar-default .navbar-form {
-    border-color: /*#E14444*/;
 }
 
 .page-header {

@@ -3,10 +3,15 @@
 
 {% block content %}
 
+<style type="text/css">
+    h1{
+        color: #34B8B8;
+    }
+</style>
 
 <div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">Location List</h1>
+    <h1 class="page-header">Location List</h1>
+    <div class="col-lg-10 col-md-offset-1.9">        
         <a href="/location/add" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Add New Location</a>
     </div>
 </div>
@@ -35,9 +40,11 @@
             </tbody>
         </table>
         {% else %}
-        <p>
-            No locations listed. <a href="/location/add">Add New</a> location. 
-        </p>
+        <div class="col-md-10 col-md-offset-1">
+            <div class="alert alert-info" role="alert">
+              <center><h3>No Location Listed. </h3></center>
+            </div>
+        </div>
         {% endif %}
     </div>
 </div>

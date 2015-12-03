@@ -3,6 +3,12 @@
 
 {% block content %}  
 
+<style type="text/css">
+    h1{
+        color: #34B8B8;
+    }
+</style>
+
 <div class="row">
     <h1 class="page-header">Sales History</h1>
     <div class="col-md-12">
@@ -46,9 +52,11 @@
             </tbody>
         </table>
         {% else %}
-        <div class="alert alert-info" role="alert">
-          <strong><h3>No Sales Listed. </h3></strong>
-        </div>
+        <div class="col-md-10 col-md-offset-1">
+            <div class="alert alert-info" role="alert">
+              <center><h3>No Sales Listed. </h3></center>
+            </div>
+        </div>        
         {% endif %}
     </div>
 </div>
