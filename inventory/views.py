@@ -420,12 +420,12 @@ def add_item(request):
 	 })
 
 def delete_item(request, item_id):
-	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
+	# items_list = Item.objects.filter(status=True,)
 	warning = WarningItems.objects.all()
-	item = Item.objects.get(pk = item_id)
-	item.status = False
-	item.save()
+	item = ItemLocation.objects.get(pk = item_id)
+	# item.status = False
+	item.delete()
+	# item.save()
 	
 
 	# for i in items:
