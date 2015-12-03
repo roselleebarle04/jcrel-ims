@@ -4,10 +4,15 @@
 
 {% block content %}  
 
+<style type="text/css">
+    h1{
+        color: #34B8B8;
+    }
+</style>
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Customers</h1>
-        <a href="/customers/add/" class="btn btn-default">Add New</a>
+        <a href="/customers/add/" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Add New Customer</a>
     </div>
 </div>
 <br>
@@ -49,9 +54,11 @@
             </tbody>
         </table>
         {% else %}
-        <p>
-            No customers listed. <a href="/customers/add/">Add New</a> customer. 
-        </p>
+        <div class="col-md-10 col-md-offset-1">
+            <div class="alert alert-info" role="alert">
+              <center><h3>No customers listed. </h3></center>
+            </div>
+        </div>
         {% endif %}
     </div>
 </div>
