@@ -550,31 +550,6 @@ def sales_history(request):
 		})
 
 
-# def arrival_history(request):
-# 	arr = Arrival.objects.all()
-# 	arrivalLen = len(arr)
-# 	suppliers = Supplier.objects.all()
-
-# 	if request.method == 'POST': 
-# 		date_from = request.POST.get('from') 
-# 		date_to = request.POST.get('to')
-# 		supplier = request.POST.get('supplier')
-
-# 		filtered_arr = Arrival.apply_filter(date_from, date_to, supplier)
-		
-# 		arrivalLen = len(filtered_arr)
-# 		return render(request, 'arrival/arrival_history.html', {
-# 			'arrival': filtered_arr,
-# 			'arrivalLen': arrivalLen,
-# 			'suppliers': suppliers,
-# 		})
-
-# 	return render(request, 'arrival/arrival_history.html', {
-# 		'arrival': arr,
-# 		'arrivalLen': arrivalLen,
-# 		'suppliers' : suppliers,
-# 	})
-
 def delete_sale(request, sale_id):
 	warning = WarningItems.objects.all()
 	# items = AddItem.objects.all()
@@ -746,7 +721,7 @@ def arrival(request):
 				item_cost = form.cleaned_data.get('item_cost')
 				i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
 				i.save()
-				messages.success(request, 'New Arrival has been added.')
+			messages.success(request, 'New Arrival has been added.')
 			return HttpResponseRedirect(reverse('arrival'))
 			
 		except ValueError:
