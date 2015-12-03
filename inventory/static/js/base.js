@@ -1,14 +1,18 @@
-<script type="text/javascript" src="static/js/jquery2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function()
 {
-$("#notificationLink").click(function()
-{
-$("#notificationContainer").fadeIn(300);
-$("#notification_count").fadeOut("slow");
-//return false;
-e.stopPropagation();
-});
+	$(".btn-slide").click(function() {
+		$("#notificationContainer").slideToggle("slow");
+		$(this).toggleClass("active");
+		retirm false;
+	});
+// $("#notificationLink").click(function()
+// {
+// $("#notificationContainer").fadeIn(300);
+// $("#notification_count").fadeOut("slow");
+// //return false;
+// e.stopPropagation();
+// });
 
 //Document Click hiding the popup 
 $(document).click(function()
@@ -24,4 +28,4 @@ e.stopPropagation();
 });
 
 });
-</script>
+// </script>
