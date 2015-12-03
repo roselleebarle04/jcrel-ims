@@ -68,7 +68,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'config.urls'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 LOGIN_URL = 'django.contrib.auth.views.login'
 
 
