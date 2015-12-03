@@ -1,4 +1,4 @@
-
+ 
 from django import forms
 from django.forms import fields, models, formsets, widgets
 from django.forms import BaseFormSet, formset_factory, BaseInlineFormSet
@@ -24,7 +24,13 @@ class AddNewItemForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(AddNewItemForm,self).__init__(*args, **kwargs)
+		self.fields['types'].widget.attrs['class'] = 'form-control'
+		self.fields['category'].widget.attrs['class'] = 'form-control'
+		self.fields['brand'].widget.attrs['class'] = 'form-control'
+		self.fields['model'].widget.attrs['class'] = 'form-control'
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+		self.fields['item_code'].widget.attrs['class'] = 'form-control'
+		self.fields['srp'].widget.attrs['class'] = 'form-control'
 		self.fields['types'].error_messages['required'] = 'Enter item\'s type.'
 		self.fields['category'].error_messages['required'] = 'Enter item\'s category'
 		self.fields['brand'].error_messages['required'] = 'Enter item\'s brand'
@@ -50,6 +56,8 @@ class ItemLocationForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(ItemLocationForm,self).__init__(*args, **kwargs)
+		self.fields['destination'].widget.attrs['class'] = 'form-control'
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		self.fields['destination'].error_messages['required'] = 'Enter item\'s location'
 		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
 		
