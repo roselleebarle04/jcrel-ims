@@ -32,13 +32,13 @@
                     <th>Type</th>
                     <th>Brand</th>
                     <th>Model</th>
-                    <th>Supplier</th>
+                    <th>Supplier</th> 
                     <th>SRP</th>
                     <th width="10%">Actions</th>
                 </tr>
             </thead>            
             <tbody>                
-                {% for item in items %}
+                {% for item in all_items %}
                 {% if item.status %}
                 <tr style="background:white;">                    
                     <td>{{ item.item_code }}</td>         
@@ -50,7 +50,7 @@
                     <td>{{ item.srp }}</td>  
                     <td>                           
                         <a href="/items/update/{{item.id}}/" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span> </a>
-                        <!-- <button onclick="confirmItemDelete({{item.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button> -->
+                        <button onclick="confirmItemDelete({{item.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button>
                     </td>                 
                 </tr> 
                 {% endif %}

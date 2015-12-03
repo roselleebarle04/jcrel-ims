@@ -16,8 +16,8 @@ class ItemSaleFormset(BaseFormSet):
 		if any(self.errors):
 			return
 
-class ItemFormset(BaseFormSet):
+class ItemLocationFormset(BaseFormSet):
+	""" The intermediary between the item and location. We want to store the quantity of each item in a location """
 	def clean(self):
 		if any(self.errors):
 			return
-	

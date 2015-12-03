@@ -55,15 +55,34 @@ class Location (models.Model):
 	address = models.CharField(max_length = 200, null = True)
 
 	def __unicode__(self):
-		return self.branch_name
+		return self.name
 
 class ItemLocation(models.Model):
 	item = models.ForeignKey('Item')
 	location = models.ForeignKey(Location)
-	quantity = models.PositiveSmallIntegerField(default = 0)
+	quantity = models.PositiveIntegerField(default = 0)
 
 	def __unicode__(self):
 		return '%s' % (self.item)
+
+class Supplier(models.Model):
+	""" Suppliers can be also be paying users """
+	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
+	name = models.CharField(max_length=200, null=True)
+	address = models.CharField(max_length=200, null=True)
+	phone = models.CharField(max_length=200, null=True)
+
+	def __unicode__(self):
+		return self.name
+
+class Customer(models.Model):
+	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
+	name = models.CharField(max_length=200, null=True)
+	address = models.CharField(max_length=200, null=True)
+	phone = models.CharField(max_length=200, null=True)
+
+	def __unicode__(self):
+		return self.name
 
 class Item(models.Model):
 	status = models.BooleanField(default=True)		# Active or Inactive
@@ -71,13 +90,12 @@ class Item(models.Model):
 	category = models.CharField(max_length = 50, null=True)
 	brand = models.CharField(max_length = 50, null=True)
 	model = models.CharField(max_length = 50, null=True)
-	supplier = models.ForeignKey("Supplier", blank=True, null=True, on_delete=models.SET_NULL)
+	supplier = models.ForeignKey(Supplier, blank=True, null=True)
 	item_code = models.CharField(max_length = 50, unique = True)
-	quantity = models.PositiveSmallIntegerField(default = 0)
-	srp = models.PositiveIntegerField(default = 0)
+	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-	
-	location = models.ManyToManyField(Location, through = 'ItemLocation')
+
+	location = models.ManyToManyField(Location, through='ItemLocation', blank=False)
 	
 	def __unicode__(self):
 		return " ".join((
@@ -90,9 +108,6 @@ class Item(models.Model):
 
 	def get_description(self):
 		return self.category + ' ' + self.brand + ' ' + self.model
-
-	# class Meta:
-	# 	ordering = ('created',)
 
 class Sale(models.Model):
 	date = models.DateField(default=timezone.now)
@@ -124,25 +139,6 @@ class ItemSale(models.Model):
 	def total_cost(self):
 		total = self.item.srp * self.quantity
 		return total
-
-
-class Supplier(models.Model):
-	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
-	name = models.CharField(max_length=200, null=True)
-	address = models.CharField(max_length=200, null=True)
-	phone = models.CharField(max_length=200, null=True)
-
-	def __unicode__(self):
-		return self.name
-
-class Customer(models.Model):
-	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
-	name = models.CharField(max_length=200, null=True)
-	address = models.CharField(max_length=200, null=True)
-	phone = models.CharField(max_length=200, null=True)
-
-	def __unicode__(self):
-		return self.name
 
 class Transfer (models.Model):
 	"""

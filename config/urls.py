@@ -7,16 +7,17 @@ from django.contrib.auth.views import password_reset
 from . import settings
 from inventory import views as inventory_views
 from inventory import urls as inventory_urls
+from inventory import accounts as account_views
 
 
 urlpatterns = [
     url(r'^', include(inventory_urls)),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^signup/$', inventory_views.signup, name="signup"),
+    url(r'^signup/$', account_views.signup, name="signup"),
     url(r'^login/$', auth_views.login, {'template_name':'accounts/login.html'}),
     url(r'^logout/$', auth_views.logout, {'template_name':'accounts/logout.html'}),
-    url(r'^change_password/$', inventory_views.change_password, name="change_password"),
-    url(r'^notifications/$', inventory_views.notifications, name="notifications"),
+    url(r'^change_password/$', account_views.change_password, name="change_password"),
+    url(r'^notifications/$', account_views.notifications, name="notifications"),
 
     url(r'^password_reset/$', auth_views.password_reset, 
         {'template_name':'accounts/password_reset_form.html', 'email_template_name':'accounts/password_reset_email.html',

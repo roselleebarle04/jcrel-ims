@@ -78,11 +78,18 @@
                 <li id="notification_li" class="dropdown-toggle">
                     <a id="notificationLink" class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <!-- <a href="#"> -->
-                        <span id="notification_count">
+                        {% if below_min == 0 %}
+
+                        {% elif below_min > 0 %}
+                          <span id="notification_count">
+                            {{ below_min }}
+                          </span>
+                          {% endif %}
+                        <!-- <span id="notification_count">
                         {% if below_min < 10%}
                           {{below_min}}
                           {% endif %}
-                          </span>
+                          </span> -->
                       <!-- {% if warning.below_min > 0 %}
                         {{warning.below_min}}
                       {% endif %} -->
@@ -139,10 +146,7 @@
                                     <a href="/items/add/"><span class="glyphicon glyphicon-plus"></span>New Item</a>
                                 </li>
                                 <li class="no-border">
-                                    <a href="/items/wlocation/"><span class="glyphicon glyphicon-plus"></span> Assign Item Location</a>
-                                </li>
-                                <li class="no-border">
-                                    <a href="/items"><span class="glyphicon glyphicon-list-alt"></span> List of Items</a>
+                                    <a href="/items/"><span class="glyphicon glyphicon-list-alt"></span> List of Items</a>
                                 </li>
                             </ul>
                         </li>
@@ -173,10 +177,10 @@
                             <a href="#"><i class="fa fa-home"></i> Transfer<span class="fa arrow"></span></a>
                              <ul class="nav nav-second-level">
                                 <li class="no-border">
-                                    <a href="/transfer_form"><span class="glyphicon glyphicon-plus"></span>New Transfer</a>
+                                    <a href="/transfer/add"><span class="glyphicon glyphicon-plus"></span>New Transfer</a>
                                 </li>
                                 <li class="no-border">
-                                    <a href="/transfer_hist"><span class="glyphicon glyphicon-list-alt"></span> Transfer History</a>
+                                    <a href="/transfer/history"><span class="glyphicon glyphicon-list-alt"></span> Transfer History</a>
                                 </li>
                             </ul>
                         </li>
