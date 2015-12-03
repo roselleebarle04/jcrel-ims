@@ -44,8 +44,6 @@ def dashboard(request):
 
 	return render(request, 'dashboard.html', {
 		'user':request.user.username,
-
-
 		'items' : items,
 		'sales': sales,
 		'items_len' : items_len,
