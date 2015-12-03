@@ -6,8 +6,8 @@
 
 <style type="text/css">
     .add-row {
-        margin-top: 20px;
-        width: 200px;
+        /*margin-top: 20px;*/
+        /*width: 200px;*/
     }
 
     .delete-row {
@@ -125,12 +125,14 @@
                         <td>{{form.item_cost}}</td>
                     </tr>
                     {% endfor %}
-                    <td><a href="/register/" class="btn btn-info" role="button">Register new item</a></td>
                 </tbody>
 
             </table>
             <br>
-            <center><a href="javascript:void(0) " class=" add-row btn btn-md ">Add More</a></center>
+            <div class="text-center">
+                <a href="/register/" class="btn btn-info" role="button">Register new item</a>
+                <a href="javascript:void(0) " class=" add-row btn btn-md ">Add More</a>    
+            </div>
             {{ formset.management_form }}            
             <br><br>
             <div class="form-group">
