@@ -32,14 +32,15 @@ def dashboard(request):
 	sales = Sale.objects.all()
 	items_len = len(items)
 	sales_len = len(sales)
-	# below_min = 0
+	is_zero = 0
+	below_min = is_zero
 	
 
-	# for i in items:
-	# 	below_min = 0
-	# 	if i.quantity < 10:
-	# 		below_min = below_min + 1
-	# 		print "below_min %d" % (below_min)
+	for i in items:
+
+		if i.quantity < 10:
+			below_min = below_min + 1
+			print "below_min %d" % (below_min)
 
 
 
@@ -51,7 +52,7 @@ def dashboard(request):
 		'sales_len':sales_len,
 		'items':items_list,
 		'warning':warning,
-		# 'below_min':below_min
+		'below_min':below_min
 		})
 
 def signup(request):
@@ -122,12 +123,15 @@ def notifications(request):
 	items = ItemLocation.objects.all()
 	itemLength = len(items)
 	warning = WarningItems.objects.all()
+	# is_zero = 0
+	# below_min = is_zero
+	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return render(request, 'notifications/notification_page.html', {
 		'items':items,
@@ -438,7 +442,7 @@ def delete_item(request, item_id):
 
 def update_item(request, item_id):
 	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
+	items = ItemLocation.objects.all()
 	warning = WarningItems.objects.all()
 	item = Item.objects.get(pk=item_id)
 	
@@ -457,7 +461,7 @@ def update_item(request, item_id):
 		item.supplier.name = request.POST.get('supplier')
 		item.location = request.POST.get('location')
 		item.item_code = request.POST.get('item_code')
-		item.quantity= request.POST.get('quantity')
+		items.quantity= request.POST.get('quantity')
 		item.srp = request.POST.get('srp')
 		item.save()
 		return HttpResponseRedirect(reverse('items'))
@@ -465,7 +469,7 @@ def update_item(request, item_id):
 	return render(request, 'items/update_item.html', {
 		'item' : item,
 		'all_items':items_list,
-		# 'items':items,
+		'items':items,
 		'warning':warning, 
 		# 'below_min':below_min
 		})
