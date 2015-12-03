@@ -75,8 +75,15 @@
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
+                <li id="notification_li" class="dropdown-toggle">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    {% if below_min == 0 %}
+
+                        {% elif below_min > 0 %}
+                          <span id="notification_count">
+                            {{ below_min }}
+                          </span>
+                          {% endif %}
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
@@ -84,10 +91,8 @@
                          
                                 <div>
                                     <ul>
-                                      <!-- <i class="fa fa-comment fa-fw"></i> Another Comment -->
                                       <li>Item is below minimum</li>
                                       <li class="divider"></li>
-                                      <li>This item with this category, type and date and supplier is below minimum</li>
                                     </ul>
 
                                 </div>
