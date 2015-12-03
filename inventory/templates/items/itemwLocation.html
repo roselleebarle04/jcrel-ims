@@ -17,14 +17,29 @@
     #id_add td {
         padding: 10px;
         text-align: center;
-
+ 
     }
 </style>
 
 <div class="row">
     <div class="col-lg-12">
         <h2 class="page-header">Add Item</h2>
-        <!-- <a href="#" class="btn btn-default" data-toggle="modal" data-target="#addSupplierModal">Add New</a> -->
+        <br>
+        <div class="container">
+                {% if messages %}
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4">                    
+                            {% for message in messages %}
+                            <p 
+                            {% if message.tags == "warning"%} class="alert alert-danger" class="close" data-dismiss="alert" aria-label="close" 
+                            {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
+                            {% endif %}>{{ message }}
+                            </p>
+                            {% endfor %}                    
+                        </div>
+                    </div>
+                {% endif %}
+            </div>            
     </div>
 </div>
 <div class="row">
@@ -35,6 +50,7 @@
             
 
             <h2>Location And Quantity</h2>
+
             <table id="id_add" width="100%" border="0" cellpadding="50" cellspacing="1500">
                 <thead>
                     <tr>

@@ -26,16 +26,8 @@
 <div class="row">
     <div class="col-lg-12">
         <h2 class="page-header">Add Sale</h2>
-    </div> 
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        <form class="form" method="POST">
-            {% csrf_token %}
-            {{ AddSaleForm.as_p }}
-            
-            <h2>Sold Items</h2>
-            <div class="container">
+        <br>
+        <div class="container">
                 {% if messages %}
                     <div class="row">
                         <div class="col-sm-4 col-sm-offset-4">                    
@@ -50,6 +42,16 @@
                     </div>
                 {% endif %}
             </div>
+    </div> 
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <form class="form" method="POST">
+            {% csrf_token %}
+            {{ AddSaleForm.as_p }}
+            
+            <h2>Sold Items</h2>
+            
             <table id="id_orders_table" width="100%" border="0" cellpadding="50" cellspacing="1500">
                 <thead>
                     <tr>
