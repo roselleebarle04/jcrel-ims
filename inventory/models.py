@@ -124,7 +124,7 @@ class SoldItem(models.Model):
 	def __unicode__(self):
 		return self.item.__unicode__()
 
-	@property	
+		
 	def total_cost(self):
 		total = self.item.srp * self.quantity
 		return total

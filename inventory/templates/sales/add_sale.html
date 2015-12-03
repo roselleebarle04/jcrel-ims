@@ -41,7 +41,7 @@
                         <div class="col-sm-4 col-sm-offset-4">                    
                             {% for message in messages %}
                             <p 
-                            {% if message.tags == "warning"%} class="alert alert-error" class="close" data-dismiss="alert" aria-label="close" 
+                            {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
                             {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
                             {% endif %}>{{ message }}
                             </p>

@@ -513,7 +513,7 @@ def sales(request):
 			messages.success(request, 'New sale successfully added.')
 			return HttpResponseRedirect(reverse('sales'))
 		except ValueError:
-			messages.error(request, 'Please fill in all input boxes before submitting ')
+			messages.warning(request, 'Please fill in all input boxes before submitting ')
 			pass
 
 	return render(request, 'sales/add_sale.html', {
