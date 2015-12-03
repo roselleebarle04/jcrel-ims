@@ -338,7 +338,7 @@ def sales(request):
 				item = form.cleaned_data.get('item')
 				sale = sale_id
 				quantity = form.cleaned_data.get('quantity')
-				i = SoldItem(item=item, sale=p, quantity=quantity)	
+				i = ItemSale(item=item, sale=p, quantity=quantity)	
 				i.save()
 			
 			return HttpResponseRedirect(reverse('sales'))

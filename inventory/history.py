@@ -36,7 +36,7 @@ def transfer_history(request):
 
 def sales_history(request):
 	items = ItemLocation.objects.all()
-	sales_list = SoldItem.objects.filter(is_active=True)
+	sales_list = ItemSale.objects.filter(is_active=True)
 	warning = WarningItems.objects.all()
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
