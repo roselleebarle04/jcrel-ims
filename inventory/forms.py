@@ -33,24 +33,25 @@ class AddNewItemForm(forms.ModelForm):
 		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
 		self.fields['srp'].error_messages['required'] = 'Enter item\'s srp'
 
-class AddItemForm(forms.ModelForm):
-	class Meta:
-		model = AddItem
-		fields = ['item','quantity']
+# class AddItemForm(forms.ModelForm):
+# 	class Meta:
+# 		model = AddItem
+# 		fields = ['item','quantity']
 
-	def __init__(self, *args, **kwargs):
-		super(AddItemForm,self).__init__(*args, **kwargs)
-		self.fields['item'].error_messages['required'] = 'Enter item'
-		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
+# 	def __init__(self, *args, **kwargs):
+# 		super(AddItemForm,self).__init__(*args, **kwargs)
+# 		self.fields['item'].error_messages['required'] = 'Enter item'
+# 		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
 
 class ItemLocationForm(forms.ModelForm):
 	class Meta:
 		model = ItemLocation
-		fields = ['destination']
+		fields = ['destination', 'quantity']
 
 	def __init__(self, *args, **kwargs):
 		super(ItemLocationForm,self).__init__(*args, **kwargs)
 		self.fields['destination'].error_messages['required'] = 'Enter item\'s location'
+		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
 		
 
 class AddSaleForm(forms.ModelForm):

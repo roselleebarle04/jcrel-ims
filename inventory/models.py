@@ -30,6 +30,14 @@ class WarningItems(models.Model):
 		return below_min
 
 
+class ItemLocation(models.Model):
+	destination = models.ForeignKey(Location)
+	quantity = models.PositiveSmallIntegerField(default = 0)
+	item = models.ForeignKey('Item' ,blank = True)
+	
+	def __unicode__(self):
+		return '%s' %(self.destination)
+
 
 class Item(models.Model):
 	status = models.BooleanField(default=True)		# Active or Inactive
@@ -39,8 +47,8 @@ class Item(models.Model):
 	model = models.CharField(max_length = 50, null=True)
 	supplier = models.ForeignKey("Supplier", blank=True, null=True, on_delete=models.SET_NULL)
 	item_code = models.CharField(max_length = 50, unique = True)
-	quantity = models.PositiveSmallIntegerField(default = 0)
-	srp = models.PositiveIntegerField(default = 0)
+	location = models.ManyToManyField(Location, through = 'ItemLocation' )
+	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 	# below_min = models.IntegerField(default=0)
 	
@@ -62,20 +70,13 @@ class Item(models.Model):
 		ordering = ('created',)
 
 
-class ItemLocation(models.Model):
-	destination = models.ForeignKey(Location)
-	item = models.ManyToManyField(Item, through = 'AddItem')
-	
-	def __unicode__(self):
-		return '%s' %(self.destination)
 
-class AddItem(models.Model):
-	item = models.ForeignKey(Item)
-	quantity = models.PositiveSmallIntegerField(default = 0)
-	loc = models.ForeignKey(ItemLocation)
-
-	def __unicode__(self):
-		return self.item.item_code
+# class AddItem(models.Model):
+# 	item = models.ForeignKey(Item)
+# 	quantity = models.PositiveSmallIntegerField(default = 0)
+# 	loc = models.ForeignKey(ItemLocation)
+# 	def __unicode__(self):
+# 		return self.item.item_code
 
 
 class Supplier(models.Model):
@@ -179,12 +180,10 @@ class ArrivedItem(models.Model):
 	quantity = models.IntegerField()
 	item_cost = models.FloatField(null=True, blank=True)
 
-	#source_location = models.ForeignKey(Location)
-	#destination = models.ForeignKey(Location)
+	
 	def __unicode__(self):
 		return " ".join((unicode(self.item.item_code),unicode(self.quantity)))
-		# return self.item.item_code + self.quantity
-
+		
 	def calculate_total(self):
 		return self.item_cost * self.quantity
 
