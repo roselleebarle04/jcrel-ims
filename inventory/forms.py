@@ -85,13 +85,13 @@ class ItemSaleForm(forms.ModelForm):
 class TransferRecordForm(forms.ModelForm):
 	class Meta:
 		model = TransferRecord
-		fields = ['item', 'quantity']
+		fields = ['item', 'location', 'quantity']
 
 	def __init__(self, *args, **kwargs):
 		super(TransferRecordForm, self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['location'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
-
 
 class SupplierForm(forms.ModelForm):
 	class Meta: 

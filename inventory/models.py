@@ -60,7 +60,7 @@ class Location (models.Model):
 class ItemLocation(models.Model):
 	item = models.ForeignKey('Item')
 	location = models.ForeignKey(Location)
-	quantity = models.PositiveIntegerField(default = 0)
+	quantity = models.IntegerField(default = 0)
 
 	def __unicode__(self):
 		return '%s' % (self.item)
@@ -130,7 +130,7 @@ class ItemSale(models.Model):
 	is_active = models.BooleanField(default=True)
 	item = models.ForeignKey(Item, blank=False)
 	sale = models.ForeignKey(Sale)
-	quantity = models.PositiveSmallIntegerField(default = 0, null=True)
+	quantity = models.IntegerField(default = 0, null=True)
 
 	def __unicode__(self):
 		return self.item.__unicode__()

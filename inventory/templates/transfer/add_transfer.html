@@ -29,7 +29,8 @@
         <p>This page allows you to transfer your stocks to a chosen location</p><br>
     </div>
 </div>
-<form class="form" method="POST">  {% csrf_token %}
+<form class="form" method="POST"> 
+{% csrf_token %} 
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
@@ -37,10 +38,6 @@
                     Transfer to location:
                 </div>
                 <div class="panel-body">
-                    <div class="form-group">
-                        <label>Date</label>
-                        <input name="transfer_date" class="form-control" type="text" value="{{date}}" placeholder="{{date}}" disabled>
-                    </div>
                     <div class="form-group">
                         <label>Location</label>
                         <select name="destination_location" class="form-control" required>
@@ -64,6 +61,7 @@
                             <tr>
                                 <th scope="col">Item</th>
                                 <th scope="col">Quantity</th>
+                                <th scope="col">Source</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -71,7 +69,9 @@
                             {% for form in formset %}
                             <tr id="{{ form.prefix }}-row"  class="dynamic-form">
                                 <td>{{ form.item }}</td>
-                                <td>{{ form.quantity}}</td>
+                                <td>{{ form.quantity }}</td>
+                                <td>{{ form.location }}</td>
+                                <td></td>
                                 <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
                             </tr>
                             {% endfor %}
