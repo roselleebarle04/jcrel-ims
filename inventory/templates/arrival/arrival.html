@@ -111,8 +111,8 @@
                 <thead>
                  <!-- <span class="required"> *This field is required </span> -->
                     <tr>
-                        <!-- <th style="width: 10%; "></th> -->
-                        <th style="width: 50%; ">ITEM</th>
+                        <th style="width: 5%; "></th>
+                        <th style="width: 40%; ">ITEM</th>
                         <th style="width: 25%;">QUANTITY</th>
                         <th style="width: 25%;">ITEM COST</th>
                         
@@ -121,7 +121,7 @@
                 <tbody>
                     {% for form in formset.forms %}
                     <tr id="{{ form.prefix }}-row" class="dynamic-form">
-                        <!-- <td><a href="/register/" class="btn btn-info" role="button">Register new item</a></td> -->
+                        <td><a href="/register/" class="btn btn-info" role="button">Register new item</a></td>
                         <td>{{ form.item }}</td>
                         <td>{{form.quantity}}</td>
                         <td>{{form.item_cost}}</td>
