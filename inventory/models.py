@@ -7,6 +7,35 @@ from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.conf import settings
 
+from .models import *
+
+"""
+Models:
+1. Account
+2. Item
+3. Location
+4. ItemLocation
+5. Sale
+6. ItemSale
+7. Supplier
+8. CUstomer
+9. Transfer
+10. ItemTransfer
+11. Arrival
+12. ItemArrival
+
+Real world cases on how the quantity of an item in a specific location changes 
+Case 1: 
+	- Stocks of a specific item is transferred to another location - Item quantity on source location decreases, while the item quantity on the destination location increases - 
+	- Note, if the item is depleted in destination or still haven't been to the destination, 
+	a new instance of that ItemLocation is created...
+
+Case 2: Stocks of the item are sold - Item quantity in the store decreases... 
+
+Case 3: New stocks of the item have arrived - Item quantity in the warehouse (default location of arrival is at warehouse...) increases...
+
+Todo: Initialize database with two default locations - Warehouse, and Branch Name (Add ability to change branch name), 
+"""
 
 class Account(models.Model):
 	user = models.ForeignKey(User)
@@ -15,21 +44,26 @@ class Account(models.Model):
 	def __unicode__(self):
 		return u'Profile of user: %s' %self.user.username
 
-
-class Location (models.Model):
-	branch_name = models.CharField(max_length = 50, null = True)
-	address = models.CharField(max_length = 200, null = True)
-
-	def __unicode__(self):
-		return self.branch_name
-
 class WarningItems(models.Model):
 	below_min = models.IntegerField(default=0)
 
 	def __unicode__(self):
 		return below_min
 
+class Location (models.Model):
+	name = models.CharField(max_length = 50, null = True)
+	address = models.CharField(max_length = 200, null = True)
 
+	def __unicode__(self):
+		return self.branch_name
+
+class ItemLocation(models.Model):
+	item = models.ForeignKey('Item')
+	location = models.ForeignKey(Location)
+	quantity = models.PositiveSmallIntegerField(default = 0)
+
+	def __unicode__(self):
+		return '%s' % (self.item)
 
 class Item(models.Model):
 	status = models.BooleanField(default=True)		# Active or Inactive
@@ -42,9 +76,9 @@ class Item(models.Model):
 	quantity = models.PositiveSmallIntegerField(default = 0)
 	srp = models.PositiveIntegerField(default = 0)
 	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-	# below_min = models.IntegerField(default=0)
 	
-		
+	location = models.ManyToManyField(Location, through = 'ItemLocation')
+	
 	def __unicode__(self):
 		return " ".join((
             unicode(self.item_code),
@@ -57,29 +91,42 @@ class Item(models.Model):
 	def get_description(self):
 		return self.category + ' ' + self.brand + ' ' + self.model
 
+	# class Meta:
+	# 	ordering = ('created',)
 
-	class Meta:
-		ordering = ('created',)
-
-
-class ItemLocation(models.Model):
-	destination = models.ForeignKey(Location)
-	item = models.ManyToManyField(Item, through = 'AddItem')
-	
-	def __unicode__(self):
-		return '%s' %(self.destination)
-
-class AddItem(models.Model):
-	item = models.ForeignKey(Item)
-	quantity = models.PositiveSmallIntegerField(default = 0)
-	loc = models.ForeignKey(ItemLocation)
+class Sale(models.Model):
+	date = models.DateField(default=timezone.now)
+	items = models.ManyToManyField(Item, through='ItemSale')
 
 	def __unicode__(self):
-		return self.item.item_code
+		return ' '.join(unicode(self.date))
+
+	def items_list(self):
+		return ', '.join([a.item for i in self.items.all()])
+
+	def get_grand_total(self):
+		grand_total = 0
+		items_set = self.solditem_set.all()
+		for item in items_set: 
+			grand_total = grand_total + item.total_cost()
+		return grand_total
+
+class ItemSale(models.Model):
+	is_active = models.BooleanField(default=True)
+	item = models.ForeignKey(Item, blank=False)
+	sale = models.ForeignKey(Sale)
+	quantity = models.PositiveSmallIntegerField(default = 0, null=True)
+
+	def __unicode__(self):
+		return self.item.__unicode__()
+
+	@property	
+	def total_cost(self):
+		total = self.item.srp * self.quantity
+		return total
 
 
 class Supplier(models.Model):
-	""" Suppliers can be also be paying users """
 	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
 	name = models.CharField(max_length=200, null=True)
 	address = models.CharField(max_length=200, null=True)
@@ -97,62 +144,37 @@ class Customer(models.Model):
 	def __unicode__(self):
 		return self.name
 
-class Sale(models.Model):
-	date = models.DateField(default=timezone.now)
-	items = models.ManyToManyField(Item, through='SoldItem')
-
-	def __unicode__(self):
-		return ' '.join(unicode(self.date))
-
-	def items_list(self):
-		return ', '.join([a.item for i in self.items.all()])
-
-	def get_grand_total(self):
-		grand_total = 0
-		items_set = self.solditem_set.all()
-		for item in items_set: 
-			grand_total = grand_total + item.total_cost()
-		return grand_total
-
-class SoldItem(models.Model):
-	is_active = models.BooleanField(default=True)
-	item = models.ForeignKey(Item, blank=False)
-	sale = models.ForeignKey(Sale)
-	quantity = models.PositiveSmallIntegerField(default = 0, null=True)
-
-	def __unicode__(self):
-		return self.item.__unicode__()
-
-	@property	
-	def total_cost(self):
-		total = self.item.srp * self.quantity
-		return total
-
-
 class Transfer (models.Model):
-	transfer_date = models.DateField(default=timezone.now)
+	"""
+	This model lists all the transfers that occurred in a particular location
+	This should be named appropriately, something related to history of a particular location (LocationHistory)
+	"""
+	date = models.DateField(default=timezone.now)
 	location = models.ForeignKey(Location)
-	trans_item = models.ManyToManyField(Item, through = 'Transfer_item')
+	items = models.ManyToManyField(Item, through='ItemTransfer')
 
 	def __unicode__(self):
 		return '%s' %(self.location)
 
-class Transfer_item(models.Model):
+class ItemTransfer(models.Model):
+	""" 
+	This model lists all the items included in a transfer to a SPECIFIC location
+	"""
 	item = models.ForeignKey(Item)
-	trans = models.ForeignKey(Transfer)
-	quantity_to_transfer = models.PositiveSmallIntegerField(default = 0)
+	transfer = models.ForeignKey(Transfer)
+	quantity = models.PositiveSmallIntegerField(default = 0)
 	
 	def __unicode__(self):
 		return self.item.item_code
 
 
 class Arrival(models.Model):
-	"""	This model refers to the arrival of the store owner from its suppliers """
 	date = models.DateField(default=timezone.now)
 	delivery_receipt_no = models.CharField(max_length=100, null=True, blank=True)
 	tracking_no = models.CharField(max_length=100, null=True, blank=True)
-	items = models.ManyToManyField(Item, through='ArrivedItem')
+	items = models.ManyToManyField(Item, through='ItemArrival')
 	supplier = models.ForeignKey(Supplier)
+	location = models.ForeignKey(Location)
 
 	def __unicode__(self):
 		return self.tracking_no
@@ -167,23 +189,20 @@ class Arrival(models.Model):
 
 	def get_grand_total(self):
 		grand_total = 0
-		items_set = self.arriveditem_set.all()
+		items_set = self.itemarrival_set.all()
 		for item in items_set: 
 			grand_total = grand_total + item.calculate_total()
 		return grand_total
 
-class ArrivedItem(models.Model):
+class ItemArrival(models.Model):
 	is_active = models.BooleanField(default=True)
 	item = models.ForeignKey(Item)
 	arrival = models.ForeignKey(Arrival)
 	quantity = models.IntegerField()
 	item_cost = models.FloatField(null=True, blank=True)
 
-	#source_location = models.ForeignKey(Location)
-	#destination = models.ForeignKey(Location)
 	def __unicode__(self):
 		return " ".join((unicode(self.item.item_code),unicode(self.quantity)))
-		# return self.item.item_code + self.quantity
 
 	def calculate_total(self):
 		return self.item_cost * self.quantity

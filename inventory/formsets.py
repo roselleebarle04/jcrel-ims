@@ -1,22 +1,22 @@
 from django.forms.formsets import BaseFormSet
 
 
-class AddArrivedItemFormset(BaseFormSet):
+class ItemArrivalFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
 			return
 
-class Transfer_itemFormset(BaseFormSet):
+class ItemTransferFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
 			return
 
-class AddSoldItemFormset(BaseFormSet):
+class ItemSaleFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
 			return
 
-class AddItemFormset(BaseFormSet):
+class ItemFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
 			return

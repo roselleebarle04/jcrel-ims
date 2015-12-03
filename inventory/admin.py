@@ -25,11 +25,11 @@ admin.site.register(Sale, SaleAdmin)
 
 class SoldItemAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(SoldItem, SoldItemAdmin)
+admin.site.register(ItemSale, SoldItemAdmin)
 
 class TransferItemAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(Transfer_item)
+admin.site.register(ItemTransfer)
 
 class Transferdmin(admin.ModelAdmin):
 	pass
@@ -37,7 +37,7 @@ admin.site.register(Transfer)
 
 class ArrivedItemAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(ArrivedItem, ArrivedItemAdmin)
+admin.site.register(ItemArrival, ArrivedItemAdmin)
 
 class ArrivalAdmin(admin.ModelAdmin):
 	pass
@@ -50,10 +50,6 @@ admin.site.register(Location)
 class WarningItemsAdming(admin.ModelAdmin):
 	pass
 admin.site.register(WarningItems)
-
-class AddItemAdmin(admin.ModelAdmin):
-	pass
-admin.site.register(AddItem)
 
 class ItemLocationAdmin(admin.ModelAdmin):
 	pass

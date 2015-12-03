@@ -4,11 +4,16 @@ body, html, p {
 }
 
 body a, html a {
-	color: #2d3e63;
+	color: #4BC7AC;
 }
 body{
 	background: rgba(0,0,0,.1); 
 }
+
+.btn.btn-theme {
+	background: #4BC7AC;
+	color: white;
+} 
 
 .page-header {
 	font-weight: bold;
@@ -19,9 +24,10 @@ body{
 
 .alert.alert-dark, .panel.panel-dark{
 	background-color: white;
+	border-color: #ddd;
 	/*background-color: #FFFF99;*/
 	color: #5a5c51;
-	border-radius: 10px;
+	/*border-radius: 10px;*/
 }
 
 .panel.panel-gray {
