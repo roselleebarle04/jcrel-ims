@@ -26,80 +26,99 @@ a:hover {
 html,
 body {
   height: 100%;
-  background-color: #333;
+  /*background-color: #333;*/
+  /*background-image: url('/static/img/style_color_introduction.png');
+  background-repeat: no-repeat;*/
+
 }
 body {
   color: #fff;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0,0,0,.5);
+  background-image: url('/static/img/style_color_introduction.png');
+  /*background-image: url('/static/img/a.jpeg');*/
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
+/*div{
+  opacity: 0.4;
+  background-image: url('/static/img/ff.jpeg');
+}*/
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
 .site-wrapper {
   display: table;
-  width: 100%;
+  width: 100%;-webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+          box-shadow: inset 0 0 100px rgba(0,0,0,.5);
   height: 100%; /* For at least Firefox */
   min-height: 100%;
-  -webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.5);
-          box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+/*  -webkit-box-shadow: inset 0 0 100px black;
+          box-shadow: inset 0 0 100px black;*/
 }
 .site-wrapper-inner {
   display: table-cell;
   vertical-align: top;
-  background: rgba(0,0,0,0,0.02);
 }
 .cover-container {
   margin-right: auto;
   margin-left: auto;
+  background: rgba(0,0,0,.3);
+
 }
 
 /* Padding for spacing */
 .inner {
-  padding: 30px;
-  /*background: white */
-}
+  padding: 30px; 
 
+}
 
 /*
  * Header
  */
-.masthead-brand {
-  margin-top: 10px;
-  margin-bottom: 10px;
+.inner nav{
+  font-size: 15px;
+
+}
+
+h3 {
+  margin-top: -30px;
+  margin-bottom: -15px;
+
 }
 
 .masthead-nav > li {
   display: inline-block;
-  /*background: white*/
 }
 
 .masthead-nav > li + li {
-  margin-left: 20px;
+  margin-left: 10px;
+  font-size: 15px;
 
 }
 .masthead {
-  background: rgba(255,255,255,.1);
+  background: rgba(0,0,0,0.2);
 }
 .masthead-nav > li > a {
   padding-right: 0;
   padding-left: 0;
-.  font-size: 16px;
+.  font-size: 10px;
   font-weight: bold;
-  color: #fff; /* IE8 proofing */
-  color: rgba(255,255,255,.75);
+  /*color: #fff; /* IE8 proofing */
+  color: rgba(255,255,255,.75);*/
   border-bottom: 2px solid transparent;
 
 }
 .masthead-nav > li > a:hover,
 .masthead-nav > li > a:focus {
-  background-color: transparent;
-  border-bottom-color: #a9a9a9;
-  border-bottom-color: rgba(255,255,255,.25);
+    background-color: rgba(0,0,0,.3);
+    color: white;
+    border-bottom-color: #a9a9a9;
+    border-bottom-color: rgba(255,255,255,.25);
 }
 .masthead-nav > .active > a,
 .masthead-nav > .active > a:hover,
 .masthead-nav > .active > a:focus {
-  color: #fff;
+  /*color: #fff;*/
   border-bottom-color: #fff;
 
 }
@@ -121,6 +140,7 @@ body {
 
 .cover {
   padding: 0 20px;
+  margin-top: 100px
 }
 .cover .btn-lg {
   padding: 10px 20px;
@@ -133,8 +153,8 @@ body {
  */
 
 .mastfoot {
-  color: #999; /* IE8 proofing */
-  color: rgba(255,255,255,.5);
+  /*color: #999;*/ /* IE8 proofing */
+  /*color: rgba(255,255,255,.5);*/
 }
 
 

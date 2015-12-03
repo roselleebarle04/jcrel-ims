@@ -2,6 +2,22 @@
 {% load staticfiles %}
 
 {% block content %}
+<style type="text/css">
+  .panel{
+    background: rgba(0,0,0,.2);
+  }
+  /*body{ 
+    background-image: url('/static/img/logo.jpg');
+    background-repeat: no-repeat;
+    background-position: left 5px;
+    background-size: 30%;
+  }
+  .row{
+    margin-right:-400px
+  }*/
+ 
+</style>
+
   <div class="row">
     <div class="col-md-6 col-md-offset-3 text-center">
       <h2>JCREL INVENTORY</h2>
@@ -11,6 +27,7 @@
     <div class="col-md-6 col-md-offset-3">
       <div class="panel panel-default">
         <div class="panel-heading">Please Sign In</div>
+        <br>
         <div class="panel-body">
           <form action="/login/" class="form" method="POST">
             {% csrf_token %}
@@ -23,18 +40,22 @@
               <input name="password" type="password" id="inputPassword" class="form-control" required>
             </div>
             <!-- {{form}} -->
+            <br><br>
             <div class="form-group">
               <input type="submit" class="form-control btn btn-primary btn-block" value="Login" />
               <input type="hidden" name="next" value="{{ next }}" />
-
+              <br>
               <a style="float:right;" href="/password_reset/">Forgot Password?</a>
 
             </div>
+            <br>
             <div class="form-group">
               <hr>
-              <p>New to JCREL?</p>
+              <p>New to JCREL?</p><br>
               <a href="/signup" class="btn btn-default btn-block">Signup</a>
+              <p class="row" style="background-color:rgba(0,0,0,.2);"></p>
             </div>
+            <br>
           </form>
         </div>
       </div>
