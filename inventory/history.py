@@ -26,26 +26,13 @@ from .formsets import *
 
 @login_required
 def transfer_history(request):
-	items_list = Item.objects.all()
-	items = ItemLocation.objects.all()
-	transfer_list = Transfer_item.objects.all()
-	transferLen = len(transfer_list)
-	warning = WarningItems.objects.all()
+	transfers = TransferRecord.objects.all()
+	transferLen = len(transfers)
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
-
-	return render(request, 'transfer/transfer_hist.html', {
-		'transfer': transfer_list,
+	return render(request, 'transfer/transfer_history.html', {
+		'transfers': transfers,
 		'transferLen': transferLen,
-		'items':items,
-		'all_items':items_list,
-		'warning':warning,
-		# 'below_min':below_min
-		})
+	})
 
 def sales_history(request):
 	items = ItemLocation.objects.all()

@@ -18,7 +18,7 @@ Models:
 5. Sale
 6. ItemSale
 7. Supplier
-8. CUstomer
+8. Customer
 9. Transfer
 10. ItemTransfer
 11. Arrival
@@ -140,29 +140,20 @@ class ItemSale(models.Model):
 		total = self.item.srp * self.quantity
 		return total
 
-class Transfer (models.Model):
+class TransferRecord (models.Model):
 	"""
 	This model lists all the transfers that occurred in a particular location
 	This should be named appropriately, something related to history of a particular location (LocationHistory)
+
+	DEC 3: The model was merged with ItemTransfer - no need for intermediary, this model serves as a log only.
 	"""
 	date = models.DateField(default=timezone.now)
-	location = models.ForeignKey(Location)
-	items = models.ManyToManyField(Item, through='ItemTransfer')
+	location = models.ForeignKey(Location, help_text='The location where the quantity will be changed or updated')	# DESTINATION LOCATION
+	item = models.ForeignKey(Item, help_text='The item that was na hilabtan') 
+	quantity = models.IntegerField(default = 0, help_text='Can be negative, in cases of deductions')
 
 	def __unicode__(self):
 		return '%s' %(self.location)
-
-class ItemTransfer(models.Model):
-	""" 
-	This model lists all the items included in a transfer to a SPECIFIC location
-	"""
-	item = models.ForeignKey(Item)
-	transfer = models.ForeignKey(Transfer)
-	quantity = models.PositiveSmallIntegerField(default = 0)
-	
-	def __unicode__(self):
-		return self.item.item_code
-
 
 class Arrival(models.Model):
 	date = models.DateField(default=timezone.now)

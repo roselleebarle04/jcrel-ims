@@ -84,8 +84,16 @@ def add_item(request):
 		if add_new_item_form.is_valid():
 			# Save the primary item details (category, brand, etc.)
 			item = add_new_item_form.save(commit=False)
-			item.save()
 
+			# If a new supplier has been added, add the supplier to db, then update the item's supplier
+			supplier_name = request.POST.get('supplier_name')
+			supplier_address = request.POST.get('supplier_address')
+			if supplier_name and supplier_address:
+				# IF BOTH ARE NOT NULL, 
+				new_supplier = Supplier.objects.create(name=supplier_name, address=supplier_address)
+				item.supplier = new_supplier
+
+			item.save()
 			# Then save the item in the location provided
 			location_id = request.POST.get('current_location')
 			current_location = Location.objects.get(id=location_id)
@@ -141,56 +149,58 @@ def update_item(request, item_id):
 #############################################
 
 @login_required
-def create_transfer(request):
-	items_list = Item.objects.all()
-	items = ItemLocation.objects.all()
-	warning = WarningItems.objects.all()
-	transferForm = TransferForm(request.POST or None)
-	formset = formset_factory(ItemTransferForm, formset=ItemTransferFormset, extra = 1)
+def transfer_stocks(request):
+	"""
+	When transferring stocks, 
+	1. We record the item and quantity transferred in the TransferRecord tabel (for reference), 
+	2. Update the quantity in of item in ItemLocation table - EASY
+	"""
+	date = timezone.now()
+	locations = Location.objects.all()
+
+	# Initialize FormSet
+	formset = formset_factory(TransferRecordForm, formset=TransferRecordFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
 
-	if transferForm.is_valid() and transferFormset.is_valid():
-		p = transferForm.save(commit=False)
-		p.save()
-		transfer_id = p
-		
-		for form in transferFormset:
-			transfer = transfer_id
-			item = form.cleaned_data['item']
-			quantity_to_transfer = form.cleaned_data['quantity_to_transfer']
-			i = Transfer_item(item = item, quantity_to_transfer=quantity_to_transfer, trans=p)	
-			i.save()
+	if request.method == 'POST':
+		transfer_date = request.POST.get('transfer_date')
+		destination_location_id = request.POST.get('destination_location')
+		destination_location = Location.objects.get(id=destination_location_id)
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
-		
-		return HttpResponseRedirect(reverse('transfer_hist'))
+		if transferFormset.is_valid() and transfer_date and destination_location:
+			# Save transfer record in ItemTransfer, then UPDATE the ItemLocation quantity
+			for form in transferFormset:
+				item = form.cleaned_data['item']
+				quantity = form.cleaned_data['quantity']
 
-	return render(request, 'transfer/transfer_form.html', {
-		'TransferForm' : transferForm, 
+				# 1. save the itemtransfer record for the destination
+				i = TransferRecord(item=item, quantity=transfer_date, date=transfer_date, location=destination_location)	
+				i.save()
+
+				#  2. Update the itemlocation quantity on the destination location for the item
+				item_in_location = ItemLocation.objects.filter(item=item, location=destination_location)
+				item_in_location.quantity = item_in_location.quantity + quantity
+				item_in_location.save()
+
+				# 3. The same item sa pikas na location kay dapat makwaan pud
+				source_location = item.itemlocation_set.all() # source location atong gi pili na item sa items na panel bitaw
+				source_location = source_location[0].location
+
+				item_in_source = ItemLocation.objects.filter(item=item, location=source_location)
+				item_in_source.quantity = item_in_source.quantity - quantity
+				item_in_source.save()
+
+				# 4. Also save an itemtransfer record for the source (negative ang quantity dapat,ok?)
+				neg_quantity = -(quantity)
+				j = TransferRecord(item=item, quantity=neg_quantity, date=transfer_date, location=source_location)
+				j.save()
+			return HttpResponseRedirect(reverse('list_locations'))
+
+	return render(request, 'transfer/add_transfer.html', {
 		'formset' : transferFormset,
-		'all_items':items_list,
-		'items':items,
-		'warning':warning,
-		# 'below_min':below_min
-		})
-
-@login_required
-def delete_transfer(request, transfer_id):
-	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
-	warning = WarningItems.objects.all()
-	t_item = Transfer_item.objects.filter(pk=transfer_id)
-	t_item.delete()
-	for i in items_list:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
-	return HttpResponseRedirect(reverse('transfer_hist'))
+		'locations' : locations,
+		'date': date
+	})
 
 #############################################
 ##	Locations 

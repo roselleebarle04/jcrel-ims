@@ -82,15 +82,16 @@ class ItemSaleForm(forms.ModelForm):
 		
 		return self.cleaned_data['quantity']
 			
-class TransferForm(forms.ModelForm):
+class TransferRecordForm(forms.ModelForm):
 	class Meta:
-		model = Transfer
-		fields = ['date', 'location']
-
-class ItemTransferForm(forms.ModelForm):
-	class Meta:
-		model = ItemTransfer
+		model = TransferRecord
 		fields = ['item', 'quantity']
+
+	def __init__(self, *args, **kwargs):
+		super(TransferRecordForm, self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+
 
 class SupplierForm(forms.ModelForm):
 	class Meta: 
