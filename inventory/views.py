@@ -23,6 +23,8 @@ from .models import *
 from .forms import *
 from .formsets import *
 
+def landing_page(request):
+	return render(request, 'landing_page.html')
 
 @login_required
 def dashboard(request):
@@ -41,32 +43,31 @@ def dashboard(request):
 		'sales_len':sales_len,
 		'items':items_list,
 		'warning':warning,
-		})
+	})
 
 #############################################
 ##	Items 
 #############################################
 @login_required
 def list_items(request):
-	items_list = Item.objects.all().filter(status=True)
-	items = ItemLocation.objects.all()
-	itemLen = len(items_list)
-	warning = WarningItems.objects.all()
-	
+	active_items = Item.objects.all().filter(status=True)
+	itemLen = len(active_items)
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
-	
 	return render(request, 'items/items.html', {
-		'all_items': items_list,
+		'items': active_items,
+	})
+
+def notifications(request):
+	items = ItemLocation.objects.all()
+	itemLength = len(items)
+	warning = WarningItems.objects.all()
+
+	return render(request, 'notifications/notification_page.html', {
 		'items':items,
-		'itemLen': itemLen,
+		'itemLength': itemLength,
 		'warning':warning,
-		# 'below_min':below_min
-		})
+	})
+
 
 def add_item(request):
 	"""
@@ -94,7 +95,6 @@ def add_item(request):
 				item.supplier = new_supplier
 
 			item.save()
-
 			# Then save the item in the location provided
 			location_id = request.POST.get('current_location')
 
@@ -110,6 +110,7 @@ def add_item(request):
 				loc = Location.objects.all()[0] # Get first location (Default)
 				j = ItemLocation.objects.create(item=item, location=loc)
 				j.save()
+			messages.success(request, 'Item successfully added.')
 			return HttpResponseRedirect(reverse('list_items'))
 
 	return render(request, 'items/add_item.html', {
@@ -239,7 +240,7 @@ def add_location(request):
 	warning = WarningItems.objects.all()
 	location_list = Location.objects.all()
 	form = LocationForm(request.POST or None)
-	
+
 	if form.is_valid():
 		form.save()
 		return redirect('list_locations')
@@ -340,10 +341,10 @@ def sales(request):
 				quantity = form.cleaned_data.get('quantity')
 				i = ItemSale(item=item, sale=p, quantity=quantity)	
 				i.save()
-			
+			messages.success(request, 'Sale successfully added.')
 			return HttpResponseRedirect(reverse('sales'))
 		except ValueError:
-			messages.warning(request, 'Please fill in all input boxes before submitting ')
+			messages.warning(request, 'Please fill in all input boxes before submitting.')
 			pass
 
 	return render(request, 'sales/add_sale.html', {
@@ -353,6 +354,29 @@ def sales(request):
 		'all_items':items_list,
 		'warning':warning,
 		# 'below_min':below_min
+		})
+
+def sales_history(request):
+	items = ItemLocation.objects.all()
+	sales_list = SoldItem.objects.filter(is_active=True)
+	warning = WarningItems.objects.all()
+	salesLen = len(sales_list)
+	items_list = Item.objects.all()
+	
+
+	for i in items:
+		below_min = 0
+		if i.quantity < 10:
+			below_min = below_min + 1
+			print "below_min %d" % (below_min)
+
+	return render(request, 'sales/sales_history.html', {
+		'sales_list':sales_list,
+		'salesLen' : salesLen,
+		'items':items,
+		'all_items':items_list,
+		'warning':warning, 
+		# 'below_min': below_min
 		})
 
 def delete_sale(request, sale_id):
@@ -447,8 +471,6 @@ def arrival(request):
 	arrivalForm = ArrivalForm(request.POST or None)
 	formset = formset_factory(ItemArrivalForm, formset=ItemArrivalFormset, extra = 1)
 	arrivalFormset = formset(request.POST or None)
-	
-
 
 	if arrivalForm.is_valid() and arrivalFormset.is_valid():
 		# first save arrival details
@@ -470,10 +492,11 @@ def arrival(request):
 				arrival = arrival_id
 				quantity = form.cleaned_data.get('quantity')
 				item_cost = form.cleaned_data.get('item_cost')
-				i = ArrivedItem(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
+				i = ItemArrival(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
 				i.save()
-				messages.success(request, 'New Arrival has been added.')
+			messages.success(request, 'New Arrival has been added.')
 			return HttpResponseRedirect(reverse('arrival'))
+			
 		except ValueError:
 			messages.warning(request, 'Please fill in all input boxes before submitting ')
 			pass

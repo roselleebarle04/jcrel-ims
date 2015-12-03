@@ -135,7 +135,7 @@ class ItemSale(models.Model):
 	def __unicode__(self):
 		return self.item.__unicode__()
 
-	@property	
+		
 	def total_cost(self):
 		total = self.item.srp * self.quantity
 		return total
@@ -174,6 +174,7 @@ class Arrival(models.Model):
 		items = Arrival.objects.filter(supplier=supplier).filter(date__gt=start, date__lt=end)
 		return items
 
+	@property
 	def get_grand_total(self):
 		grand_total = 0
 		items_set = self.itemarrival_set.all()
@@ -191,6 +192,7 @@ class ItemArrival(models.Model):
 	def __unicode__(self):
 		return " ".join((unicode(self.item.item_code),unicode(self.quantity)))
 
+	@property
 	def calculate_total(self):
 		return self.item_cost * self.quantity
 

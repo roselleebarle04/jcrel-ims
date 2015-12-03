@@ -66,54 +66,45 @@
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> -->
-                    <!-- <span class="sr-only">Toggle navigation</span> -->
+                    <!-- <span class="sr-only">Toggle navigation</span> class="dropdown-toggle" data-toggle="dropdown" -->
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">JCREL INVENTORY</a>
+                <!-- </button> -->
+                <a class="navbar-brand" href="/dashboard">JCREL INVENTORY</a>
             </div>
 
-            <ul class="nav navbar-top-links navbar-right" id="nav">
+            <ul class="nav navbar-top-links navbar-right">
                 <li id="notification_li" class="dropdown-toggle">
-                    <a id="notificationLink" class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <!-- <a href="#"> -->
-                        {% if below_min == 0 %}
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    {% if below_min == 0 %}
 
                         {% elif below_min > 0 %}
                           <span id="notification_count">
                             {{ below_min }}
                           </span>
                           {% endif %}
-                        <!-- <span id="notification_count">
-                        {% if below_min < 10%}
-                          {{below_min}}
-                          {% endif %}
-                          </span> -->
-                      <!-- {% if warning.below_min > 0 %}
-                        {{warning.below_min}}
-                      {% endif %} -->
-                    
-                        <i class="fa fa-bell fa-fw" ></i> 
-                         <i class="fa fa-caret-down"></i>
-
+                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
-                    <div id="notificationContainer">
-                      <div id="notificationTitle">Notifications</div>
-                      <div id="notificationsBody" class="notifications"></div>
-                      <div id="notificationFooter"><a class="text-center" href="/notifications/">
-                                <strong>See All Alerts</strong>
-                                <!-- <i class="fa fa-angle-right"></i> -->
-                            </a></div>
-                       </div>
-                        <!-- <li>
+                        <li>
+                         
+                                <div>
+                                    <ul>
+                                      <li>Item is below minimum</li>
+                                      <li class="divider"></li>
+                                    </ul>
+
+                                </div>
+                          
+                        </li>
+                        <li class="divider"></li>
+                        <li>
                             <a class="text-center" href="/notifications/">
                                 <strong>See All Alerts</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li> -->
-            
+                        </li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -121,11 +112,11 @@
                         <i class="fa fa-user fa-fw"></i>{{ user }} <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                       <!--  <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li> -->
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
                         <li><a href="/settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
-                        <!-- <li class="divider"></li> -->
+                        <li class="divider"></li>
                         <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
@@ -134,16 +125,20 @@
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
-                    <p style="background: #2DB496"><a style="color:white;" class="text-center navbar-brand hidden-xs" href="/">JCREL INVENTORY</a></p>
+                    <p><a style="color:white;" class="text-center navbar-brand hidden-xs" href="/">JCREL INVENTORY</a></p>
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-table fa-fw"></i>Items<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-table fa-fw"></i> Items<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li class="no-border">
+<<<<<<< HEAD
                                     <a href="/items/add/"><span class="glyphicon glyphicon-plus"></span>New Item</a>
+=======
+                                    <a href="/items/wlocation/"><span class="glyphicon glyphicon-plus"></span> New Item</a>
+>>>>>>> cd0e95fef6e64bb8379c69a69cd1f744afc08111
                                 </li>
                                 <li class="no-border">
                                     <a href="/items/"><span class="glyphicon glyphicon-list-alt"></span> List of Items</a>
@@ -180,7 +175,11 @@
                                   <a href="/location/add/"><span class="glyphicon glyphicon-plus"></span> Add New</a>
                                 </li>
                                 <li class="no-border">
+<<<<<<< HEAD
                                   <a href="/location/"><span class="glyphicon glyphicon-plus"></span> All Locations</a>
+=======
+                                    <a href="/transfer_form"><span class="glyphicon glyphicon-plus"></span> New Transfer</a>
+>>>>>>> cd0e95fef6e64bb8379c69a69cd1f744afc08111
                                 </li>
                                 <li class="no-border">
                                     <a href="/transfer/add"><span class="glyphicon glyphicon-plus"></span> Transfer Stocks</a>
@@ -196,7 +195,13 @@
                         <li>
                           <a href="/customers"><i class="fa fa-user"></i> Customer</a>
                         </li>
+<<<<<<< HEAD
                         
+=======
+                        <li>
+                          <a href="/location"><i class=" fa fa-map-marker"></i> Location</a>
+                        </li>
+>>>>>>> cd0e95fef6e64bb8379c69a69cd1f744afc08111
                        <!--  <li>
                             <a href="/reports/inventory"><i class="fa fa-wrench fa-fw"></i> Reports</a>
                         </li> -->
@@ -214,7 +219,6 @@
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <strong><a href="/notifications/">Warning!</a></strong> You have item quantities that require attention.
             </div>
-
             {% endif %}
           {% endfor %} -->
             {% block content %}{% endblock %}

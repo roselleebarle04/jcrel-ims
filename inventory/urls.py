@@ -1,3 +1,4 @@
+
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
@@ -10,7 +11,8 @@ from . import accounts as account_views
 from . import history as history_views
 
 urlpatterns = [
-    url(r'^$', inventory_views.dashboard, name='dashboard'),
+    url(r'^$', inventory_views.landing_page, name='landing_page'),
+    url(r'^dashboard/$', inventory_views.dashboard, name='dashboard'),
 
     url(r'^reports/data/', reports_views.reports_data, name='reports_data'),
     url(r'^reports/inventory/', reports_views.inventory_reports, name='inventory_reports'),

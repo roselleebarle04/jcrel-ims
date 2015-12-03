@@ -3,7 +3,11 @@
 
 {% block content %}
 
-
+<style type="text/css">
+    h1{
+        color: #34B8B8;
+    }
+</style>
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Transfer History</h1>
@@ -67,12 +71,25 @@
                     <td>{{t.item}}</td>
                     <td>{{t.quantity}}</td>
                 </tr>
+<<<<<<< HEAD:inventory/templates/transfer/transfer_history.html
                 {% endfor %}
         {% else %}
                 <p>No transfers listed. </p>
             </tbody>
         </table>
         {% endif %}
+=======
+                {% endfor %}    
+            </tbody>
+        </table>
+        {% else %}
+    <div class="col-md-10 col-md-offset-1">
+            <div class="alert alert-info" role="alert">
+              <center><h3>No Listed. </h3></center>
+            </div>
+        </div>      
+    {% endif %}
+>>>>>>> cd0e95fef6e64bb8379c69a69cd1f744afc08111:inventory/templates/transfer/transfer_hist.html
     </div>                                                                                                  
 </div>
 

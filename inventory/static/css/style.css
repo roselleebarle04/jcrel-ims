@@ -6,6 +6,7 @@ body, html, p {
 body a, html a {
 	color: #4BC7AC;
 }
+
 body{
 	background: rgba(0,0,0,.1); 
 }
@@ -15,6 +16,28 @@ body{
 	color: white;
 } 
 
+.add-row {
+    margin-top: 10px;
+    width: 150px;
+}
+
+#id_add th {
+    padding: 10px;
+    text-align: center;
+}
+#id_add td {
+    padding: 10px;
+    text-align: center; 
+}
+
+h2{
+    color: #34B8B8;
+}
+
+form{
+    color: #34B8B8;
+}
+
 .page-header {
 	font-weight: bold;
 	margin-top: 0;
@@ -23,11 +46,15 @@ body{
 }
 
 .alert.alert-dark, .panel.panel-dark{
-	background-color: white;
-	border-color: #ddd;
+	background-color: #e5fff2;
 	/*background-color: #FFFF99;*/
 	color: #5a5c51;
 	/*border-radius: 10px;*/
+}
+.panel-default > .panel-heading {
+    color: #333;
+    background-color: #e5fff2;
+    border-color: #DDD;
 }
 
 .panel.panel-gray {
@@ -57,7 +84,7 @@ ul.errorlist {
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li i {
-	color: #5a5c51;
+	color: #F8F9F6;
 }
 #wrapper .navbar-default.sidebar .sidebar-nav ul li:hover i {
 	color: white;
@@ -69,23 +96,26 @@ ul.errorlist {
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li a:hover, #wrapper .navbar-default.sidebar .sidebar-nav ul li a:focus {
     text-decoration: none;
-    background-color: #4BC7AC;
+    background-color: #34B8B8;
 }
 
 #wrapper .navbar.navbar-default {
-	background: rgba(0,0,0,.09);
+	background: #333333;
 	border-color: transparent;
 }
 #wrapper .navbar.navbar-default ul.navbar-right li a {
-	color: #5A5C51;
+	color: #34B8B8;
 }
 #wrapper .navbar.navbar-default ul.navbar-right li a i {
-	color: #5A5C51;
+	color: white;
 }
 
 #wrapper .navbar-default.sidebar {
-	background: #DFE6E5;
+	background: #007777;
 	margin-top: 0;
+}
+#wrapper {
+    background: #007777 none repeat scroll 0% 0%;
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li {
@@ -109,16 +139,19 @@ ul.errorlist {
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li a{
-	color: #5a5c51;
+	color: white;
 	font-size: 15px;
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li a:hover{
-	background: #4BC7AC;
+	background: #03B3B3;
 	color: white;
 }
 
 #wrapper #page-wrapper {
-	background: #f3f3f3;
 	padding: 30px;
+	background: #333333;
+	/*border-style: #007777;*/
+	border-left: none;
+	left: #007777;
 }
