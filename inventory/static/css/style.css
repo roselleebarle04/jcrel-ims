@@ -65,11 +65,12 @@ form{
 .alert.alert-dark, .panel.panel-dark{
 	background-color: #e5fff2;
 	/*background-color: #FFFF99;*/
-	color: #5a5c51;
+	/*color: #5a5c51;*/
+	color: #333;
 	/*border-radius: 10px;*/
 }
 .panel-default > .panel-heading {
-    color: #333;
+    color: black;
     background-color: #e5fff2;
     border-color: #DDD;
 }
