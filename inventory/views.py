@@ -510,10 +510,10 @@ def sales(request):
 				quantity = form.cleaned_data.get('quantity')
 				i = SoldItem(item=item, sale=p, quantity=quantity)	
 				i.save()
-			
+			messages.success(request, 'New sale successfully added.')
 			return HttpResponseRedirect(reverse('sales'))
 		except ValueError:
-			messages.warning(request, 'Please fill in all input boxes before submitting ')
+			messages.error(request, 'Please fill in all input boxes before submitting ')
 			pass
 
 	return render(request, 'sales/add_sale.html', {
