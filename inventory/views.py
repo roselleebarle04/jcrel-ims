@@ -211,14 +211,21 @@ def additemwlocation(request):
 		p.save()
 		add_id = p
 		
-		for form in addnewitemFormset:
-			add = add_id
-			dest = form.cleaned_data['destination']
-			quantity = form.cleaned_data['quantity']
-			i = ItemLocation(destination = dest, quantity=quantity, item = p)	
-			i.save()
-		
-		return HttpResponseRedirect(reverse('items'))
+		try:
+			for form in addnewitemFormset:
+				add = add_id
+				dest = form.cleaned_data['destination']
+				quantity = form.cleaned_data['quantity']
+				i = ItemLocation(destination = dest, quantity=quantity, item = p)	
+				i.save()
+			
+			messages.success(request, 'Item successfully added.')
+
+			return HttpResponseRedirect(reverse('additemwlocation'))
+		except KeyError:
+			messages.warning(request, 'Please fill in all input boxes before submitting.')
+			pass
+
 
 
 	return render(request, 'items/itemwLocation.html', {
@@ -510,10 +517,10 @@ def sales(request):
 				quantity = form.cleaned_data.get('quantity')
 				i = SoldItem(item=item, sale=p, quantity=quantity)	
 				i.save()
-			messages.success(request, 'New sale successfully added.')
+			messages.success(request, 'Sale successfully added.')
 			return HttpResponseRedirect(reverse('sales'))
 		except ValueError:
-			messages.warning(request, 'Please fill in all input boxes before submitting ')
+			messages.warning(request, 'Please fill in all input boxes before submitting.')
 			pass
 
 	return render(request, 'sales/add_sale.html', {
