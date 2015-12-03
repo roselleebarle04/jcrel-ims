@@ -1,5 +1,5 @@
-<script type="text/javascript" src="static/js/jquery.min.js"></script>
-<script type="text/javascript" >
+// <script type="text/javascript" src="static/js/jquery.min.js"></script>
+// <script type="text/javascript" >
 $(document).ready(function()
 {
 $("#notificationLink").click(function()
@@ -22,4 +22,4 @@ return false;
 });
 
 });
-</script>
+// </script>
