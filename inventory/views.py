@@ -35,6 +35,14 @@ def dashboard(request):
 	items_len = len(items)
 	sales_len = len(sales)
 
+	is_zero = 0
+	below_min = is_zero
+
+	for i in items:
+		if i.quantity < 10:
+			below_min = below_min + 1
+			print "below_min %d" % (below_min)
+
 	return render(request, 'dashboard.html', {
 		'user':request.user.username,
 		'items' : items,
@@ -43,6 +51,7 @@ def dashboard(request):
 		'sales_len':sales_len,
 		'items':items_list,
 		'warning':warning,
+		'below_min':below_min
 	})
 
 #############################################
@@ -319,11 +328,11 @@ def sales(request):
 	saleFormset = formset(request.POST or None)
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	if saleForm.is_valid() and saleFormset.is_valid():
 		# first save purchase details
@@ -366,11 +375,11 @@ def sales_history(request):
 	items_list = Item.objects.all()
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return render(request, 'sales/sales_history.html', {
 		'sales_list':sales_list,
@@ -402,11 +411,11 @@ def suppliers(request):
 	s_len = len(s_list)
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return render(request, 'supplier/suppliers.html', {
 		'suppliers': s_list,
@@ -503,11 +512,11 @@ def arrival(request):
 			messages.warning(request, 'Please fill in all input boxes before submitting ')
 			pass
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return render(request, 'arrival/arrival.html', {
 		'AddArrivalForm' : arrivalForm, 
@@ -541,11 +550,11 @@ def customers(request):
 	c_len = len(c_list)
 	
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
 
 	return render(request, 'customer/customers.html', {
 		'customers': c_list,

@@ -104,7 +104,7 @@ ul.errorlist {
 #wrapper .navbar-default.sidebar .sidebar-nav ul li i {
 	color: #F8F9F6;
 }
-#wrapper .navbar-default.sidebar .sidebar-nav ul li:hover i {
+#wrapper .navbar-default.sidebar .sidebar-nav ul li i:hover{
 	color: white;
 }
 
@@ -122,10 +122,13 @@ ul.errorlist {
 	border-color: transparent;
 }
 #wrapper .navbar.navbar-default ul.navbar-right li a {
-	color: white;
+	color: black;
 }
 #wrapper .navbar.navbar-default ul.navbar-right li a i {
 	color: white;
+}
+#wrapper .navbar.navbar-default ul.navbar-right li a:hover {
+	color: black;
 }
 
 #wrapper .navbar-default.sidebar {
