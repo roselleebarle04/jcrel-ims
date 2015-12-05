@@ -60,7 +60,6 @@ def signup(request):
 def change_password(request):
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
-	warning = WarningItems.objects.all()
 	
 
 	for i in items_list:
@@ -83,7 +82,6 @@ def change_password(request):
 	return render(request, 'accounts/change_password.html', {
 		'all_items':items_list,
 		# 'items':items,
-		'warning':warning,
 		# 'below_min':below_min
 		})
 
@@ -93,7 +91,6 @@ def notifications(request):
 	itemLength = len(items_list)
 	items = ItemLocation.objects.all()
 	itemLength = len(items)
-	warning = WarningItems.objects.all()
 
 	for i in items:
 		below_min = 0
@@ -104,7 +101,6 @@ def notifications(request):
 	return render(request, 'notifications/notification_page.html', {
 		'items':items,
 		'itemLength': itemLength,
-		'warning':warning,
 		})
 
 
@@ -112,7 +108,6 @@ def notifications(request):
 def settings(request):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
-	warning = WarningItems.objects.all()
 	
 
 	try:
@@ -124,7 +119,6 @@ def settings(request):
 		'account':account,
 		# 'items':items,
 		'all_items':items_list,
-		'warning':warning,
 		# 'below_min':below_min
 		})
 
@@ -133,7 +127,6 @@ def update_settings(request):
 	# but not that the original user might not hava an account, yet - TODO
 
 	items_list = Item.objects.all()
-	warning = WarningItems.objects.all()
 	# items = AddItem.objects.all()
 	below_min = 0
 	user = request.user
@@ -155,7 +148,6 @@ def update_settings(request):
 	return render(request, 'settings/update_settings.html', {
 		'account': account,
 		'all_items':items_list,
-		'warning':warning,
 		# 'below_min':below_min,
 		# 'items':items
 		})

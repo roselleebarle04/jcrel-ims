@@ -30,7 +30,6 @@ def landing_page(request):
 def dashboard(request):
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
-	warning = WarningItems.objects.all()
 	sales = Sale.objects.all()
 	items_len = len(items)
 	sales_len = len(sales)
@@ -50,7 +49,6 @@ def dashboard(request):
 		'items_len' : items_len,
 		'sales_len':sales_len,
 		'items':items_list,
-		'warning':warning,
 		'below_min':below_min
 	})
 
@@ -75,7 +73,6 @@ def notifications(request):
 	return render(request, 'notifications/notification_page.html', {
 		'items':items,
 		'itemLength': itemLength,
-		'warning':warning,
 	})
 
 
@@ -159,7 +156,6 @@ def update_item(request, item_id):
 		'item' : item,
 		'all_items':items_list,
 		# 'items':items,
-		'warning':warning, 
 		# 'below_min':below_min
 		})
 
@@ -248,7 +244,6 @@ def list_locations(request):
 def add_location(request):
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
-	warning = WarningItems.objects.all()
 	location_list = Location.objects.all()
 	form = LocationForm(request.POST or None)
 
@@ -260,7 +255,6 @@ def add_location(request):
 		'form' : form, 
 		'location':location_list,
 		'all_items':items_list, 
-		'warning':warning, 
 		# 'items':items, 
 		# 'below_min':below_min
 		})
@@ -268,7 +262,6 @@ def add_location(request):
 def update_location(request, location_id):
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
-	warning = WarningItems.objects.all()
 	location_list = Location.objects.all()
 	location = Location.objects.get(pk=location_id)
 
@@ -280,7 +273,6 @@ def update_location(request, location_id):
 	return render(request, 'transfer/update_location.html', {
 		'location': location, 
 		'all_items':items_list, 
-		'warning':warning,
 		# 'items':items, 
 		# 'below_min':below_min
 		})
@@ -289,7 +281,6 @@ def update_location(request, location_id):
 def delete_location(request, location_id):
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
-	warning = WarningItems.objects.all()
 	
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
@@ -302,7 +293,6 @@ def delete_location(request, location_id):
 def arrival_delete(request, arrival_id):
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
-	warning = WarningItems.objects.all()
 	a_item = ArrivedItem.objects.get(item=arrival_id)
 	a_item.is_active = False
 	a_item.save()
@@ -322,7 +312,6 @@ def arrival_delete(request, arrival_id):
 def sales(request):
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
-	warning = WarningItems.objects.all()
 	saleForm = SaleForm(request.POST or None)
 	formset = formset_factory(ItemSaleForm, formset=ItemSaleFormset, extra = 1)
 	saleFormset = formset(request.POST or None)
@@ -363,14 +352,12 @@ def sales(request):
 		'formset' : saleFormset,
 		'items':items,
 		'all_items':items_list,
-		'warning':warning,
 		# 'below_min':below_min
 		})
 
 def sales_history(request):
 	items = ItemLocation.objects.all()
 	sales_list = SoldItem.objects.filter(is_active=True)
-	warning = WarningItems.objects.all()
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
 	
@@ -386,12 +373,10 @@ def sales_history(request):
 		'salesLen' : salesLen,
 		'items':items,
 		'all_items':items_list,
-		'warning':warning, 
 		# 'below_min': below_min
 		})
 
 def delete_sale(request, sale_id):
-	warning = WarningItems.objects.all()
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
 	sale = SoldItem.objects.get(pk = sale_id)
@@ -406,7 +391,6 @@ def delete_sale(request, sale_id):
 def suppliers(request):
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
-	warning = WarningItems.objects.all()
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)
 	
@@ -422,14 +406,12 @@ def suppliers(request):
 		's_len': s_len,
 		'items':items,
 		'all_items':items_list,
-		'warning':warning,
 		# 'below_min':below_min
 	})
 
 def add_supplier(request):
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
-	warning = WarningItems.objects.all()
 	supplierForm = SupplierForm(request.POST or None, request.FILES or None)
 
 	if  supplierForm.is_valid():
@@ -439,13 +421,11 @@ def add_supplier(request):
 	return render(request, 'supplier/add_supplier.html', {
 	 'form': supplierForm,
 	  'all_items':items_list,
-	  'warning':warning,
 	  })
 
 def update_supplier(request, supplier_id):
 	# items = AddItem.objects.all()
 	supplier = Supplier.objects.get(pk=supplier_id)
-	warning = WarningItems.objects.all()
 	items_list = Item.objects.all()
 
 	if request.method == 'POST':
@@ -459,14 +439,12 @@ def update_supplier(request, supplier_id):
 		'supplier': supplier,
 		# 'items':items,
 		'all_items':items_list,
-		'warning':warning,
 		# 'below_min':below_min
 		})
 
 def delete_supplier(request, supplier_id):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
-	warning = WarningItems.objects.all()
 	
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
@@ -478,7 +456,6 @@ def delete_supplier(request, supplier_id):
 def arrival(request):
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
-	warning = WarningItems.objects.all()
 	arrivalForm = ArrivalForm(request.POST or None)
 	formset = formset_factory(ItemArrivalForm, formset=ItemArrivalFormset, extra = 1)
 	arrivalFormset = formset(request.POST or None)
@@ -523,7 +500,6 @@ def arrival(request):
 		'formset' : arrivalFormset,
 		'items':items,
 		'all_items':items_list,
-		'warning':warning,
 		# 'below_min':below_min 
 		})
 
@@ -531,7 +507,6 @@ def arrival(request):
 def delete_arrival(request, arrival_id):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
-	warning = WarningItems.objects.all()
 	a_item = ArrivedItem.objects.get(pk=arrival_id)
 	a_item.is_active = False
 	a_item.save()
@@ -545,7 +520,6 @@ def delete_arrival(request, arrival_id):
 def customers(request):
 	items = ItemLocation.objects.all()
 	items_list = Item.objects.all()
-	warning = WarningItems.objects.all()
 	c_list = Customer.objects.all()
 	c_len = len(c_list)
 	
@@ -561,7 +535,6 @@ def customers(request):
 		'c_len': c_len,
 		'all_items':items_list,
 		'items':items,
-		'warning':warning,
 		# 'below_min':below_min
 	})
 
@@ -581,7 +554,6 @@ def add_customer(request):
 def update_customer(request, customer_id):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
-	warning = WarningItems.objects.all()
 	customer = Customer.objects.get(pk=customer_id)
 	
 
@@ -597,14 +569,12 @@ def update_customer(request, customer_id):
 		'customer': customer,
 		# 'items':items,
 		'all_items':items_list,
-		'warning':warning,
 		# 'below_min':below_min
  	})
 
 def delete_customer(request, customer_id):
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
-	warning = WarningItems.objects.all()
 	s = Customer.objects.get(pk=customer_id)
 	s.delete()
 
