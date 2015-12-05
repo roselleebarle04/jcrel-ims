@@ -1,3 +1,4 @@
+
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -24,7 +25,7 @@ from .forms import *
 from .formsets import *
 
 def landing_page(request):
-	return render(request, 'landing_page.html')
+	return render(request, 'index.html')
 
 @login_required
 def dashboard(request):
