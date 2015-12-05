@@ -44,12 +44,6 @@ class Account(models.Model):
 	def __unicode__(self):
 		return u'Profile of user: %s' %self.user.username
 
-class WarningItems(models.Model):
-	below_min = models.IntegerField(default=0)
-
-	def __unicode__(self):
-		return below_min
-
 class Location (models.Model):
 	name = models.CharField(max_length = 50, null = True)
 	address = models.CharField(max_length = 200, null = True)
