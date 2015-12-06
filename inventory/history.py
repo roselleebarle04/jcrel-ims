@@ -37,7 +37,6 @@ def transfer_history(request):
 def sales_history(request):
 	items = ItemLocation.objects.all()
 	sales_list = ItemSale.objects.filter(is_active=True)
-	warning = WarningItems.objects.all()
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
 	
@@ -53,14 +52,12 @@ def sales_history(request):
 		'salesLen' : salesLen,
 		'items':items,
 		'all_items':items_list,
-		'warning':warning, 
 		# 'below_min': below_min
 		})
 
 def arrival_history(request):
 	items =ItemLocation.objects.all()
 	arr = Arrival.objects.all()
-	warning = WarningItems.objects.all()
 	arrivalLen = len(arr)
 	suppliers = Supplier.objects.all()
 	items_list = Item.objects.all()
@@ -86,7 +83,6 @@ def arrival_history(request):
 			'suppliers': suppliers,
 			'items':items,
 			'all_items':items_list,
-			'warning':warning,
 			# 'below_min':below_min
 		})
 
@@ -97,6 +93,5 @@ def arrival_history(request):
 		'suppliers' : suppliers,
 		'items':items,
 		'all_items':items_list,
-		'warning':warning,
 		# 'below_min':below_min
 	})

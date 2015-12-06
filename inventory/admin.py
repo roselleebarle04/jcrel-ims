@@ -43,10 +43,6 @@ class LocationAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Location, LocationAdmin)
 
-class WarningItemsAdming(admin.ModelAdmin):
-	pass
-admin.site.register(WarningItems)
-
 class ItemLocationAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(ItemLocation, ItemLocationAdmin)
