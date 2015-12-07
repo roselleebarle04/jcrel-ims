@@ -80,14 +80,6 @@ def add_item(request):
 			item = add_new_item_form.save(commit=False)
 			item.save()
 
-			# If a new supplier has been added, add the supplier to db, then update the item's supplier
-			# supplier_name = request.POST.get('supplier_name')
-			# supplier_address = request.POST.get('supplier_address')
-			# if not supplier_name == '':
-			# 	# IF BOTH ARE NOT NULL, 
-			# 	new_supplier = Supplier.objects.create(name=supplier_name, address=supplier_address)
-			# 	item.supplier = new_supplier
-
 			# Now save the quantity of each item in each location
 			for loc in locations:
 				print loc
@@ -99,37 +91,8 @@ def add_item(request):
 				i = ItemLocation(item=item, location=loc, current_stock=current_stock, re_order_point=re_order_point, re_order_amount=re_order_amount)
 				i.save()
 				print i.current_stock
-
-			# Then save the item quantities for each locations
-			location_id = request.POST.get('current_location')
-
-			# The item is registered in a location... Let's record the item and its quantity in a location
-			# quantity = request.POST.get('stock_in_location')
-			
-			if not location_id == "":
-				current_location = Location.objects.get(id=location_id)
-				i = ItemLocation(item=item, location=current_location, quantity=quantity)
-				i.save()
-				messages.success(request, 'Item successfully added.')
-			else:
-				# Create new itemLocation object
-				loc = Location.objects.all()[0] # Get first location (Default)
-				j = ItemLocation.objects.create(item=item, location=loc)
-				j.save()
-				messages.success(request, 'Item successfully added.')
+			messages.success(request, 'Item has been successfully added.')
 			return HttpResponseRedirect(reverse('add_item'))
-
-			# if not location_id == "":
-			# 	current_location = Location.objects.get(id=location_id)
-			# 	i = ItemLocation(item=item, location=current_location, quantity=quantity)
-			# 	i.save()
-			# else:
-			# 	# Create new itemLocation object
-			# 	loc = Location.objects.all()[0] # Get first location (Default)
-			# 	j = ItemLocation.objects.create(item=item, location=loc)
-			# 	j.save()
-			# messages.success(request, 'Item successfully added.')
-			return HttpResponseRedirect(reverse('list_items'))
 	return render(request, 'items/add_item.html', {
 		'form' : add_new_item_form, 
 		'locations' : locations,
