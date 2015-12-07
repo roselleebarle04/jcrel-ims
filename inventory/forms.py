@@ -24,7 +24,7 @@ class LocationForm(forms.ModelForm):
 class ItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
-		fields = ['name', 'description', 'category', 'brand', 'model', 'item_code', 'unit_cost', 'date_created', 'supplier']
+		fields = ['name', 'description', 'category', 'brand', 'model', 'item_code', 'unit_cost', 'date', 'supplier']
 
 	def __init__(self, *args, **kwargs):
 		super(ItemForm,self).__init__(*args, **kwargs)
@@ -35,7 +35,7 @@ class ItemForm(forms.ModelForm):
 		self.fields['model'].widget.attrs['class'] = 'form-control'
 		self.fields['item_code'].widget.attrs['class'] = 'form-control'
 		self.fields['unit_cost'].widget.attrs['class'] = 'form-control'
-		self.fields['date_created'].widget.attrs['class'] = 'form-control'
+		self.fields['date'].widget.attrs['class'] = 'form-control'
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
 
 		self.fields['name'].error_messages['required'] = 'Enter item\'s name.'
@@ -50,14 +50,13 @@ class ItemForm(forms.ModelForm):
 class ItemLocationForm(forms.ModelForm):
 	class Meta:
 		model = ItemLocation
-		fields = ['quantity']
+		fields = ['current_stock', 're_order_point', 're_order_amount']
 
 	def __init__(self, *args, **kwargs):
 		super(ItemLocationForm,self).__init__(*args, **kwargs)
-		self.fields['destination'].widget.attrs['class'] = 'form-control'
-		self.fields['quantity'].widget.attrs['class'] = 'form-control'
-		self.fields['destination'].error_messages['required'] = 'Enter item\'s location'
-		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
+		self.fields['current_stock'].widget.attrs['class'] = 'form-control'
+		self.fields['re_order_point'].widget.attrs['class'] = 'form-control'
+		self.fields['re_order_amount'].widget.attrs['class'] = 'form-control'
 		
 class SaleForm(forms.ModelForm):
 	class Meta:

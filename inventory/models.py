@@ -1,3 +1,4 @@
+import datetime
 from django.db import models 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, UserManager
@@ -55,8 +56,8 @@ class ItemLocation(models.Model):
 	item = models.ForeignKey('Item')
 	location = models.ForeignKey(Location)
 	current_stock = models.IntegerField(default = 0)
-	re_order_point = models.IntegerField(default = 0)
-	re_order_amount = models.IntegerField(default = 0)
+	re_order_point = models.PositiveIntegerField(default = 0)
+	re_order_amount = models.PositiveIntegerField(default = 0)
 		
 	def __unicode__(self):
 		return '%s' % (self.item)
@@ -89,7 +90,7 @@ class Item(models.Model):
 	model = models.CharField(max_length = 50, null=True)
 	item_code = models.CharField(max_length = 50, unique = True)
 	unit_cost = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
-	date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+	date = models.DateTimeField(default=datetime.datetime.now)
 
 	supplier = models.ForeignKey(Supplier, blank=True, null=True)
 	location = models.ManyToManyField(Location, through='ItemLocation', blank=False)

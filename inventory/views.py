@@ -35,6 +35,7 @@ def dashboard(request):
 	items_len = len(items)
 	sales_len = len(sales)
 
+	notification.check_minimum()
 	is_zero = 0
 	below_min = is_zero
 
