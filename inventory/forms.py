@@ -161,7 +161,7 @@ class ArrivalForm(forms.ModelForm):
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
 		self.fields['delivery_receipt_no'].widget.attrs['class'] = 'form-control'
 		self.fields['tracking_no'].widget.attrs['class'] = 'form-control'
-		# self.fields['location'].widget.attrs['class'] = 'form-control'
+		self.fields['location'].widget.attrs['class'] = 'form-control'
 
 class ItemArrivalForm(forms.ModelForm):
 	class Meta: 
