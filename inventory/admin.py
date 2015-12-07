@@ -29,7 +29,7 @@ admin.site.register(SoldItem, SoldItemAdmin)
 
 class TransferItemAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(Transfer_item)
+admin.site.register(ItemTransfer)
 
 class Transferdmin(admin.ModelAdmin):
 	pass
