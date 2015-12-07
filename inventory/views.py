@@ -24,6 +24,18 @@ from .models import *
 from .forms import *
 from .formsets import *
 
+
+def check_minimum():
+	items = ItemLocation.objects.all()
+	is_zero = 0
+	below_min = is_zero
+
+	for i in items:
+		if i.quantity < 10:
+			below_min = below_min + 1
+
+	return below_min
+
 def landing_page(request):
 	return render(request, 'index.html')
 
@@ -35,7 +47,8 @@ def dashboard(request):
 	items_len = len(items)
 	sales_len = len(sales)
 
-	below_min = Notifications.check_minimum
+	below_min = check_minimum()
+	print below_min
 
 	return render(request, 'dashboard.html', {
 		'user':request.user.username,
