@@ -28,7 +28,7 @@ def landing_page(request):
 	return render(request, 'index.html')
 
 @login_required
-def dashboard(request):
+def dashboard(request): 
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
 	sales = Sale.objects.all()
@@ -331,7 +331,7 @@ def sales(request):
 
 def sales_history(request):
 	items = ItemLocation.objects.all()
-	sales_list = SoldItem.objects.filter(is_active=True)
+	sales_list = ItemSale.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
 	
@@ -353,11 +353,11 @@ def sales_history(request):
 def delete_sale(request, sale_id):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
-	sale = SoldItem.objects.get(pk = sale_id)
+	sale = ItemSale.objects.get(pk = sale_id)
 	sale.is_active = False
 	sale.save()
-
-	return HttpResponseRedirect(reverse('history'))
+ 
+	return HttpResponseRedirect(reverse('sales_history'))
 
 #############################################
 ##	Supplier

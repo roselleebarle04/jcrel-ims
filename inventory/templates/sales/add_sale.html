@@ -24,63 +24,59 @@
     }
 </style>
 
-<div class="row">
-    <div class="col-md-8 col-md-offset-3">
-        <div class="panel panel-default">
-            <div class="panel-heading" >Add Sale</div>
-                <div class="panel-body">
-                <div class="container">
-                        {% if messages %} 
-                            <div class="row">
-                                <div class="col-sm-6 col-sm-offset-1"> 
-                                    <center>
-                                        {% for message in messages %}
-                                        <p 
-                                        {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
-                                        {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
-                                        {% endif %}>{{ message }}
-                                        </p>
-                                        {% endfor %}  
-                                    </center>                                                      
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
-                    <form class="form" method="POST">
-                        {% csrf_token %}
-                        {{ AddSaleForm.as_p }}
-                        
-                        <h2>Sold Items</h2>
-                        
-                        <table id="id_orders_table" width="100%" border="0" cellpadding="50" cellspacing="1500">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Item</th>
-                                    <th scope="col">Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for form in formset %}
-                                <tr id="{{ form.prefix }}-row"  class="dynamic-form">
-                                    
-                                    <td>{{form.item}}</td>
-                                    <td>{{form.quantity}}</td>
-                                   <!--  <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger">Remove</a></td> -->
-                                </tr> 
-                                {% endfor %}
-                            </tbody>
-
-                        </table>
-                        <center><a href="javascript:void(0)" class="add-row btn btn-info">Add More</a></center>
-                        {{ formset.management_form }}
-                        <br>
-                        <div class="form-group">
-                            <input type="submit" class="form-control btn btn-success" name="name" value="Submit" />
-                        </div>
-                    </form>
-                </div>
+<div class="container">
+    {% if messages %} 
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-1"> 
+                <center>
+                    {% for message in messages %}
+                    <p 
+                    {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
+                    {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
+                    {% endif %}>{{ message }}
+                    </p>
+                    {% endfor %}  
+                </center>                                                      
+            </div>
         </div>
+    {% endif %}
+</div>
+<div class="row">
+    <div class="col-md-5">        
+    <form class="form" method="POST">
+        {% csrf_token %}
+        <h2>Add Sale</h2>
+        {{ AddSaleForm.as_p }}
+        <br>
+    </div>       
+    <h2>Sold Items</h2>
+    <div class="col-md-7">
+        <table id="id_orders_table" width="100%" border="0" cellpadding="50" cellspacing="1500">
+            <thead>
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in formset %}
+                <tr id="{{ form.prefix }}-row"  class="dynamic-form">
+                    
+                    <td>{{form.item}}</td>
+                    <td>{{form.quantity}}</td>
+                   <!--  <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger">Remove</a></td> -->
+                </tr> 
+                {% endfor %}
+            </tbody>
+        </table>            
+    <center><a href="javascript:void(0)" class="add-row btn btn-info">Add More</a></center>
+    {{ formset.management_form }}
+    <br>
+    </div>            
+    <div class="form-group">
+        <input type="submit" class="form-control btn btn-success" name="name" value="Submit" />
     </div>
+    </form>
 </div>
         
 
