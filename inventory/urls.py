@@ -43,7 +43,7 @@ urlpatterns = [
     url(r'^arrival/history/$', history_views.arrival_history, name='arrival_history'),
 
     url(r'^transfer/history/$', history_views.transfer_history, name='transfer_history'),
-    url(r'^transfer/add/$', inventory_views.transfer_stocks, name = 'transfer_stocks'),
+    url(r'^transfer/add/$', inventory_views.create_transfer, name = 'create_transfer'),
 
     url(r'^location/$', inventory_views.list_locations, name='list_locations'),
     url(r'^location/add/$', inventory_views.add_location, name = 'add_location'),

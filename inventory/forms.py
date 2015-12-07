@@ -91,22 +91,26 @@ class ItemSaleForm(forms.ModelForm):
 	# 		raise ValidationError("Quantity exceeds the current quantity of the item.")
 		
 	# 	return self.cleaned_data['quantity']
-			
-class TransferRecordForm(forms.ModelForm):
+
+class TransferForm(forms.ModelForm):
 	class Meta:
-		model = TransferRecord
-		fields = ['item', 'location', 'quantity']
+		model = Transfer
+		fields = ['source_location', 'destination_location']
 
 	def __init__(self, *args, **kwargs):
-<<<<<<< HEAD
-		super(TransferForm, self).__init__(*args, **kwargs)
-		self.fields['location'].widget.attrs['class'] = 'form-control'
-		self.fields['transfer_date'].widget.attrs['class'] = 'form-control'	
+		super(ItemTransferForm, self).__init__(*args, **kwargs)
+		self.fields['source_location'].widget.attrs['class'] = 'form-control'
+		self.fields['destination_location'].widget.attrs['class'] = 'form-control'
 
 class ItemTransferForm(forms.ModelForm):
 	class Meta:
 		model = ItemTransfer
 		fields = ['item', 'quantity']
+
+	def __init__(self, *args, **kwargs):
+		super(ItemTransferForm, self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		
 	
 	# def clean(self):
@@ -122,22 +126,7 @@ class ItemTransferForm(forms.ModelForm):
 	# 		data.store_quantity = current_s
 	# 		data.save()
 
-	def __init__(self, *args, **kwargs):
-		super(ItemTransferForm, self).__init__(*args, **kwargs)
-		self.fields['item'].widget.attrs['class'] = 'form-control'
-		self.fields['quantity'].widget.attrs['class'] = 'form-control'
-		
-class LocationForm(forms.ModelForm):
-	class Meta:
-		model = Location
-		fields = ['branch_name', 'address']
-
-=======
-		super(TransferRecordForm, self).__init__(*args, **kwargs)
-		self.fields['item'].widget.attrs['class'] = 'form-control'
-		self.fields['location'].widget.attrs['class'] = 'form-control'
-		self.fields['quantity'].widget.attrs['class'] = 'form-control'
->>>>>>> fee39a11981730017b369b40a18a276a1382a4e8
+	
 
 class SupplierForm(forms.ModelForm):
 	class Meta: 
