@@ -12,29 +12,25 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Locations</h1>
-        <a href="/location/add" class="btn btn-theme"><span class="glyphicon glyphicon-plus"></span> Add New Location</a>
-        <a href="/transfer/add" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>Transfer Stocks</a>
     </div>
 </div>
 <br>
 <div class="row">
     <div class="col-lg-12"> 
         <table class="table table-striped" cellspacing="0" width="100%">
-        {% if itemlen > 0%}
+        {% if loc_len > 0%}
             <thead>
                 <tr style="background:#333;color:white;">
-                    <th>Item</th>
-                    <th>Location</th>
-                    <th>Quantity</th>
+                    <th>Name</th>
+                    <th>Address</th>
                     <th width="50"></th>
                 </tr>
             </thead>
             <tbody>
-                {% for i in item_locations %}
+                {% for i in locations %}
                 <tr>
-                  <td>{{i.item}}</td>
-                  <td>{{i.location}}</td>
-                  <td>{{i.quantity}}</td>
+                  <td>{{i.name}}</td>
+                  <td>{{i.address}}</td>
                   <!-- <td><a class="btn btn-default" href="/location/update/{{l.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span></a></td>
                   <td><button onclick="confirmLocationDelete({{l.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></button></td> -->
                 </tr>

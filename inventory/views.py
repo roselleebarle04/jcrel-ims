@@ -193,16 +193,13 @@ def create_transfer(request):
 @login_required
 def list_locations(request):
 	""" We want to display all items and their respective locations """
-	items = Item.objects.all()
 	locations = Location.objects.all()
-	item_locations = ItemLocation.objects.all()
-	print 'hi'
+	loc_len = len(locations)
 	return render(request, 'transfer/location.html', {
-		'items' : items,
 		'locations' : locations,
-		'item_locations' : item_locations,
-		'itemlen' : len(item_locations),
+		'loc_len' : loc_len,
 	})
+
 
 @login_required
 def add_location(request):
