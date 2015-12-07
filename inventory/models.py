@@ -166,7 +166,7 @@ class Arrival(models.Model):
 	@staticmethod
 	def apply_filter(start, end, supplier):
 		items = Arrival.objects.filter(supplier=supplier).filter(date__gt=start, date__lt=end)
-		return items
+		return item
 
 	@property
 	def get_grand_total(self):
@@ -189,5 +189,16 @@ class ItemArrival(models.Model):
 	@property
 	def calculate_total(self):
 		return self.item_cost * self.quantity
+
+class Notifications(models.Model):
+	date = models.DateTimeField(auto_now_add=True)
+	message = models.CharField(max_length=200)
+	user = models.ForeignKey(User)
+
+	@property
+	def check_minimum(self):
+	    return 0
+	
+
 
 
