@@ -43,18 +43,18 @@
                     <th width="10%">Actions</th>
                 </tr>
             </thead>            
-            <tbody>
-                {% for i in items %}                
+            <tbody> 
+                {% for item in items %}                
                 <tr style="background:white;">                    
-                    <td>{{ i.item_code }}</td>         
-                    <td>{{ i.category }}</td>
-                    <td>{{ i.types }}</td>
-                    <td>{{ i.brand }}</td>
-                    <td>{{ i.model }}</td>
-                    <td>{{ i.supplier.name}}</td>
+                    <td>{{ item.item_code }}</td>         
+                    <td>{{ item.category }}</td>
+                    <td>{{ item.types }}</td>
+                    <td>{{ item.brand }}</td>
+                    <td>{{ item.model }}</td>
+                    <td>{{ item.supplier.name}}</td>
                     <!-- <td>{{ i.destination.branch_name}}</td> -->
                     <!-- <td>{{ i.quantity }}</td> -->
-                    <td>{{ i.item.srp }}</td>  
+                    <td>{{ item.srp }}</td>  
                     <td>                           
                         <a href="/items/update/{{item.id}}/" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span> </a>
                         <button onclick="confirmItemDelete({{item.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button>

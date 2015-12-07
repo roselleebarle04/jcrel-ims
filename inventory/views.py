@@ -113,13 +113,14 @@ def add_item(request):
 				current_location = Location.objects.get(id=location_id)
 				i = ItemLocation(item=item, location=current_location, quantity=quantity)
 				i.save()
+				messages.success(request, 'Item successfully added.')
 			else:
 				# Create new itemLocation object
 				loc = Location.objects.all()[0] # Get first location (Default)
 				j = ItemLocation.objects.create(item=item, location=loc)
 				j.save()
-			messages.success(request, 'Item successfully added.')
-			return HttpResponseRedirect(reverse('list_items'))
+				messages.success(request, 'Item successfully added.')
+			return HttpResponseRedirect(reverse('add_item'))
 
 	return render(request, 'items/add_item.html', {
 		'form' : add_new_item_form, 
