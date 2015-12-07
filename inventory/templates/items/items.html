@@ -20,7 +20,7 @@
                     <th width="10%">Actions</th>
                 </tr>
             </thead>            
-            <tbody>
+            <tbody> 
                 {% for i in items %}                
                 <tr style="background:white;">                    
                     <td>{{ i.name }}</td>         
@@ -38,13 +38,12 @@
             </tbody>
         </table>
         {% else %}
-            <div class="col-md-10 col-md-offset-1">
+           <!--  <div class="col-md-10 col-md-offset-1">
                 <div class="alert alert-info" role="alert">
                   <center><h3>No Items Listed. </h3></center>
                 </div>
-            </div>
+            </div> -->
         {% endif %}
     </div>
 </div>
-
 {% endblock %}

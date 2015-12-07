@@ -175,7 +175,8 @@ class Arrival(models.Model):
 	tracking_no = models.CharField(max_length=100, null=True, blank=True)
 	items = models.ManyToManyField(Item, through='ItemArrival')
 	supplier = models.ForeignKey(Supplier)
-	# location = models.ForeignKey(Location)
+	location = models.ForeignKey(Location)
+	user = models.ForeignKey(User)
 
 	def __unicode__(self):
 		return self.tracking_no
@@ -186,7 +187,7 @@ class Arrival(models.Model):
 	@staticmethod
 	def apply_filter(start, end, supplier):
 		items = Arrival.objects.filter(supplier=supplier).filter(date__gt=start, date__lt=end)
-		return items
+		return item
 
 	@property
 	def get_grand_total(self):
@@ -210,4 +211,19 @@ class ItemArrival(models.Model):
 	def calculate_total(self):
 		return self.item_cost * self.quantity
 
+class Notifications(models.Model):
+	date = models.DateTimeField(auto_now_add=True)
+	message = models.CharField(max_length=200)
+	user = models.ForeignKey(User)
 
+	# @property
+	def check_minimum(self):
+		items = ItemLocation.objects.all()
+		is_zero = 0
+		below_min = is_zero
+
+		for i in items:
+			if i.quantity < 10:
+				below_min = below_min + 1
+
+		return below_min

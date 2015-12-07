@@ -10,7 +10,14 @@
             <div class="panel panel-default" style="margin-bottom:0">
                 <div class="panel-heading">Details & Description</div>
                 <div class="panel-body">
-                    <!-- {{ form.as_ul }} -->
+                    {% for message in messages %}
+                        <p 
+                        {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
+                        {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
+                        {% endif %}>
+                        {{ message }}
+                        </p>
+                    {% endfor %}  
                     <div class="form-group">
                         {{form.name.errors}}
                         <label>Name</label>
@@ -109,7 +116,7 @@
         <div class="col-md-6 text-center">
             <div class="form-actions">
                 <input style="width:25%;" class="btn btn-success" type="submit" id="btn-success" value="Save" />
-                <input style="width:25%;" class="btn btn-danger" type="button" onclick="window.location.replace('/items')" value="Cancel" />
+                <input style="width:25%;" class="btn btn-danger" type="button" onclick="window.location.replace('/items/add')" value="Cancel" />
             </div>
         </div>
     </div>

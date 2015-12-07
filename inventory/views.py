@@ -35,8 +35,6 @@ def dashboard(request):
 	items_len = len(items)
 	sales_len = len(sales)
 
-	# notification.check_minimum()
-	
 	return render(request, 'dashboard.html', {
 		'user':request.user.username,
 		'items' : items,
@@ -119,7 +117,6 @@ def add_item(request):
 			# 	j.save()
 			# messages.success(request, 'Item successfully added.')
 			return HttpResponseRedirect(reverse('list_items'))
-
 	return render(request, 'items/add_item.html', {
 		'form' : add_new_item_form, 
 		'locations' : locations,
@@ -256,10 +253,61 @@ def delete_location(request, location_id):
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
 
+
 #############################################
 ##	Arrivals 
 #############################################
 @login_required
+def arrival(request):
+	items_list = Item.objects.all()
+	items = ItemLocation.objects.all()
+	arrivalForm = ArrivalForm(request.POST or None)
+	formset = formset_factory(ItemArrivalForm, formset=ItemArrivalFormset, extra = 1)
+	arrivalFormset = formset(request.POST or None)
+
+	if arrivalForm.is_valid() and arrivalFormset.is_valid():
+		# first save arrival details
+		# commit = False means that we can store the arrival instance to the value p
+		p = arrivalForm.save(commit=False)
+		p.save()
+
+		#save the form
+		
+		arrival_id = p
+		new_items = []
+		p.save()
+		
+		# loop through all forms in the formset, and save each form - add the arrivalId to each form
+		try:
+			for form in arrivalFormset:
+				# print form.cleaned_data
+				item = form.cleaned_data.get('item')
+				arrival = arrival_id
+				quantity = form.cleaned_data.get('quantity')
+				item_cost = form.cleaned_data.get('item_cost')
+				i = ItemArrival(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
+				i.save()
+			messages.success(request, 'New Arrival has been added.')
+			return HttpResponseRedirect(reverse('arrival'))
+			
+		except ValueError:
+			messages.warning(request, 'Please fill in all input boxes before submitting ')
+			pass
+
+	# for i in items:
+	# 	below_min = 0
+	# 	if i.quantity < 10:
+	# 		below_min = below_min + 1
+	# 		print "below_min %d" % (below_min)
+
+	return render(request, 'arrival/arrival.html', {
+		'AddArrivalForm' : arrivalForm, 
+		'formset' : arrivalFormset,
+		'items':items,
+		'all_items':items_list,
+		# 'below_min':below_min 
+		})
+
 def arrival_delete(request, arrival_id):
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
@@ -274,6 +322,7 @@ def arrival_delete(request, arrival_id):
 			print "below_min %d" % (below_min)
 
 	return HttpResponseRedirect(reverse('arrival_history'))
+	
 
 #############################################
 ##	Sales
@@ -380,17 +429,20 @@ def suppliers(request):
 	})
 
 def add_supplier(request):
+	redirect_to = request.REQUEST.get('next', '/suppliers/')
+
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
 	supplierForm = SupplierForm(request.POST or None, request.FILES or None)
-
-	if  supplierForm.is_valid():
-		supplierForm.save()
-		return HttpResponseRedirect(reverse('suppliers'))
+	if request.method == 'POST':
+		if  supplierForm.is_valid():
+			supplierForm.save()
+			return HttpResponseRedirect(redirect_to)
 
 	return render(request, 'supplier/add_supplier.html', {
 	 'form': supplierForm,
 	  'all_items':items_list,
+	  'next': redirect_to,
 	  })
 
 def update_supplier(request, supplier_id):
@@ -420,68 +472,6 @@ def delete_supplier(request, supplier_id):
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
 
-#############################################
-##	Arrivals
-#############################################
-def arrival(request):
-	items_list = Item.objects.all()
-	items = ItemLocation.objects.all()
-	arrivalForm = ArrivalForm(request.POST or None)
-	formset = formset_factory(ItemArrivalForm, formset=ItemArrivalFormset, extra = 1)
-	arrivalFormset = formset(request.POST or None)
-
-	if arrivalForm.is_valid() and arrivalFormset.is_valid():
-		# first save arrival details
-		# commit = False means that we can store the arrival instance to the value p
-		p = arrivalForm.save(commit=False)
-		p.save()
-
-		#save the form
-		
-		arrival_id = p
-		new_items = []
-		p.save()
-		
-		# loop through all forms in the formset, and save each form - add the arrivalId to each form
-		try:
-			for form in arrivalFormset:
-				# print form.cleaned_data
-				item = form.cleaned_data.get('item')
-				arrival = arrival_id
-				quantity = form.cleaned_data.get('quantity')
-				item_cost = form.cleaned_data.get('item_cost')
-				i = ItemArrival(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
-				i.save()
-			messages.success(request, 'New Arrival has been added.')
-			return HttpResponseRedirect(reverse('arrival'))
-			
-		except ValueError:
-			messages.warning(request, 'Please fill in all input boxes before submitting ')
-			pass
-
-	# for i in items:
-	# 	below_min = 0
-	# 	if i.quantity < 10:
-	# 		below_min = below_min + 1
-	# 		print "below_min %d" % (below_min)
-
-	return render(request, 'arrival/arrival.html', {
-		'AddArrivalForm' : arrivalForm, 
-		'formset' : arrivalFormset,
-		'items':items,
-		'all_items':items_list,
-		# 'below_min':below_min 
-		})
-
-
-def delete_arrival(request, arrival_id):
-	# items = AddItem.objects.all()
-	items_list = Item.objects.all()
-	a_item = ArrivedItem.objects.get(pk=arrival_id)
-	a_item.is_active = False
-	a_item.save()
-	
-	return HttpResponseRedirect(reverse('arrival_history'))
 
 
 #############################################

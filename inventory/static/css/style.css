@@ -18,7 +18,7 @@ body table {
 	border-bottom: 0;
 }
 body p {
-	color: white;
+	color: #03B3B3;
 }
 body a, html a {
 	color: #4BC7AC;
@@ -171,7 +171,10 @@ ul.errorlist {
 
 #wrapper #page-wrapper {
 	padding: 30px;
-	background: #333333;
+	background-image: url('/static/img/header-bg.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	/*background: #333333;*/
 	/*border-style: #007777;*/
 	border-left: none;
 	left: #007777;
