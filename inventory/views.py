@@ -262,6 +262,8 @@ def delete_location(request, location_id):
 def arrival(request):
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
+	warning = WarningItems.objects.all()
+	
 	arrivalForm = ArrivalForm(request.POST or None)
 	formset = formset_factory(ItemArrivalForm, formset=ItemArrivalFormset, extra = 1)
 	arrivalFormset = formset(request.POST or None)
@@ -270,13 +272,11 @@ def arrival(request):
 		# first save arrival details
 		# commit = False means that we can store the arrival instance to the value p
 		p = arrivalForm.save(commit=False)
-		p.save()
 
 		#save the form
-		
+		p.save()
 		arrival_id = p
 		new_items = []
-		p.save()
 		
 		# loop through all forms in the formset, and save each form - add the arrivalId to each form
 		try:
@@ -306,7 +306,6 @@ def arrival(request):
 		'formset' : arrivalFormset,
 		'items':items,
 		'all_items':items_list,
-		# 'below_min':below_min 
 		})
 
 def arrival_delete(request, arrival_id):

@@ -61,6 +61,7 @@
             <thead>
                 <tr style="background:#333;color:white;">
                     <th>Date Arrived</th>
+                    <th>Location</th>
                     <th>Tracking No.</th>
                     <th>DR No.</th>
                     <th>Supplier</th>
@@ -72,6 +73,7 @@
         {% for a in arrival %}
             <tr>
                 <td>{{ a.date }}</td>
+                <td>{{ a.location }}</td>
                 <td>{{ a.tracking_no }}</td>
                 <td>{{ a.delivery_receipt_no }}</td>
                 <td>{{ a.supplier }}</td>
