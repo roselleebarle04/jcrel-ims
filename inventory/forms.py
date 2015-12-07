@@ -58,11 +58,13 @@ class ItemLocationForm(forms.ModelForm):
 class SaleForm(forms.ModelForm):
 	class Meta:
 		model = Sale
-		fields = ['date']
+		fields = ['date', 'location','customer']
 
 	def __init__(self, *args, **kwargs):
 		super(SaleForm, self).__init__(*args, **kwargs)
 		self.fields['date'].widget.attrs['class'] = 'form-control'
+		self.fields['location'].widget.attrs['class'] = 'form-control'
+		self.fields['customer'].widget.attrs['class'] = 'form-control'
 
 class ItemSaleForm(forms.ModelForm):
 	class Meta:
