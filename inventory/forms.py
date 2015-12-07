@@ -24,33 +24,42 @@ class LocationForm(forms.ModelForm):
 class ItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
-		fields = ['types', 'category', 'brand', 'model', 'supplier', 'item_code', 'srp']
+		fields = ['name', 'description', 'category', 'brand', 'model', 'item_code', 'unit_cost', 'supplier']
 
 	def __init__(self, *args, **kwargs):
 		super(ItemForm,self).__init__(*args, **kwargs)
-		self.fields['types'].widget.attrs['class'] = 'form-control'
+		self.fields['name'].widget.attrs['class'] = 'form-control'
+		self.fields['description'].widget.attrs['class'] = 'form-control'
 		self.fields['category'].widget.attrs['class'] = 'form-control'
 		self.fields['brand'].widget.attrs['class'] = 'form-control'
 		self.fields['model'].widget.attrs['class'] = 'form-control'
-		self.fields['supplier'].widget.attrs['class'] = 'form-control'
 		self.fields['item_code'].widget.attrs['class'] = 'form-control'
-		self.fields['srp'].widget.attrs['class'] = 'form-control'
-		self.fields['types'].error_messages['required'] = 'Enter item\'s type.'
+		self.fields['unit_cost'].widget.attrs['class'] = 'form-control'
+		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+
+		self.fields['name'].error_messages['required'] = 'Enter item\'s name.'
+		self.fields['description'].error_messages['required'] = 'Enter item\'s description.'
 		self.fields['category'].error_messages['required'] = 'Enter item\'s category'
 		self.fields['brand'].error_messages['required'] = 'Enter item\'s brand'
 		self.fields['model'].error_messages['required'] = 'Enter item\'s model'
-		self.fields['supplier'].error_messages['required'] = 'Choose supplier.'	
 		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
-		self.fields['srp'].error_messages['required'] = 'Enter item\'s srp'
+		self.fields['unit_cost'].error_messages['required'] = 'Enter item\'s unit cost'
+		self.fields['supplier'].error_messages['required'] = 'Choose supplier.'	
 
 class ItemLocationForm(forms.ModelForm):
 	class Meta:
 		model = ItemLocation
-		fields = ['quantity']
+		fields = ['current_stock', 're_order_point', 're_order_amount']
 
 	def __init__(self, *args, **kwargs):
 		super(ItemLocationForm,self).__init__(*args, **kwargs)
+<<<<<<< HEAD
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+=======
+		self.fields['current_stock'].widget.attrs['class'] = 'form-control'
+		self.fields['re_order_point'].widget.attrs['class'] = 'form-control'
+		self.fields['re_order_amount'].widget.attrs['class'] = 'form-control'
+>>>>>>> 0779f61a90a2b4a228c286b7418d883e8d73fff6
 		
 class SaleForm(forms.ModelForm):
 	class Meta:
@@ -98,6 +107,22 @@ class TransferForm(forms.ModelForm):
 		super(TransferForm, self).__init__(*args, **kwargs)
 		self.fields['From'].widget.attrs['class'] = 'form-control'
 		self.fields['To'].widget.attrs['class'] = 'form-control'
+
+class ItemTransferForm(forms.ModelForm):
+	class Meta:
+		model = ItemTransfer
+		fields = ['item', 'quantity']
+
+	def __init__(self, *args, **kwargs):
+		super(ItemTransferForm, self).__init__(*args, **kwargs)
+	class Meta:
+		model = Transfer
+		fields = ['source_location', 'destination_location']
+
+	def __init__(self, *args, **kwargs):
+		super(ItemTransferForm, self).__init__(*args, **kwargs)
+		self.fields['source_location'].widget.attrs['class'] = 'form-control'
+		self.fields['destination_location'].widget.attrs['class'] = 'form-control'
 
 class ItemTransferForm(forms.ModelForm):
 	class Meta:

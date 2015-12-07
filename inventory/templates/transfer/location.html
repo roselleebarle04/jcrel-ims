@@ -31,8 +31,12 @@
                 <tr>
                   <td>{{l.name}}</td>
                   <td>{{l.address}}</td>
-                  <td><a class="btn btn-default" href="/location/update/{{l.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span></a></td>
-                  <td><button onclick="confirmLocationDelete({{l.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></button></td>
+                  <td>
+                  <a class="btn btn-default" href="/location/update/{{l.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span></a>
+                  </td>
+                  <td>
+                  <button onclick="confirmLocationDelete({{l.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></button>
+                  </td>
                 </tr>
                 {% endfor %}
             </tbody>

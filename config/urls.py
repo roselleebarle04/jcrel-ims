@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'template_name':'accounts/logout.html'}),
     url(r'^change_password/$', account_views.change_password, name="change_password"),
     url(r'^notifications/$', account_views.notifications, name="notifications"),
+    # url('^inbox   /notifications/', include(notifications.urls)),
 
     url(r'^password_reset/$', auth_views.password_reset, 
         {'template_name':'accounts/password_reset_form.html', 'email_template_name':'accounts/password_reset_email.html',
