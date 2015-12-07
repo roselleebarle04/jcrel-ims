@@ -121,7 +121,7 @@ def add_item(request):
 				print i.current_stock
 
 			# Then save the item quantities for each locations
-			# location_id = request.POST.get('current_location')
+			location_id = request.POST.get('current_location')
 
 			# The item is registered in a location... Let's record the item and its quantity in a location
 			# quantity = request.POST.get('stock_in_location')
@@ -160,7 +160,7 @@ def delete_item(request, item_id):
 	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	item = Item.objects.get(pk = item_id)
-	item.status = False
+	item.is_active = False
 	item.save()
 	return HttpResponseRedirect(reverse('items'))
 

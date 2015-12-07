@@ -78,7 +78,7 @@ class ItemSaleForm(forms.ModelForm):
 		super(ItemSaleForm, self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
-		self.fields['item'].queryset = Item.objects.filter(status=True)
+		self.fields['item'].queryset = Item.objects.filter(is_active=True)
 		# self.fields['item_cost'] = self.fields['item'].srp
 
 	# def clean_quantity(self):
