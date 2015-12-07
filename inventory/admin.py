@@ -23,27 +23,21 @@ class SaleAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Sale, SaleAdmin)
 
-<<<<<<< HEAD
 class TransferItemAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(ItemTransfer)
-=======
+
 class ItemSaleAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(ItemSale, ItemSaleAdmin)
 
-class TransferRecordAdmin(admin.ModelAdmin):
+class TransferAdmin(admin.ModelAdmin):
 	pass
-admin.site.register(TransferRecord, TransferRecordAdmin)
->>>>>>> fee39a11981730017b369b40a18a276a1382a4e8
+admin.site.register(Transfer)
 
 class ItemArrivalAdmin(admin.ModelAdmin):
 	pass
-<<<<<<< HEAD
-admin.site.register(Transfer)
-=======
 admin.site.register(ItemArrival, ItemArrivalAdmin)
->>>>>>> fee39a11981730017b369b40a18a276a1382a4e8
 
 class ArrivalAdmin(admin.ModelAdmin):
 	pass
