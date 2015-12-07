@@ -84,13 +84,6 @@ class Customer(models.Model):
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
 
-
-class Customer(models.Model):
-	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
-	name = models.CharField(max_length=200, null=True)
-	address = models.CharField(max_length=200, null=True)
-	phone = models.CharField(max_length=200, null=True)
-
 	def __unicode__(self):
 		return self.name
 
@@ -124,7 +117,7 @@ class Sale(models.Model):
 	items = models.ManyToManyField(Item, through='ItemSale')
 	customer = models.ForeignKey(Customer)
 	location = models.ForeignKey(Location)
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, null = True)
 
 	def __unicode__(self):
 		return ' '.join(unicode(self.date))

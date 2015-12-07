@@ -30,16 +30,18 @@
             <div class="panel-heading" >Add Sale</div>
                 <div class="panel-body">
                 <div class="container">
-                        {% if messages %}
+                        {% if messages %} 
                             <div class="row">
-                                <div class="col-sm-4 col-sm-offset-4">                    
-                                    {% for message in messages %}
-                                    <p 
-                                    {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
-                                    {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
-                                    {% endif %}>{{ message }}
-                                    </p>
-                                    {% endfor %}                    
+                                <div class="col-sm-6 col-sm-offset-1"> 
+                                    <center>
+                                        {% for message in messages %}
+                                        <p 
+                                        {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
+                                        {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
+                                        {% endif %}>{{ message }}
+                                        </p>
+                                        {% endfor %}  
+                                    </center>                                                      
                                 </div>
                             </div>
                         {% endif %}
@@ -61,7 +63,7 @@
                                 {% for form in formset %}
                                 <tr id="{{ form.prefix }}-row"  class="dynamic-form">
                                     
-                                    <td>{{form.items.error}}{{form.item}}</td>
+                                    <td>{{form.item}}</td>
                                     <td>{{form.quantity}}</td>
                                    <!--  <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger">Remove</a></td> -->
                                 </tr> 
