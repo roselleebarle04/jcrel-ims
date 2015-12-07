@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     
     # Applications
     'inventory', 
+    'notifications',
 )
 
 MIDDLEWARE_CLASSES = (
