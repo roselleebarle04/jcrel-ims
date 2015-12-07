@@ -45,7 +45,7 @@ urlpatterns = [
     url(r'^transfer/history/$', history_views.transfer_history, name='transfer_history'),
     url(r'^transfer/add/$', inventory_views.create_transfer, name = 'create_transfer'),
 
-    url(r'^location/$', inventory_views.list_locations, name='list_locations'),
+    url(r'^location/$', inventory_views.list_locations, name='location'),
     url(r'^location/add/$', inventory_views.add_location, name = 'add_location'),
     url(r'^location/delete/(?P<location_id>[0-9]+)/$$', inventory_views.delete_location, name='delete_location'),
     url(r'^location/update/(?P<location_id>[0-9]+)/$', inventory_views.update_location, name='update_location'),

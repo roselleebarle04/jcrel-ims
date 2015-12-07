@@ -24,18 +24,31 @@ from .models import *
 from .forms import *
 from .formsets import *
 
+
+def check_minimum():
+	items = ItemLocation.objects.all()
+	is_zero = 0
+	below_min = is_zero
+
+	for i in items:
+		if i.current_stock < i.re_order_point:
+			below_min = below_min + 1
+
+	return below_min
+
 def landing_page(request):
 	return render(request, 'index.html')
 
 @login_required
-def dashboard(request):
+def dashboard(request): 
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
 	sales = Sale.objects.all()
 	items_len = len(items)
 	sales_len = len(sales)
 
-	below_min = Notifications.check_minimum
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	return render(request, 'dashboard.html', {
 		'user':request.user.username,
@@ -52,7 +65,7 @@ def dashboard(request):
 #############################################
 @login_required
 def list_items(request):
-	active_items = Item.objects.all().filter(status=True)
+	active_items = Item.objects.all().filter(is_active=True)
 	itemLen = len(active_items)
 
 	return render(request, 'items/items.html', {
@@ -65,59 +78,41 @@ def notifications(request):
 	itemLength = len(items)
 	warning = WarningItems.objects.all()
 
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	return render(request, 'notifications/notification_page.html', {
 		'items':items,
 		'itemLength': itemLength,
+		'below_min':below_min
 	})
-
-	
 
 def add_item(request):
 	"""
 	In adding an item, we want to store where the item is located, and the quantity of that 
-	item in that location. 
-
-
-	In choosing a location: 
-	- If location already exists, then choose simply save a new instance of an ItemLocation in db
-	- If location is not yet registered, then just save the new location immediately. (TODO)
+	item in that location.
 	"""
 	add_new_item_form = ItemForm(request.POST or None)
 	locations = Location.objects.all()
 	
 	if request.method == 'POST':
 		if add_new_item_form.is_valid():
-			# Save the primary item details (category, brand, etc.)
 			item = add_new_item_form.save(commit=False)
-
-			# If a new supplier has been added, add the supplier to db, then update the item's supplier
-			supplier_name = request.POST.get('supplier_name')
-			supplier_address = request.POST.get('supplier_address')
-			if not supplier_name == '':
-				# IF BOTH ARE NOT NULL, 
-				new_supplier = Supplier.objects.create(name=supplier_name, address=supplier_address)
-				item.supplier = new_supplier
-
 			item.save()
-			# Then save the item in the location provided
-			location_id = request.POST.get('current_location')
 
-			# The item is registered in a location... Let's record the item and its quantity in a location
-			quantity = request.POST.get('stock_in_location')
-			
-			if not location_id == "":
-				current_location = Location.objects.get(id=location_id)
-				i = ItemLocation(item=item, location=current_location, quantity=quantity)
+			# Now save the quantity of each item in each location
+			for loc in locations:
+				print loc
+				current_stock = request.POST.get('current_stock_%d' % (loc.id))
+				print current_stock
+				re_order_point = request.POST.get('re_order_point_%d' % (loc.id))
+				re_order_amount = request.POST.get('re_order_amount_%d' % (loc.id))
+				
+				i = ItemLocation(item=item, location=loc, current_stock=current_stock, re_order_point=re_order_point, re_order_amount=re_order_amount)
 				i.save()
-				messages.success(request, 'Item successfully added.')
-			else:
-				# Create new itemLocation object
-				# loc = Location.objects.all()[0] # Get first location (Default)
-				j = ItemLocation.objects.create(item=item, location=loc)
-				j.save()
-				messages.success(request, 'Item successfully added.')
+				print i.current_stock
+			messages.success(request, 'Item has been successfully added.')
 			return HttpResponseRedirect(reverse('add_item'))
-
 	return render(request, 'items/add_item.html', {
 		'form' : add_new_item_form, 
 		'locations' : locations,
@@ -128,7 +123,7 @@ def delete_item(request, item_id):
 	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	item = Item.objects.get(pk = item_id)
-	item.status = False
+	item.is_active = False
 	item.save()
 	return HttpResponseRedirect(reverse('items'))
 
@@ -136,6 +131,10 @@ def update_item(request, item_id):
 	items_list = Item.objects.all()
 	warning = WarningItems.objects.all()
 	item = Item.objects.get(pk=item_id)
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	if request.method == 'POST':
 		item.types = request.POST.get('types')
 		item.category = request.POST.get('category')
@@ -153,19 +152,22 @@ def update_item(request, item_id):
 		'item' : item,
 		'all_items':items_list,
 		# 'items':items,
-		# 'below_min':below_min
+		'below_min':below_min
 		})
 
 #############################################
 ##	Transfers 
 #############################################
 
-def create_transfer(self):
+def create_transfer(request):
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
-	transferForm = Transfer(request.POST or None)
-	formset = formset_factory(ItemTransfer, formset=ItemTransferFormset, extra = 1)
+	transferForm = TransferForm(request.POST or None)
+	formset = formset_factory(ItemTransferForm, formset=ItemTransferFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	if transferForm.is_valid() and transferFormset.is_valid():
 		p = transferForm.save(commit=False)
@@ -175,15 +177,9 @@ def create_transfer(self):
 		for form in transferFormset:
 			transfer = transfer_id
 			item = form.cleaned_data['item']
-			quantity_to_transfer = form.cleaned_data['quantity']
-			i = ItemTransfer(item = item, quantity=quantity, transfer=p)	
+			quantity = form.cleaned_data['quantity']
+			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)	
 			i.save()
-
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
 		
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
@@ -191,38 +187,39 @@ def create_transfer(self):
 		'all_items':items_list,
 		'items':items,
 		'warning':warning,
-		# 'below_min':below_min
-		}) 
+		'below_min':below_min}) 
 
 @login_required
 def list_locations(request):
 	""" We want to display all items and their respective locations """
-	items = Item.objects.all()
 	locations = Location.objects.all()
 	item_locations = ItemLocation.objects.all()
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	print 'hi'
+	loc_len = len(locations)
 	return render(request, 'transfer/location.html', {
-		'items' : items,
 		'locations' : locations,
 		'item_locations' : item_locations,
 		'itemlen' : len(item_locations),
+		'below_min':below_min,
+		'loc_len' : loc_len,
 	})
+
 
 @login_required
 def add_location(request):
-	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
 	location_list = Location.objects.all()
 	form = LocationForm(request.POST or None)
-
 	if form.is_valid():
 		form.save()
-		return redirect('list_locations')
+		return redirect('location')
 
 	return render (request, 'transfer/add_location.html', {
 		'form' : form, 
 		'location':location_list,
-		'all_items':items_list, 
 		# 'items':items, 
 		# 'below_min':below_min
 		})
@@ -234,7 +231,7 @@ def update_location(request, location_id):
 	location = Location.objects.get(pk=location_id)
 
 	if request.method == 'POST':
-		location.branch_name = request.POST.get('branch_name')
+		location.branch_name = request.POST.get('name')
 		location.address = request.POST.get('address')
 		location.save()
 		return HttpResponseRedirect(reverse('location'))
@@ -247,9 +244,7 @@ def update_location(request, location_id):
 
 @login_required
 def delete_location(request, location_id):
-	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
-	
+	location = Location.objects.all()
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
@@ -376,7 +371,7 @@ def sales(request):
 
 def sales_history(request):
 	items = ItemLocation.objects.all()
-	sales_list = SoldItem.objects.filter(is_active=True)
+	sales_list = ItemSale.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
 	
@@ -398,11 +393,11 @@ def sales_history(request):
 def delete_sale(request, sale_id):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
-	sale = SoldItem.objects.get(pk = sale_id)
+	sale = ItemSale.objects.get(pk = sale_id)
 	sale.is_active = False
 	sale.save()
-
-	return HttpResponseRedirect(reverse('history'))
+ 
+	return HttpResponseRedirect(reverse('sales_history'))
 
 #############################################
 ##	Supplier
