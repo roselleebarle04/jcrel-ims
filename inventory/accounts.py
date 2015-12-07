@@ -23,6 +23,17 @@ from .models import *
 from .forms import *
 from .formsets import *
 
+def check_minimum():
+	items = ItemLocation.objects.all()
+	is_zero = 0
+	below_min = is_zero
+
+	for i in items:
+		if i.current_stock < i.re_order_point:
+			below_min = below_min + 1
+
+	return below_min
+
 
 def signup(request):
 	if request.method == 'POST':	
@@ -108,6 +119,9 @@ def notifications(request):
 def settings(request):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 	
 
 	try:
@@ -119,7 +133,7 @@ def settings(request):
 		'account':account,
 		# 'items':items,
 		'all_items':items_list,
-		# 'below_min':below_min
+		'below_min':below_min
 		})
 
 def update_settings(request):
@@ -128,7 +142,9 @@ def update_settings(request):
 
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
-	below_min = 0
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	user = request.user
 	try:
 		account = Account.objects.filter(user=user.id)[0]
@@ -148,6 +164,6 @@ def update_settings(request):
 	return render(request, 'settings/update_settings.html', {
 		'account': account,
 		'all_items':items_list,
-		# 'below_min':below_min,
+		'below_min':below_min,
 		# 'items':items
 		})

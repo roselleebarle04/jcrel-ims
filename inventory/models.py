@@ -215,15 +215,3 @@ class Notifications(models.Model):
 	date = models.DateTimeField(auto_now_add=True)
 	message = models.CharField(max_length=200)
 	user = models.ForeignKey(User)
-
-	# @property
-	def check_minimum(self):
-		items = ItemLocation.objects.all()
-		is_zero = 0
-		below_min = is_zero
-
-		for i in items:
-			if i.quantity < 10:
-				below_min = below_min + 1
-
-		return below_min

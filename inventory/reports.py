@@ -9,6 +9,17 @@ import json
 
 from .models import *
 
+def check_minimum():
+	items = ItemLocation.objects.all()
+	is_zero = 0
+	below_min = is_zero
+
+	for i in items:
+		if i.current_stock < i.re_order_point:
+			below_min = below_min + 1
+
+	return below_min
+
 
 def reports_data(request):
 	if request.method == 'POST' and request.is_ajax():
@@ -25,6 +36,9 @@ def inventory_reports(request):
 	items_list = Item.objects.all()
 	supplier_list = Supplier.objects.all()
 
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	# To be rendered in filter form
 	item_options = Item.objects.all() 
 
@@ -37,6 +51,7 @@ def inventory_reports(request):
 		'items':items_list,
 		'item_options': item_options,
 		'items_length': itemsLen,
+		'below_min':below_min
 	})
 
 @login_required

@@ -23,6 +23,17 @@ from .models import *
 from .forms import *
 from .formsets import *
 
+def check_minimum():
+	items = ItemLocation.objects.all()
+	is_zero = 0
+	below_min = is_zero
+
+	for i in items:
+		if i.current_stock < i.re_order_point:
+			below_min = below_min + 1
+
+	return below_min
+
 
 @login_required
 def transfer_history(request):

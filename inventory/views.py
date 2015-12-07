@@ -24,6 +24,18 @@ from .models import *
 from .forms import *
 from .formsets import *
 
+
+def check_minimum():
+	items = ItemLocation.objects.all()
+	is_zero = 0
+	below_min = is_zero
+
+	for i in items:
+		if i.current_stock < i.re_order_point:
+			below_min = below_min + 1
+
+	return below_min
+
 def landing_page(request):
 	return render(request, 'index.html')
 
@@ -35,6 +47,9 @@ def dashboard(request):
 	items_len = len(items)
 	sales_len = len(sales)
 
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	return render(request, 'dashboard.html', {
 		'user':request.user.username,
 		'items' : items,
@@ -42,6 +57,7 @@ def dashboard(request):
 		'items_len' : items_len,
 		'sales_len':sales_len,
 		'items':items_list,
+		'below_min':below_min
 	})
 
 #############################################
@@ -62,9 +78,13 @@ def notifications(request):
 	itemLength = len(items)
 	warning = WarningItems.objects.all()
 
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	return render(request, 'notifications/notification_page.html', {
 		'items':items,
 		'itemLength': itemLength,
+		'below_min':below_min
 	})
 
 def add_item(request):
@@ -111,6 +131,10 @@ def update_item(request, item_id):
 	items_list = Item.objects.all()
 	warning = WarningItems.objects.all()
 	item = Item.objects.get(pk=item_id)
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	if request.method == 'POST':
 		item.types = request.POST.get('types')
 		item.category = request.POST.get('category')
@@ -128,7 +152,7 @@ def update_item(request, item_id):
 		'item' : item,
 		'all_items':items_list,
 		# 'items':items,
-		# 'below_min':below_min
+		'below_min':below_min
 		})
 
 #############################################
@@ -142,6 +166,9 @@ def create_transfer(request):
 	formset = formset_factory(ItemTransferForm, formset=ItemTransferFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
 
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	if transferForm.is_valid() and transferFormset.is_valid():
 		p = transferForm.save(commit=False)
 		p.save()
@@ -153,19 +180,31 @@ def create_transfer(request):
 			quantity = form.cleaned_data['quantity']
 			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)	
 			i.save()
-
+		
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset,
-		}) 
+		'all_items':items_list,
+		'items':items,
+		'warning':warning,
+		'below_min':below_min}) 
 
 @login_required
 def list_locations(request):
 	""" We want to display all items and their respective locations """
 	locations = Location.objects.all()
+	item_locations = ItemLocation.objects.all()
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
+	print 'hi'
 	loc_len = len(locations)
 	return render(request, 'transfer/location.html', {
 		'locations' : locations,
+		'item_locations' : item_locations,
+		'itemlen' : len(item_locations),
+		'below_min':below_min,
 		'loc_len' : loc_len,
 	})
 
