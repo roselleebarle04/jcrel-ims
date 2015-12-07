@@ -106,6 +106,9 @@ class Item(models.Model):
 class Sale(models.Model):
 	date = models.DateField(default=timezone.now)
 	items = models.ManyToManyField(Item, through='ItemSale')
+	customer = models.ForeignKey(Customer)
+	location = models.ForeignKey(Location)
+	user = models.ForeignKey(User)
 
 	def __unicode__(self):
 		return ' '.join(unicode(self.date))
