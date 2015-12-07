@@ -6,7 +6,11 @@ class ItemArrivalFormset(BaseFormSet):
 		if any(self.errors):
 			return
 
+<<<<<<< HEAD
+class ItemTransferFormset(BaseFormSet):
+=======
 class TransferRecordFormset(BaseFormSet):
+>>>>>>> fee39a11981730017b369b40a18a276a1382a4e8
 	def clean(self):
 		if any(self.errors):
 			return

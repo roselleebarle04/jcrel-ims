@@ -102,7 +102,7 @@ ul.errorlist {
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li i {
-	color: #F8F9F6;
+	color: #333333/*#F8F9F6*/;
 }
 #wrapper .navbar-default.sidebar .sidebar-nav ul li i:hover{
 	color: white;

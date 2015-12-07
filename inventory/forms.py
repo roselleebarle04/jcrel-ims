@@ -61,11 +61,13 @@ class ItemLocationForm(forms.ModelForm):
 class SaleForm(forms.ModelForm):
 	class Meta:
 		model = Sale
-		fields = ['date']
+		fields = ['date', 'location','customer']
 
 	def __init__(self, *args, **kwargs):
 		super(SaleForm, self).__init__(*args, **kwargs)
 		self.fields['date'].widget.attrs['class'] = 'form-control'
+		self.fields['location'].widget.attrs['class'] = 'form-control'
+		self.fields['customer'].widget.attrs['class'] = 'form-control'
 
 class ItemSaleForm(forms.ModelForm):
 	class Meta:
@@ -99,10 +101,46 @@ class TransferRecordForm(forms.ModelForm):
 		fields = ['item', 'location', 'quantity']
 
 	def __init__(self, *args, **kwargs):
+<<<<<<< HEAD
+		super(TransferForm, self).__init__(*args, **kwargs)
+		self.fields['location'].widget.attrs['class'] = 'form-control'
+		self.fields['transfer_date'].widget.attrs['class'] = 'form-control'	
+
+class ItemTransferForm(forms.ModelForm):
+	class Meta:
+		model = ItemTransfer
+		fields = ['item', 'quantity']
+		
+	
+	# def clean(self):
+	# 	data = self.cleaned_data['item']
+	# 	q_transfer = self.cleaned_data['quantity_to_transfer']
+	# 	w_qty = data.warehouse_quantity
+	# 	if q_transfer> w_qty:
+	# 		raise forms.ValidationError("Quantity Exceed current quantity of the Item in the Warehouse")
+	# 	else:
+	# 		current_w = w_qty - q_transfer
+	# 		current_s = data.store_quantity + q_transfer
+	# 		data.warehouse_quantity = current_w
+	# 		data.store_quantity = current_s
+	# 		data.save()
+
+	def __init__(self, *args, **kwargs):
+		super(ItemTransferForm, self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+		
+class LocationForm(forms.ModelForm):
+	class Meta:
+		model = Location
+		fields = ['branch_name', 'address']
+
+=======
 		super(TransferRecordForm, self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['location'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+>>>>>>> fee39a11981730017b369b40a18a276a1382a4e8
 
 class SupplierForm(forms.ModelForm):
 	class Meta: 
