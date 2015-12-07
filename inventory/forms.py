@@ -109,6 +109,22 @@ class ItemTransferForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(ItemTransferForm, self).__init__(*args, **kwargs)
+	class Meta:
+		model = Transfer
+		fields = ['source_location', 'destination_location']
+
+	def __init__(self, *args, **kwargs):
+		super(ItemTransferForm, self).__init__(*args, **kwargs)
+		self.fields['source_location'].widget.attrs['class'] = 'form-control'
+		self.fields['destination_location'].widget.attrs['class'] = 'form-control'
+
+class ItemTransferForm(forms.ModelForm):
+	class Meta:
+		model = ItemTransfer
+		fields = ['item', 'quantity']
+
+	def __init__(self, *args, **kwargs):
+		super(ItemTransferForm, self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		
@@ -153,7 +169,7 @@ class CustomerForm(forms.ModelForm):
 class ArrivalForm(forms.ModelForm):
 	class Meta: 
 		model = Arrival
-		fields = ['date', 'supplier', 'delivery_receipt_no', 'tracking_no']
+		fields = ['date', 'supplier', 'delivery_receipt_no', 'tracking_no', 'location']
 
 	def __init__(self, *args, **kwargs):
 		super(ArrivalForm, self).__init__(*args, **kwargs)
@@ -161,6 +177,7 @@ class ArrivalForm(forms.ModelForm):
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
 		self.fields['delivery_receipt_no'].widget.attrs['class'] = 'form-control'
 		self.fields['tracking_no'].widget.attrs['class'] = 'form-control'
+		self.fields['location'].widget.attrs['class'] = 'form-control'
 
 class ItemArrivalForm(forms.ModelForm):
 	class Meta: 
