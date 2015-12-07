@@ -203,19 +203,15 @@ def list_locations(request):
 
 @login_required
 def add_location(request):
-	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
 	location_list = Location.objects.all()
 	form = LocationForm(request.POST or None)
-
 	if form.is_valid():
 		form.save()
-		return redirect('list_locations')
+		return redirect('location')
 
 	return render (request, 'transfer/add_location.html', {
 		'form' : form, 
 		'location':location_list,
-		'all_items':items_list, 
 		# 'items':items, 
 		# 'below_min':below_min
 		})
@@ -227,7 +223,7 @@ def update_location(request, location_id):
 	location = Location.objects.get(pk=location_id)
 
 	if request.method == 'POST':
-		location.branch_name = request.POST.get('branch_name')
+		location.branch_name = request.POST.get('name')
 		location.address = request.POST.get('address')
 		location.save()
 		return HttpResponseRedirect(reverse('location'))
@@ -240,9 +236,7 @@ def update_location(request, location_id):
 
 @login_required
 def delete_location(request, location_id):
-	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
-	
+	location = Location.objects.all()
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
