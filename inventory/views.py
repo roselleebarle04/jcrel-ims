@@ -436,17 +436,20 @@ def suppliers(request):
 	})
 
 def add_supplier(request):
+	redirect_to = request.REQUEST.get('next', '/suppliers/')
+
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
 	supplierForm = SupplierForm(request.POST or None, request.FILES or None)
-
-	if  supplierForm.is_valid():
-		supplierForm.save()
-		return HttpResponseRedirect(reverse('suppliers'))
+	if request.method == 'POST':
+		if  supplierForm.is_valid():
+			supplierForm.save()
+			return HttpResponseRedirect(redirect_to)
 
 	return render(request, 'supplier/add_supplier.html', {
 	 'form': supplierForm,
 	  'all_items':items_list,
+	  'next': redirect_to,
 	  })
 
 def update_supplier(request, supplier_id):

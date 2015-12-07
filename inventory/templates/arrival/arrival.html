@@ -57,7 +57,7 @@
             {{ AddArrivalForm.as_p }}
         </div>
         <div class="col-md-1">
-            <a href="/arrival/add/supplier/" class="btn btn-sm" role="button">NEW</a>
+            <a href="{% url "add_supplier" %}?next=/arrival/add/" class="btn btn-sm" role="button">NEW</a>
         </div>
         <div class="col-md-8">
             <div panel panel-default>
@@ -132,3 +132,4 @@
 {% endblock %}
 
 
+g
