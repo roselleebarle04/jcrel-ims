@@ -3,6 +3,20 @@ from django.utils import timezone
 from inventory.models import *
 
 class Command(BaseCommand):
+    def _initialize_db(self):
+        # First, let's initialize db with the DEFAULT locations
+        location_warehouse = Location.objects.create(name='Warehouse', address='Brgy. San Miguel, Iligan City')
+        location_store = Location.objects.create(name='Store', address='Tambo Hinaplanon, Iligan City')
+
+        # Register a supplier
+        supplier1 = Supplier.objects.create(name='JB', address='Cagayan', phone='221-0139')
+
+        # Register an initial item
+        item1 = Item.objects.create(category='Amplifier', brand='Boston', model='BP20', supplier=supplier1, item_code='S-1-409', srp=1500, created=timezone.now())
+        
+        # Add the quantity of the item in the default location
+        item1_quantity = ItemLocation.objects.create(item=item1,location=location_warehouse,quantity=100)
+
     def _create_data(self):
     	supplier1 = Supplier(name='JB', address='Cagayan', phone='221-0139')
     	supplier1.save()

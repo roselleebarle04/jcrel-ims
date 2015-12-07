@@ -3,7 +3,11 @@
 
 {% block content %}
 
-
+<style type="text/css">
+    h1{
+        color: #34B8B8;
+    }
+</style>
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Transfer History</h1>
@@ -48,32 +52,36 @@
 </div>
 <div class="row">
     <div class="col-lg-12"> 
-    {% if transferLen > 0 %}
+        <p><i>*Negative values indicate that the item quantity in the location was reduced.</i></p>
+        {% if transferLen > 0 %}
         <table id="transfer" class="table table-striped" cellspacing="0" width="100%">
             <thead>
-                <tr style="background:#333;color:white;">
+                <tr>
+                    <th>Date</th>
+                    <th>Location</th>
                     <th>Item</th>
                     <th>Quantity</th>
-                    <th>Date</th>
-                    <th width="50"></th>
                 </tr>
             </thead>
             <tbody>
-    {% for t in transfer %}
-            <tr>
-             <td>{{t.item}}</td>
-             <td>{{t.quantity_to_transfer}}</td>
-             <td>{{t.trans.transfer_date}}</td>
-                  <td><button onclick="confirmTransferDelete({{t.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span></button></td>
+                {% for t in transfers %}
+                <tr>
+                    <td>{{t.date}}</td>
+                    <td>{{t.location}}</td>
+                    <td>{{t.item}}</td>
+                    <td>{{t.quantity}}</td>
                 </tr>
-                {% endfor %}
-                {% else %}
-                <p>No transfers listed. </p>
-                {% endif %}
+                {% endfor %}    
             </tbody>
         </table>
+        {% else %}
+    <div class="col-md-10 col-md-offset-1">
+            <div class="alert alert-info" role="alert">
+              <center><h3>No Listed. </h3></center>
+            </div>
+        </div>      
+    {% endif %}
     </div>                                                                                                  
-    </div>
 </div>
 
 <!--  <td class="pager">

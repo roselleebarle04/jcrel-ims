@@ -3,11 +3,15 @@
 
 
 {% block content %}  
-
+<style type="text/css">
+    h1{
+        color: #34B8B8;
+    }
+</style>
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Suppliers</h1>
-        <a href="/suppliers/add" class="btn btn-default">Add New</a>
+        <a href="/suppliers/add" class="btn btn-theme"><span class="glyphicon glyphicon-plus"></span>Add New</a>
     </div>
 </div>
 <br>
@@ -43,9 +47,11 @@
             </tbody>
         </table>
         {% else %}
-        <p>
-            No suppliers listed. <a href="#" data-toggle="modal" data-target="#addSupplierModal">Add New</a> supplier. 
-        </p>
+        <div class="col-md-10 col-md-offset-1">
+            <div class="alert alert-info" role="alert">
+              <center><h3>No suppliers listed. </h3></center>
+            </div>
+        </div>
         {% endif %}
     </div>
 </div>

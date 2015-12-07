@@ -44,12 +44,15 @@ class Account(models.Model):
 	def __unicode__(self):
 		return u'Profile of user: %s' %self.user.username
 
+<<<<<<< HEAD
 class WarningItems(models.Model):
 	below_min = models.IntegerField(default=0)
 
 	def __unicode__(self):
 		return below_min
 
+=======
+>>>>>>> fee39a11981730017b369b40a18a276a1382a4e8
 class Location (models.Model):
 	name = models.CharField(max_length = 50, null = True)
 	address = models.CharField(max_length = 200, null = True)
@@ -74,6 +77,7 @@ class Supplier(models.Model):
 
 	def __unicode__(self):
 		return self.name
+<<<<<<< HEAD
 
 class Customer(models.Model):
 	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
@@ -81,6 +85,15 @@ class Customer(models.Model):
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
 
+=======
+
+class Customer(models.Model):
+	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
+	name = models.CharField(max_length=200, null=True)
+	address = models.CharField(max_length=200, null=True)
+	phone = models.CharField(max_length=200, null=True)
+
+>>>>>>> fee39a11981730017b369b40a18a276a1382a4e8
 	def __unicode__(self):
 		return self.name
 
@@ -112,6 +125,12 @@ class Item(models.Model):
 class Sale(models.Model):
 	date = models.DateField(default=timezone.now)
 	items = models.ManyToManyField(Item, through='ItemSale')
+<<<<<<< HEAD
+=======
+	customer = models.ForeignKey(Customer)
+	location = models.ForeignKey(Location)
+	user = models.ForeignKey(User)
+>>>>>>> fee39a11981730017b369b40a18a276a1382a4e8
 
 	def __unicode__(self):
 		return ' '.join(unicode(self.date))
@@ -140,7 +159,12 @@ class ItemSale(models.Model):
 		total = self.item.srp * self.quantity
 		return total
 
+class TransferRecord (models.Model):
+	"""
+	This model lists all the transfers that occurred in a particular location
+	This should be named appropriately, something related to history of a particular location (LocationHistory)
 
+<<<<<<< HEAD
 class Transfer(models.Model):
 	source_location = models.ForeignKey(Location, related_name = 'from+')
 	destination_location = models.ForeignKey(Location, related_name = 'to+')
@@ -153,6 +177,18 @@ class ItemTransfer(models.Model):
 	transfer = models.ForeignKey(Transfer)
 
 
+=======
+	DEC 3: The model was merged with ItemTransfer - no need for intermediary, this model serves as a log only.
+	"""
+	date = models.DateField(default=timezone.now)
+	location = models.ForeignKey(Location, help_text='The location where the quantity will be changed or updated')	# DESTINATION LOCATION
+	item = models.ForeignKey(Item, help_text='The item that was na hilabtan') 
+	quantity = models.IntegerField(default = 0, help_text='Can be negative, in cases of deductions')
+
+	def __unicode__(self):
+		return '%s' %(self.location)
+
+>>>>>>> fee39a11981730017b369b40a18a276a1382a4e8
 class Arrival(models.Model):
 	date = models.DateField(default=timezone.now)
 	delivery_receipt_no = models.CharField(max_length=100, null=True, blank=True)

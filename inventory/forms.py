@@ -1,8 +1,6 @@
- 
 from django import forms
 from django.forms import fields, models, formsets, widgets
 from django.forms import BaseFormSet, formset_factory, BaseInlineFormSet
-from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import formset_factory
@@ -11,19 +9,25 @@ from django.core.validators import RegexValidator
 from django.core import validators
 from django.contrib import messages
 
+from .models import *
 
 class AccountForm(UserCreationForm):
 	class Meta:
 		model = Account
 		fields = ['avatar']
 
-class AddNewItemForm(forms.ModelForm):
+class LocationForm(forms.ModelForm):
+	class Meta:
+		model = Location
+		fields = ['name', 'address']
+
+class ItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
 		fields = ['types', 'category', 'brand', 'model', 'supplier', 'item_code', 'srp']
 
 	def __init__(self, *args, **kwargs):
-		super(AddNewItemForm,self).__init__(*args, **kwargs)
+		super(ItemForm,self).__init__(*args, **kwargs)
 		self.fields['types'].widget.attrs['class'] = 'form-control'
 		self.fields['category'].widget.attrs['class'] = 'form-control'
 		self.fields['brand'].widget.attrs['class'] = 'form-control'
@@ -39,20 +43,10 @@ class AddNewItemForm(forms.ModelForm):
 		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
 		self.fields['srp'].error_messages['required'] = 'Enter item\'s srp'
 
-class AddItemForm(forms.ModelForm):
-	class Meta:
-		model = AddItem
-		fields = ['item','quantity']
-
-	def __init__(self, *args, **kwargs):
-		super(AddItemForm,self).__init__(*args, **kwargs)
-		self.fields['item'].error_messages['required'] = 'Enter item'
-		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
-
 class ItemLocationForm(forms.ModelForm):
 	class Meta:
 		model = ItemLocation
-		fields = ['destination', 'quantity']
+		fields = ['quantity']
 
 	def __init__(self, *args, **kwargs):
 		super(ItemLocationForm,self).__init__(*args, **kwargs)
@@ -61,23 +55,24 @@ class ItemLocationForm(forms.ModelForm):
 		self.fields['destination'].error_messages['required'] = 'Enter item\'s location'
 		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
 		
-
-class AddSaleForm(forms.ModelForm):
+class SaleForm(forms.ModelForm):
 	class Meta:
 		model = Sale
-		fields = ['date']
+		fields = ['date', 'location','customer']
 
 	def __init__(self, *args, **kwargs):
-		super(AddSaleForm, self).__init__(*args, **kwargs)
+		super(SaleForm, self).__init__(*args, **kwargs)
 		self.fields['date'].widget.attrs['class'] = 'form-control'
+		self.fields['location'].widget.attrs['class'] = 'form-control'
+		self.fields['customer'].widget.attrs['class'] = 'form-control'
 
-class AddSoldItemForm(forms.ModelForm):
+class ItemSaleForm(forms.ModelForm):
 	class Meta:
-		model = SoldItem
+		model = ItemSale
 		fields = ['item', 'quantity']
 
 	def __init__(self, *args, **kwargs):
-		super(AddSoldItemForm, self).__init__(*args, **kwargs)
+		super(ItemSaleForm, self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		self.fields['item'].queryset = Item.objects.filter(status=True)
@@ -97,12 +92,13 @@ class AddSoldItemForm(forms.ModelForm):
 		
 	# 	return self.cleaned_data['quantity']
 			
-class TransferForm(forms.ModelForm):
+class TransferRecordForm(forms.ModelForm):
 	class Meta:
-		model = Transfer
-		fields = ['location', 'transfer_date']
+		model = TransferRecord
+		fields = ['item', 'location', 'quantity']
 
 	def __init__(self, *args, **kwargs):
+<<<<<<< HEAD
 		super(TransferForm, self).__init__(*args, **kwargs)
 		self.fields['location'].widget.attrs['class'] = 'form-control'
 		self.fields['transfer_date'].widget.attrs['class'] = 'form-control'	
@@ -136,63 +132,55 @@ class LocationForm(forms.ModelForm):
 		model = Location
 		fields = ['branch_name', 'address']
 
+=======
+		super(TransferRecordForm, self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['location'].widget.attrs['class'] = 'form-control'
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+>>>>>>> fee39a11981730017b369b40a18a276a1382a4e8
 
-class AddSupplierForm(forms.ModelForm):
+class SupplierForm(forms.ModelForm):
 	class Meta: 
 		model = Supplier
 		fields = ['avatar', 'name', 'address', 'phone']
 
-	# Override the django default fields
 	def __init__(self, *args, **kwargs):
-		super(AddSupplierForm, self).__init__(*args, **kwargs)
+		super(SupplierForm, self).__init__(*args, **kwargs)
 		self.fields['avatar'].widget.attrs['class'] = 'form-control'
 		self.fields['name'].widget.attrs['class'] = 'form-control'
 		self.fields['address'].widget.attrs['class'] = 'form-control'
 		self.fields['phone'].widget.attrs['class'] = 'form-control'
 
-class AddArrivalForm(forms.ModelForm): 
-	class Meta: 
-		model = Arrival
-		fields = ['date', 'supplier', 'delivery_receipt_no', 'tracking_no']
-
-	def __init__(self, *args, **kwargs):
-		super(AddArrivalForm, self).__init__(*args, **kwargs)
-		self.fields['date'].widget.attrs['class'] = 'form-control'
-		self.fields['supplier'].widget.attrs['class'] = 'form-control'
-		self.fields['delivery_receipt_no'].widget.attrs['class'] = 'form-control'
-		self.fields['tracking_no'].widget.attrs['class'] = 'form-control'
-		
-
-class AddArrivedItemForm(forms.ModelForm): 
-	class Meta: 
-		model = ArrivedItem
-		fields = ['item', 'quantity', 'item_cost']
-
-	def __init__(self, *args, **kwargs):
-		super(AddArrivedItemForm, self).__init__(*args, **kwargs)
-		self.fields['item'].widget.attrs['class'] = 'form-control'
-		self.fields['quantity'].widget.attrs['class'] = 'form-control'
-		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
-
-class RegisterArrivedItemForm(forms.ModelForm):
-	class Meta:
-		model = RegisterArrivedItem
-		fields = ['types', 'category', 'brand', 'model']
-
-	def __init__(self, *args, **kwargs):
-		super(RegisterArrivedItemForm, self).__init__(*args, **kwargs)
-		self.fields['types'].widget.attrs['class'] = 'form-control'
-		self.fields['category'].widget.attrs['class'] = 'form-control'
-		self.fields['brand'].widget.attrs['class'] = 'form-control'
-		self.fields['model'].widget.attrs['class'] = 'form-control'
-
-class AddCustomerForm(forms.ModelForm):
+class CustomerForm(forms.ModelForm):
 	class Meta: 
 		model = Customer
 		fields = ['avatar', 'name', 'address', 'phone']
 
 	# Override the django default fields
 	def __init__(self, *args, **kwargs):
-		super(AddCustomerForm, self).__init__(*args, **kwargs)
+		super(CustomerForm, self).__init__(*args, **kwargs)
 		self.fields['avatar'].widget.attrs['class'] = 'form-control'
+
+class ArrivalForm(forms.ModelForm):
+	class Meta: 
+		model = Arrival
+		fields = ['date', 'supplier', 'delivery_receipt_no', 'tracking_no']
+
+	def __init__(self, *args, **kwargs):
+		super(ArrivalForm, self).__init__(*args, **kwargs)
+		self.fields['date'].widget.attrs['class'] = 'form-control'
+		self.fields['supplier'].widget.attrs['class'] = 'form-control'
+		self.fields['delivery_receipt_no'].widget.attrs['class'] = 'form-control'
+		self.fields['tracking_no'].widget.attrs['class'] = 'form-control'
+
+class ItemArrivalForm(forms.ModelForm):
+	class Meta: 
+		model = ItemArrival
+		fields = ['item', 'quantity', 'item_cost']
+
+	def __init__(self, *args, **kwargs):
+		super(ItemArrivalForm, self).__init__(*args, **kwargs)
+		self.fields['item'].widget.attrs['class'] = 'form-control'
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+		self.fields['item_cost'].widget.attrs['class'] = 'form-control'
 

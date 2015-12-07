@@ -33,3 +33,6 @@ pip install -U Pillow
 ```
 ./manage.py runserver
 ```
+
+# Enabling tests in postgresql
+1. ALTER USER django CREATEDB;

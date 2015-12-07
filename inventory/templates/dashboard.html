@@ -3,20 +3,32 @@
 
 {% block content %}
 
+<style type="text/css">
+    h3,h4{
+        color: #34B8B8;
+    }
+    div{
+        color: #6D696A;
+    }
+    p {
+        color: black;
+    }
+</style>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="alert alert-dark" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h3 style="margin-top:0;">Dashboard</h3>
-            <p>Welcome! JCREL IMS is a sales and inventory management system that aims to guide users in making good decisions for their business specifically in determining when to replenish inventory. We are on a mission to creating a system which will track business sales transactions and inventory in an efficient way.</p>
+            <p style="color:black;">Welcome! JCREL IMS is a sales and inventory management system that aims to guide users in making good decisions for their business specifically in determining when to replenish inventory. We are on a mission to creating a system which will track business sales transactions and inventory in an efficient way.</p>
         </div>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-6 col-md-6">
-        <div class="panel panel-default" style="background:white;">
-            <div class="panel-heading" style="background:white;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
                         <i class="fa fa-comments fa-5x"></i>
@@ -31,7 +43,7 @@
     </div>
     <div class="col-lg-6 col-md-6">
         <div class="panel panel-default">
-            <div class="panel-heading" style="background:white;">
+            <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
                         <i class="fa fa-tasks fa-5x"></i>
@@ -48,20 +60,20 @@
 
 <div class="row">
     <div class="col-lg-6 col-md-6">
-        <div class="panel panel-default" style="background:white;">
-            <div class="panel-heading" style="background:white;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-12 text-left">
                         <h4 class="panel-titel"><span class="glyphicon glyphicon-th-list"></span> Getting Started</h4>
-                        <p>Complete the steps below to set up your store, or jump right in and make your first sale using the demo products we’ve added for you. Learn how to get started with Vend the easy way, by watching our quick, fun & friendly video guide.</p>
+                        <p style="color:black;">Complete the steps below to set up your store, or jump right in and make your first sale using the demo products we’ve added for you. Learn how to get started with Vend the easy way, by watching our quick, fun & friendly video guide.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-6 col-md-6">
-        <div class="panel panel-default" style="background:white;">
-            <div class="panel-heading" style="background:white;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-12 text-left">
                         <h4 class="panel-titel"><span class="glyphicon glyphicon-plus"></span> Shortcuts</h4>
@@ -80,10 +92,10 @@
 
 <div class="row">
     <div class="col-lg-6 col-md-6">
-        <div class="panel panel-default" style="background:white;">
-            <div class="panel-heading" style="background:white;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
                 <div class="row">
-                    <div class="col-xs-12 text-left">
+                    <div class="col-xs-12 text-left" style="color:black;">
                         <h4 class="panel-titel"><span class="glyphicon glyphicon-pencil"></span> Recent Products</h4>
                         {% if items_len > 0%}
                         {% for item in items %}
@@ -99,9 +111,9 @@
     </div>
     <div class="col-lg-6 col-md-6">
         <div class="panel panel-default">
-            <div class="panel-heading" style="background:white;">
+            <div class="panel-heading">
                 <div class="row">
-                    <div class="col-xs-12 text-left">
+                    <div class="col-xs-12 text-left" style="color:black;">
                         <h4 class="panel-titel"><span class="glyphicon glyphicon-euro"></span> Recent Sales</h4>
                         {% if sales_len > 0%}
                         {% for sale in sales %}
