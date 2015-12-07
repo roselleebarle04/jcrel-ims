@@ -42,66 +42,6 @@
     }                       
 </style>
 
-<!-- <div class="container">
-    {% if messages %} 
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-1"> 
-                <center>
-                    {% for message in messages %}
-                    <p 
-                    {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
-                    {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
-                    {% endif %}>{{ message }}
-                    </p>
-                    {% endfor %}  
-                </center>                                                      
-            </div>
-        </div>
-    {% endif %}
-</div> -->
-<!-- <div class="row">
-    <div class="col-md-5">        
-    <form class="form" method="POST">
-        {% csrf_token %}
-        <h2>Add Sale</h2>
-        {{ AddSaleForm.as_p }}
-        <br>
-    </div>       
-    <h2>Sold Items</h2>
-    <div class="col-md-7">
-        <div panel panel-default>
-            <div class="panel-heading"> Arrived Items</div>
-            <div class="panel-body">
-                <table id="id_orders_table" width="100%" border="0" cellpadding="50" cellspacing="1500">
-                    <thead>
-                        <tr>
-                            <th scope="col">Item</th>
-                            <th scope="col">Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for form in formset %}
-                        <tr id="{{ form.prefix }}-row"  class="dynamic-form">
-                            
-                            <td>{{form.item}}</td>
-                            <td>{{form.quantity}}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <div class="text-center">
-                    <a href="javascript:void(0) " class=" add-row btn btn-md ">Add More</a>    
-                </div>
-                <br>
-            </div>
-        </div>
-    </div>          
-    <div class="form-group">
-        <input type="submit" class="form-control btn btn-success" name="name" value="Submit" />
-    </div>
-    </form>
-</div> -->
-
 <form  class="form" method="POST">
     <div class="row">
         {% csrf_token %}
@@ -182,6 +122,3 @@
     <script src="static/js/add_sale.js"></script>
 
 {% endblock %}
-
-
-<!-- ====================================================== -->
