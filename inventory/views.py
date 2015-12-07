@@ -40,7 +40,7 @@ def landing_page(request):
 	return render(request, 'index.html')
 
 @login_required
-def dashboard(request):
+def dashboard(request): 
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
 	sales = Sale.objects.all()
@@ -126,6 +126,19 @@ def add_item(request):
 			# The item is registered in a location... Let's record the item and its quantity in a location
 			# quantity = request.POST.get('stock_in_location')
 			
+			if not location_id == "":
+				current_location = Location.objects.get(id=location_id)
+				i = ItemLocation(item=item, location=current_location, quantity=quantity)
+				i.save()
+				messages.success(request, 'Item successfully added.')
+			else:
+				# Create new itemLocation object
+				loc = Location.objects.all()[0] # Get first location (Default)
+				j = ItemLocation.objects.create(item=item, location=loc)
+				j.save()
+				messages.success(request, 'Item successfully added.')
+			return HttpResponseRedirect(reverse('add_item'))
+
 			# if not location_id == "":
 			# 	current_location = Location.objects.get(id=location_id)
 			# 	i = ItemLocation(item=item, location=current_location, quantity=quantity)
@@ -183,11 +196,11 @@ def update_item(request, item_id):
 ##	Transfers 
 #############################################
 
-def create_transfer(self):
+def create_transfer(request):
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
-	transferForm = Transfer(request.POST or None)
-	formset = formset_factory(ItemTransfer, formset=ItemTransferFormset, extra = 1)
+	transferForm = TransferForm(request.POST or None)
+	formset = formset_factory(ItemTransferForm, formset=ItemTransferFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
 
 	below_min = check_minimum()
@@ -201,8 +214,8 @@ def create_transfer(self):
 		for form in transferFormset:
 			transfer = transfer_id
 			item = form.cleaned_data['item']
-			quantity_to_transfer = form.cleaned_data['quantity']
-			i = ItemTransfer(item = item, quantity=quantity, transfer=p)	
+			quantity = form.cleaned_data['quantity']
+			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)	
 			i.save()
 		
 	return render(request, 'transfer/transfer_form.html', {
@@ -211,13 +224,11 @@ def create_transfer(self):
 		'all_items':items_list,
 		'items':items,
 		'warning':warning,
-		'below_min':below_min
-		}) 
+		'below_min':below_min}) 
 
 @login_required
 def list_locations(request):
 	""" We want to display all items and their respective locations """
-	items = Item.objects.all()
 	locations = Location.objects.all()
 	item_locations = ItemLocation.objects.all()
 
@@ -225,29 +236,27 @@ def list_locations(request):
 	print "below_min %d" % below_min
 
 	print 'hi'
+	loc_len = len(locations)
 	return render(request, 'transfer/location.html', {
-		'items' : items,
 		'locations' : locations,
 		'item_locations' : item_locations,
 		'itemlen' : len(item_locations),
-		'below_min':below_min
+		'below_min':below_min,
+		'loc_len' : loc_len,
 	})
+
 
 @login_required
 def add_location(request):
-	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
 	location_list = Location.objects.all()
 	form = LocationForm(request.POST or None)
-
 	if form.is_valid():
 		form.save()
-		return redirect('list_locations')
+		return redirect('location')
 
 	return render (request, 'transfer/add_location.html', {
 		'form' : form, 
 		'location':location_list,
-		'all_items':items_list, 
 		# 'items':items, 
 		# 'below_min':below_min
 		})
@@ -259,7 +268,7 @@ def update_location(request, location_id):
 	location = Location.objects.get(pk=location_id)
 
 	if request.method == 'POST':
-		location.branch_name = request.POST.get('branch_name')
+		location.branch_name = request.POST.get('name')
 		location.address = request.POST.get('address')
 		location.save()
 		return HttpResponseRedirect(reverse('location'))
@@ -272,9 +281,7 @@ def update_location(request, location_id):
 
 @login_required
 def delete_location(request, location_id):
-	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
-	
+	location = Location.objects.all()
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))
@@ -402,7 +409,7 @@ def sales(request):
 
 def sales_history(request):
 	items = ItemLocation.objects.all()
-	sales_list = SoldItem.objects.filter(is_active=True)
+	sales_list = ItemSale.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
 	
@@ -424,11 +431,11 @@ def sales_history(request):
 def delete_sale(request, sale_id):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
-	sale = SoldItem.objects.get(pk = sale_id)
+	sale = ItemSale.objects.get(pk = sale_id)
 	sale.is_active = False
 	sale.save()
-
-	return HttpResponseRedirect(reverse('history'))
+ 
+	return HttpResponseRedirect(reverse('sales_history'))
 
 #############################################
 ##	Supplier
