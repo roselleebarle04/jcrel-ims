@@ -24,24 +24,25 @@ class LocationForm(forms.ModelForm):
 class ItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
-		fields = ['types', 'category', 'brand', 'model', 'supplier', 'item_code', 'srp']
+		fields = ['name', 'description', 'category', 'brand', 'model', 'supplier', 'item_code', 'unit_cost']
 
 	def __init__(self, *args, **kwargs):
 		super(ItemForm,self).__init__(*args, **kwargs)
-		self.fields['types'].widget.attrs['class'] = 'form-control'
+		self.fields['name'].widget.attrs['class'] = 'form-control'
+		self.fields['description'].widget.attrs['class'] = 'form-control'
 		self.fields['category'].widget.attrs['class'] = 'form-control'
 		self.fields['brand'].widget.attrs['class'] = 'form-control'
 		self.fields['model'].widget.attrs['class'] = 'form-control'
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
 		self.fields['item_code'].widget.attrs['class'] = 'form-control'
-		self.fields['srp'].widget.attrs['class'] = 'form-control'
-		self.fields['types'].error_messages['required'] = 'Enter item\'s type.'
+		self.fields['unit_cost'].widget.attrs['class'] = 'form-control'
+		self.fields['description'].error_messages['required'] = 'Enter item\'s description.'
 		self.fields['category'].error_messages['required'] = 'Enter item\'s category'
 		self.fields['brand'].error_messages['required'] = 'Enter item\'s brand'
 		self.fields['model'].error_messages['required'] = 'Enter item\'s model'
 		self.fields['supplier'].error_messages['required'] = 'Choose supplier.'	
 		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
-		self.fields['srp'].error_messages['required'] = 'Enter item\'s srp'
+		self.fields['item_cost'].error_messages['required'] = 'Enter item\'s srp'
 
 class ItemLocationForm(forms.ModelForm):
 	class Meta:

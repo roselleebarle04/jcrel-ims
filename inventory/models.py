@@ -54,8 +54,10 @@ class Location (models.Model):
 class ItemLocation(models.Model):
 	item = models.ForeignKey('Item')
 	location = models.ForeignKey(Location)
-	quantity = models.IntegerField(default = 0)
-
+	current_stock = models.IntegerField(default = 0)
+	re_order_point = models.IntegerField(default = 0)
+	re_order_amount = models.IntegerField(default = 0)
+		
 	def __unicode__(self):
 		return '%s' % (self.item)
 
@@ -79,29 +81,27 @@ class Customer(models.Model):
 		return self.name
 
 class Item(models.Model):
-	status = models.BooleanField(default=True)		# Active or Inactive
-	types = models.CharField(max_length = 50, null=True)
+	is_active = models.BooleanField(default=True)		# Active or Inactive
+	name = models.CharField(max_length=70, null=True)
+	description = models.CharField(max_length = 50, null=True)
 	category = models.CharField(max_length = 50, null=True)
 	brand = models.CharField(max_length = 50, null=True)
 	model = models.CharField(max_length = 50, null=True)
-	supplier = models.ForeignKey(Supplier, blank=True, null=True)
 	item_code = models.CharField(max_length = 50, unique = True)
-	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
-	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+	unit_cost = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
+	date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
+	supplier = models.ForeignKey(Supplier, blank=True, null=True)
 	location = models.ManyToManyField(Location, through='ItemLocation', blank=False)
-	
+	user = models.ForeignKey(User, null=True)
+
 	def __unicode__(self):
 		return " ".join((
             unicode(self.item_code),
-            unicode(self.types),
             unicode(self.category),
             unicode(self.brand),
             unicode(self.model)
         ))
-
-	def get_description(self):
-		return self.category + ' ' + self.brand + ' ' + self.model
 
 class Sale(models.Model):
 	date = models.DateField(default=timezone.now)

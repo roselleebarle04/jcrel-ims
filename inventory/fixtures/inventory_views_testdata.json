@@ -1,0 +1,357 @@
+[
+{
+    "fields": {
+        "name": "l1",
+        "address": "l1"
+    },
+    "model": "inventory.location",
+    "pk": 1
+},
+{
+    "fields": {
+        "name": "BR1",
+        "address": "Brgy. San Miguel, Iligan City"
+    },
+    "model": "inventory.location",
+    "pk": 2
+},
+{
+    "fields": {
+        "name": "BR1",
+        "address": "Brgy. San Miguel, Iligan City"
+    },
+    "model": "inventory.location",
+    "pk": 3
+},
+{
+    "fields": {
+        "name": "BR1",
+        "address": "Brgy. San Miguel, Iligan City"
+    },
+    "model": "inventory.location",
+    "pk": 4
+},
+{
+    "fields": {
+        "item": 1,
+        "location": 1,
+        "quantity": 300
+    },
+    "model": "inventory.itemlocation",
+    "pk": 1
+},
+{
+    "fields": {
+        "item": 1,
+        "location": 1,
+        "quantity": -100
+    },
+    "model": "inventory.itemlocation",
+    "pk": 2
+},
+{
+    "fields": {
+        "item": 1,
+        "location": 1,
+        "quantity": -100
+    },
+    "model": "inventory.itemlocation",
+    "pk": 3
+},
+{
+    "fields": {
+        "item": 1,
+        "location": 1,
+        "quantity": -100
+    },
+    "model": "inventory.itemlocation",
+    "pk": 4
+},
+{
+    "fields": {
+        "phone": "1",
+        "address": "1",
+        "avatar": "img/avatar.jpeg",
+        "name": "1"
+    },
+    "model": "inventory.supplier",
+    "pk": 1
+},
+{
+    "fields": {
+        "phone": "sup",
+        "address": "usp2",
+        "avatar": "",
+        "name": "sup12323"
+    },
+    "model": "inventory.supplier",
+    "pk": 2
+},
+{
+    "fields": {
+        "phone": "9080",
+        "address": "98098",
+        "avatar": "img/avatar.jpeg",
+        "name": "9808"
+    },
+    "model": "inventory.customer",
+    "pk": 1
+},
+{
+    "fields": {
+        "phone": "09462240166",
+        "address": "Iligan City",
+        "avatar": "img/avatar.jpeg",
+        "name": "Roselle Ebarle"
+    },
+    "model": "inventory.customer",
+    "pk": 2
+},
+{
+    "fields": {
+        "phone": "09462240166",
+        "address": "Iligan City",
+        "avatar": "img/avatar.jpeg",
+        "name": "Roselle Ebarle"
+    },
+    "model": "inventory.customer",
+    "pk": 3
+},
+{
+    "fields": {
+        "phone": "09462240166",
+        "address": "Iligan City",
+        "avatar": "img/avatar.jpeg",
+        "name": "Roselle Ebarle"
+    },
+    "model": "inventory.customer",
+    "pk": 4
+},
+{
+    "fields": {
+        "phone": "09462240166",
+        "address": "Iligan City",
+        "avatar": "img/avatar.jpeg",
+        "name": "Roselle Ebarle"
+    },
+    "model": "inventory.customer",
+    "pk": 5
+},
+{
+    "fields": {
+        "phone": "09462240166",
+        "address": "Iligan City",
+        "avatar": "img/avatar.jpeg",
+        "name": "Roselle Ebarle"
+    },
+    "model": "inventory.customer",
+    "pk": 6
+},
+{
+    "fields": {
+        "phone": "09462240166",
+        "address": "Iligan City",
+        "avatar": "img/avatar.jpeg",
+        "name": "Roselle Ebarle"
+    },
+    "model": "inventory.customer",
+    "pk": 7
+},
+{
+    "fields": {
+        "phone": "09462240166",
+        "address": "Iligan City",
+        "avatar": "img/avatar.jpeg",
+        "name": "Roselle Ebarle"
+    },
+    "model": "inventory.customer",
+    "pk": 8
+},
+{
+    "fields": {
+        "status": true,
+        "category": "1",
+        "created": "2015-12-03T22:59:28.864Z",
+        "brand": "1",
+        "item_code": "123",
+        "srp": "1000.00",
+        "supplier": 1,
+        "model": "1",
+        "types": "1"
+    },
+    "model": "inventory.item",
+    "pk": 1
+},
+{
+    "fields": {
+        "date": "2015-12-03"
+    },
+    "model": "inventory.sale",
+    "pk": 1
+},
+{
+    "fields": {
+        "item": 1,
+        "is_active": true,
+        "sale": 1,
+        "quantity": 1000
+    },
+    "model": "inventory.itemsale",
+    "pk": 1
+},
+{
+    "fields": {
+        "date": "2015-12-03",
+        "item": 1,
+        "location": 1,
+        "quantity": 100
+    },
+    "model": "inventory.transferrecord",
+    "pk": 1
+},
+{
+    "fields": {
+        "date": "2015-12-03",
+        "item": 1,
+        "location": 1,
+        "quantity": -100
+    },
+    "model": "inventory.transferrecord",
+    "pk": 2
+},
+{
+    "fields": {
+        "date": "2015-12-06",
+        "item": 1,
+        "location": 1,
+        "quantity": 100
+    },
+    "model": "inventory.transferrecord",
+    "pk": 3
+},
+{
+    "fields": {
+        "date": "2015-12-06",
+        "item": 1,
+        "location": 1,
+        "quantity": -100
+    },
+    "model": "inventory.transferrecord",
+    "pk": 4
+},
+{
+    "fields": {
+        "date": "2015-12-06",
+        "item": 1,
+        "location": 1,
+        "quantity": 100
+    },
+    "model": "inventory.transferrecord",
+    "pk": 5
+},
+{
+    "fields": {
+        "date": "2015-12-06",
+        "item": 1,
+        "location": 1,
+        "quantity": -100
+    },
+    "model": "inventory.transferrecord",
+    "pk": 6
+},
+{
+    "fields": {
+        "date": "2015-12-03",
+        "tracking_no": "tr112",
+        "delivery_receipt_no": "tr-1",
+        "supplier": 1
+    },
+    "model": "inventory.arrival",
+    "pk": 2
+},
+{
+    "fields": {
+        "date": "2015-12-03",
+        "tracking_no": "789",
+        "delivery_receipt_no": "666",
+        "supplier": 1
+    },
+    "model": "inventory.arrival",
+    "pk": 3
+},
+{
+    "fields": {
+        "date": "2015-12-03",
+        "tracking_no": "1000",
+        "delivery_receipt_no": "100",
+        "supplier": 1
+    },
+    "model": "inventory.arrival",
+    "pk": 4
+},
+{
+    "fields": {
+        "date": "2015-12-03",
+        "tracking_no": "809809",
+        "delivery_receipt_no": "8909809",
+        "supplier": 1
+    },
+    "model": "inventory.arrival",
+    "pk": 5
+},
+{
+    "fields": {
+        "arrival": 2,
+        "item": 1,
+        "is_active": true,
+        "item_cost": 1000.0,
+        "quantity": 100
+    },
+    "model": "inventory.itemarrival",
+    "pk": 1
+},
+{
+    "fields": {
+        "arrival": 3,
+        "item": 1,
+        "is_active": true,
+        "item_cost": 1000.0,
+        "quantity": 100
+    },
+    "model": "inventory.itemarrival",
+    "pk": 2
+},
+{
+    "fields": {
+        "arrival": 4,
+        "item": 1,
+        "is_active": true,
+        "item_cost": 1000.0,
+        "quantity": 100
+    },
+    "model": "inventory.itemarrival",
+    "pk": 3
+},
+{
+    "fields": {
+        "arrival": 5,
+        "item": 1,
+        "is_active": true,
+        "item_cost": 1000.0,
+        "quantity": 100
+    },
+    "model": "inventory.itemarrival",
+    "pk": 4
+},
+{
+    "fields": {
+        "arrival": 5,
+        "item": 1,
+        "is_active": true,
+        "item_cost": null,
+        "quantity": 100
+    },
+    "model": "inventory.itemarrival",
+    "pk": 5
+}
+]
