@@ -24,7 +24,7 @@ class LocationForm(forms.ModelForm):
 class ItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
-		fields = ['name', 'description', 'category', 'brand', 'model', 'item_code', 'unit_cost', 'date', 'supplier']
+		fields = ['name', 'description', 'category', 'brand', 'model', 'item_code', 'unit_cost', 'supplier']
 
 	def __init__(self, *args, **kwargs):
 		super(ItemForm,self).__init__(*args, **kwargs)
@@ -35,7 +35,6 @@ class ItemForm(forms.ModelForm):
 		self.fields['model'].widget.attrs['class'] = 'form-control'
 		self.fields['item_code'].widget.attrs['class'] = 'form-control'
 		self.fields['unit_cost'].widget.attrs['class'] = 'form-control'
-		self.fields['date'].widget.attrs['class'] = 'form-control'
 		self.fields['supplier'].widget.attrs['class'] = 'form-control'
 
 		self.fields['name'].error_messages['required'] = 'Enter item\'s name.'
@@ -44,7 +43,7 @@ class ItemForm(forms.ModelForm):
 		self.fields['brand'].error_messages['required'] = 'Enter item\'s brand'
 		self.fields['model'].error_messages['required'] = 'Enter item\'s model'
 		self.fields['item_code'].error_messages['required'] = 'Enter item\'s item code'
-		self.fields['item_cost'].error_messages['required'] = 'Enter item\'s item_cost'
+		self.fields['unit_cost'].error_messages['required'] = 'Enter item\'s unit cost'
 		self.fields['supplier'].error_messages['required'] = 'Choose supplier.'	
 
 class ItemLocationForm(forms.ModelForm):

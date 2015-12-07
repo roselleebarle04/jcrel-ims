@@ -56,6 +56,7 @@ class WarningItems(models.Model):
 class Location (models.Model):
 	name = models.CharField(max_length = 50, null = True)
 	address = models.CharField(max_length = 200, null = True)
+	user = models.ForeignKey(User, null=True)
 
 	def __unicode__(self):
 		return self.name
@@ -77,6 +78,8 @@ class Supplier(models.Model):
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
 
+	user = models.ForeignKey(User, null=True)
+
 	def __unicode__(self):
 		return self.name
 
@@ -85,6 +88,8 @@ class Customer(models.Model):
 	name = models.CharField(max_length=200, null=True)
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
+
+	user = models.ForeignKey(User, null=True)
 
 	def __unicode__(self):
 		return self.name
@@ -98,11 +103,11 @@ class Item(models.Model):
 	model = models.CharField(max_length = 50, null=True)
 	item_code = models.CharField(max_length = 50, unique = True)
 	unit_cost = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
-	date = models.DateTimeField(default=datetime.datetime.now)
+	date = models.DateTimeField(default=timezone.now())
 
 	supplier = models.ForeignKey(Supplier, blank=True, null=True)
-	location = models.ManyToManyField(Location, through='ItemLocation', blank=False)
-	user = models.ForeignKey(User, null=True)
+	location = models.ManyToManyField(Location, through='ItemLocation', blank=True, null=True)
+	user = models.ForeignKey(User, blank=False, null=True)
 
 	def __unicode__(self):
 		return " ".join((
@@ -115,9 +120,9 @@ class Item(models.Model):
 class Sale(models.Model):
 	date = models.DateField(default=timezone.now)
 	items = models.ManyToManyField(Item, through='ItemSale')
-	customer = models.ForeignKey(Customer)
-	location = models.ForeignKey(Location)
-	user = models.ForeignKey(User)
+	customer = models.ForeignKey(Customer, null=True, blank=False)
+	location = models.ForeignKey(Location, null=True, blank=False)
+	user = models.ForeignKey(User, null=True, blank=False)
 
 	def __unicode__(self):
 		return ' '.join(unicode(self.date))
