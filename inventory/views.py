@@ -106,6 +106,21 @@ def add_item(request):
 			# The item is registered in a location... Let's record the item and its quantity in a location
 			# quantity = request.POST.get('stock_in_location')
 			
+<<<<<<< HEAD
+			if not location_id == "":
+				current_location = Location.objects.get(id=location_id)
+				i = ItemLocation(item=item, location=current_location, quantity=quantity)
+				i.save()
+				messages.success(request, 'Item successfully added.')
+			else:
+				# Create new itemLocation object
+				loc = Location.objects.all()[0] # Get first location (Default)
+				j = ItemLocation.objects.create(item=item, location=loc)
+				j.save()
+				messages.success(request, 'Item successfully added.')
+			return HttpResponseRedirect(reverse('add_item'))
+
+=======
 			# if not location_id == "":
 			# 	current_location = Location.objects.get(id=location_id)
 			# 	i = ItemLocation(item=item, location=current_location, quantity=quantity)
@@ -117,6 +132,7 @@ def add_item(request):
 			# 	j.save()
 			# messages.success(request, 'Item successfully added.')
 			return HttpResponseRedirect(reverse('list_items'))
+>>>>>>> 0779f61a90a2b4a228c286b7418d883e8d73fff6
 	return render(request, 'items/add_item.html', {
 		'form' : add_new_item_form, 
 		'locations' : locations,
@@ -159,11 +175,11 @@ def update_item(request, item_id):
 ##	Transfers 
 #############################################
 
-def create_transfer(self):
+def create_transfer(request):
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
-	transferForm = Transfer(request.POST or None)
-	formset = formset_factory(ItemTransfer, formset=ItemTransferFormset, extra = 1)
+	transferForm = TransferForm(request.POST or None)
+	formset = formset_factory(ItemTransferForm, formset=ItemTransferFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
 
 	if transferForm.is_valid() and transferFormset.is_valid():
@@ -174,54 +190,37 @@ def create_transfer(self):
 		for form in transferFormset:
 			transfer = transfer_id
 			item = form.cleaned_data['item']
-			quantity_to_transfer = form.cleaned_data['quantity']
-			i = ItemTransfer(item = item, quantity=quantity, transfer=p)	
+			quantity = form.cleaned_data['quantity']
+			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)	
 			i.save()
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
-		
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset,
-		'all_items':items_list,
-		'items':items,
-		'warning':warning,
-		# 'below_min':below_min
 		}) 
 
 @login_required
 def list_locations(request):
 	""" We want to display all items and their respective locations """
-	items = Item.objects.all()
 	locations = Location.objects.all()
-	item_locations = ItemLocation.objects.all()
-	print 'hi'
+	loc_len = len(locations)
 	return render(request, 'transfer/location.html', {
-		'items' : items,
 		'locations' : locations,
-		'item_locations' : item_locations,
-		'itemlen' : len(item_locations),
+		'loc_len' : loc_len,
 	})
+
 
 @login_required
 def add_location(request):
-	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
 	location_list = Location.objects.all()
 	form = LocationForm(request.POST or None)
-
 	if form.is_valid():
 		form.save()
-		return redirect('list_locations')
+		return redirect('location')
 
 	return render (request, 'transfer/add_location.html', {
 		'form' : form, 
 		'location':location_list,
-		'all_items':items_list, 
 		# 'items':items, 
 		# 'below_min':below_min
 		})
@@ -233,7 +232,7 @@ def update_location(request, location_id):
 	location = Location.objects.get(pk=location_id)
 
 	if request.method == 'POST':
-		location.branch_name = request.POST.get('branch_name')
+		location.branch_name = request.POST.get('name')
 		location.address = request.POST.get('address')
 		location.save()
 		return HttpResponseRedirect(reverse('location'))
@@ -246,9 +245,7 @@ def update_location(request, location_id):
 
 @login_required
 def delete_location(request, location_id):
-	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
-	
+	location = Location.objects.all()
 	lo = Location.objects.get(pk=location_id)
 	lo.delete()
 	return HttpResponseRedirect(reverse('location'))

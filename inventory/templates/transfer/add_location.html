@@ -15,7 +15,7 @@
                     <form class="form" method="POST">                        
                         {% csrf_token %}
                         <div class="form-group">
-                            {{form.branch_name.errors}}
+                            {{form.name.errors}}
                             <label>Name</label>
                             <input name="name" type="text" class="form-control" >
                         </div>

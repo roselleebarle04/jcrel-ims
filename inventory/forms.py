@@ -53,9 +53,13 @@ class ItemLocationForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(ItemLocationForm,self).__init__(*args, **kwargs)
+<<<<<<< HEAD
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+=======
 		self.fields['current_stock'].widget.attrs['class'] = 'form-control'
 		self.fields['re_order_point'].widget.attrs['class'] = 'form-control'
 		self.fields['re_order_amount'].widget.attrs['class'] = 'form-control'
+>>>>>>> 0779f61a90a2b4a228c286b7418d883e8d73fff6
 		
 class SaleForm(forms.ModelForm):
 	class Meta:
@@ -97,12 +101,12 @@ class ItemSaleForm(forms.ModelForm):
 class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer
-		fields = ['source_location', 'destination_location']
+		fields = ['From', 'To']
 
 	def __init__(self, *args, **kwargs):
-		super(ItemTransferForm, self).__init__(*args, **kwargs)
-		self.fields['source_location'].widget.attrs['class'] = 'form-control'
-		self.fields['destination_location'].widget.attrs['class'] = 'form-control'
+		super(TransferForm, self).__init__(*args, **kwargs)
+		self.fields['From'].widget.attrs['class'] = 'form-control'
+		self.fields['To'].widget.attrs['class'] = 'form-control'
 
 class ItemTransferForm(forms.ModelForm):
 	class Meta:
