@@ -8,7 +8,6 @@ from . import settings
 from inventory import views as inventory_views
 from inventory import urls as inventory_urls
 from inventory import accounts as account_views
-import notifications
 
 
 urlpatterns = [
@@ -18,8 +17,8 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name':'accounts/login.html'}),
     url(r'^logout/$', auth_views.logout, {'template_name':'accounts/logout.html'}),
     url(r'^change_password/$', account_views.change_password, name="change_password"),
-    # url(r'^notifications/$', account_views.notifications, name="notifications"),
-    url(r'^inbox/notifications/', include(notifications.urls)),
+    url(r'^notifications/$', account_views.notifications, name="notifications"),
+    # url('^inbox   /notifications/', include(notifications.urls)),
 
     url(r'^password_reset/$', auth_views.password_reset, 
         {'template_name':'accounts/password_reset_form.html', 'email_template_name':'accounts/password_reset_email.html',
