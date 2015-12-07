@@ -1,4 +1,4 @@
- {% extends "base.html" %}
+{% extends "base.html" %}
 {% load staticfiles %}
 
 
@@ -6,8 +6,8 @@
 
 <style type="text/css">
     .add-row {
-        /*margin-top: 20px;*/
-        /*width: 200px;*/
+        margin-top: 20px;
+        width: 200px;
     }
 
     .delete-row {
@@ -22,45 +22,6 @@
     #id_orders_table td {
         padding: 10px;
         text-align: center;
-
-    }
-    h1{
-        background-image: url({% static 'img/images1.png' %});
-        background-repeat: no-repeat;
-        background-position: 90px 50px;
-        background-size: 20%;
-    }
-    form{
-        position: absolute;
-        top: -350px;
-    }
-    form div.col-md-6{
-        position: absolute;
-        top: 0px;
-        margin-left:400px;
-    }
-    h5{
-        background-color: rgba(0,0,0,.03);
-        color:#5a5c51;
-        position: absolute;
-        top: 80px;
-        margin-left:1000px; 
-    }
-    h3{
-        margin-left:420px; 
-    }
-    tbody{
-        background-color: rgba(0,0,0,.09);
-        border:2px solid #66CDAA;
-    }
-    thead{
-        border:2px solid #66CDAA;
-        font-size: 100%;
-        color: #5a5c51;
-    }
-    #id_orders_table th {
-        padding: 10px;
-        text-align: center;
     }
     p{
         background: rgba(0,0,0,.03);
@@ -69,79 +30,88 @@
         background-color: #66CDAA;
         color: white;
     }
+    form .col-md-1{
+        margin-top: 95px;
+    }
+    form .col-md-8 div{
+        background: white;
+    }
+    form .col-md-8 div .panel-heading{
+        background: #E5FFF2;
+        color: black;
+        border-color: #DDD;
+    }                       
 
 </style>
 
 <div class="row">
     <div class="col-lg-12">
-        <h1><br><br><br><br><br><br><br><br><br></h1>
+        <h1>Add Arrival</h1>
     </div>
 </div>
 <br>
-
-<div class="row">
-    <div class="col-lg-12">
-        <form class="form" method="POST">
-            {% csrf_token %}
-            <div class="col-md-6">
-                {{ AddArrivalForm.as_p }}
-            </div>
-            <br><br><br><br>
-            <h5> <a href="/arrival/add/supplier/" class="btn btn-md" role="button">Add Supplier</a></h5>
-            <br><br><br><br><br><br><br><br><br><br><br>
-
-            <h3>Arrived Items</h3>
-            <div class="container">
-                {% if messages %}
-                    <div class="row">
-                        <div class="col-sm-8 col-sm-offset-5">                    
-                            {% for message in messages %}
-                            <p 
-                            {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
-                            {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
-                            {% endif %}>{{ message }}
-                            </p>
-                            {% endfor %}                    
+<form  class="form" method="POST">
+    <div class="row">
+        {% csrf_token %}
+        <div class="col-md-3">
+            {{ AddArrivalForm.as_p }}
+        </div>
+        <div class="col-md-1">
+            <a href="{% url "add_supplier" %}?next=/arrival/add/" class="btn btn-sm" role="button">NEW</a>
+        </div>
+        <div class="col-md-8">
+            <div panel panel-default>
+                <div class="panel-heading"> Arrived Items</div>
+                <div class="panel-body">
+                    <div class="container">
+                    {% if messages %}
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-5">                    
+                                {% for message in messages %}
+                                <p 
+                                {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
+                                {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
+                                {% endif %}>{{ message }}
+                                </p>
+                                {% endfor %}                    
+                            </div>
                         </div>
+                    {% endif %}
                     </div>
-                {% endif %}
-            </div>
-            <br>
-            <table id="id_orders_table" style="width: 100%;" cellpadding="0" cellspacing="0">
-                <thead>
-                 <!-- <span class="required"> *This field is required </span> -->
-                    <tr>
-                        <th style="width: 50%; ">ITEM</th>
-                        <th style="width: 25%;">QUANTITY</th>
-                        <th style="width: 25%;">ITEM COST</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for form in formset.forms %}
-                    <tr id="{{ form.prefix }}-row" class="dynamic-form">
-                        <td>{{ form.item }}</td>
-                        <td>{{form.quantity}}</td>
-                        <td>{{form.item_cost}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-
-            </table>
-            <br>
-            <div class="text-center">
-                <a href="/register/" class="btn btn-info" role="button">Register new item</a>
-                <a href="javascript:void(0) " class=" add-row btn btn-md ">Add More</a>    
-            </div>
-            {{ formset.management_form }}            
-            <br><br>
-            <div class="form-group">
-                <input type="submit" class="form-control btn btn-success" name="name" value="Submit" />
-            </div>
-        </form>
+                    <table id="id_orders_table" style="width: 100%;" cellpadding="0" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th style="width: 50%; ">Item</th>
+                                <th style="width: 25%;">Quantity</th>
+                                <th style="width: 25%;">Item Cost</th>                    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for form in formset.forms %}
+                            <tr id="{{ form.prefix }}-row" class="dynamic-form">
+                                <td>{{ form.item }}</td>
+                                <td>{{form.quantity}}</td>
+                                <td>{{form.item_cost}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        <a href="javascript:void(0) " class=" add-row btn btn-md ">Add More</a>    
+                    </div>
+                </div>
+            </div>            
+        </div>
+        {{ formset.management_form }}   
+    </div>    
+    <br><br><br><br><br><br><br>
+    <div class="form-group">
+        <input type="submit" class="form-control btn btn-success btn-md" name="name" value="Submit" />
     </div>
-</div>
+</form>
 
+
+ 
 {% endblock %}
 
 {% block scripts %}
@@ -162,3 +132,4 @@
 {% endblock %}
 
 
+g

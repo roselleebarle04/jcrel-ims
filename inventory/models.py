@@ -1,3 +1,4 @@
+import datetime
 from django.db import models 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, UserManager
@@ -55,6 +56,7 @@ class WarningItems(models.Model):
 class Location (models.Model):
 	name = models.CharField(max_length = 50, null = True)
 	address = models.CharField(max_length = 200, null = True)
+	user = models.ForeignKey(User, null=True)
 
 	def __unicode__(self):
 		return self.name
@@ -62,8 +64,10 @@ class Location (models.Model):
 class ItemLocation(models.Model):
 	item = models.ForeignKey('Item')
 	location = models.ForeignKey(Location)
-	quantity = models.IntegerField(default = 0)
-
+	current_stock = models.IntegerField(default = 0)
+	re_order_point = models.PositiveIntegerField(default = 0)
+	re_order_amount = models.PositiveIntegerField(default = 0)
+		
 	def __unicode__(self):
 		return '%s' % (self.item)
 
@@ -74,50 +78,50 @@ class Supplier(models.Model):
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
 
+	user = models.ForeignKey(User, null=True)
+
 	def __unicode__(self):
 		return self.name
-
 
 class Customer(models.Model):
 	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
 	name = models.CharField(max_length=200, null=True)
 	address = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
+	user = models.ForeignKey(User, null=True)
 
 	def __unicode__(self):
 		return self.name
 
 class Item(models.Model):
-	status = models.BooleanField(default=True)		# Active or Inactive
-	types = models.CharField(max_length = 50, null=True)
+	is_active = models.BooleanField(default=True)		# Active or Inactive
+	name = models.CharField(max_length=70, null=True)
+	description = models.CharField(max_length = 50, null=True)
 	category = models.CharField(max_length = 50, null=True)
 	brand = models.CharField(max_length = 50, null=True)
 	model = models.CharField(max_length = 50, null=True)
-	supplier = models.ForeignKey(Supplier, blank=True, null=True)
 	item_code = models.CharField(max_length = 50, unique = True)
-	srp = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
-	created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+	unit_cost = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
+	date = models.DateTimeField(default=timezone.now())
 
-	location = models.ManyToManyField(Location, through='ItemLocation', blank=False)
-	
+	supplier = models.ForeignKey(Supplier, blank=True, null=True)
+	location = models.ManyToManyField(Location, through='ItemLocation', blank=True, null=True)
+	user = models.ForeignKey(User, blank=False, null=True)
+
 	def __unicode__(self):
 		return " ".join((
             unicode(self.item_code),
-            unicode(self.types),
             unicode(self.category),
             unicode(self.brand),
             unicode(self.model)
         ))
 
-	def get_description(self):
-		return self.category + ' ' + self.brand + ' ' + self.model
-
 class Sale(models.Model):
 	date = models.DateField(default=timezone.now)
 	items = models.ManyToManyField(Item, through='ItemSale')
-	customer = models.ForeignKey(Customer)
-	location = models.ForeignKey(Location)
-	user = models.ForeignKey(User, null = True)
+	customer = models.ForeignKey(Customer, null=True, blank=False)
+	location = models.ForeignKey(Location, null=True, blank=False)
+	user = models.ForeignKey(User, null=True, blank=False)
 
 	def __unicode__(self):
 		return ' '.join(unicode(self.date))
@@ -148,10 +152,11 @@ class ItemSale(models.Model):
 
 
 class Transfer(models.Model):
-	source_location = models.ForeignKey(Location, related_name = 'from+')
-	destination_location = models.ForeignKey(Location, related_name = 'to+')
+	From = models.ForeignKey(Location, related_name = 'from+')
+	To = models.ForeignKey(Location, related_name = 'to+')
 	date = models.DateField(default=timezone.now)
 	items = models.ManyToManyField(Item , through = 'ItemTransfer')
+	user = models.ForeignKey(User)
 
 	def __unicode__(self):
 		return self.source_location
@@ -170,7 +175,8 @@ class Arrival(models.Model):
 	tracking_no = models.CharField(max_length=100, null=True, blank=True)
 	items = models.ManyToManyField(Item, through='ItemArrival')
 	supplier = models.ForeignKey(Supplier)
-	# location = models.ForeignKey(Location)
+	location = models.ForeignKey(Location)
+	user = models.ForeignKey(User)
 
 	def __unicode__(self):
 		return self.tracking_no
@@ -181,7 +187,7 @@ class Arrival(models.Model):
 	@staticmethod
 	def apply_filter(start, end, supplier):
 		items = Arrival.objects.filter(supplier=supplier).filter(date__gt=start, date__lt=end)
-		return items
+		return item
 
 	@property
 	def get_grand_total(self):
@@ -205,4 +211,19 @@ class ItemArrival(models.Model):
 	def calculate_total(self):
 		return self.item_cost * self.quantity
 
+class Notifications(models.Model):
+	date = models.DateTimeField(auto_now_add=True)
+	message = models.CharField(max_length=200)
+	user = models.ForeignKey(User)
 
+	# @property
+	def check_minimum(self):
+		items = ItemLocation.objects.all()
+		is_zero = 0
+		below_min = is_zero
+
+		for i in items:
+			if i.quantity < 10:
+				below_min = below_min + 1
+
+		return below_min

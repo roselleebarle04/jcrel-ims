@@ -2,25 +2,6 @@
 {% load staticfiles %}
 
 {% block content %}  
-
-<!-- {% if method.POST %}
-
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.toastmessage.css">
-
-<script src="{{ STATIC_URL }}/js/jquery.toastmessage.js"></script>
-    <script type="text/javascript">
-    $().toastmessage('showSuccessToast', "Hello there! Message is shown.");
-    </script>
-    {% include "toastmessages_fragment.html" %}
-
-
-{% endif %} -->
-<style type="text/css">
-    h1{
-        color: #34B8B8;
-    }
-</style>
-
 <div class="row">
     <h1 class="page-header">Inventory Items</h1>
 </div> 
@@ -31,19 +12,16 @@
         <table id="items" class="table table-striped" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th>Item Code</th>
+                    <th>Item</th>
                     <th>Category</th>
-                    <th>Type</th>
                     <th>Brand</th>
                     <th>Model</th>
                     <th>Supplier</th>
-                    <!-- <th>Location</th> -->
-                    <!-- <th>Quantity</th> -->
-                    <th>SRP</th>
                     <th width="10%">Actions</th>
                 </tr>
             </thead>            
             <tbody> 
+<<<<<<< HEAD
                 {% for item in items %}                
                 <tr style="background:white;">                    
                     <td>{{ item.item_code }}</td>         
@@ -55,6 +33,16 @@
                     <!-- <td>{{ i.destination.branch_name}}</td> -->
                     <!-- <td>{{ i.quantity }}</td> -->
                     <td>{{ item.srp }}</td>  
+=======
+                {% for i in items %}                
+                <tr style="background:white;">                    
+                    <td>{{ i.name }}</td>         
+                    <td>{{ i.category }}</td>
+                    <td>{{ i.brand }}</td>
+                    <td>{{ i.model }}</td>
+                    <td>{{ i.supplier.name}}</td>
+                    <td>{{ i.item_cost }}</td>  
+>>>>>>> 0779f61a90a2b4a228c286b7418d883e8d73fff6
                     <td>                           
                         <a href="/items/update/{{item.id}}/" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span> </a>
                         <button onclick="confirmItemDelete({{item.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button>
@@ -64,13 +52,12 @@
             </tbody>
         </table>
         {% else %}
-            <div class="col-md-10 col-md-offset-1">
+           <!--  <div class="col-md-10 col-md-offset-1">
                 <div class="alert alert-info" role="alert">
                   <center><h3>No Items Listed. </h3></center>
                 </div>
-            </div>
+            </div> -->
         {% endif %}
     </div>
 </div>
-
 {% endblock %}
