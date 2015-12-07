@@ -18,7 +18,7 @@ body table {
 	border-bottom: 0;
 }
 body p {
-	color: white;
+	color: #03B3B3;
 }
 body a, html a {
 	color: #4BC7AC;
@@ -102,7 +102,7 @@ ul.errorlist {
 }
 
 #wrapper .navbar-default.sidebar .sidebar-nav ul li i {
-	color: #F8F9F6;
+	color: #333333/*#F8F9F6*/;
 }
 #wrapper .navbar-default.sidebar .sidebar-nav ul li i:hover{
 	color: white;
@@ -122,7 +122,7 @@ ul.errorlist {
 	border-color: transparent;
 }
 #wrapper .navbar.navbar-default ul.navbar-right li a {
-	color: black;
+	color: white;
 }
 #wrapper .navbar.navbar-default ul.navbar-right li a i {
 	color: white;

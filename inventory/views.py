@@ -76,11 +76,13 @@ def notifications(request):
 		'itemLength': itemLength,
 	})
 
+	
 
 def add_item(request):
 	"""
 	In adding an item, we want to store where the item is located, and the quantity of that 
 	item in that location. 
+
 
 	In choosing a location: 
 	- If location already exists, then choose simply save a new instance of an ItemLocation in db
@@ -113,13 +115,14 @@ def add_item(request):
 				current_location = Location.objects.get(id=location_id)
 				i = ItemLocation(item=item, location=current_location, quantity=quantity)
 				i.save()
+				messages.success(request, 'Item successfully added.')
 			else:
 				# Create new itemLocation object
 				loc = Location.objects.all()[0] # Get first location (Default)
 				j = ItemLocation.objects.create(item=item, location=loc)
 				j.save()
-			messages.success(request, 'Item successfully added.')
-			return HttpResponseRedirect(reverse('list_items'))
+				messages.success(request, 'Item successfully added.')
+			return HttpResponseRedirect(reverse('add_item'))
 
 	return render(request, 'items/add_item.html', {
 		'form' : add_new_item_form, 
@@ -137,7 +140,6 @@ def delete_item(request, item_id):
 
 def update_item(request, item_id):
 	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
 	warning = WarningItems.objects.all()
 	item = Item.objects.get(pk=item_id)
 	if request.method == 'POST':
@@ -164,68 +166,39 @@ def update_item(request, item_id):
 ##	Transfers 
 #############################################
 
-@login_required
-def transfer_stocks(request):
-	"""
-	When transferring stocks, 
-	1. We record the item and quantity transferred in the TransferRecord tabel (for reference), 
-	2. Update the quantity in of item in ItemLocation table - EASY
-	"""
-	locations = Location.objects.all()
-
-	# Initialize FormSet
-	formset = formset_factory(TransferRecordForm, formset=TransferRecordFormset, extra = 1)
+def create_transfer(self):
+	items_list = Item.objects.all()
+	items = ItemLocation.objects.all()
+	transferForm = Transfer(request.POST or None)
+	formset = formset_factory(ItemTransfer, formset=ItemTransferFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
 
-	if request.method == 'POST':
-		# transfer_date = request.POST.get('transfer_date') #already generated automatically
-		destination_location_id = request.POST.get('destination_location')
-		destination_location = Location.objects.get(id=destination_location_id)
+	if transferForm.is_valid() and transferFormset.is_valid():
+		p = transferForm.save(commit=False)
+		p.save()
+		transfer_id = p
+		
+		for form in transferFormset:
+			transfer = transfer_id
+			item = form.cleaned_data['item']
+			quantity_to_transfer = form.cleaned_data['quantity']
+			i = ItemTransfer(item = item, quantity=quantity, transfer=p)	
+			i.save()
 
-		if transferFormset.is_valid():
-			# Save transfer record in ItemTransfer, then UPDATE the ItemLocation quantity
-			for form in transferFormset:
-				item = form.cleaned_data['item']
-				quantity = form.cleaned_data['quantity']
-				source_location = form.cleaned_data['location']
-
-				# 1. save the itemtransfer record for the destination
-				print 'quantity ', quantity
-				i = TransferRecord(item=item, quantity=quantity, location=destination_location)	
-				i.save()
-
-				#  2. Update the itemlocation quantity on the destination location for the item - CREATE NEW IF DOESN'T EXIST
-				try: 
-					item_in_location = ItemLocation.objects.filter(item=item, location=destination_location)[0]
-					item_in_location.quantity = item_in_location.quantity + quantity
-					item_in_location.save()
-				except IndexError:
-					ItemLocation.objects.create(item=item, location=destination_location, quantity=quantity)
-
-				# 3. The same item sa pikas na location kay dapat makwaan pud - TODO
-				# source_location = item.itemlocation_set.all() # source location atong gi pili na item sa items na panel bitaw
-				# source_location = source_location[0].location
-				try:
-					item_in_source = ItemLocation.objects.filter(item=item, location=source_location) # CREATE NEW IF DOESN'T EXIST
-					item_in_source.quantity = item_in_source.quantity - quantity
-					item_in_source.save()
-				except:
-					ItemLocation.objects.create(item=item, location=source_location, quantity=-quantity)
-
-				# 4. Also save an itemtransfer record for the source (negative ang quantity dapat,ok?)
-				neg_quantity = -(quantity)
-				j = TransferRecord(item=item, quantity=neg_quantity, location=source_location)
-				j.save()
-			return HttpResponseRedirect(reverse('list_locations'))
-
-	return render(request, 'transfer/add_transfer.html', {
+	for i in items:
+		below_min = 0
+		if i.quantity < 10:
+			below_min = below_min + 1
+			print "below_min %d" % (below_min)
+		
+	return render(request, 'transfer/transfer_form.html', {
+		'TransferForm' : transferForm, 
 		'formset' : transferFormset,
-		'locations' : locations,
-	})
-
-#############################################
-##	Locations 
-#############################################
+		'all_items':items_list,
+		'items':items,
+		'warning':warning,
+		# 'below_min':below_min
+		}) 
 
 @login_required
 def list_locations(request):
