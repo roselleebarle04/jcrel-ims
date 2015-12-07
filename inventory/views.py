@@ -35,13 +35,7 @@ def dashboard(request):
 	items_len = len(items)
 	sales_len = len(sales)
 
-	is_zero = 0
-	below_min = is_zero
-
-	for i in items:
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	below_min = Notifications.check_minimum
 
 	return render(request, 'dashboard.html', {
 		'user':request.user.username,
@@ -118,7 +112,7 @@ def add_item(request):
 				messages.success(request, 'Item successfully added.')
 			else:
 				# Create new itemLocation object
-				loc = Location.objects.all()[0] # Get first location (Default)
+				# loc = Location.objects.all()[0] # Get first location (Default)
 				j = ItemLocation.objects.create(item=item, location=loc)
 				j.save()
 				messages.success(request, 'Item successfully added.')

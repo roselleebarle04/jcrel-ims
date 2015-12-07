@@ -109,6 +109,22 @@ class ItemTransferForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(ItemTransferForm, self).__init__(*args, **kwargs)
+	class Meta:
+		model = Transfer
+		fields = ['source_location', 'destination_location']
+
+	def __init__(self, *args, **kwargs):
+		super(ItemTransferForm, self).__init__(*args, **kwargs)
+		self.fields['source_location'].widget.attrs['class'] = 'form-control'
+		self.fields['destination_location'].widget.attrs['class'] = 'form-control'
+
+class ItemTransferForm(forms.ModelForm):
+	class Meta:
+		model = ItemTransfer
+		fields = ['item', 'quantity']
+
+	def __init__(self, *args, **kwargs):
+		super(ItemTransferForm, self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		
