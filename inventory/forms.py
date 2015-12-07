@@ -91,17 +91,42 @@ class ItemSaleForm(forms.ModelForm):
 	# 		raise ValidationError("Quantity exceeds the current quantity of the item.")
 		
 	# 	return self.cleaned_data['quantity']
-			
-class TransferRecordForm(forms.ModelForm):
+
+class TransferForm(forms.ModelForm):
 	class Meta:
-		model = TransferRecord
-		fields = ['item', 'location', 'quantity']
+		model = Transfer
+		fields = ['source_location', 'destination_location']
 
 	def __init__(self, *args, **kwargs):
-		super(TransferRecordForm, self).__init__(*args, **kwargs)
+		super(ItemTransferForm, self).__init__(*args, **kwargs)
+		self.fields['source_location'].widget.attrs['class'] = 'form-control'
+		self.fields['destination_location'].widget.attrs['class'] = 'form-control'
+
+class ItemTransferForm(forms.ModelForm):
+	class Meta:
+		model = ItemTransfer
+		fields = ['item', 'quantity']
+
+	def __init__(self, *args, **kwargs):
+		super(ItemTransferForm, self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
-		self.fields['location'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
+		
+	
+	# def clean(self):
+	# 	data = self.cleaned_data['item']
+	# 	q_transfer = self.cleaned_data['quantity_to_transfer']
+	# 	w_qty = data.warehouse_quantity
+	# 	if q_transfer> w_qty:
+	# 		raise forms.ValidationError("Quantity Exceed current quantity of the Item in the Warehouse")
+	# 	else:
+	# 		current_w = w_qty - q_transfer
+	# 		current_s = data.store_quantity + q_transfer
+	# 		data.warehouse_quantity = current_w
+	# 		data.store_quantity = current_s
+	# 		data.save()
+
+	
 
 class SupplierForm(forms.ModelForm):
 	class Meta: 
