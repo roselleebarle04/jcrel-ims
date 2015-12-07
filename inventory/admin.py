@@ -23,10 +23,6 @@ class SaleAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Sale, SaleAdmin)
 
-class SoldItemAdmin(admin.ModelAdmin):
-	pass
-admin.site.register(SoldItem, SoldItemAdmin)
-
 class TransferItemAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(ItemTransfer)
@@ -35,17 +31,9 @@ class Transferdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Transfer)
 
-class ArrivedItemAdmin(admin.ModelAdmin):
-	pass
-admin.site.register(ArrivedItem, ArrivedItemAdmin)
-
 class ArrivalAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(Arrival, ArrivalAdmin)
-
-class RegisterArrivedItemAdmin(admin.ModelAdmin):
-	pass
-admin.site.register(RegisterArrivedItem, RegisterArrivedItemAdmin)
 
 class LocationAdmin(admin.ModelAdmin):
 	pass

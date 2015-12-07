@@ -183,8 +183,8 @@ def create_transfer(request):
 		for form in transferFormset:
 			transfer = transfer_id
 			item = form.cleaned_data['item']
-			quantity_to_transfer = form.cleaned_data['quantity_to_transfer']
-			i = Transfer_item(item = item, quantity_to_transfer=quantity_to_transfer, trans=p)	
+			quantity_to_transfer = form.cleaned_data['quantity']
+			i = ItemTransfer(item = item, quantity=quantity_to_transfer, transfer=p)	
 			i.save()
 
 	for i in items:

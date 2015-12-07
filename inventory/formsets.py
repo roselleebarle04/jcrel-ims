@@ -6,7 +6,7 @@ class AddArrivedItemFormset(BaseFormSet):
 		if any(self.errors):
 			return
 
-class Transfer_itemFormset(BaseFormSet):
+class ItemTransferFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
 			return

@@ -142,8 +142,8 @@ class ItemSale(models.Model):
 
 
 class Transfer(models.Model):
-	source_location = models.ForeignKey(Location, related_name = 'from')
-	destination_location = models.ForeignKey(Location, related_name = 'to')
+	source_location = models.ForeignKey(Location, related_name = 'from+')
+	destination_location = models.ForeignKey(Location, related_name = 'to+')
 	date = models.DateField(default=timezone.now)
 	items = models.ManyToManyField(Item , through = 'ItemTransfer')
 

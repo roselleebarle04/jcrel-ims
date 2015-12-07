@@ -107,29 +107,29 @@ class TransferForm(forms.ModelForm):
 		self.fields['location'].widget.attrs['class'] = 'form-control'
 		self.fields['transfer_date'].widget.attrs['class'] = 'form-control'	
 
-class Transfer_itemForm(forms.ModelForm):
+class ItemTransferForm(forms.ModelForm):
 	class Meta:
-		model = Transfer_item
-		fields = ['item', 'quantity_to_transfer']
+		model = ItemTransfer
+		fields = ['item', 'quantity']
 		
 	
-	def clean(self):
-		data = self.cleaned_data['item']
-		q_transfer = self.cleaned_data['quantity_to_transfer']
-		w_qty = data.warehouse_quantity
-		if q_transfer> w_qty:
-			raise forms.ValidationError("Quantity Exceed current quantity of the Item in the Warehouse")
-		else:
-			current_w = w_qty - q_transfer
-			current_s = data.store_quantity + q_transfer
-			data.warehouse_quantity = current_w
-			data.store_quantity = current_s
-			data.save()
+	# def clean(self):
+	# 	data = self.cleaned_data['item']
+	# 	q_transfer = self.cleaned_data['quantity_to_transfer']
+	# 	w_qty = data.warehouse_quantity
+	# 	if q_transfer> w_qty:
+	# 		raise forms.ValidationError("Quantity Exceed current quantity of the Item in the Warehouse")
+	# 	else:
+	# 		current_w = w_qty - q_transfer
+	# 		current_s = data.store_quantity + q_transfer
+	# 		data.warehouse_quantity = current_w
+	# 		data.store_quantity = current_s
+	# 		data.save()
 
 	def __init__(self, *args, **kwargs):
-		super(Transfer_itemForm, self).__init__(*args, **kwargs)
+		super(ItemTransferForm, self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
-		self.fields['quantity_to_transfer'].widget.attrs['class'] = 'form-control'
+		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		
 class LocationForm(forms.ModelForm):
 	class Meta:
