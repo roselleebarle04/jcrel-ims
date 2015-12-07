@@ -50,10 +50,7 @@ class ItemLocationForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(ItemLocationForm,self).__init__(*args, **kwargs)
-		self.fields['destination'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
-		self.fields['destination'].error_messages['required'] = 'Enter item\'s location'
-		self.fields['quantity'].error_messages['required'] = 'Enter item\'s quantity'
 		
 class SaleForm(forms.ModelForm):
 	class Meta:
@@ -98,7 +95,7 @@ class TransferForm(forms.ModelForm):
 		fields = ['source_location', 'destination_location']
 
 	def __init__(self, *args, **kwargs):
-		super(ItemTransferForm, self).__init__(*args, **kwargs)
+		super(TransferForm, self).__init__(*args, **kwargs)
 		self.fields['source_location'].widget.attrs['class'] = 'form-control'
 		self.fields['destination_location'].widget.attrs['class'] = 'form-control'
 

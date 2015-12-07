@@ -165,11 +165,11 @@ def update_item(request, item_id):
 ##	Transfers 
 #############################################
 
-def create_transfer(self):
+def create_transfer(request):
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
-	transferForm = Transfer(request.POST or None)
-	formset = formset_factory(ItemTransfer, formset=ItemTransferFormset, extra = 1)
+	transferForm = TransferForm(request.POST or None)
+	formset = formset_factory(ItemTransferForm, formset=ItemTransferFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
 
 	if transferForm.is_valid() and transferFormset.is_valid():
@@ -180,23 +180,13 @@ def create_transfer(self):
 		for form in transferFormset:
 			transfer = transfer_id
 			item = form.cleaned_data['item']
-			quantity_to_transfer = form.cleaned_data['quantity']
-			i = ItemTransfer(item = item, quantity=quantity, transfer=p)	
+			quantity = form.cleaned_data['quantity']
+			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)	
 			i.save()
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
-		
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset,
-		'all_items':items_list,
-		'items':items,
-		'warning':warning,
-		# 'below_min':below_min
 		}) 
 
 @login_required

@@ -159,6 +159,7 @@ class Transfer(models.Model):
 	destination_location = models.ForeignKey(Location, related_name = 'to+')
 	date = models.DateField(default=timezone.now)
 	items = models.ManyToManyField(Item , through = 'ItemTransfer')
+	user = models.ForeignKey(User)
 
 	def __unicode__(self):
 		return self.source_location

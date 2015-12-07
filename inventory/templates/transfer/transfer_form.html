@@ -1,0 +1,105 @@
+ {% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}  
+<style type="text/css">
+    .add-row {
+        margin-top: 10px;
+        width: 150px;
+    }
+
+    .delete-row {
+        width: 80%;
+        margin-left: 10%;
+    }
+    #id_transfer th {
+        padding: 10px;
+        text-align: center;
+    }
+    #id_transfer td {
+        padding: 10px;
+        text-align: center;
+
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading" >Transfer</div>
+                <div class="panel-body">
+                <div class="container">
+                        {% if messages %}
+                            <div class="row">
+                                <div class="col-sm-4 col-sm-offset-4">                    
+                                    {% for message in messages %}
+                                    <p 
+                                    {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
+                                    {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
+                                    {% endif %}>{{ message }}
+                                    </p>
+                                    {% endfor %}                    
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <form class="form" method="POST">
+                        {% csrf_token %}
+                        {{ TransferForm.as_p }}
+                        
+                        <h2>Items</h2>
+                        
+                        <table id="id_transfer" width="100%" border="0" cellpadding="50" cellspacing="1500">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Item</th>
+                                    <th scope="col">Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for form in formset %}
+                                <tr id="{{ form.prefix }}-row"  class="dynamic-form">
+                                    
+                                    <td>{{form.item}}</td>
+                                    <td>{{form.quantity}}</td>
+                                   <!--  <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger">Remove</a></td> -->
+                                </tr> 
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                        <center><a href="javascript:void(0)" class="add-row btn btn-info">Add More</a></center>
+                        {{ formset.management_form }}
+                        <br>
+                        <div class="form-group">
+                            <input type="submit" class="form-control btn btn-success" name="name" value="Submit" />
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+        
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript" src="/static/js/jquery.formset.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.add-row').click(function() {
+            return addForm(this, 'form');
+        });
+        $('.delete-row').click(function() {
+            return deleteForm(this, 'form');
+        })
+    })
+</script>
+
+<!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="static/js/add_sale.js"></script>
+
+{% endblock %}
