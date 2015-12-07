@@ -80,14 +80,6 @@ class Supplier(models.Model):
 	def __unicode__(self):
 		return self.name
 
-
-class Customer(models.Model):
-	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
-	name = models.CharField(max_length=200, null=True)
-	address = models.CharField(max_length=200, null=True)
-	phone = models.CharField(max_length=200, null=True)
-
-
 class Customer(models.Model):
 	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
 	name = models.CharField(max_length=200, null=True)
