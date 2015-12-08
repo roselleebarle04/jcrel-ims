@@ -194,7 +194,7 @@ class Arrival(models.Model):
 		grand_total = 0
 		items_set = self.itemarrival_set.all()
 		for item in items_set: 
-			grand_total = grand_total + item.calculate_total()
+			grand_total = grand_total + item.calculate_total
 		return grand_total
 
 class ItemArrival(models.Model):

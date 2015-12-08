@@ -59,7 +59,7 @@
     {% if arrivalLen > 0 %}
         <table id="arrival" class="table" cellspacing="0" width="100%">
             <thead>
-                <tr style="background:#333;color:white;">
+                <tr>
                     <th>Date Arrived</th>
                     <th>Location</th>
                     <th>Tracking No.</th>
@@ -86,9 +86,9 @@
                                 <td><strong>Unit Cost</strong></td>
                                 <td><strong>Total Cost</strong></td>
                             </tr>
-                            {% for i in a.arriveditem_set.all %}
+                            {% for i in a.itemarrival_set.all %}
                             <tr>
-                                <td>{{i.item.get_description}}</td>
+                                <td>{{i.item}}</td>
                                 <td>{{i.item_cost}}</td>
                                 <td>{{i.quantity}}</td>
                                 <td>{{ i.calculate_total }}</td>
