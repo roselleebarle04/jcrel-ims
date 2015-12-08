@@ -22,18 +22,7 @@ from config import settings
 from .models import *
 from .forms import *
 from .formsets import *
-
-def check_minimum():
-	items = ItemLocation.objects.all()
-	is_zero = 0
-	below_min = is_zero
-
-	for i in items:
-		if i.current_stock < i.re_order_point:
-			below_min = below_min + 1
-
-	return below_min
-
+from .quantity import *
 
 def signup(request):
 	if request.method == 'POST':	
@@ -70,14 +59,12 @@ def signup(request):
 
 def change_password(request):
 	items_list = Item.objects.all()
+	items = ItemLocation.objects.all()
 	# items = AddItem.objects.all()
 	
 
-	for i in items_list:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	if request.method == 'POST':
 
@@ -92,8 +79,8 @@ def change_password(request):
 
 	return render(request, 'accounts/change_password.html', {
 		'all_items':items_list,
-		# 'items':items,
-		# 'below_min':below_min
+		'items':items,
+		'below_min':below_min
 		})
 
 @login_required
@@ -103,15 +90,13 @@ def notifications(request):
 	items = ItemLocation.objects.all()
 	itemLength = len(items)
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	return render(request, 'notifications/notification_page.html', {
 		'items':items,
 		'itemLength': itemLength,
+		'below_min':below_min
 		})
 
 
@@ -119,6 +104,7 @@ def notifications(request):
 def settings(request):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
+	items = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -131,7 +117,7 @@ def settings(request):
 
 	return render(request, 'settings/settings.html', {
 		'account':account,
-		# 'items':items,
+		'items':items,
 		'all_items':items_list,
 		'below_min':below_min
 		})
@@ -141,6 +127,7 @@ def update_settings(request):
 	# but not that the original user might not hava an account, yet - TODO
 
 	items_list = Item.objects.all()
+	items = ItemLocation.objects.all()
 	# items = AddItem.objects.all()
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -165,5 +152,5 @@ def update_settings(request):
 		'account': account,
 		'all_items':items_list,
 		'below_min':below_min,
-		# 'items':items
+		'items':items
 		})

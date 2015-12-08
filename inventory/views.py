@@ -23,18 +23,8 @@ from config import settings
 from .models import *
 from .forms import *
 from .formsets import *
+from .quantity import *
 
-
-def check_minimum():
-	items = ItemLocation.objects.all()
-	is_zero = 0
-	below_min = is_zero
-
-	for i in items:
-		if i.current_stock < i.re_order_point:
-			below_min = below_min + 1
-
-	return below_min
 
 def landing_page(request):
 	if request.user.is_authenticated():
@@ -55,7 +45,7 @@ def dashboard(request):
 
 	return render(request, 'dashboard.html', {
 		'user':request.user.username,
-		'items' : items,
+		# 'items' : items,
 		'sales': sales,
 		'items_len' : items_len,
 		'sales_len':sales_len,
@@ -71,9 +61,13 @@ def list_items(request):
 	active_items = Item.objects.all().filter(is_active=True)
 	itemLen = len(active_items)
 
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	return render(request, 'items/items.html', {
 		'items': active_items,
 		'itemLen': itemLen,
+		'below_min':below_min
 	})
 
 def notifications(request):
@@ -97,6 +91,9 @@ def add_item(request):
 	"""
 	add_new_item_form = ItemForm(request.POST or None)
 	locations = Location.objects.all()
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 	
 	if request.method == 'POST':
 		if add_new_item_form.is_valid():
@@ -119,6 +116,7 @@ def add_item(request):
 	return render(request, 'items/add_item.html', {
 		'form' : add_new_item_form, 
 		'locations' : locations,
+		'below_min':below_min
 	})
 
 def delete_item(request, item_id):
@@ -132,6 +130,9 @@ def update_item(request, item_id):
 	item = Item.objects.get(pk=item_id)
 	update_item_form = ItemForm(request.POST or None, instance=item)
 	locations = Location.objects.all()
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	if request.method == 'POST':
 		if update_item_form.is_valid():
@@ -151,11 +152,12 @@ def update_item(request, item_id):
 			messages.success(request, 'Item has been successfully updated.')
 			return HttpResponseRedirect(reverse('list_items'))
 	
-	context = {
-		'form': update_item_form	
-	}
+	# context = {
+	# 	'form': update_item_form
+	# 	'below_min':below_min	
+	# }
 
-	return render(request, 'items/update_item.html', context)
+	return render(request, 'items/update_item.html', {'form':update_item_form, 'below_min':below_min})
 	# 	items_list = Item.objects.all()
 	# warning = WarningItems.objects.all()
 
@@ -239,6 +241,10 @@ def list_locations(request):
 def add_location(request):
 	location_list = Location.objects.all()
 	form = LocationForm(request.POST or None)
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	if form.is_valid():
 		form.save()
 		return redirect('location')
@@ -247,7 +253,7 @@ def add_location(request):
 		'form' : form, 
 		'location':location_list,
 		# 'items':items, 
-		# 'below_min':below_min
+		'below_min':below_min
 		})
 
 def update_location(request, location_id):
@@ -255,6 +261,9 @@ def update_location(request, location_id):
 	# items = AddItem.objects.all()
 	location_list = Location.objects.all()
 	location = Location.objects.get(pk=location_id)
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	if request.method == 'POST':
 		location.branch_name = request.POST.get('name')
@@ -265,7 +274,7 @@ def update_location(request, location_id):
 		'location': location, 
 		'all_items':items_list, 
 		# 'items':items, 
-		# 'below_min':below_min
+		'below_min':below_min
 		})
 
 @login_required
@@ -283,7 +292,9 @@ def delete_location(request, location_id):
 def arrival(request):
 	items_list = Item.objects.all()
 	items = ItemLocation.objects.all()
-	warning = WarningItems.objects.all()
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 	
 	arrivalForm = ArrivalForm(request.POST or None)
 	formset = formset_factory(ItemArrivalForm, formset=ItemArrivalFormset, extra = 1)
@@ -327,6 +338,7 @@ def arrival(request):
 		'formset' : arrivalFormset,
 		'items':items,
 		'all_items':items_list,
+		'below_min':below_min
 		})
 
 def arrival_delete(request, arrival_id):
@@ -355,13 +367,9 @@ def sales(request):
 	saleForm = SaleForm(request.POST or None)
 	formset = formset_factory(ItemSaleForm, formset=ItemSaleFormset, extra = 1)
 	saleFormset = formset(request.POST or None)
-	
 
-	# for i in items:
-	# 	below_min = 0
-	# 	if i.quantity < 10:
-	# 		below_min = below_min + 1
-	# 		print "below_min %d" % (below_min)
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	if saleForm.is_valid() and saleFormset.is_valid():
 		# first save purchase details
@@ -392,7 +400,7 @@ def sales(request):
 		'formset' : saleFormset,
 		'items':items,
 		'all_items':items_list,
-		# 'below_min':below_min
+		'below_min':below_min
 		})
 
 def sales_history(request):
@@ -400,6 +408,9 @@ def sales_history(request):
 	sales_list = ItemSale.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 	
 
 	# for i in items:
@@ -413,7 +424,7 @@ def sales_history(request):
 		'salesLen' : salesLen,
 		'items':items,
 		'all_items':items_list,
-		# 'below_min': below_min
+		'below_min': below_min
 		})
 
 def delete_sale(request, sale_id):
@@ -433,20 +444,16 @@ def suppliers(request):
 	items = ItemLocation.objects.all()
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)
-	
 
-	# for i in items:
-	# 	below_min = 0
-	# 	if i.quantity < 10:
-	# 		below_min = below_min + 1
-	# 		print "below_min %d" % (below_min)
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	return render(request, 'supplier/suppliers.html', {
 		'suppliers': s_list,
 		's_len': s_len,
 		'items':items,
 		'all_items':items_list,
-		# 'below_min':below_min
+		'below_min':below_min
 	})
 
 def add_supplier(request):
@@ -454,6 +461,10 @@ def add_supplier(request):
 
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	supplierForm = SupplierForm(request.POST or None, request.FILES or None)
 	if request.method == 'POST':
 		if  supplierForm.is_valid():
@@ -464,12 +475,16 @@ def add_supplier(request):
 	 'form': supplierForm,
 	  'all_items':items_list,
 	  'next': redirect_to,
+	  'below_min':below_min
 	  })
 
 def update_supplier(request, supplier_id):
 	# items = AddItem.objects.all()
 	supplier = Supplier.objects.get(pk=supplier_id)
 	items_list = Item.objects.all()
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	if request.method == 'POST':
 		supplier.avatar = request.FILES.get('avatar')
@@ -482,7 +497,7 @@ def update_supplier(request, supplier_id):
 		'supplier': supplier,
 		# 'items':items,
 		'all_items':items_list,
-		# 'below_min':below_min
+		'below_min':below_min
 		})
 
 def delete_supplier(request, supplier_id):
@@ -505,18 +520,15 @@ def customers(request):
 	c_len = len(c_list)
 	
 
-	# for i in items:
-	# 	below_min = 0
-	# 	if i.quantity < 10:
-	# 		below_min = below_min + 1
-	# 		print "below_min %d" % (below_min)
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	return render(request, 'customer/customers.html', {
 		'customers': c_list,
 		'c_len': c_len,
 		'all_items':items_list,
 		'items':items,
-		# 'below_min':below_min
+		'below_min':below_min
 	})
 
 def add_customer(request):
@@ -524,18 +536,25 @@ def add_customer(request):
 	items_list = Item.objects.all()
 	customerForm = CustomerForm(request.POST or None, request.FILES)
 
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	if  customerForm.is_valid():
 		customerForm.save()
 		return HttpResponseRedirect(reverse('customers'))
 
 	return render(request, 'customer/add_customer.html', {
 		'form': customerForm,
+		'below_min':below_min
 	})
 
 def update_customer(request, customer_id):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
 	customer = Customer.objects.get(pk=customer_id)
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 	
 
 	if request.method == 'POST':
@@ -550,7 +569,7 @@ def update_customer(request, customer_id):
 		'customer': customer,
 		# 'items':items,
 		'all_items':items_list,
-		# 'below_min':below_min
+		'below_min':below_min
  	})
 
 def delete_customer(request, customer_id):
