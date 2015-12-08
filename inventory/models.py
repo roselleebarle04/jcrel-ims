@@ -102,10 +102,10 @@ class Item(models.Model):
 	model = models.CharField(max_length = 50, null=True)
 	item_code = models.CharField(max_length = 50, unique = True)
 	unit_cost = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
-	date = models.DateTimeField(default=timezone.now())
+	date = models.DateTimeField(default=timezone.now)
 
 	supplier = models.ForeignKey(Supplier, blank=True, null=True)
-	location = models.ManyToManyField(Location, through='ItemLocation', blank=True, null=True)
+	location = models.ManyToManyField(Location, through='ItemLocation')
 	user = models.ForeignKey(User, blank=False, null=True)
 
 	def __unicode__(self):

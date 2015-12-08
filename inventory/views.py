@@ -120,12 +120,10 @@ def add_item(request):
 
 def delete_item(request, item_id):
 	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
-	warning = WarningItems.objects.all()
 	item = Item.objects.get(pk = item_id)
 	item.is_active = False
 	item.save()
-	return HttpResponseRedirect(reverse('items'))
+	return HttpResponseRedirect(reverse('list_items'))
 
 def update_item(request, item_id):
 	item = Item.objects.get(pk=item_id)
