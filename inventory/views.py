@@ -106,21 +106,6 @@ def add_item(request):
 			# The item is registered in a location... Let's record the item and its quantity in a location
 			# quantity = request.POST.get('stock_in_location')
 			
-<<<<<<< HEAD
-			if not location_id == "":
-				current_location = Location.objects.get(id=location_id)
-				i = ItemLocation(item=item, location=current_location, quantity=quantity)
-				i.save()
-				messages.success(request, 'Item successfully added.')
-			else:
-				# Create new itemLocation object
-				loc = Location.objects.all()[0] # Get first location (Default)
-				j = ItemLocation.objects.create(item=item, location=loc)
-				j.save()
-				messages.success(request, 'Item successfully added.')
-			return HttpResponseRedirect(reverse('add_item'))
-
-=======
 			# if not location_id == "":
 			# 	current_location = Location.objects.get(id=location_id)
 			# 	i = ItemLocation(item=item, location=current_location, quantity=quantity)
@@ -132,7 +117,6 @@ def add_item(request):
 			# 	j.save()
 			# messages.success(request, 'Item successfully added.')
 			return HttpResponseRedirect(reverse('list_items'))
->>>>>>> 0779f61a90a2b4a228c286b7418d883e8d73fff6
 	return render(request, 'items/add_item.html', {
 		'form' : add_new_item_form, 
 		'locations' : locations,
