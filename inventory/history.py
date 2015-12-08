@@ -37,7 +37,7 @@ def check_minimum():
 
 @login_required
 def transfer_history(request):
-	transfers = TransferRecord.objects.all()
+	transfers = Transfer.objects.all()
 	transferLen = len(transfers)
 
 	return render(request, 'transfer/transfer_history.html', {

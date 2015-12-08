@@ -213,7 +213,6 @@ def create_transfer(request):
 		'formset' : transferFormset,
 		'all_items':items_list,
 		'items':items,
-		'warning':warning,
 		'below_min':below_min}) 
 
 @login_required
