@@ -6,6 +6,21 @@
     <h1 class="page-header">Inventory Items</h1>
 </div> 
 <br>
+{% if messages %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="message text-center">
+            {% for message in messages %}
+                <p 
+                {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
+                {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
+                {% endif %}>{{ message }}
+                </p>
+            {% endfor %}   
+            </div>
+        </div>
+    </div>
+{% endif %}
 <div class="row">
     <div class="col-lg-12"> 
         {% if itemLen > 0 %}
@@ -21,19 +36,6 @@
                 </tr>
             </thead>            
             <tbody> 
-<<<<<<< HEAD
-                {% for item in items %}                
-                <tr style="background:white;">                    
-                    <td>{{ item.item_code }}</td>         
-                    <td>{{ item.category }}</td>
-                    <td>{{ item.types }}</td>
-                    <td>{{ item.brand }}</td>
-                    <td>{{ item.model }}</td>
-                    <td>{{ item.supplier.name}}</td>
-                    <!-- <td>{{ i.destination.branch_name}}</td> -->
-                    <!-- <td>{{ i.quantity }}</td> -->
-                    <td>{{ item.srp }}</td>  
-=======
                 {% for i in items %}                
                 <tr style="background:white;">                    
                     <td>{{ i.name }}</td>         
@@ -41,11 +43,10 @@
                     <td>{{ i.brand }}</td>
                     <td>{{ i.model }}</td>
                     <td>{{ i.supplier.name}}</td>
-                    <td>{{ i.item_cost }}</td>  
->>>>>>> 0779f61a90a2b4a228c286b7418d883e8d73fff6
+                    <td>{{ i.item_cost }}</td>
                     <td>                           
-                        <a href="/items/update/{{item.id}}/" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span> </a>
-                        <button onclick="confirmItemDelete({{item.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button>
+                        <a href="/items/update/{{i.id}}/" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span> </a>
+                        <button onclick="confirmItemDelete({{i.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button>
                     </td>                 
                 </tr> 
                 {% endfor %}

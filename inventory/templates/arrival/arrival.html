@@ -63,21 +63,6 @@
             <div panel panel-default>
                 <div class="panel-heading"> Arrived Items</div>
                 <div class="panel-body">
-                    <div class="container">
-                    {% if messages %}
-                        <div class="row">
-                            <div class="col-sm-8 col-sm-offset-5">                    
-                                {% for message in messages %}
-                                <p 
-                                {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
-                                {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
-                                {% endif %}>{{ message }}
-                                </p>
-                                {% endfor %}                    
-                            </div>
-                        </div>
-                    {% endif %}
-                    </div>
                     <table id="id_orders_table" style="width: 100%;" cellpadding="0" cellspacing="0">
                         <thead>
                             <tr>
@@ -104,14 +89,26 @@
         </div>
         {{ formset.management_form }}   
     </div>    
+    <div class="container">
+                    {% if messages %}
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-5">                    
+                                {% for message in messages %}
+                                <p 
+                                {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
+                                {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
+                                {% endif %}>{{ message }}
+                                </p>
+                                {% endfor %}                    
+                            </div>
+                        </div>
+                    {% endif %}
+                    </div>
     <br><br><br><br><br><br><br>
     <div class="form-group">
         <input type="submit" class="form-control btn btn-success btn-md" name="name" value="Submit" />
     </div>
-</form>
-
-
- 
+</form> 
 {% endblock %}
 
 {% block scripts %}

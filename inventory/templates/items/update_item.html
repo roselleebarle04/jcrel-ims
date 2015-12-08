@@ -1,56 +1,135 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block content %}  
+{% block content %}
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">Add Item</div>
+<form class="form" method="POST">                        
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default" style="margin-bottom:0">
+                <div class="panel-heading">Details & Description</div>
                 <div class="panel-body">
-                    <form class="form" method="POST">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label>Types</label>
-                            <input name="types" type="text" class="form-control" value="{{item.types}}">
-                        </div>
-                        <div class="form-group">
-                            <label>Category</label>
-                            <input name="category" type="text" class="form-control" value="{{item.category}}">
-                        </div>
-                        <div class="form-group">
-                            <label>Brand</label>
-                            <input name="brand" type="text" class="form-control" value="{{item.brand}}">
-                        </div>
-                        <div class= "form-group">
-                            <label>Model</label>
-                            <input name="model" type="text" class="form-control" value="{{item.model}}">
-                        </div>
-                        <div class= "form-group">
-                            <label>Supplier</label>
-                            <input name="supplier" type="text" class="form-control" value="{{item.supplier.name}}">
-                        </div>
-                        <div class= "form-group">
-                            <label>Store Item Code</label>
-                            <input name="item_code" type="text" class="form-control" value="{{item.item_code}}">
-                        </div>
-                        <div class= "form-group">
-                            <label>Quantity</label>
-                            <input name="quantity" type="text" class="form-control" value="{{items.quantity}}">
-                        </div>
-                        <div class= "form-group">
-                            <label>SRP</label>
-                            <input name="srp" type="text" class="form-control" value="{{item.srp}}">
-                        </div>
-                        
-                        <div class="form-group">
-                            <input class="btn btn-success" type="submit" value="Update">
-                            <input class="btn btn-danger" type="button" onclick="window.location.replace('/items')" value="Cancel" />
-                        </div>
-                    </form>
+                    <div class= "form-group">
+                        {{form.item_code.errors}}
+                        <label>Item Code</label>
+                        {{form.item_code}}
+                    </div>
+                    <div class="form-group">
+                        {{form.name.errors}}
+                        <label>Name</label>
+                        {{form.name}}
+                    </div>
+                    <div class="form-group">
+                        {{form.description.errors}}
+                        <label>Description</label>
+                        {{form.description}}
+                    </div>
+                    <div class="form-group">
+                        {{form.category.errors}}
+                        <label>Category</label>
+                        {{form.category}}
+                    </div>
+                    <div class="form-group">
+                        {{form.brand.errors}}
+                        <label>Brand</label>
+                        {{form.brand}}
+                     </div>
+                    <div class= "form-group">
+                        {{form.model.errors}}
+                        <label>Model</label>
+                        {{form.model}}
+                    </div>
+                    <div class= "form-group">
+                        {{form.unit_cost.errors}}
+                        <label>Unit Cost</label>
+                        {{form.unit_cost}}
+                    </div>
                 </div>
+            </div>      
+        </div>
+        <div class="col-md-8">
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-heading">Supplier Details</div>
+                <div class="panel-body">
+                    <div id="supplier-dropdown" class= "form-group">
+                        {{form.supplier.errors}}
+                        <label>Supplier <a id="new-supplier"><small>(Add New?)</small></a></label>
+                        {{form.supplier}}                        
+                    </div>
+                    <!-- <div id="supplier-form" style="display:none;">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input name="supplier_name" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input name="supplier_address" type="text" class="form-control">
+                         </div>                        
+                    </div> -->
+                </div>
+            </div>
+            
         </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default" style="margin-bottom:0">
+                <div class="panel-heading">Stock Tracking</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <table class="table" border="0px">
+                            <tr>
+                                <td>Location</td>
+                                <td width="50"></td>
+                                <td>Current Stock</td>
+                                <td>Re-order point</td>
+                                <td>Re-order amount</td>
+                            </tr>
+                            {% for loc in locations %}
+                            <tr>
+                                <td>{{loc.name}}</td>
+                                <td  width="50"></td>
+                                <td><input type="text" name="current_stock_{{loc.id}}" class="form-control"></td>
+                                <td><input type="text" name="re_order_point_{{loc.id}}" class="form-control"></td>
+                                <td><input type="text" name="re_order_amount_{{loc.id}}" class="form-control"></td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>      
+        </div>
+    </div>
+    <br>
+    
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <div class="form-actions">
+                <input style="width:25%;" class="btn btn-success" type="submit" id="btn-success" value="Save" />
+                <input style="width:25%;" class="btn btn-danger" type="button" onclick="window.location.replace('/items/add')" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>                    
 
-{%  endblock %}
+{% endblock content %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $('#item_on_stock').change(function () {
+            if ($('#item_on_stock').is(':checked')) {
+                $('#additional-details').show("slow");
+            } else {
+                $('#additional-details').hide();
+            }
+        });
+        $('#new-supplier').click(function () {
+            $('#supplier-form').show("slow");
+            $('#new-supplier').hide();
+            $('#supplier-dropdown').hide();
+        });
+    </script>
+{% endblock %}

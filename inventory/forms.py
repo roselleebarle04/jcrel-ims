@@ -77,22 +77,8 @@ class ItemSaleForm(forms.ModelForm):
 		super(ItemSaleForm, self).__init__(*args, **kwargs)
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
-		self.fields['item'].queryset = Item.objects.filter(status=True)
+		self.fields['item'].queryset = Item.objects.filter(is_active =True)
 		# self.fields['item_cost'] = self.fields['item'].srp
-
-	# def clean_quantity(self):
-	# 	item = self.cleaned_data['item']
-	# 	qty_sale = self.cleaned_data['quantity']
-	# 	curr_qty = item.location.quantity
-	# 	update_qty = curr_qty - qty_sale
-		
-	# 	if qty_sale <= curr_qty:
-	# 		item.location.itemlocation.quantity = update_qty
-	# 		item.save()
-	# 	else:
-	# 		raise ValidationError("Quantity exceeds the current quantity of the item.")
-		
-	# 	return self.cleaned_data['quantity']
 
 class TransferForm(forms.ModelForm):
 	class Meta:
