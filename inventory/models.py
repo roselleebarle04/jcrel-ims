@@ -131,7 +131,7 @@ class Sale(models.Model):
 
 	def get_grand_total(self):
 		grand_total = 0
-		items_set = self.solditem_set.all()
+		items_set = self.itemsale_set.all()
 		for item in items_set: 
 			grand_total = grand_total + item.total_cost()
 		return grand_total
@@ -147,7 +147,7 @@ class ItemSale(models.Model):
 
 		
 	def total_cost(self):
-		total = self.item.srp * self.quantity
+		total = self.item.unit_cost * self.quantity
 		return total
 
 

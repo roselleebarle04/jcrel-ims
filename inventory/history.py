@@ -51,13 +51,6 @@ def sales_history(request):
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
 	
-
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
-
 	return render(request, 'sales/sales_history.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen,
@@ -72,13 +65,6 @@ def arrival_history(request):
 	arrivalLen = len(arr)
 	suppliers = Supplier.objects.all()
 	items_list = Item.objects.all()
-	
-
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
 
 	if request.method == 'POST': 
 		date_from = request.POST.get('from') 
@@ -94,9 +80,7 @@ def arrival_history(request):
 			'suppliers': suppliers,
 			'items':items,
 			'all_items':items_list,
-			# 'below_min':below_min
 		})
-
 
 	return render(request, 'arrival/arrival_history.html', {
 		'arrival': arr,
@@ -104,5 +88,4 @@ def arrival_history(request):
 		'suppliers' : suppliers,
 		'items':items,
 		'all_items':items_list,
-		# 'below_min':below_min
 	})

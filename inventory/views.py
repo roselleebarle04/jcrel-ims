@@ -37,6 +37,9 @@ def check_minimum():
 	return below_min
 
 def landing_page(request):
+	if request.user.is_authenticated():
+		return HttpResponseRedirect('dashboard')
+
 	return render(request, 'index.html')
 
 @login_required
