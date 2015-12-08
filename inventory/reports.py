@@ -8,18 +8,7 @@ from django.core import serializers
 import json
 
 from .models import *
-
-def check_minimum():
-	items = ItemLocation.objects.all()
-	is_zero = 0
-	below_min = is_zero
-
-	for i in items:
-		if i.current_stock < i.re_order_point:
-			below_min = below_min + 1
-
-	return below_min
-
+from .quantity import *
 
 def reports_data(request):
 	if request.method == 'POST' and request.is_ajax():

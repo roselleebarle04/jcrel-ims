@@ -102,10 +102,10 @@ class Item(models.Model):
 	model = models.CharField(max_length = 50, null=True)
 	item_code = models.CharField(max_length = 50, unique = True)
 	unit_cost = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
-	date = models.DateTimeField(default=timezone.now())
+	date = models.DateTimeField(default=timezone.now)
 
 	supplier = models.ForeignKey(Supplier, blank=True, null=True)
-	location = models.ManyToManyField(Location, through='ItemLocation', blank=True, null=True)
+	location = models.ManyToManyField(Location, through='ItemLocation')
 	user = models.ForeignKey(User, blank=False, null=True)
 
 	def __unicode__(self):
@@ -131,7 +131,7 @@ class Sale(models.Model):
 
 	def get_grand_total(self):
 		grand_total = 0
-		items_set = self.solditem_set.all()
+		items_set = self.itemsale_set.all()
 		for item in items_set: 
 			grand_total = grand_total + item.total_cost()
 		return grand_total
@@ -147,7 +147,7 @@ class ItemSale(models.Model):
 
 		
 	def total_cost(self):
-		total = self.item.srp * self.quantity
+		total = self.item.unit_cost * self.quantity
 		return total
 
 
@@ -194,7 +194,7 @@ class Arrival(models.Model):
 		grand_total = 0
 		items_set = self.itemarrival_set.all()
 		for item in items_set: 
-			grand_total = grand_total + item.calculate_total()
+			grand_total = grand_total + item.calculate_total
 		return grand_total
 
 class ItemArrival(models.Model):

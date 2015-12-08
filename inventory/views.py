@@ -23,20 +23,13 @@ from config import settings
 from .models import *
 from .forms import *
 from .formsets import *
+from .quantity import *
 
-
-def check_minimum():
-	items = ItemLocation.objects.all()
-	is_zero = 0
-	below_min = is_zero
-
-	for i in items:
-		if i.current_stock < i.re_order_point:
-			below_min = below_min + 1
-
-	return below_min
 
 def landing_page(request):
+	if request.user.is_authenticated():
+		return HttpResponseRedirect('dashboard')
+
 	return render(request, 'index.html')
 
 @login_required
@@ -120,12 +113,10 @@ def add_item(request):
 
 def delete_item(request, item_id):
 	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
-	warning = WarningItems.objects.all()
 	item = Item.objects.get(pk = item_id)
 	item.is_active = False
 	item.save()
-	return HttpResponseRedirect(reverse('items'))
+	return HttpResponseRedirect(reverse('list_items'))
 
 def update_item(request, item_id):
 	item = Item.objects.get(pk=item_id)

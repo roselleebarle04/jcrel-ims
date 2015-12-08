@@ -27,11 +27,17 @@ class Command(BaseCommand):
     	item1 = Item(name='Item1', description='Insert long desc. here', category='Amplifier', brand='Boston', model='BP20', item_code='S-1-409', unit_cost=1000, date=timezone.now(), supplier=supplier1)
     	item1.save()
 
-    	location1 = Location(branch_name='BR1', address='Brgy. San Miguel, Iligan City')
+    	location1 = Location(name='BR1', address='Brgy. San Miguel, Iligan City')
     	location1.save()
+
+        location2 = Location(name='BR2', address='Dipolog city')
+        location2.save()
 
         itemLocation1 = ItemLocation(item=item1, location=location1, current_stock=100, re_order_point=5, re_order_amount=100)
         itemLocation1.save()
+
+        itemLocation2 = ItemLocation(item=item1, location=location2, current_stock=100, re_order_point=5, re_order_amount=100)
+        itemLocation2.save()
 
         # Create new sale
         sale1 = Sale(customer=customer1, location=location1, date=timezone.now())
@@ -42,11 +48,11 @@ class Command(BaseCommand):
         itemSale1.save()
 
         # Create new arrival
-        arrival1 = Arrival(delivery_receipt_no='DR-123', tracking_no='TR-123', supplier=supplier1)
+        arrival1 = Arrival(delivery_receipt_no='DR-123', tracking_no='TR-123', supplier=supplier1, location=location1)
         arrival1.save()
 
         # Add items to the arrival
-        itemArrival1 = ItemArrival(item=item1, arrival=arrival1,quantity=100,item_cost=100.1)
+        itemArrival1 = ItemArrival(item=item1, arrival=arrival1, quantity=100,item_cost=100.1)
         itemArrival1.save()
 
     def handle(self, *args, **options):

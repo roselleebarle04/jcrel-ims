@@ -21,18 +21,8 @@ from django.core import validators
 from config import settings
 from .models import *
 from .forms import *
+from .quantity import *
 from .formsets import *
-
-def check_minimum():
-	items = ItemLocation.objects.all()
-	is_zero = 0
-	below_min = is_zero
-
-	for i in items:
-		if i.current_stock < i.re_order_point:
-			below_min = below_min + 1
-
-	return below_min
 
 
 @login_required
@@ -50,7 +40,6 @@ def sales_history(request):
 	sales_list = ItemSale.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
-	
 
 	# for i in items:
 	# 	below_min = 0
@@ -72,13 +61,6 @@ def arrival_history(request):
 	arrivalLen = len(arr)
 	suppliers = Supplier.objects.all()
 	items_list = Item.objects.all()
-	
-
-	# for i in items:
-	# 	below_min = 0
-	# 	if i.quantity < 10:
-	# 		below_min = below_min + 1
-	# 		print "below_min %d" % (below_min)
 
 	if request.method == 'POST': 
 		date_from = request.POST.get('from') 
@@ -94,9 +76,7 @@ def arrival_history(request):
 			'suppliers': suppliers,
 			'items':items,
 			'all_items':items_list,
-			# 'below_min':below_min
 		})
-
 
 	return render(request, 'arrival/arrival_history.html', {
 		'arrival': arr,
@@ -104,5 +84,4 @@ def arrival_history(request):
 		'suppliers' : suppliers,
 		'items':items,
 		'all_items':items_list,
-		# 'below_min':below_min
 	})
