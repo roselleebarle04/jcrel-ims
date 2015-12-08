@@ -80,18 +80,23 @@
                     <ul class="dropdown-menu dropdown-alerts">
                         <li>
                          
-                                <div>
-                                    <ul>
-                                      <li>Item is below minimum</li>
-                                      <li class="divider"></li>
-                                      <li>Item is below minimum</li>
+                                <!-- <div> -->
+                                    <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                        <tbody>
+                                          {% for item in items %}
+                                            {% if item.current_stock < item.re_order_point  %}
+                                              <tr>
+                                                <td>{{item.item}} is below the minimum required quantity of {{item.re_order_point}}.</td>
+                                              </tr>
+                                            {% endif %}
+                                         {% endfor %}
+                                        </tbody>
+                                    </table>
 
-                                    </ul>
-
-                                </div>
+                                <!-- </div> -->
                           
                         </li>
-                        <li class="divider"></li>
+                        <!-- <li class="divider"></li> -->
                         <li>
                             <a class="text-center" href="/notifications/">
                                 <strong>See All Alerts</strong>

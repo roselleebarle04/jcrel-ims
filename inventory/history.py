@@ -29,6 +29,7 @@ from .formsets import *
 def transfer_history(request):
 	transfers = TransferRecord.objects.all()
 	transferLen = len(transfers)
+	items = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -36,7 +37,8 @@ def transfer_history(request):
 	return render(request, 'transfer/transfer_history.html', {
 		'transfers': transfers,
 		'transferLen': transferLen,
-		'below_min':below_min
+		'below_min':below_min,
+		'items':items
 	})
 
 def sales_history(request):
