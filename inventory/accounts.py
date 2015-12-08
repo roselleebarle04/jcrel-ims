@@ -62,11 +62,8 @@ def change_password(request):
 	# items = AddItem.objects.all()
 	
 
-	for i in items_list:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	if request.method == 'POST':
 
@@ -82,7 +79,7 @@ def change_password(request):
 	return render(request, 'accounts/change_password.html', {
 		'all_items':items_list,
 		# 'items':items,
-		# 'below_min':below_min
+		'below_min':below_min
 		})
 
 @login_required
@@ -92,15 +89,13 @@ def notifications(request):
 	items = ItemLocation.objects.all()
 	itemLength = len(items)
 
-	for i in items:
-		below_min = 0
-		if i.quantity < 10:
-			below_min = below_min + 1
-			print "below_min %d" % (below_min)
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	return render(request, 'notifications/notification_page.html', {
 		'items':items,
 		'itemLength': itemLength,
+		'below_min':below_min
 		})
 
 

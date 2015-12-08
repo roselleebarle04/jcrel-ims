@@ -30,9 +30,13 @@ def transfer_history(request):
 	transfers = TransferRecord.objects.all()
 	transferLen = len(transfers)
 
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
 	return render(request, 'transfer/transfer_history.html', {
 		'transfers': transfers,
 		'transferLen': transferLen,
+		'below_min':below_min
 	})
 
 def sales_history(request):
@@ -41,18 +45,15 @@ def sales_history(request):
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
 
-	# for i in items:
-	# 	below_min = 0
-	# 	if i.quantity < 10:
-	# 		below_min = below_min + 1
-	# 		print "below_min %d" % (below_min)
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	return render(request, 'sales/sales_history.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen,
 		'items':items,
 		'all_items':items_list,
-		# 'below_min': below_min
+		'below_min': below_min
 		})
 
 def arrival_history(request):
@@ -61,6 +62,9 @@ def arrival_history(request):
 	arrivalLen = len(arr)
 	suppliers = Supplier.objects.all()
 	items_list = Item.objects.all()
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
 
 	if request.method == 'POST': 
 		date_from = request.POST.get('from') 
@@ -76,6 +80,7 @@ def arrival_history(request):
 			'suppliers': suppliers,
 			'items':items,
 			'all_items':items_list,
+			'below_min':below_min
 		})
 
 	return render(request, 'arrival/arrival_history.html', {
@@ -84,4 +89,5 @@ def arrival_history(request):
 		'suppliers' : suppliers,
 		'items':items,
 		'all_items':items_list,
+		'below_min':below_min
 	})

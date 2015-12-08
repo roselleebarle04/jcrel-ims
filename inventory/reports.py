@@ -46,4 +46,8 @@ def inventory_reports(request):
 @login_required
 def sales_reports(request):
 	items_list = Item.objects.all()
-	return render(request, 'reports/sales_reports.html', {'items':items_list})
+
+	below_min = check_minimum()
+	print "below_min %d" % below_min
+
+	return render(request, 'reports/sales_reports.html', {'items':items_list, 'below_min':below_min})
