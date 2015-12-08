@@ -128,32 +128,58 @@ def delete_item(request, item_id):
 	return HttpResponseRedirect(reverse('items'))
 
 def update_item(request, item_id):
-	items_list = Item.objects.all()
-	warning = WarningItems.objects.all()
 	item = Item.objects.get(pk=item_id)
-
-	below_min = check_minimum()
-	print "below_min %d" % below_min
+	update_item_form = ItemForm(request.POST or None, instance=item)
+	locations = Location.objects.all()
 
 	if request.method == 'POST':
-		item.types = request.POST.get('types')
-		item.category = request.POST.get('category')
-		item.brand = request.POST.get('brand')
-		item.model = request.POST.get('model')
-		item.supplier.name = request.POST.get('supplier')
-		item.location = request.POST.get('location')
-		item.item_code = request.POST.get('item_code')
-		item.quantity= request.POST.get('quantity')
-		item.srp = request.POST.get('srp')
-		item.save()
-		return HttpResponseRedirect(reverse('items'))
+		if update_item_form.is_valid():
+			update_item_form.save()
 
-	return render(request, 'items/update_item.html', {
-		'item' : item,
-		'all_items':items_list,
-		# 'items':items,
-		'below_min':below_min
-		})
+			# Now save the quantity of each item in each location
+			for loc in locations:
+				print loc
+				current_stock = request.POST.get('current_stock_%d' % (loc.id))
+				print current_stock
+				re_order_point = request.POST.get('re_order_point_%d' % (loc.id))
+				re_order_amount = request.POST.get('re_order_amount_%d' % (loc.id))
+				
+				i = ItemLocation(item=item, location=loc, current_stock=current_stock, re_order_point=re_order_point, re_order_amount=re_order_amount)
+				i.save()
+				print i.current_stock
+			messages.success(request, 'Item has been successfully updated.')
+			return HttpResponseRedirect(reverse('list_items'))
+	
+	context = {
+		'form': update_item_form	
+	}
+
+	return render(request, 'items/update_item.html', context)
+	# 	items_list = Item.objects.all()
+	# warning = WarningItems.objects.all()
+
+	# below_min = check_minimum()
+	# print "below_min %d" % below_min
+
+	# if request.method == 'POST':
+	# 	item.types = request.POST.get('types')
+	# 	item.category = request.POST.get('category')
+	# 	item.brand = request.POST.get('brand')
+	# 	item.model = request.POST.get('model')
+	# 	item.supplier.name = request.POST.get('supplier')
+	# 	item.location = request.POST.get('location')
+	# 	item.item_code = request.POST.get('item_code')
+	# 	item.quantity= request.POST.get('quantity')
+	# 	item.srp = request.POST.get('srp')
+	# 	item.save()
+	# 	return HttpResponseRedirect(reverse('items'))
+
+	# return render(request, 'items/update_item.html', {
+	# 	'item' : item,
+	# 	'all_items':items_list,
+	# 	# 'items':items,
+	# 	'below_min':below_min
+	# 	})
 
 #############################################
 ##	Transfers 

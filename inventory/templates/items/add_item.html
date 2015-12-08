@@ -10,23 +10,6 @@
             <div class="panel panel-default" style="margin-bottom:0">
                 <div class="panel-heading">Details & Description</div>
                 <div class="panel-body">
-                    <div class="container">
-                        {% if messages %}
-                            <div class="row">
-                                <div class="col-sm-3 col-sm-offset">
-                                    <center>
-                                        {% for message in messages %}
-                                        <p 
-                                        {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
-                                        {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
-                                        {% endif %}>{{ message }}
-                                        </p>
-                                        {% endfor %}   
-                                    </center>     
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
                     <div class= "form-group">
                         {{form.item_code.errors}}
                         <label>Item Code</label>

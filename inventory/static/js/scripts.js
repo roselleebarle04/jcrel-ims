@@ -54,7 +54,7 @@ function confirmArrivalDelete(arrival_id){
     
 $(document).ready(function(){
     $('#suppliers').DataTable();
-    $('#items').DataTable(); 
+    $('#items-dt').DataTable(); 
     $('#sales').DataTable(); 
     $('#customers').DataTable();
     $('#location').DataTable();

@@ -53,7 +53,6 @@ class ItemLocationForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(ItemLocationForm,self).__init__(*args, **kwargs)
-		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		self.fields['current_stock'].widget.attrs['class'] = 'form-control'
 		self.fields['re_order_point'].widget.attrs['class'] = 'form-control'
 		self.fields['re_order_amount'].widget.attrs['class'] = 'form-control'

@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>JCREL INVENTORY</title>
 
-  {% block styles %}
   <!-- Bootstrap Core CSS -->
   <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
 
@@ -17,18 +16,13 @@
   <link rel="stylesheet" type="text/css" href="/static/css/style.css"> 
   <link rel="stylesheet" type="text/css" href="/static/components/dashboard/css/sb-admin-2.css">
   <link rel="stylesheet" type="text/css" href="/static/css/dataTables.bootstrap.css">
-  <!-- <link rel="stylesheet" type="text/css" href="/static/components/metisMenu/dist/metisMenu.min.css"> -->
+  <link rel="stylesheet" type="text/css" href="/static/components/metisMenu/dist/metisMenu.min.css">
   <link rel="stylesheet" type="text/css" href="/static/components/dashboard/css/timeline.css">
 
   <!-- Fonts -->
-  <link href='/static/css/fonts.css' rel='stylesheet' type='text/css'>
+  <link rel='stylesheet' type='text/css' href='/static/css/fonts.css'>
   <script type="text/javascript" src="/static/js/jquery.min.js"></script>
-
-  {% endblock %}
-
   <link href='/static/css/toastr.min.css' rel='stylesheet'>
-  <script type="text/javascript" src="/static/js/jquery-1.11.3.min.js"></script>
-  <script type="text/javascript" src="/static/js/toastr.min.jss"></script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,21 +30,18 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/nnhtml5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
-  <link rel="stylesheet" href="dist/css/toastr8.css"/>
+  <link rel="stylesheet" href="/static/dist/css/toastr8.css"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-            
-
   
-<!-- notifs -->
-  <link rel="stylesheet" href="css/animate.css">
-  <link rel="stylesheet" href="css/style.css">
-  <!-- <link rel="stylesheet" type="text/css" href="/static/css/base.css"> -->
+  <!-- notifs -->
+  <link rel="stylesheet" href="/static/css/animate.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/base.css">
   <link rel="stylesheet" type="text/css" href="/static/css/notif_bubble.css">
   <link rel="stylesheet" type="text/css" href="/static/css/nav.css">
-  <script type="text/javascript" src="static/js/base.js"></script>
-  <script type="text/javascript" src="/static/js/jquery2.min.js"></script>
 
-
+  <script type="text/javascript" src="/static/js/base.js"></script>
+  <script type="text/javascript" src="/static/js/toastr.min.jss"></script>
 </head>
 <body>
   <!-- <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -216,7 +207,6 @@
   <!-- SCRIPTS -->
   <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
   <script type="text/javascript" src="/static/js/bootstrap.js"></script>
-  <script type="text/javascript" src="/static/js/scripts.js"></script>
 
   <!-- Data Tables Plugin -->
   <script type="text/javascript" src="/static/components/datatables/js/jquery.dataTables.js"></script>
@@ -224,9 +214,18 @@
 
   <!-- Core Dashboard JS -->
   <script src="/static/components/dashboard/js/sb-admin-2.js"></script>
+  <script type="text/javascript" src="/static/js/scripts.js"></script>
 
   <!-- Metis Menu Plugin  -->
-  <script type="text/javascript" src="/static/components/metisMenu/dist/metisMenu.min.js"></script>
+  <script type="text/javascript" src="/static/components/metisMenu/dist/metisMenu.js"></script>
+
+  <script>
+    $(document).ready(function() {
+        // messages timeout for 10 sec 
+        setTimeout(function() {
+            $('.message').fadeOut('slow');
+        }, 500); // <-- time in milliseconds, 1000 =  1 sec
+    });
   {% block scripts%}{% endblock%}
 </body>
 </html>
