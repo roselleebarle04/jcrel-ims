@@ -20,8 +20,7 @@
                     <th>Supplier Name</th>
                     <th>Address</th>
                     <th>Phone Number</th>
-                    <th width="50"></th>
-                    <th width="50"></th>
+                    <th width="150"></th>
                 </tr>
             </thead>
             <tbody>
@@ -32,11 +31,9 @@
                     <td>{{ s.address }}</td>
                     <td>{{ s.phone }}</td>
                     <td>   
-                        <a class="btn btn-default" href="/suppliers/update/{{s.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span> Update</a>
+                        <a class="btn btn-default" href="/suppliers/update/{{s.id}}" aria-label="Edit"><span class="glyphicon glyphicon-pencil" aria-hidden="false"></span> </a>
+                        <button onclick="confirmDelete({{s.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span> </button>
                     </td>
-                    <td>
-                        <button onclick="confirmDelete({{s.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove" aria-hidden="false"></span> Delete</button>
-                    </td>   
                 </tr>
                 {% endfor %}
             </tbody>

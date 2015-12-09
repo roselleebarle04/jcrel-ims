@@ -58,5 +58,5 @@ $(document).ready(function(){
     $('#sales').DataTable(); 
     $('#customers').DataTable();
     $('#location').DataTable();
-    $('#list_location').DataTable();
+    $('#location-table').DataTable();
 });
