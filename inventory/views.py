@@ -158,7 +158,7 @@ def update_item(request, item_id):
 #############################################
 ##	Transfers 
 #############################################
-
+@login_required
 def create_transfer(request):
 	items_list = Item.objects.all()
 	itemloc = ItemLocation.objects.all()
@@ -170,12 +170,9 @@ def create_transfer(request):
 
 	if transferForm.is_valid() and transferFormset.is_valid():
 		p = transferForm.save(commit=False)
-<<<<<<< HEAD
 		source = transferForm.cleaned_data['From']
 		destination = transferForm.cleaned_data['To']
-=======
 		p.user = request.user
->>>>>>> 1ae224109ad3240832957695b98f4ca43f904a3c
 		p.save()
 		transfer_id = p
 		
