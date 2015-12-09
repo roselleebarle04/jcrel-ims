@@ -122,14 +122,25 @@ ul.errorlist {
 	background: #333333;
 	border-color: transparent;
 }
+
 #wrapper .navbar.navbar-default ul.navbar-right li a {
 	color: white;
 }
 #wrapper .navbar.navbar-default ul.navbar-right li a i {
 	color: white;
 }
-#wrapper .navbar.navbar-default ul.navbar-right li a:hover {
-	color: black;
+
+#wrapper .navbar.navbar-default ul.navbar-right li ul.dropdown-menu {
+	background-color: #6D696A;
+}
+
+#wrapper .navbar.navbar-default ul.navbar-right li ul.dropdown-menu > li > a:hover{
+	background-color: #b3b3b3;
+}
+
+#wrapper .navbar.navbar-default ul.navbar-right li a.dropdown-toggle:hover {
+	border: 1px solid #6D696A;
+	background-color: #6D696A;
 }
 
 #wrapper .navbar-default.sidebar {
