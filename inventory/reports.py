@@ -12,12 +12,12 @@ from .quantity import *
 
 
 def build_items_per_location(location):
-		out = []
-		items = Item.objects.all()
-		for item in items:
-			i = item.itemlocation_set.get(location=location)
-			out.append(i)
-		return out
+	out = []
+	items = Item.objects.all()
+	for item in items:
+		i = item.itemlocation_set.get(location=location)
+		out.append(i)
+	return out
 
 def build_data(request):
 	"""Build inventory reports"""
@@ -51,6 +51,7 @@ def build_data(request):
 			entry['items'].append(a)
 		out.append(entry)
 	print out
+	return out
 
 def charts(request):
 	return render(request, 'reports/charts.html', {})
