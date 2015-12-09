@@ -27,7 +27,7 @@ from .formsets import *
 
 @login_required
 def transfer_history(request):
-	transfers = TransferRecord.objects.all()
+	transfers = Transfer.objects.all()
 	transferLen = len(transfers)
 	items = ItemLocation.objects.all()
 
