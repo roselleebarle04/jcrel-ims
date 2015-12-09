@@ -60,6 +60,7 @@ def dashboard(request):
 def list_items(request):
 	active_items = Item.objects.all().filter(is_active=True)
 	itemLen = len(active_items)
+	items = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -67,7 +68,8 @@ def list_items(request):
 	return render(request, 'items/items.html', {
 		'items': active_items,
 		'itemLen': itemLen,
-		'below_min':below_min
+		'below_min':below_min,
+		'items':items
 	})
 
 def notifications(request):
@@ -91,6 +93,7 @@ def add_item(request):
 	"""
 	add_new_item_form = ItemForm(request.POST or None)
 	locations = Location.objects.all()
+	items = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -116,7 +119,8 @@ def add_item(request):
 	return render(request, 'items/add_item.html', {
 		'form' : add_new_item_form, 
 		'locations' : locations,
-		'below_min':below_min
+		'below_min':below_min,
+		'items':items
 	})
 
 def delete_item(request, item_id):
