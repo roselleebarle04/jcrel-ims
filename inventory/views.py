@@ -151,38 +151,9 @@ def update_item(request, item_id):
 				print i.current_stock
 			messages.success(request, 'Item has been successfully updated.')
 			return HttpResponseRedirect(reverse('list_items'))
-	
-	# context = {
-	# 	'form': update_item_form
-	# 	'below_min':below_min	
-	# }
 
 	return render(request, 'items/update_item.html', {'form':update_item_form, 'below_min':below_min})
-	# 	items_list = Item.objects.all()
-	# warning = WarningItems.objects.all()
-
-	# below_min = check_minimum()
-	# print "below_min %d" % below_min
-
-	# if request.method == 'POST':
-	# 	item.types = request.POST.get('types')
-	# 	item.category = request.POST.get('category')
-	# 	item.brand = request.POST.get('brand')
-	# 	item.model = request.POST.get('model')
-	# 	item.supplier.name = request.POST.get('supplier')
-	# 	item.location = request.POST.get('location')
-	# 	item.item_code = request.POST.get('item_code')
-	# 	item.quantity= request.POST.get('quantity')
-	# 	item.srp = request.POST.get('srp')
-	# 	item.save()
-	# 	return HttpResponseRedirect(reverse('items'))
-
-	# return render(request, 'items/update_item.html', {
-	# 	'item' : item,
-	# 	'all_items':items_list,
-	# 	# 'items':items,
-	# 	'below_min':below_min
-	# 	})
+	
 
 #############################################
 ##	Transfers 
@@ -196,10 +167,10 @@ def create_transfer(request):
 	transferFormset = formset(request.POST or None)
 
 	below_min = check_minimum()
-	print "below_min %d" % below_min
 
 	if transferForm.is_valid() and transferFormset.is_valid():
 		p = transferForm.save(commit=False)
+		p.user = request.user
 		p.save()
 		transfer_id = p
 		
@@ -209,7 +180,7 @@ def create_transfer(request):
 			quantity = form.cleaned_data['quantity']
 			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)	
 			i.save()
-		
+		return HttpResponseRedirect(reverse('transfer_history'))
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset,
@@ -326,12 +297,6 @@ def arrival(request):
 		except ValueError:
 			messages.warning(request, 'Please fill in all input boxes before submitting ')
 			pass
-
-	# for i in items:
-	# 	below_min = 0
-	# 	if i.quantity < 10:
-	# 		below_min = below_min + 1
-	# 		print "below_min %d" % (below_min)
 
 	return render(request, 'arrival/arrival.html', {
 		'AddArrivalForm' : arrivalForm, 
@@ -479,7 +444,6 @@ def add_supplier(request):
 	  })
 
 def update_supplier(request, supplier_id):
-	# items = AddItem.objects.all()
 	supplier = Supplier.objects.get(pk=supplier_id)
 	items_list = Item.objects.all()
 
@@ -493,22 +457,19 @@ def update_supplier(request, supplier_id):
 		supplier.address = request.POST.get('address')
 		supplier.save()
 		return HttpResponseRedirect(reverse('suppliers'))
+	
 	return render(request, 'supplier/update_supplier.html', {
 		'supplier': supplier,
-		# 'items':items,
 		'all_items':items_list,
 		'below_min':below_min
 		})
 
 def delete_supplier(request, supplier_id):
-	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
 	
 	s = Supplier.objects.get(pk=supplier_id)
 	s.delete()
 	return HttpResponseRedirect(reverse('suppliers'))
-
-
 
 #############################################
 ##	Customer
@@ -532,7 +493,6 @@ def customers(request):
 	})
 
 def add_customer(request):
-	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
 	customerForm = CustomerForm(request.POST or None, request.FILES)
 
@@ -549,7 +509,6 @@ def add_customer(request):
 	})
 
 def update_customer(request, customer_id):
-	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
 	customer = Customer.objects.get(pk=customer_id)
 
@@ -567,14 +526,12 @@ def update_customer(request, customer_id):
 
 	return render(request, 'customer/update_customer.html', {
 		'customer': customer,
-		# 'items':items,
 		'all_items':items_list,
 		'below_min':below_min
  	})
 
 def delete_customer(request, customer_id):
 	items_list = Item.objects.all()
-	# items = AddItem.objects.all()
 	s = Customer.objects.get(pk=customer_id)
 	s.delete()
 
