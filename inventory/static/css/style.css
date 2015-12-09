@@ -129,9 +129,17 @@ ul.errorlist {
 	color: white;
 }
 #wrapper .navbar.navbar-default ul.navbar-right li a:hover {
-	color: black;
+	/*color: black;*/
+	background: rgba(0,0,0,.2);
 }
 
+#wrapper .navbar.navbar-default ul.navbar-right li.open a:focus, #wrapper .navbar.navbar-default ul.navbar-right li.open a:hover{
+	background-color: rgba(0,0,0,.2) !important;
+}
+
+#wrapper .dropdown-menu {
+	background: #333333;
+}
 #wrapper .navbar-default.sidebar {
 	background: #007777;
 	margin-top: 0;
