@@ -167,10 +167,10 @@ def create_transfer(request):
 	transferFormset = formset(request.POST or None)
 
 	below_min = check_minimum()
-	print "below_min %d" % below_min
 
 	if transferForm.is_valid() and transferFormset.is_valid():
 		p = transferForm.save(commit=False)
+		p.user = request.user
 		p.save()
 		transfer_id = p
 		
@@ -180,7 +180,7 @@ def create_transfer(request):
 			quantity = form.cleaned_data['quantity']
 			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)	
 			i.save()
-		
+		return HttpResponseRedirect(reverse('transfer_history'))
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset,

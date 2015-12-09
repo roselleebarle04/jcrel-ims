@@ -32,7 +32,6 @@ def transfer_history(request):
 	items = ItemLocation.objects.all()
 
 	below_min = check_minimum()
-	print "below_min %d" % below_min
 
 	return render(request, 'transfer/transfer_history.html', {
 		'transfers': transfers,
