@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^dashboard/$', inventory_views.dashboard, name='dashboard'),
 
     url(r'^reports/data/', reports_views.reports_data, name='reports_data'),
+    url(r'^reports/charts/', reports_views.charts, name='charts'),
     url(r'^reports/inventory/', reports_views.inventory_reports, name='inventory_reports'),
     url(r'^reports/sales/', reports_views.sales_reports, name='sales_reports'),
 

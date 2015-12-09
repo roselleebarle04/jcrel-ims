@@ -109,12 +109,16 @@ class Item(models.Model):
 	user = models.ForeignKey(User, blank=False, null=True)
 
 	def __unicode__(self):
-		return " ".join((
-            unicode(self.item_code),
-            unicode(self.category),
-            unicode(self.brand),
-            unicode(self.model)
-        ))
+		return self.name
+	# def __unicode__(self):
+	# 	return " ".join((
+ #            unicode(self.item_code),
+ #            unicode(self.category),
+ #            unicode(self.brand),
+ #            unicode(self.model)
+ #        ))
+	
+
 
 class Sale(models.Model):
 	date = models.DateField(default=timezone.now)

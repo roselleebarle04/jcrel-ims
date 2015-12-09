@@ -79,8 +79,17 @@
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
                         <li>
+                            <!-- <div>
+                                <ul>
+                                  <li>Item is below minimum</li>
+                                  <li class="divider"></li>
+                                  <li>Item is below minimum</li>
+
+                                </ul>
+                            </div> -->
                          
                                 <!-- <div> -->
+
                                     <table class="table table-striped table-bordered" cellspacing="0" width="100%">
                                         <tbody>
                                           {% for item in items %}
@@ -94,7 +103,6 @@
                                     </table>
 
                                 <!-- </div> -->
-                          
                         </li>
                         <!-- <li class="divider"></li> -->
                         <li>
@@ -173,24 +181,27 @@
                                 </li>
                                 </ul>
                         <li>
-                            <a href="#"><i class=" fa fa-map-marker"></i> Location<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li class="no-border">
-                                  <a href="/location/add/"><span class="glyphicon glyphicon-plus"></span> Add New Location</a>
-                                </li>
-                                <li class="no-border">
-                                  <a href="/location/"><span class="glyphicon glyphicon-list-alt"></span> All Locations</a>
-                                </li>
-                                </ul>
+                            <a href="/location/"><i class=" fa fa-map-marker"></i> Locations</a>
                         <li>
                             <a href="/suppliers"><i class="fa fa-glass"></i> Suppliers</a>
                         </li>
                         <li>
                           <a href="/customers"><i class="fa fa-user"></i> Customer</a>
                         </li>
-                       <!--  <li>
-                            <a href="/reports/inventory"><i class="fa fa-wrench fa-fw"></i> Reports</a>
-                        </li> -->
+                        <li>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Reporting<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li class="no-border">
+                                    <a href="/reports/inventory"><span class="glyphicon glyphicon-list-alt"></span> Inventory Reports</a>
+                                </li>
+                                <li class="no-border">
+                                    <a href="/reports/sales"><span class="glyphicon glyphicon-list-alt"></span> Sales Reports</a>
+                                </li>
+                                <li class="no-border">
+                                    <a href="/reports/charts"><span class="glyphicon glyphicon-list-alt"></span> Charts</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
