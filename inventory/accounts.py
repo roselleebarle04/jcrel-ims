@@ -59,6 +59,7 @@ def signup(request):
 
 def change_password(request):
 	items_list = Item.objects.all()
+	items = ItemLocation.objects.all()
 	# items = AddItem.objects.all()
 	
 
@@ -78,7 +79,7 @@ def change_password(request):
 
 	return render(request, 'accounts/change_password.html', {
 		'all_items':items_list,
-		# 'items':items,
+		'items':items,
 		'below_min':below_min
 		})
 
@@ -103,6 +104,7 @@ def notifications(request):
 def settings(request):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
+	items = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -115,7 +117,7 @@ def settings(request):
 
 	return render(request, 'settings/settings.html', {
 		'account':account,
-		# 'items':items,
+		'items':items,
 		'all_items':items_list,
 		'below_min':below_min
 		})
@@ -125,6 +127,7 @@ def update_settings(request):
 	# but not that the original user might not hava an account, yet - TODO
 
 	items_list = Item.objects.all()
+	items = ItemLocation.objects.all()
 	# items = AddItem.objects.all()
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -149,5 +152,5 @@ def update_settings(request):
 		'account': account,
 		'all_items':items_list,
 		'below_min':below_min,
-		# 'items':items
+		'items':items
 		})

@@ -4,6 +4,19 @@ body, html, p {
 	color: white;
 }
 
+table.table-custom {
+	font-size: 14px;
+	text-align: center;
+}
+
+table.table-custom thead tr th, table.table-custom tfoot tr th {
+	text-align: center;
+}
+
+table.table-custom .border-left {
+	border-left: 1px solid #D7D7D7;
+}
+
 body table {
 	/*color: white;*/
 	background-color: white;
@@ -16,6 +29,7 @@ body table {
 
 .page-header {
 	border-bottom: 0;
+	color: #34B8B8;
 }
 body p {
 	color: #03B3B3;
@@ -29,7 +43,7 @@ body{
 }
 
 .btn.btn-theme {
-	background: #4BC7AC;
+	background: #34B8B8;
 	color: white;
 } 
 
@@ -69,6 +83,7 @@ form{
 	color: #333;
 	/*border-radius: 10px;*/
 }
+
 .panel-default > .panel-heading {
     color: black;
     background-color: #e5fff2;

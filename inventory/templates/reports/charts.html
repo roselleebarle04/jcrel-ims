@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block styles %}
+{{block.super}}
+{% endblock styles %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-9">
+        <h1 class="page-header">Retail Dashboard</h1>
+    </div>
+    <div class="col-lg-3">
+        <a href="#" class="btn btn-theme form-control" style="margin-top:10px;">Filter</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Inventory Levels Chart</div>
+            <div class="panel-body">
+                <p>This chart shows the trends of your inventory for a particular product or timeline. </p>
+                <canvas id="myChart" style="width:100%; height:400px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+{{block.super}}
+<script type="text/javascript" src="/static/js/Chart.js"></script>
+<!-- <script type="text/javascript" src="/static/js/reports-charts.js"></script> -->
+<script type="text/javascript">
+    $(window).load(function() {
+        var resp; 
+        $.ajax({
+            type: 'POST' ,
+            url: '/reports/data/',
+            data:{
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            success: function(response) {
+                console.log(response);
+                var ctx = document.getElementById("myChart").getContext("2d");
+
+                // Generate dataset for each product, containing stock quantities in all locations charted
+                // through monthly levels. 
+
+                var data = {
+                    labels: ["January", "February", "March", "April", "May", "June", "July", "August"],
+                    datasets: [
+                        {
+                            label: "My First dataset",
+                            fillColor: "rgba(220,220,220,0.2)",
+                            strokeColor: "rgba(220,220,220,1)",
+                            pointColor: "rgba(220,220,220,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(220,220,220,1)",
+                            data: [65, 59, 80, 81, 56, 55, 40, 88]
+                        },
+                        {
+                            label: "My Second dataset",
+                            fillColor: "rgba(151,187,205,0.2)",
+                            strokeColor: "rgba(151,187,205,1)",
+                            pointColor: "rgba(151,187,205,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(151,187,205,1)",
+                            data: [28, 48, 40, 19, 86, 27, 90, 88]
+                        }
+                    ]
+                };
+
+                var myLineChart = new Chart(ctx).Line(data);
+            }
+        });
+    });
+</script>
+{% endblock%}
