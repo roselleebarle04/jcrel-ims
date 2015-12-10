@@ -172,7 +172,7 @@ class ItemTransfer(models.Model):
 	transfer = models.ForeignKey(Transfer)
 
 	def __unicode__(self):
-		return self.item
+		return str(self.item.item_code)
 
 class Arrival(models.Model):
 	date = models.DateField(default=timezone.now)

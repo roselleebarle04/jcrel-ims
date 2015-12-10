@@ -8,22 +8,56 @@
     <title>JCREL Inventory</title>
     <link href="/static/css/default.css" rel="stylesheet" type="text/css" media="all" >
     <link href="/static/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="/static/css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome.css" rel="stylesheet" type="text/css"  >
   </head>
-  <body>
+  <body id="page-top" class="index">
     <div id="header-wrapper">
       <div id="header" class="container">   
-        <!-- <div id="avatar"jpeg>
-          <h1>Welcome!</h1>
-        </div> -->
-        <div id="menu">
-          <ul>
-            <li class="active"><a href="" accesskey="1" title="">Homepage</a></li>
-            <li><a href="/login/" accesskey="2" title="">Sign In</a></li>
-            <li><a href="/signup/" accesskey="3" title="">Sign Up</a></li>
-          </ul>
-        </div>
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header page-scroll">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand page-scroll" href="#page-top">Welcome</a>
       </div>
+<!-- ================================================================================= -->
+<!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top navbar-shrink">
+        <div class="container">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#">Homepage</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#team">Team</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#">Contact</a>
+                    </li>
+                    <li>
+                        <a href="/login/">Sign In</a>
+                    </li>
+                    <li>
+                        <a href="/signup/">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+<!-- ====================================================================================== -->
       <div id="banner" class="container">
         <div class="title">
           <h2>JCREL</h2>
@@ -41,21 +75,13 @@
           <span class="byline">A high quality product that will guide users in making good decisions for their business specifically in determining when to replenish inventory.</span>
         </div>
         <br>
-        <div class="boxA">
-          <p>About Us</p>
-          <a href="#" class="button button-sm">More Info</a>
-        </div>
-        <div class="boxB">
-          <p>Contact Us</p>
-          <a href="#" class="button button-sm">More Info</a>
-        </div>
-        <div class="boxC">
-          <p> Our Clients</p>
-          <a href="#" class="button button-sm">More Info</a>
-        </div>
       </div>
     </div>
+    <!-- Team About -->
+    <section id="about" class="bg-light-gray"></section>
 
+    <!-- Team Contact Us -->
+    <section id="contact" class="bg-light-gray"></section>
 
     <!-- Team Section -->
     <section id="team" class="bg-light-gray">
@@ -68,7 +94,7 @@
             </div>
             <div class="row" >
                 <center>
-                  <div class="col-sm-4">
+                  <div class="col-sm-4 col-sm-offset-1">
                       <div class="team-member">
                           <img src="static/img/avatar.jpeg" class="img-responsive img-circle" alt="">
                           <h5>Josiah Eleazar Regencia</h4>
