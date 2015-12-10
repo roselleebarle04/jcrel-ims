@@ -320,7 +320,7 @@ def arrival(request):
 				arrival = arrival_id
 				quantity = form.cleaned_data.get('quantity')
 				item_cost = form.cleaned_data.get('item_cost')
-				i = ItemArrival(item=item, arrival=p, quantity=quantity, item_cost=item_cost)
+				i = ItemArrival(item=item, quantity=quantity, item_cost=item_cost, arrival=arrival)
 
 				for loc in itemloc:
 					destination = arrivalForm.cleaned_data['location']	
