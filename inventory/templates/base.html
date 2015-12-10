@@ -51,6 +51,14 @@
 
   <!-- <div id="alert" class="hide"></div> -->
 
+  <style>
+  div.scroll {
+    height: 150px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+  </style>
+
   <div id="wrapper">
 
         <!-- Navigation -->
@@ -77,8 +85,11 @@
                           {% endif %}
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
+                    
                     <ul class="dropdown-menu dropdown-alerts">
+                    <div class="scroll">
                         <li>
+                        
                             <!-- <div>
                                 <ul>
                                   <li>Item is below minimum</li>
@@ -107,11 +118,14 @@
                         <!-- <li class="divider"></li> -->
                         <li>
                             <a class="text-center" href="/notifications/">
-                                <strong>See All Alerts</strong>
+                                <strong>See Notifications History</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         </li>
+
+                        </div>
                     </ul>
+                    
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
