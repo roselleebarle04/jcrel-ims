@@ -25,11 +25,11 @@ from .forms import *
 from .formsets import *
 
 def check_minimum():
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 	is_zero = 0
 	below_min = is_zero
 
-	for i in items:
+	for i in itemloc:
 		if i.current_stock < i.re_order_point:
 			below_min = below_min + 1
 

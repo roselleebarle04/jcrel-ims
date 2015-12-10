@@ -29,7 +29,7 @@ from .formsets import *
 def transfer_history(request):
 	transfers = Transfer.objects.all()
 	transferLen = len(transfers)
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 
@@ -37,11 +37,11 @@ def transfer_history(request):
 		'transfers': transfers,
 		'transferLen': transferLen,
 		'below_min':below_min,
-		'items':items
+		'itemloc':itemloc
 	})
 
 def sales_history(request):
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 	sales_list = ItemSale.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
@@ -52,13 +52,13 @@ def sales_history(request):
 	return render(request, 'sales/sales_history.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen,
-		'items':items,
+		'itemloc':itemloc,
 		'all_items':items_list,
 		'below_min': below_min
 		})
 
 def arrival_history(request):
-	items =ItemLocation.objects.all()
+	itemloc =ItemLocation.objects.all()
 	arr = Arrival.objects.all()
 	arrivalLen = len(arr)
 	suppliers = Supplier.objects.all()
@@ -79,7 +79,7 @@ def arrival_history(request):
 			'arrival': filtered_arr,
 			'arrivalLen': arrivalLen,
 			'suppliers': suppliers,
-			'items':items,
+			'itemloc':itemloc,
 			'all_items':items_list,
 			'below_min':below_min
 		})
@@ -88,7 +88,7 @@ def arrival_history(request):
 		'arrival': arr,
 		'arrivalLen': arrivalLen,
 		'suppliers' : suppliers,
-		'items':items,
+		'itemloc':itemloc,
 		'all_items':items_list,
 		'below_min':below_min
 	})
