@@ -185,7 +185,8 @@ def create_transfer(request):
 			transfer = transfer_id
 			item = form.cleaned_data['item']
 			quantity = form.cleaned_data['quantity']
-			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)	
+			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)
+			i.save()	
 
 			for loc in itemloc:
 				if loc.location == source and loc.item == item :
@@ -206,8 +207,6 @@ def create_transfer(request):
 					else:
 						raise ValidationError("Insufficient Stock")
 
-			
-			i.save()
 
 		return HttpResponseRedirect(reverse('transfer_history'))
 	return render(request, 'transfer/transfer_form.html', {
