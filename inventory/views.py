@@ -185,16 +185,25 @@ def create_transfer(request):
 			for loc in itemloc:
 				if loc.location == source and loc.item == item :
 					quantity_current = loc.current_stock
-					decremented = quantity_current - quantity
-					loc.current_stock = decremented
-					loc.save()
-			for loct in itemloc:
-				if loct.location == destination and loct.item == item :
-					quantity_current = loct.current_stock
-					incremented = quantity_current + quantity
-					loct.current_stock = incremented
-					loct.save()
+
+					if quantity <quantity_current :
+
+						decremented = quantity_current - quantity
+						loc.current_stock = decremented
+						loc.save()
+
+						for loct in itemloc:
+							if loct.location == destination and loct.item == item :
+								quantity_current = loct.current_stock
+								incremented = quantity_current + quantity
+								loct.current_stock = incremented
+								loct.save()
+					else:
+						raise ValidationError("Insufficient Stock")
+
+			
 			i.save()
+
 		return HttpResponseRedirect(reverse('transfer_history'))
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
