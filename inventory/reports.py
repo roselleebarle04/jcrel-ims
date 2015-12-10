@@ -66,17 +66,20 @@ def reports_data(request):
 
 @login_required
 def inventory_reports(request):
+	itemloc = ItemLocation.objects.all()
 	below_min = check_minimum()
 	data = build_data(request)
 	summary = {'total_current_stock': 5, 'total_stock_value': 500}
 	return render(request, 'reports/inventory_reports.html', {
 		'data': data,
 		'summary': summary,
+		'itemloc':itemloc
 	})
 
 @login_required
 def sales_reports(request):
+	itemloc = ItemLocation.objects.all()
 	items_list = Item.objects.all()
 	below_min = check_minimum()
 
-	return render(request, 'reports/sales_reports.html', {'items':items_list, 'below_min':below_min})
+	return render(request, 'reports/sales_reports.html', {'items':items_list, 'below_min':below_min, 'itemloc':itemloc})
