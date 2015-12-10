@@ -343,7 +343,7 @@ def arrival_delete(request, arrival_id):
 @login_required
 def sales(request):
 	items_list = Item.objects.all()
-	items = ItemLocation.objects.all()
+	item_locations = ItemLocation.objects.all()
 	saleForm = SaleForm(request.POST or None)
 	formset = formset_factory(ItemSaleForm, formset=ItemSaleFormset, extra = 1)
 	saleFormset = formset(request.POST or None)
@@ -355,20 +355,31 @@ def sales(request):
 		# first save purchase details
 		# commit = False means that we can store the purchase instance to the value p
 		p = saleForm.save(commit=False)
-
 		#save the form
 		p.save()
 		sale_id = p
 		new_items = []
+		location = saleForm.cleaned_data['location']
 
 		try:
 			# loop through all forms in the formset, and save each form - add the purchaseId to each form
 			for form in saleFormset:
-				item = form.cleaned_data.get('item')
+				sale_item = form.cleaned_data['item']
 				sale = sale_id
-				quantity = form.cleaned_data.get('quantity')
-				i = ItemSale(item=item, sale=p, quantity=quantity)	
+				quantity = form.cleaned_data['quantity']				
+				i =  ItemSale(item=sale_item, sale=p, quantity=quantity)
+
+				for item in item_locations:
+					if item.item==sale_item and item.location==location:
+						if item.current_stock >= quantity:
+							curr_stock = item.current_stock
+							update_stock = curr_stock - quantity
+							item.current_stock = update_stock
+							item.save()
+						else:
+							raise ValidationError("Quantity exceeds the current quantity of items.")
 				i.save()
+
 			messages.success(request, 'Sale successfully added.')
 			return HttpResponseRedirect(reverse('sales'))
 		except ValueError:
@@ -378,7 +389,7 @@ def sales(request):
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset,
-		'items':items,
+		'items':item_locations,
 		'all_items':items_list,
 		'below_min':below_min
 		})
