@@ -190,16 +190,25 @@ def create_transfer(request):
 			for loc in itemloc:
 				if loc.location == source and loc.item == item :
 					quantity_current = loc.current_stock
-					decremented = quantity_current - quantity
-					loc.current_stock = decremented
-					loc.save()
-			for loct in itemloc:
-				if loct.location == destination and loct.item == item :
-					quantity_current = loct.current_stock
-					incremented = quantity_current + quantity
-					loct.current_stock = incremented
-					loct.save()
+
+					if quantity <quantity_current :
+
+						decremented = quantity_current - quantity
+						loc.current_stock = decremented
+						loc.save()
+
+						for loct in itemloc:
+							if loct.location == destination and loct.item == item :
+								quantity_current = loct.current_stock
+								incremented = quantity_current + quantity
+								loct.current_stock = incremented
+								loct.save()
+					else:
+						raise ValidationError("Insufficient Stock")
+
+			
 			i.save()
+
 		return HttpResponseRedirect(reverse('transfer_history'))
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
@@ -226,7 +235,6 @@ def list_locations(request):
 		'below_min':below_min,
 		'loc_len' : loc_len,
 	})
-
 
 @login_required
 def add_location(request):
@@ -313,10 +321,18 @@ def arrival(request):
 				arrival = arrival_id
 				quantity = form.cleaned_data.get('quantity')
 				item_cost = form.cleaned_data.get('item_cost')
-				i = ItemArrival(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
+				i = ItemArrival(item=item, arrival=p, quantity=quantity, item_cost=item_cost)
+
+				for loc in itemloc:
+					destination = arrivalForm.cleaned_data['location']	
+					if loc.location == destination and loc.item == item :
+						quantity_current = loc.current_stock
+						incremented = quantity_current + quantity
+						loc.current_stock = incremented
+						loc.save()
 				i.save()
 			messages.success(request, 'New Arrival has been added.')
-			return HttpResponseRedirect(reverse('arrival'))
+			return HttpResponseRedirect(reverse('arrival_history'))
 			
 		except ValueError:
 			messages.warning(request, 'Please fill in all input boxes before submitting ')
