@@ -222,7 +222,6 @@ def list_locations(request):
 		'loc_len' : loc_len,
 	})
 
-
 @login_required
 def add_location(request):
 	location_list = Location.objects.all()
@@ -277,7 +276,7 @@ def delete_location(request, location_id):
 @login_required
 def arrival(request):
 	items_list = Item.objects.all()
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -304,10 +303,18 @@ def arrival(request):
 				arrival = arrival_id
 				quantity = form.cleaned_data.get('quantity')
 				item_cost = form.cleaned_data.get('item_cost')
-				i = ItemArrival(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
+				i = ItemArrival(item=item, arrival=p, quantity=quantity, item_cost=item_cost)
+
+				for loc in itemloc:
+					destination = arrivalForm.cleaned_data['location']	
+					if loc.location == destination and loc.item == item :
+						quantity_current = loc.current_stock
+						incremented = quantity_current + quantity
+						loc.current_stock = incremented
+						loc.save()
 				i.save()
 			messages.success(request, 'New Arrival has been added.')
-			return HttpResponseRedirect(reverse('arrival'))
+			return HttpResponseRedirect(reverse('arrival_history'))
 			
 		except ValueError:
 			messages.warning(request, 'Please fill in all input boxes before submitting ')
@@ -316,7 +323,7 @@ def arrival(request):
 	return render(request, 'arrival/arrival.html', {
 		'AddArrivalForm' : arrivalForm, 
 		'formset' : arrivalFormset,
-		'items':items,
+		'itemloc':itemloc,
 		'all_items':items_list,
 		'below_min':below_min
 		})
