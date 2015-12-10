@@ -68,15 +68,17 @@
                             <tr>
                                 <th style="width: 50%; ">Item</th>
                                 <th style="width: 25%;">Quantity</th>
-                                <th style="width: 25%;">Item Cost</th>                    
+                                <th style="width: 25%;">Item Cost</th>  
+                                <th></th>                  
                             </tr>
                         </thead>
                         <tbody>
                             {% for form in formset.forms %}
                             <tr id="{{ form.prefix }}-row" class="dynamic-form">
                                 <td>{{ form.item }}</td>
-                                <td>{{form.quantity}}</td>
-                                <td>{{form.item_cost}}</td>
+                                <td>{{ form.quantity }}</td>
+                                <td>{{ form.item_cost }}</td>
+                                <td></td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -90,20 +92,20 @@
         {{ formset.management_form }}   
     </div>    
     <div class="container">
-                    {% if messages %}
-                        <div class="row">
-                            <div class="col-sm-8 col-sm-offset-5">                    
-                                {% for message in messages %}
-                                <p 
-                                {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
-                                {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
-                                {% endif %}>{{ message }}
-                                </p>
-                                {% endfor %}                    
-                            </div>
-                        </div>
-                    {% endif %}
-                    </div>
+        {% if messages %}
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-5">                    
+                    {% for message in messages %}
+                    <p 
+                    {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
+                    {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
+                    {% endif %}>{{ message }}
+                    </p>
+                    {% endfor %}                    
+                </div>
+            </div>
+        {% endif %}
+    </div>
     <br><br><br><br><br><br><br>
     <div class="form-group">
         <input type="submit" class="form-control btn btn-success btn-md" name="name" value="Submit" />
