@@ -18,6 +18,7 @@ from django.template.context import RequestContext
 from django.forms.formsets import formset_factory
 from django.db import IntegrityError, transaction, models
 from django.core import validators
+from datetime import date
 
 from config import settings
 from .models import *
@@ -31,6 +32,20 @@ def check_minimum():
 
 	for i in itemloc:
 		if i.current_stock < i.re_order_point:
+			message = "%s is below the minimum required quantity stored." % (i)
 			below_min = below_min + 1
+			# notifs = Notifications.objects.create(item_loc=i, message=message)
+			# notifs.save()
 
 	return below_min
+
+def save_minimums():
+	itemloc = ItemLocation.objects.all()
+	is_zero = 0
+	below_min = is_zero
+
+	for i in itemloc:
+		if i.current_stock < i.re_order_point:
+			message = "%s is below the minimum required quantity stored." % (i)
+			notifs = Notifications.objects.create(item_loc=i, message=message)
+			notifs.save()

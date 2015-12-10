@@ -108,15 +108,16 @@ class Item(models.Model):
 	location = models.ManyToManyField(Location, through='ItemLocation')
 	user = models.ForeignKey(User, blank=False, null=True)
 
-	def __unicode__(self):
-		return self.name
 	# def __unicode__(self):
-	# 	return " ".join((
- #            unicode(self.item_code),
- #            unicode(self.category),
- #            unicode(self.brand),
- #            unicode(self.model)
- #        ))
+	# 	return self.name
+	def __unicode__(self):
+		return " ".join((
+            unicode(self.item_code),
+            unicode(self.name),
+            unicode(self.category),
+            unicode(self.brand),
+            unicode(self.model)
+        ))
 	
 
 
@@ -216,6 +217,17 @@ class ItemArrival(models.Model):
 		return self.item_cost * self.quantity
 
 class Notifications(models.Model):
-	date = models.DateTimeField(auto_now_add=True)
+	below_min_date = models.DateTimeField(default=timezone.now())
 	message = models.CharField(max_length=200)
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, null=True)
+	item_loc = models.ForeignKey(ItemLocation)
+
+	def __unicode__(self):
+		return str(self.item_loc.item)
+
+	def create(self, item_loc, message):
+		item_loc = item_loc
+		below_min_date = timezone.now()
+		message = message
+
+

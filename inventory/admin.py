@@ -50,3 +50,7 @@ admin.site.register(Location, LocationAdmin)
 class ItemLocationAdmin(admin.ModelAdmin):
 	pass
 admin.site.register(ItemLocation, ItemLocationAdmin)
+
+class NotificationsAdmin(admin.ModelAdmin):
+	pass
+admin.site.register(Notifications, NotificationsAdmin)

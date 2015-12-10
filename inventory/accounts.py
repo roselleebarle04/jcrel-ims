@@ -89,6 +89,7 @@ def notifications(request):
 	itemLength = len(items_list)
 	itemloc = ItemLocation.objects.all()
 	itemLength = len(itemloc)
+	notifs = Notifications.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -96,7 +97,8 @@ def notifications(request):
 	return render(request, 'notifications/notification_page.html', {
 		'itemloc':itemloc,
 		'itemLength': itemLength,
-		'below_min':below_min
+		'below_min':below_min,
+		'notifs':notifs
 		})
 
 
