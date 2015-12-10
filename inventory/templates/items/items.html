@@ -43,7 +43,6 @@
                         <td>{{ i.brand }}</td>
                         <td>{{ i.model }}</td>
                         <td>{{ i.supplier.name}}</td>
-                        <td>{{ i.item_cost }}</td>
                         <td>                           
                             <a href="/items/update/{{i.id}}/" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span> </a>
                             <button onclick="confirmItemDelete({{i.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button>
