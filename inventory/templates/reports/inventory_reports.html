@@ -87,27 +87,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><strong>Totals</strong></td>
-                    <td colspan="3"></td>
-                    <td class="border-left"><strong>{{summary.total_current_stock}}</strong></td>
-                    <td><strong>{{summary.total_stock_value}}</strong></td>
-                    <td colspan="3"></td>
-                </tr>
                 {% for group in data%}
+                {% for item in group.items %}
                 <tr>
-                    <td rowspan="{{group.items.length}}">{{group.location}}</td>
-                    {% for item in group.items %}
+                    <td>{% if forloop.counter == 1%}{{group.location}}{%endif%}</td>
                     <td><a href="#">{{item.item_name}}</a></td>
                     <td>{{item.item_code}}</td>
                     <td>{{item.date_created.date}}</td>
-                    <td class="border-left">{{item.current_stock}}</td>
+                    <td>{{item.current_stock}}</td>
                     <td>{{item.stock_value}}</td>
                     <td>{{item.unit_cost}}</td>
                     <td>{{item.reorder_point}}</td>
                     <td>{{item.reorder_amount}}</td>
-                    {% endfor %}
                 </tr>
+                {% endfor %}
                 {% endfor %}
             </tbody>
             <tfoot>
