@@ -84,7 +84,7 @@ class TransferForm(forms.ModelForm):
 	class Meta:
 		model = Transfer
 		fields = ['From', 'To']
-
+		
 	def __init__(self, *args, **kwargs):
 		super(TransferForm, self).__init__(*args, **kwargs)
 		self.fields['From'].widget.attrs['class'] = 'form-control'

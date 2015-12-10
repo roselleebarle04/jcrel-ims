@@ -35,9 +35,9 @@ def landing_page(request):
 @login_required
 def dashboard(request): 
 	items_list = Item.objects.all()
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 	sales = Sale.objects.all()
-	items_len = len(items)
+	items_len = len(itemloc)
 	sales_len = len(sales)
 
 	below_min = check_minimum()
@@ -45,7 +45,7 @@ def dashboard(request):
 
 	return render(request, 'dashboard.html', {
 		'user':request.user.username,
-		# 'items' : items,
+		'itemloc':itemloc,
 		'sales': sales,
 		'items_len' : items_len,
 		'sales_len':sales_len,
@@ -60,6 +60,7 @@ def dashboard(request):
 def list_items(request):
 	active_items = Item.objects.all().filter(is_active=True)
 	itemLen = len(active_items)
+	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -67,11 +68,12 @@ def list_items(request):
 	return render(request, 'items/items.html', {
 		'items': active_items,
 		'itemLen': itemLen,
-		'below_min':below_min
+		'below_min':below_min,
+		'itemloc':itemloc
 	})
 
 def notifications(request):
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 	itemLength = len(items)
 	warning = WarningItems.objects.all()
 
@@ -79,7 +81,7 @@ def notifications(request):
 	print "below_min %d" % below_min
 
 	return render(request, 'notifications/notification_page.html', {
-		'items':items,
+		'itemloc':itemloc,
 		'itemLength': itemLength,
 		'below_min':below_min
 	})
@@ -91,6 +93,7 @@ def add_item(request):
 	"""
 	add_new_item_form = ItemForm(request.POST or None)
 	locations = Location.objects.all()
+	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -116,7 +119,8 @@ def add_item(request):
 	return render(request, 'items/add_item.html', {
 		'form' : add_new_item_form, 
 		'locations' : locations,
-		'below_min':below_min
+		'below_min':below_min,
+		'itemloc':itemloc
 	})
 
 def delete_item(request, item_id):
@@ -130,6 +134,7 @@ def update_item(request, item_id):
 	item = Item.objects.get(pk=item_id)
 	update_item_form = ItemForm(request.POST or None, instance=item)
 	locations = Location.objects.all()
+	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -152,16 +157,16 @@ def update_item(request, item_id):
 			messages.success(request, 'Item has been successfully updated.')
 			return HttpResponseRedirect(reverse('list_items'))
 
-	return render(request, 'items/update_item.html', {'form':update_item_form, 'below_min':below_min})
+	return render(request, 'items/update_item.html', {'form':update_item_form, 'below_min':below_min, 'itemloc':itemloc})
 	
 
 #############################################
 ##	Transfers 
 #############################################
-
+@login_required
 def create_transfer(request):
 	items_list = Item.objects.all()
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 	transferForm = TransferForm(request.POST or None)
 	formset = formset_factory(ItemTransferForm, formset=ItemTransferFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
@@ -170,6 +175,8 @@ def create_transfer(request):
 
 	if transferForm.is_valid() and transferFormset.is_valid():
 		p = transferForm.save(commit=False)
+		source = transferForm.cleaned_data['From']
+		destination = transferForm.cleaned_data['To']
 		p.user = request.user
 		p.save()
 		transfer_id = p
@@ -179,20 +186,33 @@ def create_transfer(request):
 			item = form.cleaned_data['item']
 			quantity = form.cleaned_data['quantity']
 			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)	
+
+			for loc in itemloc:
+				if loc.location == source and loc.item == item :
+					quantity_current = loc.current_stock
+					decremented = quantity_current - quantity
+					loc.current_stock = decremented
+					loc.save()
+			for loct in itemloc:
+				if loct.location == destination and loct.item == item :
+					quantity_current = loct.current_stock
+					incremented = quantity_current + quantity
+					loct.current_stock = incremented
+					loct.save()
 			i.save()
 		return HttpResponseRedirect(reverse('transfer_history'))
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset,
 		'all_items':items_list,
-		'items':items,
+		'itemloc':itemloc,
 		'below_min':below_min}) 
 
 @login_required
 def list_locations(request):
 	""" We want to display all items and their respective locations """
 	locations = Location.objects.all()
-	item_locations = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -201,17 +221,17 @@ def list_locations(request):
 	loc_len = len(locations)
 	return render(request, 'transfer/location.html', {
 		'locations' : locations,
-		'item_locations' : item_locations,
-		'itemlen' : len(item_locations),
+		'itemloc' : itemloc,
+		'itemlen' : len(itemloc),
 		'below_min':below_min,
 		'loc_len' : loc_len,
 	})
-
 
 @login_required
 def add_location(request):
 	location_list = Location.objects.all()
 	form = LocationForm(request.POST or None)
+	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -221,7 +241,8 @@ def add_location(request):
 		return redirect('location')
 
 	return render (request, 'transfer/add_location.html', {
-		'form' : form, 
+		'form' : form,
+		'itemloc' : itemloc, 
 		'location':location_list,
 		# 'items':items, 
 		'below_min':below_min
@@ -232,6 +253,7 @@ def update_location(request, location_id):
 	# items = AddItem.objects.all()
 	location_list = Location.objects.all()
 	location = Location.objects.get(pk=location_id)
+	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -243,7 +265,8 @@ def update_location(request, location_id):
 		return HttpResponseRedirect(reverse('location'))
 	return render(request, 'transfer/update_location.html', {
 		'location': location, 
-		'all_items':items_list, 
+		'all_items':items_list,
+		'itemloc':itemloc, 
 		# 'items':items, 
 		'below_min':below_min
 		})
@@ -262,7 +285,7 @@ def delete_location(request, location_id):
 @login_required
 def arrival(request):
 	items_list = Item.objects.all()
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -289,10 +312,18 @@ def arrival(request):
 				arrival = arrival_id
 				quantity = form.cleaned_data.get('quantity')
 				item_cost = form.cleaned_data.get('item_cost')
-				i = ItemArrival(item=item, arrival=p, quantity=quantity, item_cost=item_cost)	
+				i = ItemArrival(item=item, arrival=p, quantity=quantity, item_cost=item_cost)
+
+				for loc in itemloc:
+					destination = arrivalForm.cleaned_data['location']	
+					if loc.location == destination and loc.item == item :
+						quantity_current = loc.current_stock
+						incremented = quantity_current + quantity
+						loc.current_stock = incremented
+						loc.save()
 				i.save()
 			messages.success(request, 'New Arrival has been added.')
-			return HttpResponseRedirect(reverse('arrival'))
+			return HttpResponseRedirect(reverse('arrival_history'))
 			
 		except ValueError:
 			messages.warning(request, 'Please fill in all input boxes before submitting ')
@@ -301,7 +332,7 @@ def arrival(request):
 	return render(request, 'arrival/arrival.html', {
 		'AddArrivalForm' : arrivalForm, 
 		'formset' : arrivalFormset,
-		'items':items,
+		'itemloc':itemloc,
 		'all_items':items_list,
 		'below_min':below_min
 		})
@@ -328,7 +359,7 @@ def arrival_delete(request, arrival_id):
 @login_required
 def sales(request):
 	items_list = Item.objects.all()
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 	saleForm = SaleForm(request.POST or None)
 	formset = formset_factory(ItemSaleForm, formset=ItemSaleFormset, extra = 1)
 	saleFormset = formset(request.POST or None)
@@ -363,13 +394,13 @@ def sales(request):
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset,
-		'items':items,
+		'itemloc':itemloc,
 		'all_items':items_list,
 		'below_min':below_min
 		})
 
 def sales_history(request):
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 	sales_list = ItemSale.objects.filter(is_active=True)
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
@@ -387,7 +418,7 @@ def sales_history(request):
 	return render(request, 'sales/sales_history.html', {
 		'sales_list':sales_list,
 		'salesLen' : salesLen,
-		'items':items,
+		'itemloc':itemloc,
 		'all_items':items_list,
 		'below_min': below_min
 		})
@@ -406,7 +437,7 @@ def delete_sale(request, sale_id):
 #############################################
 def suppliers(request):
 	items_list = Item.objects.all()
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 	s_list = Supplier.objects.all()
 	s_len = len(s_list)
 
@@ -416,13 +447,14 @@ def suppliers(request):
 	return render(request, 'supplier/suppliers.html', {
 		'suppliers': s_list,
 		's_len': s_len,
-		'items':items,
+		'itemloc':itemloc,
 		'all_items':items_list,
 		'below_min':below_min
 	})
 
 def add_supplier(request):
 	redirect_to = request.REQUEST.get('next', '/suppliers/')
+	itemloc = ItemLocation.objects.all()
 
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
@@ -440,12 +472,14 @@ def add_supplier(request):
 	 'form': supplierForm,
 	  'all_items':items_list,
 	  'next': redirect_to,
+	  'itemloc':itemloc,
 	  'below_min':below_min
 	  })
 
 def update_supplier(request, supplier_id):
 	supplier = Supplier.objects.get(pk=supplier_id)
 	items_list = Item.objects.all()
+	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -461,6 +495,7 @@ def update_supplier(request, supplier_id):
 	return render(request, 'supplier/update_supplier.html', {
 		'supplier': supplier,
 		'all_items':items_list,
+		'itemloc':itemloc,
 		'below_min':below_min
 		})
 
@@ -475,7 +510,7 @@ def delete_supplier(request, supplier_id):
 ##	Customer
 #############################################
 def customers(request):
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 	items_list = Item.objects.all()
 	c_list = Customer.objects.all()
 	c_len = len(c_list)
@@ -488,13 +523,14 @@ def customers(request):
 		'customers': c_list,
 		'c_len': c_len,
 		'all_items':items_list,
-		'items':items,
+		'itemloc':itemloc,
 		'below_min':below_min
 	})
 
 def add_customer(request):
 	items_list = Item.objects.all()
 	customerForm = CustomerForm(request.POST or None, request.FILES)
+	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -505,12 +541,14 @@ def add_customer(request):
 
 	return render(request, 'customer/add_customer.html', {
 		'form': customerForm,
+		'itemloc':itemloc,
 		'below_min':below_min
 	})
 
 def update_customer(request, customer_id):
 	items_list = Item.objects.all()
 	customer = Customer.objects.get(pk=customer_id)
+	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
 	print "below_min %d" % below_min
@@ -527,6 +565,7 @@ def update_customer(request, customer_id):
 	return render(request, 'customer/update_customer.html', {
 		'customer': customer,
 		'all_items':items_list,
+		'itemloc':itemloc,
 		'below_min':below_min
  	})
 

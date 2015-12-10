@@ -163,7 +163,7 @@ class Transfer(models.Model):
 	user = models.ForeignKey(User)
 
 	def __unicode__(self):
-		return self.source_location
+		return str(self.items)
 
 class ItemTransfer(models.Model):
 	quantity = models.IntegerField(default = 0)
