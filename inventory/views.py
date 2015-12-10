@@ -188,11 +188,12 @@ def create_transfer(request):
 					decremented = quantity_current - quantity
 					loc.current_stock = decremented
 					loc.save()
-				if loc.location == destination and loc.item == item :
-					quantity_current = loc.current_stockS
+			for loct in itemloc:
+				if loct.location == destination and loct.item == item :
+					quantity_current = loct.current_stock
 					incremented = quantity_current + quantity
-					loc.current_stock = incremented
-					loc.save()
+					loct.current_stock = incremented
+					loct.save()
 			i.save()
 		return HttpResponseRedirect(reverse('transfer_history'))
 	return render(request, 'transfer/transfer_form.html', {
