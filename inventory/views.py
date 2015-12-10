@@ -158,10 +158,10 @@ def update_item(request, item_id):
 #############################################
 ##	Transfers 
 #############################################
-
+@login_required
 def create_transfer(request):
 	items_list = Item.objects.all()
-	items = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 	transferForm = TransferForm(request.POST or None)
 	formset = formset_factory(ItemTransferForm, formset=ItemTransferFormset, extra = 1)
 	transferFormset = formset(request.POST or None)
@@ -170,6 +170,8 @@ def create_transfer(request):
 
 	if transferForm.is_valid() and transferFormset.is_valid():
 		p = transferForm.save(commit=False)
+		source = transferForm.cleaned_data['From']
+		destination = transferForm.cleaned_data['To']
 		p.user = request.user
 		p.save()
 		transfer_id = p
@@ -179,13 +181,26 @@ def create_transfer(request):
 			item = form.cleaned_data['item']
 			quantity = form.cleaned_data['quantity']
 			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)	
+
+			for loc in itemloc:
+				if loc.location == source and loc.item == item :
+					quantity_current = loc.current_stock
+					decremented = quantity_current - quantity
+					loc.current_stock = decremented
+					loc.save()
+			for loct in itemloc:
+				if loct.location == destination and loct.item == item :
+					quantity_current = loct.current_stock
+					incremented = quantity_current + quantity
+					loct.current_stock = incremented
+					loct.save()
 			i.save()
 		return HttpResponseRedirect(reverse('transfer_history'))
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset,
 		'all_items':items_list,
-		'items':items,
+		'itemloc':itemloc,
 		'below_min':below_min}) 
 
 @login_required

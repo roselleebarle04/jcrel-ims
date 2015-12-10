@@ -1,4 +1,5 @@
 from django.forms.formsets import BaseFormSet
+from .models import *
 
 
 class ItemArrivalFormset(BaseFormSet):
@@ -6,10 +7,6 @@ class ItemArrivalFormset(BaseFormSet):
 		if any(self.errors):
 			return
 
-class ItemTransferFormset(BaseFormSet):
-	def clean(self):
-		if any(self.errors):
-			return
 
 class ItemSaleFormset(BaseFormSet):
 	def clean(self):
@@ -21,3 +18,10 @@ class ItemLocationFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
 			return
+
+class ItemTransferFormset(BaseFormSet):
+	def clean(self):
+		if any(self.errors):
+			return
+
+		
