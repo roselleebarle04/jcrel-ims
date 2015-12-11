@@ -93,54 +93,7 @@ hr.star-primary:after {
     }
 }
 
-@media(min-width:768px) {
-    .navbar-fixed-top {
-        padding: 25px 0;
-        -webkit-transition: padding .3s;
-        -moz-transition: padding .3s;
-        transition: padding .3s;
-    }
 
-    .navbar-fixed-top .navbar-brand {
-        font-size: 2em;
-        -webkit-transition: all .3s;
-        -moz-transition: all .3s;
-        transition: all .3s;
-        color: #00ffff;
-    }
-
-    .navbar-fixed-top.navbar-shrink {
-        padding: 10px 0;
-    }
-
-    .navbar-fixed-top.navbar-shrink .navbar-brand {
-        font-size: 1.5em;
-    }
-}
-
-.navbar {
-    text-transform: uppercase;
-    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: 700;
-}
-
-.navbar a:focus {
-    outline: 0;
-}
-
-.navbar .navbar-nav {
-    letter-spacing: 1px;
-}
-
-.navbar .navbar-nav li a:focus {
-    outline: 0;
-}
-
-.navbar-default,
-.navbar-inverse {
-    border: 0;
-
-}
 section {
     padding: 100px 0;
 }
@@ -372,30 +325,96 @@ footer .footer-below {
 /*#################################
 ## NAVIGATION BAR
 #################################*/
-.navbar-default{
-    background-color:#222;
-    border-color:red;
-}
-.navbar-default .navbar-collapse{
-    border-color:rgba(255,255,255,.02)
-}
-.navbar-default .nav li a{
-    font-family:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;text-transform:uppercase;
-    font-weight:400;
-    letter-spacing:1px;
-    color:#fff;
-}
-.navbar-default .nav li a:hover,.navbar-default .nav li a:focus{
-    color: #00ffff;
-    outline:0;
-}
-.navbar-default .navbar-nav>.active>a{
-    border-radius:20;
-    color:#fff;
-    background-color:#fed136
-}
-/*.navbar-default .navbar-nav>.active>a:hover,
-.navbar-default .navbar-nav>.active>a:focus{
-    color:#fff;
-    background-color:#18BC9C;
-}*/
+    .navbar-default
+    {
+        background-color:#233140;
+        border-color:red;
+    }
+    .navbar-default .navbar-collapse
+    {
+        border-color:rgba(255,255,255,.02)
+    }
+    .navbar-default .nav li a
+    {
+        font-family:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;text-transform:uppercase;
+        font-weight:400;
+        letter-spacing:1px;
+        color:#fff;
+    }
+    .navbar-default .nav li a:hover,.navbar-default .nav li a:focus
+    {
+        color: #00ffff;
+        font-size: 1.2em;
+        outline:0;
+    }
+    .navbar-default .navbar-nav>.active>a
+    {
+        border-radius:20;
+        color:#00ffff;
+        background-color:#fed136
+    }
+    .navbar-default .navbar-nav>.active>a:hover,
+    .navbar-default .navbar-nav>.active>a:focus{
+        color:#00ffff;
+        background-color:#00ffff;
+    }
+
+    @media(min-width:768px) {
+        .navbar-fixed-top 
+        {
+            padding: 25px 0;
+            -webkit-transition: padding .3s;
+            -moz-transition: padding .3s;
+            transition: padding .3s;
+        }
+
+        .navbar-fixed-top .navbar-brand 
+        {
+            font-size: 2em;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            transition: all .3s;
+            color: #00ffff;
+        }
+        .navbar-default .navbar-brand:focus,.navbar-default .navbar-brand:hover
+        {
+            font-size: 2.2em;
+        }
+
+        .navbar-fixed-top.navbar-shrink 
+        {
+            padding: 10px 0;
+        }
+
+        .navbar-fixed-top.navbar-shrink .navbar-brand 
+        {
+            font-size: 1.5em;
+        }
+    }
+
+    .navbar 
+    {
+        text-transform: uppercase;
+        font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-weight: 700;
+    }
+
+    .navbar a:focus 
+    {
+        outline: 0;
+    }
+
+    .navbar .navbar-nav 
+    {
+        letter-spacing: 1px;
+    }
+
+    .navbar .navbar-nav li a:focus 
+    {
+        outline: 0;
+    }
+
+    .navbar-default,.navbar-inverse 
+    {
+        border: 0;
+    }
