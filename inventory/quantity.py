@@ -34,8 +34,8 @@ def check_minimum():
 		if i.current_stock < i.re_order_point:
 			message = "%s is below the minimum required quantity stored." % (i)
 			below_min = below_min + 1
-			# notifs = Notifications.objects.create(item_loc=i, message=message)
-			# notifs.save()
+			notifs = Notifications.objects.create(item_loc=i, message=message)
+			notifs.save()
 
 	return below_min
 
