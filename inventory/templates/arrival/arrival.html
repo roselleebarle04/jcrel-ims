@@ -78,7 +78,7 @@
                                 <td>{{ form.item }}</td>
                                 <td>{{ form.quantity }}</td>
                                 <td>{{ form.item_cost }}</td>
-                                <td></td>
+                                <td><a href="javascript:void(0)" class="delete-row btn btn-danger"><span class="glyphicon glyphicon-remove"></span></a></td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -106,7 +106,7 @@
             </div>
         {% endif %}
     </div>
-    <br><br><br><br><br><br><br>
+    <br><br><br><br>
     <div class="form-group">
         <input type="submit" class="form-control btn btn-success btn-md" name="name" value="Submit" />
     </div>
