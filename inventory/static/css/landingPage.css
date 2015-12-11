@@ -106,6 +106,7 @@ hr.star-primary:after {
         -webkit-transition: all .3s;
         -moz-transition: all .3s;
         transition: all .3s;
+        color: #00ffff;
     }
 
     .navbar-fixed-top.navbar-shrink {
@@ -385,8 +386,7 @@ footer .footer-below {
     color:#fff;
 }
 .navbar-default .nav li a:hover,.navbar-default .nav li a:focus{
-    color: #80ffff;
-    text-shadow: 0px 0px 2px #80ffff;
+    color: #00ffff;
     outline:0;
 }
 .navbar-default .navbar-nav>.active>a{
