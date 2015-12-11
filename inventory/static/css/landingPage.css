@@ -346,12 +346,9 @@ footer .footer-below {
         color: #00ffff;
         font-size: 1.2em;
         outline:0;
-    }
-    .navbar-default .navbar-nav>.active>a
-    {
-        border-radius:20;
-        color:#00ffff;
-        background-color:#fed136
+        border-style:solid;
+        border-width:1.2px;       
+        border-color: #00ffff;
     }
     .navbar-default .navbar-nav>.active>a:hover,
     .navbar-default .navbar-nav>.active>a:focus{
