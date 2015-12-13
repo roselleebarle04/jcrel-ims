@@ -86,6 +86,7 @@ def notifications(request):
 		'below_min':below_min
 	})
 
+@login_required
 def add_item(request):
 	"""
 	In adding an item, we want to store where the item is located, and the quantity of that 
@@ -123,6 +124,7 @@ def add_item(request):
 		'itemloc':itemloc
 	})
 
+@login_required
 def delete_item(request, item_id):
 	items_list = Item.objects.all()
 	item = Item.objects.get(pk = item_id)
@@ -130,6 +132,7 @@ def delete_item(request, item_id):
 	item.save()
 	return HttpResponseRedirect(reverse('list_items'))
 
+@login_required
 def update_item(request, item_id):
 	item = Item.objects.get(pk=item_id)
 	update_item_form = ItemForm(request.POST or None, instance=item)
@@ -256,6 +259,7 @@ def add_location(request):
 		'below_min':below_min
 		})
 
+@login_required
 def update_location(request, location_id):
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
@@ -345,6 +349,7 @@ def arrival(request):
 		'below_min':below_min
 		})
 
+@login_required
 def arrival_delete(request, arrival_id):
 	items_list = Item.objects.all()
 	# items = AddItem.objects.all()
@@ -419,6 +424,7 @@ def sales(request):
 		'below_min':below_min
 		})
 
+@login_required
 def sales_history(request):
 	itemloc = ItemLocation.objects.all()
 	sales_list = ItemSale.objects.filter(is_active=True)
@@ -443,6 +449,7 @@ def sales_history(request):
 		'below_min': below_min
 		})
 
+@login_required
 def delete_sale(request, sale_id):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
@@ -455,6 +462,7 @@ def delete_sale(request, sale_id):
 #############################################
 ##	Supplier
 #############################################
+@login_required
 def suppliers(request):
 	items_list = Item.objects.all()
 	itemloc = ItemLocation.objects.all()
@@ -472,6 +480,7 @@ def suppliers(request):
 		'below_min':below_min
 	})
 
+@login_required
 def add_supplier(request):
 	redirect_to = request.REQUEST.get('next', '/suppliers/')
 	itemloc = ItemLocation.objects.all()
@@ -496,6 +505,7 @@ def add_supplier(request):
 	  'below_min':below_min
 	  })
 
+@login_required
 def update_supplier(request, supplier_id):
 	supplier = Supplier.objects.get(pk=supplier_id)
 	items_list = Item.objects.all()
@@ -519,6 +529,7 @@ def update_supplier(request, supplier_id):
 		'below_min':below_min
 		})
 
+@login_required
 def delete_supplier(request, supplier_id):
 	items_list = Item.objects.all()
 	
@@ -529,6 +540,7 @@ def delete_supplier(request, supplier_id):
 #############################################
 ##	Customer
 #############################################
+@login_required
 def customers(request):
 	itemloc = ItemLocation.objects.all()
 	items_list = Item.objects.all()
@@ -547,6 +559,7 @@ def customers(request):
 		'below_min':below_min
 	})
 
+@login_required
 def add_customer(request):
 	items_list = Item.objects.all()
 	customerForm = CustomerForm(request.POST or None, request.FILES)
@@ -565,6 +578,7 @@ def add_customer(request):
 		'below_min':below_min
 	})
 
+@login_required
 def update_customer(request, customer_id):
 	items_list = Item.objects.all()
 	customer = Customer.objects.get(pk=customer_id)
@@ -589,6 +603,7 @@ def update_customer(request, customer_id):
 		'below_min':below_min
  	})
 
+@login_required
 def delete_customer(request, customer_id):
 	items_list = Item.objects.all()
 	s = Customer.objects.get(pk=customer_id)

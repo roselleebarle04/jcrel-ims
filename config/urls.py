@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^signup/$', account_views.signup, name="signup"),
     url(r'^login/$', auth_views.login, {'template_name':'accounts/login.html'}),
-    url(r'^logout/$', auth_views.logout, {'template_name':'index.html'}),
+    url(r'^logout/$', auth_views.logout, {'template_name':'accounts/login.html'}),
     url(r'^change_password/$', account_views.change_password, name="change_password"),
     url(r'^notifications/$', account_views.notifications, name="notifications"),
     # url('^inbox   /notifications/', include(notifications.urls)),
