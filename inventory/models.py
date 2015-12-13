@@ -177,8 +177,8 @@ class ItemTransfer(models.Model):
 
 class Arrival(models.Model):
 	date = models.DateField(default=timezone.now)
-	delivery_receipt_no = models.CharField(max_length=100, null=True, blank=True)
-	tracking_no = models.CharField(max_length=100, null=True, blank=True)
+	delivery_receipt_no = models.CharField(max_length=100, null=True, blank=False)
+	tracking_no = models.CharField(max_length=100, null=True, blank=False)
 	items = models.ManyToManyField(Item, through='ItemArrival')
 	supplier = models.ForeignKey(Supplier)
 	location = models.ForeignKey(Location)
