@@ -43,7 +43,7 @@ def transfer_history(request):
 @login_required
 def sales_history(request):
 	itemloc = ItemLocation.objects.all()
-	sales_list = ItemSale.objects.filter(is_active=True)
+	sales_list = Sale.objects.all()
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
 

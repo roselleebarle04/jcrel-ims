@@ -425,31 +425,6 @@ def sales(request):
 		})
 
 @login_required
-def sales_history(request):
-	itemloc = ItemLocation.objects.all()
-	sales_list = ItemSale.objects.filter(is_active=True)
-	salesLen = len(sales_list)
-	items_list = Item.objects.all()
-
-	below_min = check_minimum()
-	print "below_min %d" % below_min
-	
-
-	# for i in items:
-	# 	below_min = 0
-	# 	if i.quantity < 10:
-	# 		below_min = below_min + 1
-	# 		print "below_min %d" % (below_min)
-
-	return render(request, 'sales/sales_history.html', {
-		'sales_list':sales_list,
-		'salesLen' : salesLen,
-		'itemloc':itemloc,
-		'all_items':items_list,
-		'below_min': below_min
-		})
-
-@login_required
 def delete_sale(request, sale_id):
 	# items = AddItem.objects.all()
 	items_list = Item.objects.all()
