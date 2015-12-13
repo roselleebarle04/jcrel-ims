@@ -93,7 +93,7 @@ def notifications(request):
 	itemLength = len(items_list)
 	itemloc = ItemLocation.objects.all()
 	itemLength = len(itemloc)
-	notifs = Notifications.objects.all()
+	notifs = Notifications.objects.all().order_by('-below_min_date')
 
 	save_minimums()
 
