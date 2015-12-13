@@ -168,13 +168,14 @@ class Sale(models.Model):
 		return ' '.join(unicode(self.date))
 
 	def items_list(self):
-		return ', '.join([a.item for i in self.items.all()])
+		return ', '.join([sale.item for i in self.items.all()])
 
+	@property
 	def get_grand_total(self):
 		grand_total = 0
 		items_set = self.itemsale_set.all()
 		for item in items_set: 
-			grand_total = grand_total + item.total_cost()
+			grand_total = grand_total + item.total_cost
 		return grand_total
 
 class ItemSale(models.Model):
@@ -186,7 +187,7 @@ class ItemSale(models.Model):
 	def __unicode__(self):
 		return self.item.__unicode__()
 
-		
+	@property
 	def total_cost(self):
 		total = self.item.unit_cost * self.quantity
 		return total
@@ -212,8 +213,8 @@ class ItemTransfer(models.Model):
 
 class Arrival(models.Model):
 	date = models.DateField(default=timezone.now)
-	delivery_receipt_no = models.CharField(max_length=100, null=True, blank=True)
-	tracking_no = models.CharField(max_length=100, null=True, blank=True)
+	delivery_receipt_no = models.CharField(max_length=100, null=True, blank=False)
+	tracking_no = models.CharField(max_length=100, null=True, blank=False)
 	items = models.ManyToManyField(Item, through='ItemArrival')
 	supplier = models.ForeignKey(Supplier)
 	location = models.ForeignKey(Location)
