@@ -340,8 +340,8 @@ def arrival(request):
 		except ValueError:
 			messages.warning(request, 'Please fill in all input boxes before submitting ')
 			pass
-	# else:
-	# 	messages.warning(request, 'Please fill in all input boxes before submitting ')
+	else:
+		messages.warning(request, 'Please fill in all input boxes before submitting ')
 
 	return render(request, 'arrival/arrival.html', {
 		'AddArrivalForm' : arrivalForm, 
