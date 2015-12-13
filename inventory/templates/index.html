@@ -1,55 +1,75 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <title>JCREL Inventory</title>
-    <link href="/static/css/default.css" rel="stylesheet" type="text/css" media="all" >
-    <link href="/static/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="/static/css/font-awesome.css" rel="stylesheet" type="text/css"  >
-  </head>
-  <body id="page-top" class="index">
-    <div id="header-wrapper">
-      <div id="header" class="container">   
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header page-scroll">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand page-scroll" href="#page-top">Welcome</a>
-      </div>
-<!-- ================================================================================= -->
-<!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top navbar-shrink">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>JCREL Invetory System</title>
+
+    <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/static/css/landingPage.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top" class="index">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#page-top">Welcome</a>
+            </div>
+
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#">Homepage</a>
+                    <li class="page-scroll">
+                        <a href="#page-top">Home</a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#">About</a>
+                    <li class="page-scroll">
+                        <a href="#about">About</a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#team">Team</a>
+                    <li class="page-scroll">
+                        <a href="#team">Team</a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#">Contact</a>
+                    <li class="page-scroll">
+                        <a href="#contact">Contact</a>
                     </li>
-                    <li>
-                        <a href="/login/">Sign In</a>
+                    <li class="page-scroll">
+                        <a href="/login">Sign in</a>
                     </li>
-                    <li>
-                        <a href="/signup/">Sign Up</a>
+                    <li class="page-scroll">
+                        <a href="/signup">Sign Up</a>
                     </li>
                 </ul>
             </div>
@@ -57,46 +77,66 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
-<!-- ====================================================================================== -->
-      <div id="banner" class="container">
-        <div class="title">
-          <h2>JCREL</h2>
-          <span class="byline">Inventory Management System</span>
-        </div>
-        <ul class="actions">
-          <li><a href="#" class="button">Learn More</a></li>
-        </ul>
-      </div>
-    </div>
-    <div id="wrapper">
-      <div id="three-column" class="container">
-        <div class="title">
-          <h2>Our Vision</h2>
-          <span class="byline">A high quality product that will guide users in making good decisions for their business specifically in determining when to replenish inventory.</span>
-        </div>
-        <br>
-      </div>
-    </div>
-    <!-- Team About -->
-    <section id="about" class="bg-light-gray"></section>
 
-    <!-- Team Contact Us -->
-    <section id="contact" class="bg-light-gray"></section>
+    <!-- Header -->
+    <header>
+        <div id="header-wrapper">
+            <div id="header" class="container"> 
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="intro-text">
+                            <br><br><br><br><br><br>
+                            <span class="name">JCREL</span>
+                            <span class="skills">Inventory System</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="success" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <br><br>
+                    <h2>About</h2>
+                    <hr class="star-light">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-2">
+                    <p>Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete source files including HTML, CSS, and JavaScript as well as optional LESS stylesheets for easy customization.</p>
+                </div>
+                <div class="col-lg-4">
+                    <p>Whether you're a student looking to showcase your work, a professional looking to attract clients, or a graphic artist looking to share your projects, this template is the perfect starting point!</p>
+                </div>
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <a href="#" class="btn btn-lg btn-outline">
+                        <i class="fa fa-download"></i> Download Theme
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Team Section -->
     <section id="team" class="bg-light-gray">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <center><h2 class="section-heading">Our Team</h2></center><br>
+                    <br><br>
+                    <h2 class="section-heading">Our Team</h2><br>
                     <!-- <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3> -->
                 </div>
             </div>
+            <br><br>
             <div class="row" >
                 <center>
-                  <div class="col-sm-4 col-sm-offset-1">
+                  <div class="col-sm-4">
                       <div class="team-member">
-                          <img src="static/img/avatar.jpeg" class="img-responsive img-circle" alt="">
+                          <img src="static/img/josiah.jpg" class="img-responsive img-circle" alt="">
                           <h5>Josiah Eleazar Regencia</h4>
                           <p class="text-muted">Lead Developer</p>
                       </div>
@@ -139,29 +179,68 @@
         </div>
     </section>
 
- <!-- Footer -->
-    <footer>
+    <!-- Contact Section -->
+    <section id="contact">
         <div class="container">
             <div class="row">
-                <div class="col-lg-10 col-lg-offset-1 text-center">                    
-                    <center>
-                      <ul class="list-inline">
-                        <li>
-                            <a href="#"><i class="fa fa-facebook fa-fw fa-3x"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-twitter fa-fw fa-3x"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-github fa-fw fa-3x"></i></a>
-                        </li>
-                      </ul>
-                      <p class="copyright">Copyright &copy; Your Website 2014</p>                      
-                    </center><br><br><br>
+                <div class="col-lg-12 text-center">
+                    <br>
+                    <h2 class="section-heading">Contact Us</h2>                               
+                </div>                
+            </div>            
+        </div>        
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="footer-above">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-col col-md-4">
+                        <h3>Location</h3>
+                        <p>Iligan City, Philippines</p>
+                    </div>
+                    <div class="footer-col col-md-4">
+                        <h3>Around the Web</h3>
+                        <ul class="list-inline">
+                            <li>
+                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
+                            </li>
+                            <li>
+                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-google-plus"></i></a>
+                            </li>
+                            <li>
+                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-github"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col col-md-4">
+                        <h3>Company</h3>
+                        <p>JCREL</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-below">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        Copyright &copy; Your Website 2014
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
 
-  </body>
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+    <div class="scroll-top page-scroll visible-xs visible-sm">
+        <a class="btn btn-primary" href="#page-top">
+            <i class="fa fa-chevron-up"></i>
+        </a>
+    </div>
+</body>
+
 </html>

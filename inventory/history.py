@@ -40,9 +40,10 @@ def transfer_history(request):
 		'itemloc':itemloc
 	})
 
+@login_required
 def sales_history(request):
 	itemloc = ItemLocation.objects.all()
-	sales_list = ItemSale.objects.filter(is_active=True)
+	sales_list = Sale.objects.all()
 	salesLen = len(sales_list)
 	items_list = Item.objects.all()
 
@@ -57,6 +58,7 @@ def sales_history(request):
 		'below_min': below_min
 		})
 
+@login_required
 def arrival_history(request):
 	itemloc =ItemLocation.objects.all()
 	arr = Arrival.objects.all()
