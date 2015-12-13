@@ -144,9 +144,9 @@ class Sale(models.Model):
 
 class ItemSale(models.Model):
 	is_active = models.BooleanField(default=True)
-	item = models.ForeignKey(Item, blank=False)
+	item = models.ForeignKey(Item, null=False, blank=False)
 	sale = models.ForeignKey(Sale)
-	quantity = models.IntegerField(default = 0, null=True)
+	quantity = models.IntegerField(default = 0, null=False, blank=False)
 
 	def __unicode__(self):
 		return self.item.__unicode__()
