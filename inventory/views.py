@@ -189,35 +189,40 @@ def create_transfer(request):
 		p.user = request.user
 		p.save()
 		transfer_id = p
+
+		try: 
 		
-		for form in transferFormset:
-			transfer = transfer_id
-			item = form.cleaned_data['item']
-			quantity = form.cleaned_data['quantity']
-			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)
-			i.save()	
+			for form in transferFormset:
+				transfer = transfer_id
+				item = form.cleaned_data['item']
+				quantity = form.cleaned_data['quantity']
+				i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)
+				i.save()	
 
-			for loc in itemloc:
-				if loc.location == source and loc.item == item :
-					quantity_current = loc.current_stock
+				for loc in itemloc:
+					if loc.location == source and loc.item == item :
+						quantity_current = loc.current_stock
 
-					if quantity <quantity_current :
+						if quantity <quantity_current :
 
-						decremented = quantity_current - quantity
-						loc.current_stock = decremented
-						loc.save()
+							decremented = quantity_current - quantity
+							loc.current_stock = decremented
+							loc.save()
 
-						for loct in itemloc:
-							if loct.location == destination and loct.item == item :
-								quantity_current = loct.current_stock
-								incremented = quantity_current + quantity
-								loct.current_stock = incremented
-								loct.save()
-					else:
-						raise ValidationError("Insufficient Stock")
+							for loct in itemloc:
+								if loct.location == destination and loct.item == item :
+									quantity_current = loct.current_stock
+									incremented = quantity_current + quantity
+									loct.current_stock = incremented
+									loct.save()
+						else:
+							raise ValidationError("Insufficient Stock")
+				return HttpResponseRedirect(reverse('transfer_history'))
 
+		except KeyError:
+			messages.warning(request, 'Please fill in all input boxes before submitting ')
+			pass
 
-		return HttpResponseRedirect(reverse('transfer_history'))
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset,
@@ -396,31 +401,31 @@ def sales(request):
 		new_items = []
 		location = saleForm.cleaned_data['location']
 
-		try:
+		# try:
 			# loop through all forms in the formset, and save each form - add the purchaseId to each form
-			for form in saleFormset:
-				sale_item = form.cleaned_data['item']
-				sale = sale_id
-				quantity = form.cleaned_data['quantity']				
-				i =  ItemSale(item=sale_item, sale=p, quantity=quantity)
+		for form in saleFormset:
+			sale_item = form.cleaned_data['item']
+			sale = sale_id
+			quantity = form.cleaned_data['quantity']				
+			i =  ItemSale(item=sale_item, sale=p, quantity=quantity)
 
-				for item in item_locations:
-					if item.item==sale_item and item.location==location:
-						if item.current_stock >= quantity:
-							curr_stock = item.current_stock
-							update_stock = curr_stock - quantity
-							item.current_stock = update_stock
-							item.save()
-						else:
-							messages.warning(request,"Quantity exceeds the current quantity of items.")
-							pass
-				i.save()
-				messages.success(request, 'Sale successfully added.')
-			return HttpResponseRedirect(reverse('sales'))
+			for item in item_locations:
+				if item.item==sale_item and item.location==location:
+					if item.current_stock >= quantity:
+						curr_stock = item.current_stock
+						update_stock = curr_stock - quantity
+						item.current_stock = update_stock
+						item.save()
+					else:
+						messages.warning(request,"Quantity exceeds the current quantity of items.")
+						
+			i.save()
+			messages.success(request, 'Sale successfully added.')
+		return HttpResponseRedirect(reverse('sales'))
 
-		except KeyError:
-			messages.warning(request, 'Please fill in all input boxes before submitting.')
-			pass
+		# except KeyError:
+			# messages.warning(request, 'Please fill in all input boxes before submitting.')
+			# pass
 
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
@@ -429,16 +434,6 @@ def sales(request):
 		'all_items':items_list,
 		'below_min':below_min
 		})
-
-@login_required
-def delete_sale(request, sale_id):
-	# items = AddItem.objects.all()
-	items_list = Item.objects.all()
-	sale = ItemSale.objects.get(pk = sale_id)
-	sale.is_active = False
-	sale.save()
- 
-	return HttpResponseRedirect(reverse('sales_history'))
 
 #############################################
 ##	Supplier

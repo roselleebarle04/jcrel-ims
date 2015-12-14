@@ -11,7 +11,6 @@ import json
 from .models import *
 from .quantity import *
 
-
 def build_items_per_location(location):
 	out = []
 	items = Item.objects.all()

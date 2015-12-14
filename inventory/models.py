@@ -69,7 +69,11 @@ class ItemLocation(models.Model):
 	re_order_amount = models.PositiveIntegerField(default = 0)
 		
 	def __unicode__(self):
-		return '%s' % (self.item)
+		# return '%s%s' % (self.item, self.location)
+		return " ".join((
+			unicode(self.location),
+			unicode(self.item)	
+			))
 
 class Supplier(models.Model):
 	""" Suppliers can be also be paying users """
@@ -162,9 +166,9 @@ class Sale(models.Model):
 
 class ItemSale(models.Model):
 	is_active = models.BooleanField(default=True)
-	item = models.ForeignKey(Item, blank=False)
+	item = models.ForeignKey(Item, null=False, blank=False)
 	sale = models.ForeignKey(Sale)
-	quantity = models.IntegerField(default = 0, null=True)
+	quantity = models.IntegerField(default = 0, null=False, blank=False)
 
 	def __unicode__(self):
 		return self.item.__unicode__()
@@ -183,7 +187,7 @@ class Transfer(models.Model):
 	user = models.ForeignKey(User)
 
 	def __unicode__(self):
-		return str(self.items)
+		return str(self.date)
 
 class ItemTransfer(models.Model):
 	quantity = models.IntegerField(default = 0)

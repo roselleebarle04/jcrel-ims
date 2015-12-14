@@ -14,15 +14,19 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.template.context import RequestContext
 
+from threading import Thread
+
 from django.forms.formsets import formset_factory
 from django.db import IntegrityError, transaction
 from django.core import validators
+
 
 from config import settings
 from .models import *
 from .forms import *
 from .formsets import *
 from .quantity import *
+
 
 def signup(request):
 	if request.method == 'POST':	
@@ -89,10 +93,14 @@ def notifications(request):
 	itemLength = len(items_list)
 	itemloc = ItemLocation.objects.all()
 	itemLength = len(itemloc)
-	notifs = Notifications.objects.all()
+	notifs = Notifications.objects.all().order_by('-below_min_date')
+
+	save_minimums()
 
 	below_min = check_minimum()
-	print "below_min %d" % below_min
+	# print "below_min %d" % below_min
+	# print "notifs %s" % notifs
+	# print "items %s" % itemloc
 
 	return render(request, 'notifications/notification_page.html', {
 		'itemloc':itemloc,
