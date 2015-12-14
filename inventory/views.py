@@ -97,13 +97,21 @@ def add_item(request):
 	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
-	print "below_min %d" % below_min
+	
+
 	
 	if request.method == 'POST':
 		if add_new_item_form.is_valid():
 			item = add_new_item_form.save(commit=False)
 			item.save()
 
+			# Save supplier if new
+			supplier_name = request.POST.get('supplier_name', '')
+			supplier_address = request.POST.get('supplier_address', '')
+			if supplier_name and supplier_address:
+				print supplier_name
+				Supplier.objects.create(name=supplier_name, address=supplier_address)
+				
 			# Now save the quantity of each item in each location
 			for loc in locations:
 				print loc
@@ -115,6 +123,7 @@ def add_item(request):
 				i = ItemLocation(item=item, location=loc, current_stock=current_stock, re_order_point=re_order_point, re_order_amount=re_order_amount)
 				i.save()
 				print i.current_stock
+			
 			messages.success(request, 'Item has been successfully added.')
 			return HttpResponseRedirect(reverse('add_item'))
 	return render(request, 'items/add_item.html', {
