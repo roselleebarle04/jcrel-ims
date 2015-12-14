@@ -205,7 +205,7 @@ class Transfer(models.Model):
 	user = models.ForeignKey(User)
 
 	def __unicode__(self):
-		return str(self.items)
+		return str(self.date)
 
 class ItemTransfer(models.Model):
 	quantity = models.IntegerField(default = 0)
