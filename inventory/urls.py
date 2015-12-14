@@ -51,8 +51,7 @@ urlpatterns = [
     url(r'^location/update/(?P<location_id>[0-9]+)/$', inventory_views.update_location, name='update_location'),
 
     url(r'^settings/$', account_views.settings, name='settings'),
-    url(r'^settings/update_settings/$', account_views.update_settings,
-     name='update_settings'),
+    url(r'^settings/update_settings/$', account_views.update_settings, name='update_settings'),
 ]
 
     
