@@ -1,4 +1,6 @@
+import datetime
 from django.core.urlresolvers import reverse
+# from django.core.exceptions import DoesNotExist
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -14,8 +16,42 @@ def build_items_per_location(location):
 	out = []
 	items = Item.objects.all()
 	for item in items:
-		i = item.itemlocation_set.get(location=location)
+		try: 
+			i = item.itemlocation_set.get(location=location)
+		except i.DoesNotExist:
+			# TODO: Add logic
+			pass
+
 		out.append(i)
+	return out
+
+def build_sales_data(request):
+	""" Build Sales Reports """
+	"""
+	[{item: item, item_code: item_code, date: date, revenue: revenue, gross_profit: gross_profit}]
+	"""
+	out = []
+	items = Item.objects.all()
+
+	# Now calculate sales per item
+	for item in items:
+		sales = ItemSale.objects.filter(item=item)
+		
+		revenue = 0
+		gross_profit_php = 0
+		gross_profit_per = 0
+
+		for sale in sales:
+			revenue = revenue + (sale.quantity * sale.item.unit_cost)
+
+		entry = {}
+		entry['item_name'] = item.category + ' ' + item.brand + ' ' + item.model
+		entry['item_code'] = item.item_code
+		entry['date_created'] = item.date
+		entry['revenue'] = revenue
+		entry['gross_profit_php'] = gross_profit_php
+		entry['gross_profit_per'] = gross_profit_per
+		out.append(entry)
 	return out
 
 def build_data(request):
@@ -35,8 +71,8 @@ def build_data(request):
 
 		entry['location'] = location.name
 		entry['items'] = []
-
-		items_in_location = build_items_per_location(location.id)
+		print location
+		items_in_location = build_items_per_location(location)
 		for i in items_in_location:
 			a = {}
 			a['item_name'] = i.item
@@ -65,20 +101,27 @@ def reports_data(request):
 
 @login_required
 def inventory_reports(request):
-	itemloc = ItemLocation.objects.all()
 	below_min = check_minimum()
+
 	data = build_data(request)
-	summary = {'total_current_stock': 5, 'total_stock_value': 500}
+	total_current_stock = Item.get_total_current_stock
+	total_stock_value = Item.get_total_stock_value
+
+	summary = { 
+		'total_current_stock': total_current_stock, 
+		'total_stock_value': total_stock_value
+	}
+
 	return render(request, 'reports/inventory_reports.html', {
 		'data': data,
 		'summary': summary,
-		'itemloc':itemloc
 	})
 
 @login_required
 def sales_reports(request):
-	itemloc = ItemLocation.objects.all()
-	items_list = Item.objects.all()
 	below_min = check_minimum()
 
-	return render(request, 'reports/sales_reports.html', {'items':items_list, 'below_min':below_min, 'itemloc':itemloc})
+	data = build_sales_data(request)
+	return render(request, 'reports/sales_reports.html', {
+		'data': data, 
+	})

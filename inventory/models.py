@@ -69,20 +69,11 @@ class ItemLocation(models.Model):
 	re_order_amount = models.PositiveIntegerField(default = 0)
 		
 	def __unicode__(self):
-		return '%s' % (self.item)
-	
-
-
-# def save_minimums():
-# 	itemloc = ItemLocation.objects.all()
-# 	is_zero = 0
-# 	below_min = is_zero
-
-# 	for i in itemloc:
-# 		if i.current_stock < i.re_order_point:
-# 			message = "%s is below the minimum required quantity stored." % (i)
-# 			notifs = Notifications.objects.create(item_loc=i, message=message)
-# 			notifs.save()
+		# return '%s%s' % (self.item, self.location)
+		return " ".join((
+			unicode(self.location),
+			unicode(self.item)	
+			))
 
 class Supplier(models.Model):
 	""" Suppliers can be also be paying users """
@@ -121,18 +112,6 @@ class Item(models.Model):
 	location = models.ManyToManyField(Location, through='ItemLocation')
 	user = models.ForeignKey(User, blank=False, null=True)
 
-	# @property 
-	# def save_minimum(self):
-	# 	itemloc = ItemLocation.objects.all()
-
-	# 	for i in itemloc:
-	# 		if i.current_stock < i.re_order_point:
-	# 			message = "%s is below the minimum required quantity stored." % (i)
-	# 			notifs = Notification.objects.create(item_loc=i, message=message)
-	# 			notifs.save()
-
-	# def __unicode__(self):
-	# 	return self.name
 	def __unicode__(self):
 		return " ".join((
             unicode(self.item_code),
@@ -142,20 +121,27 @@ class Item(models.Model):
             unicode(self.model)
         ))
 
-    # @property
-    # def save_minimum(self):
-    # 	itemloc = ItemLocation.objects.all()
+	@staticmethod
+	def get_total_current_stock():
+		items = Item.objects.all().prefetch_related('location')
 
-    # 	for i in itemloc:
-    # 		if i.current_stock < i.re_order_point:
-    # 			message = "%s is below the minimum required quantity stored." % (i)
-    # 			notifs = Notifications.objects.create(item_loc=i, message=message)
-    # 			notifs.save()
-
-    #     return self._save_minimum
-    
+		total = 0
+		for item in items:
+			item_location = item.itemlocation_set.all()
+			for i in item_location:
+				total = total + i.current_stock
+		return total
 	
+	@staticmethod
+	def get_total_stock_value():
+		items = Item.objects.all()
 
+		total = 0
+		for item in items:
+			item_location = item.itemlocation_set.all()
+			for i in item_location:
+				total = total + (i.current_stock * item.unit_cost) 
+		return total
 
 class Sale(models.Model):
 	date = models.DateField(default=timezone.now)
@@ -180,9 +166,9 @@ class Sale(models.Model):
 
 class ItemSale(models.Model):
 	is_active = models.BooleanField(default=True)
-	item = models.ForeignKey(Item, blank=False)
+	item = models.ForeignKey(Item, null=False, blank=False)
 	sale = models.ForeignKey(Sale)
-	quantity = models.IntegerField(default = 0, null=True)
+	quantity = models.IntegerField(default = 0, null=False, blank=False)
 
 	def __unicode__(self):
 		return self.item.__unicode__()
@@ -201,7 +187,7 @@ class Transfer(models.Model):
 	user = models.ForeignKey(User)
 
 	def __unicode__(self):
-		return str(self.items)
+		return str(self.date)
 
 class ItemTransfer(models.Model):
 	quantity = models.IntegerField(default = 0)

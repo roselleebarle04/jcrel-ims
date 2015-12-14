@@ -90,7 +90,7 @@
                 {% for group in data%}
                 {% for item in group.items %}
                 <tr>
-                    <td>{% if forloop.counter == 1%}{{group.location}}{%endif%}</td>
+                    <td>{% if forloop.first %}{{group.location}}{%endif%}</td>
                     <td><a href="#">{{item.item_name}}</a></td>
                     <td>{{item.item_code}}</td>
                     <td>{{item.date_created.date}}</td>

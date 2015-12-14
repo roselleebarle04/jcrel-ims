@@ -36,7 +36,6 @@ urlpatterns = [
 
     url(r'^sales/$', inventory_views.sales, name='sales'),
     url(r'^sales/history/$', history_views.sales_history, name='sales_history'),
-    url(r'^sales/delete/(?P<sale_id>[0-9]+)/$', inventory_views.delete_sale, name = 'delete_sale'),
    
     url(r'^arrival/$', inventory_views.arrival, name='arrival'),
     url(r'^arrival/add/$', inventory_views.arrival, name='arrival'),
@@ -52,8 +51,7 @@ urlpatterns = [
     url(r'^location/update/(?P<location_id>[0-9]+)/$', inventory_views.update_location, name='update_location'),
 
     url(r'^settings/$', account_views.settings, name='settings'),
-    url(r'^settings/update_settings/$', account_views.update_settings,
-     name='update_settings'),
+    url(r'^settings/update_settings/$', account_views.update_settings, name='update_settings'),
 ]
 
     

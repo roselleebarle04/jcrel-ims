@@ -16,117 +16,102 @@
 </style>
 
 <div class="row">
-    <div class="col-lg-12">
-        <div class="alert alert-dark" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h3 style="margin-top:0;">Dashboard</h3>
-            <p style="color:black;">Welcome! JCREL IMS is a sales and inventory management system that aims to guide users in making good decisions for their business specifically in determining when to replenish inventory. We are on a mission to creating a system which will track business sales transactions and inventory in an efficient way.</p>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-6 col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-comments fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">26</div>
-                        <div>New Alerts!</div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-custom" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 style="margin-top:0;">Dashboard</h3>
+                    <p style="color:black;">Welcome! JCREL IMS is a sales and inventory management system that aims to guide users in making good decisions for their business specifically in determining when to replenish inventory. We are on a mission to creating a system which will track business sales transactions and inventory in an efficient way.</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default panel-custom">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-12 text-left">
+                                <h4 class="panel-titel"><span class="glyphicon glyphicon-th-list"></span> Getting Started</h4>
+                                <p style="color:black;">Complete the steps below to set up your store, or jump right in and make your first sale using the demo products we’ve added for you. Learn how to get started with JCREL the easy way, by watching our quick, fun & friendly video guide.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="col-lg-6 col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-tasks fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">12</div>
-                        <div>New Arrivals!</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-6 col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 text-left">
-                        <h4 class="panel-titel"><span class="glyphicon glyphicon-th-list"></span> Getting Started</h4>
-                        <p style="color:black;">Complete the steps below to set up your store, or jump right in and make your first sale using the demo products we’ve added for you. Learn how to get started with Vend the easy way, by watching our quick, fun & friendly video guide.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6 col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 text-left">
+            <div class="col-md-12">
+                <div class="panel panel-default panel-custom">
+                    <div class="panel-heading">
                         <h4 class="panel-titel"><span class="glyphicon glyphicon-plus"></span> Shortcuts</h4>
-                        <ul>
-                            <li><a href="/items/add/">Add Item</a></li>
-                            <li><a href="/transfer/add/">Transfer Item</a></li>
-                            <li><a href="/sales/">Add Sale</a></li>
-                            <li><a href="/arrival/add/">Add Arrival</a></li>
-                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row text-center">
+                            <div class="col-md-3">
+                                <div class="card-box">
+
+                                    <a href="/items/add/"><i class="fa fa-table fa-fw"></i><br>Add Item</a>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card-box">
+                                    <a href="/transfer/add/"><i class="fa fa-bus"></i><br>Transfer Item</a>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card-box">
+                                    <a href="/sales/"><i class="fa fa-dashboard fa-fw"></i><br>Add Sale</a>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card-box">
+                                    <a href="/arrival/add/"><i class="fa fa-truck"></i><br>Add Arrival</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <!-- Sidebar -->
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default panel-custom">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-12 text-left" style="color:black;">
+                                <h4 class="panel-titel"><span class="glyphicon glyphicon-euro"></span> Top Customers</h4>
+                                <p>
+                                {% for customer in customers %}
+                                {{ customer.name }} <br>
+                                {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default panel-custom">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-12 text-left" style="color:black;">
+                                <h4 class="panel-titel"><span class="glyphicon glyphicon-pencil"></span> Top Products</h4>
+                                {% if items_len > 0%}
+                                {% for item in items %}
+                                    <p>{{ item.category }} {{ item.brand }} {{ item.model }}</p>
+                                {% endfor %}
+                                {% else %}
+                                    <p><i>No items added yet. <a href="/items/">Create new</a> item now. </i></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-6 col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 text-left" style="color:black;">
-                        <h4 class="panel-titel"><span class="glyphicon glyphicon-pencil"></span> Recent Products</h4>
-                        {% if items_len > 0%}
-                        {% for item in items %}
-                            <p>{{ item.category }} {{ item.brand }} {{ item.model }}</p>
-                        {% endfor %}
-                        {% else %}
-                            <p><i>No items added yet. <a href="/items/">Create new</a> item now. </i></p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6 col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 text-left" style="color:black;">
-                        <h4 class="panel-titel"><span class="glyphicon glyphicon-euro"></span> Recent Sales</h4>
-                        {% if sales_len > 0%}
-                        {% for sale in sales %}
-                            <p>Sold {{ sale.quantity }} items {{ sale.item.category }} {{ sale.item.brand }} {{ sale.item.model }}</p>
-                        {% endfor %}
-                        {% else %}
-                            <p><i>No sales for the period, yet.</i></p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 {% endblock content %}

@@ -37,6 +37,7 @@ def dashboard(request):
 	items_list = Item.objects.all()
 	itemloc = ItemLocation.objects.all()
 	sales = Sale.objects.all()
+	customers = Customer.objects.all()
 	items_len = len(itemloc)
 	sales_len = len(sales)
 
@@ -47,6 +48,7 @@ def dashboard(request):
 		'user':request.user.username,
 		'itemloc':itemloc,
 		'sales': sales,
+		'customers': customers, 
 		'items_len' : items_len,
 		'sales_len':sales_len,
 		'items':items_list,
@@ -97,24 +99,30 @@ def add_item(request):
 	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
-	print "below_min %d" % below_min
+	
+
 	
 	if request.method == 'POST':
 		if add_new_item_form.is_valid():
 			item = add_new_item_form.save(commit=False)
 			item.save()
 
+			# Save supplier if new
+			supplier_name = request.POST.get('supplier_name', '')
+			supplier_address = request.POST.get('supplier_address', '')
+			if supplier_name and supplier_address:
+				Supplier.objects.create(name=supplier_name, address=supplier_address)
+				
 			# Now save the quantity of each item in each location
 			for loc in locations:
-				print loc
 				current_stock = request.POST.get('current_stock_%d' % (loc.id))
-				print current_stock
 				re_order_point = request.POST.get('re_order_point_%d' % (loc.id))
 				re_order_amount = request.POST.get('re_order_amount_%d' % (loc.id))
 				
 				i = ItemLocation(item=item, location=loc, current_stock=current_stock, re_order_point=re_order_point, re_order_amount=re_order_amount)
 				i.save()
 				print i.current_stock
+			
 			messages.success(request, 'Item has been successfully added.')
 			return HttpResponseRedirect(reverse('add_item'))
 	return render(request, 'items/add_item.html', {
@@ -183,35 +191,40 @@ def create_transfer(request):
 		p.user = request.user
 		p.save()
 		transfer_id = p
+
+		try: 
 		
-		for form in transferFormset:
-			transfer = transfer_id
-			item = form.cleaned_data['item']
-			quantity = form.cleaned_data['quantity']
-			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)
-			i.save()	
+			for form in transferFormset:
+				transfer = transfer_id
+				item = form.cleaned_data['item']
+				quantity = form.cleaned_data['quantity']
+				i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)
+				i.save()	
 
-			for loc in itemloc:
-				if loc.location == source and loc.item == item :
-					quantity_current = loc.current_stock
+				for loc in itemloc:
+					if loc.location == source and loc.item == item :
+						quantity_current = loc.current_stock
 
-					if quantity <quantity_current :
+						if quantity <quantity_current :
 
-						decremented = quantity_current - quantity
-						loc.current_stock = decremented
-						loc.save()
+							decremented = quantity_current - quantity
+							loc.current_stock = decremented
+							loc.save()
 
-						for loct in itemloc:
-							if loct.location == destination and loct.item == item :
-								quantity_current = loct.current_stock
-								incremented = quantity_current + quantity
-								loct.current_stock = incremented
-								loct.save()
-					else:
-						raise ValidationError("Insufficient Stock")
+							for loct in itemloc:
+								if loct.location == destination and loct.item == item :
+									quantity_current = loct.current_stock
+									incremented = quantity_current + quantity
+									loct.current_stock = incremented
+									loct.save()
+						else:
+							raise ValidationError("Insufficient Stock")
+				return HttpResponseRedirect(reverse('transfer_history'))
 
+		except KeyError:
+			messages.warning(request, 'Please fill in all input boxes before submitting ')
+			pass
 
-		return HttpResponseRedirect(reverse('transfer_history'))
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
 		'formset' : transferFormset,
@@ -390,31 +403,31 @@ def sales(request):
 		new_items = []
 		location = saleForm.cleaned_data['location']
 
-		try:
+		# try:
 			# loop through all forms in the formset, and save each form - add the purchaseId to each form
-			for form in saleFormset:
-				sale_item = form.cleaned_data['item']
-				sale = sale_id
-				quantity = form.cleaned_data['quantity']				
-				i =  ItemSale(item=sale_item, sale=p, quantity=quantity)
+		for form in saleFormset:
+			sale_item = form.cleaned_data['item']
+			sale = sale_id
+			quantity = form.cleaned_data['quantity']				
+			i =  ItemSale(item=sale_item, sale=p, quantity=quantity)
 
-				for item in item_locations:
-					if item.item==sale_item and item.location==location:
-						if item.current_stock >= quantity:
-							curr_stock = item.current_stock
-							update_stock = curr_stock - quantity
-							item.current_stock = update_stock
-							item.save()
-						else:
-							messages.warning(request,"Quantity exceeds the current quantity of items.")
-							pass
-				i.save()
-				messages.success(request, 'Sale successfully added.')
-			return HttpResponseRedirect(reverse('sales'))
+			for item in item_locations:
+				if item.item==sale_item and item.location==location:
+					if item.current_stock >= quantity:
+						curr_stock = item.current_stock
+						update_stock = curr_stock - quantity
+						item.current_stock = update_stock
+						item.save()
+					else:
+						messages.warning(request,"Quantity exceeds the current quantity of items.")
+						
+			i.save()
+			messages.success(request, 'Sale successfully added.')
+		return HttpResponseRedirect(reverse('sales'))
 
-		except KeyError:
-			messages.warning(request, 'Please fill in all input boxes before submitting.')
-			pass
+		# except KeyError:
+			# messages.warning(request, 'Please fill in all input boxes before submitting.')
+			# pass
 
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
@@ -423,16 +436,6 @@ def sales(request):
 		'all_items':items_list,
 		'below_min':below_min
 		})
-
-@login_required
-def delete_sale(request, sale_id):
-	# items = AddItem.objects.all()
-	items_list = Item.objects.all()
-	sale = ItemSale.objects.get(pk = sale_id)
-	sale.is_active = False
-	sale.save()
- 
-	return HttpResponseRedirect(reverse('sales_history'))
 
 #############################################
 ##	Supplier
