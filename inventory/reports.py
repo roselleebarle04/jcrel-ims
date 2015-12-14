@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse
+# from django.core.exceptions import DoesNotExist
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -15,7 +16,12 @@ def build_items_per_location(location):
 	out = []
 	items = Item.objects.all()
 	for item in items:
-		i = item.itemlocation_set.get(location=location)
+		try: 
+			i = item.itemlocation_set.get(location=location)
+		except i.DoesNotExist:
+			# TODO: Add logic
+			pass
+
 		out.append(i)
 	return out
 
@@ -36,8 +42,8 @@ def build_data(request):
 
 		entry['location'] = location.name
 		entry['items'] = []
-
-		items_in_location = build_items_per_location(location.id)
+		print location
+		items_in_location = build_items_per_location(location)
 		for i in items_in_location:
 			a = {}
 			a['item_name'] = i.item
@@ -66,10 +72,18 @@ def reports_data(request):
 
 @login_required
 def inventory_reports(request):
-	itemloc = ItemLocation.objects.all()
 	below_min = check_minimum()
+
+	itemloc = ItemLocation.objects.all()
 	data = build_data(request)
-	summary = {'total_current_stock': 5, 'total_stock_value': 500}
+	total_current_stock = Item.get_total_current_stock
+	total_stock_value = Item.get_total_stock_value
+
+	summary = { 
+		'total_current_stock': total_current_stock, 
+		'total_stock_value': total_stock_value
+	}
+
 	return render(request, 'reports/inventory_reports.html', {
 		'data': data,
 		'summary': summary,

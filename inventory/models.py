@@ -108,8 +108,6 @@ class Item(models.Model):
 	location = models.ManyToManyField(Location, through='ItemLocation')
 	user = models.ForeignKey(User, blank=False, null=True)
 
-	# def __unicode__(self):
-	# 	return self.name
 	def __unicode__(self):
 		return " ".join((
             unicode(self.item_code),
@@ -118,8 +116,28 @@ class Item(models.Model):
             unicode(self.brand),
             unicode(self.model)
         ))
-	
 
+	@staticmethod
+	def get_total_current_stock():
+		items = Item.objects.all().prefetch_related('location')
+
+		total = 0
+		for item in items:
+			item_location = item.itemlocation_set.all()
+			for i in item_location:
+				total = total + i.current_stock
+		return total
+	
+	@staticmethod
+	def get_total_stock_value():
+		items = Item.objects.all()
+
+		total = 0
+		for item in items:
+			item_location = item.itemlocation_set.all()
+			for i in item_location:
+				total = total + (i.current_stock * item.unit_cost) 
+		return total
 
 class Sale(models.Model):
 	date = models.DateField(default=timezone.now)

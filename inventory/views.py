@@ -109,14 +109,11 @@ def add_item(request):
 			supplier_name = request.POST.get('supplier_name', '')
 			supplier_address = request.POST.get('supplier_address', '')
 			if supplier_name and supplier_address:
-				print supplier_name
 				Supplier.objects.create(name=supplier_name, address=supplier_address)
 				
 			# Now save the quantity of each item in each location
 			for loc in locations:
-				print loc
 				current_stock = request.POST.get('current_stock_%d' % (loc.id))
-				print current_stock
 				re_order_point = request.POST.get('re_order_point_%d' % (loc.id))
 				re_order_amount = request.POST.get('re_order_amount_%d' % (loc.id))
 				
