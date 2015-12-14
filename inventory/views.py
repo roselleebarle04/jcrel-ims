@@ -395,31 +395,31 @@ def sales(request):
 		new_items = []
 		location = saleForm.cleaned_data['location']
 
-		try:
+		# try:
 			# loop through all forms in the formset, and save each form - add the purchaseId to each form
-			for form in saleFormset:
-				sale_item = form.cleaned_data['item']
-				sale = sale_id
-				quantity = form.cleaned_data['quantity']				
-				i =  ItemSale(item=sale_item, sale=p, quantity=quantity)
+		for form in saleFormset:
+			sale_item = form.cleaned_data['item']
+			sale = sale_id
+			quantity = form.cleaned_data['quantity']				
+			i =  ItemSale(item=sale_item, sale=p, quantity=quantity)
 
-				for item in item_locations:
-					if item.item==sale_item and item.location==location:
-						if item.current_stock >= quantity:
-							curr_stock = item.current_stock
-							update_stock = curr_stock - quantity
-							item.current_stock = update_stock
-							item.save()
-						else:
-							messages.warning(request,"Quantity exceeds the current quantity of items.")
-							pass
-				i.save()
-				messages.success(request, 'Sale successfully added.')
-			return HttpResponseRedirect(reverse('sales'))
+			for item in item_locations:
+				if item.item==sale_item and item.location==location:
+					if item.current_stock >= quantity:
+						curr_stock = item.current_stock
+						update_stock = curr_stock - quantity
+						item.current_stock = update_stock
+						item.save()
+					else:
+						messages.warning(request,"Quantity exceeds the current quantity of items.")
+						pass
+			i.save()
+			messages.success(request, 'Sale successfully added.')
+		return HttpResponseRedirect(reverse('sales'))
 
-		except KeyError:
-			messages.warning(request, 'Please fill in all input boxes before submitting.')
-			pass
+		# except KeyError:
+			# messages.warning(request, 'Please fill in all input boxes before submitting.')
+			# pass
 
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
