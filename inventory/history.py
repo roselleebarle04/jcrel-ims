@@ -75,6 +75,7 @@ def arrival_history(request):
 		supplier = request.POST.get('supplier')
 
 		filtered_arr = Arrival.apply_filter(date_from, date_to, supplier)
+		get_latest_by = "date"
 		
 		arrivalLen = len(filtered_arr)
 		return render(request, 'arrival/arrival_history.html', {

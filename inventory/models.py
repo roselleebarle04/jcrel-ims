@@ -219,6 +219,8 @@ class Arrival(models.Model):
 	supplier = models.ForeignKey(Supplier)
 	location = models.ForeignKey(Location)
 	#user = models.ForeignKey(User, null=True)
+	class Meta:
+		ordering = ['-date']
 
 	def __unicode__(self):
 		return self.tracking_no
@@ -227,9 +229,9 @@ class Arrival(models.Model):
 		return ', '.join([a.item for i in self.items.all()])
 
 	@staticmethod
-	def apply_filter(start, end, supplier):
+	def apply_filter(start, end, supplier, date):
 		items = Arrival.objects.filter(supplier=supplier).filter(date__gt=start, date__lt=end)
-		return item
+		return items
 
 	@property
 	def get_grand_total(self):
