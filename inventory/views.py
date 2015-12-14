@@ -72,19 +72,19 @@ def list_items(request):
 		'itemloc':itemloc
 	})
 
-def notifications(request):
-	itemloc = ItemLocation.objects.all()
-	itemLength = len(items)
-	warning = WarningItems.objects.all()
+# def notifications(request):
+# 	itemloc = ItemLocation.objects.all()
+# 	itemLength = len(items)
+# 	warning = WarningItems.objects.all()
 
-	below_min = check_minimum()
-	print "below_min %d" % below_min
+# 	below_min = check_minimum()
+# 	print "below_min %d" % below_min
 
-	return render(request, 'notifications/notification_page.html', {
-		'itemloc':itemloc,
-		'itemLength': itemLength,
-		'below_min':below_min
-	})
+# 	return render(request, 'notifications/notification_page.html', {
+# 		'itemloc':itemloc,
+# 		'itemLength': itemLength,
+# 		'below_min':below_min
+# 	})
 
 @login_required
 def add_item(request):

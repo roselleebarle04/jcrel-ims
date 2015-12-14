@@ -71,19 +71,6 @@ class ItemLocation(models.Model):
 	def __unicode__(self):
 		return '%s' % (self.item)
 	
-
-
-# def save_minimums():
-# 	itemloc = ItemLocation.objects.all()
-# 	is_zero = 0
-# 	below_min = is_zero
-
-# 	for i in itemloc:
-# 		if i.current_stock < i.re_order_point:
-# 			message = "%s is below the minimum required quantity stored." % (i)
-# 			notifs = Notifications.objects.create(item_loc=i, message=message)
-# 			notifs.save()
-
 class Supplier(models.Model):
 	""" Suppliers can be also be paying users """
 	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
@@ -121,18 +108,6 @@ class Item(models.Model):
 	location = models.ManyToManyField(Location, through='ItemLocation')
 	user = models.ForeignKey(User, blank=False, null=True)
 
-	# @property 
-	# def save_minimum(self):
-	# 	itemloc = ItemLocation.objects.all()
-
-	# 	for i in itemloc:
-	# 		if i.current_stock < i.re_order_point:
-	# 			message = "%s is below the minimum required quantity stored." % (i)
-	# 			notifs = Notification.objects.create(item_loc=i, message=message)
-	# 			notifs.save()
-
-	# def __unicode__(self):
-	# 	return self.name
 	def __unicode__(self):
 		return " ".join((
             unicode(self.item_code),
@@ -140,32 +115,19 @@ class Item(models.Model):
             unicode(self.category),
             unicode(self.brand),
             unicode(self.model)
-        ))
-
-    # @property
-    # def save_minimum(self):
-    # 	itemloc = ItemLocation.objects.all()
-
-    # 	for i in itemloc:
-    # 		if i.current_stock < i.re_order_point:
-    # 			message = "%s is below the minimum required quantity stored." % (i)
-    # 			notifs = Notifications.objects.create(item_loc=i, message=message)
-    # 			notifs.save()
-
-    #     return self._save_minimum
-    
+        ))  
 	
 
-
 class Sale(models.Model):
-	date = models.DateField(default=timezone.now)
+	date = models.DateTimeField(default=timezone.now)
 	items = models.ManyToManyField(Item, through='ItemSale')
 	customer = models.ForeignKey(Customer, null=True, blank=False)
 	location = models.ForeignKey(Location, null=True, blank=False)
 	user = models.ForeignKey(User, null=True, blank=False)
 
 	def __unicode__(self):
-		return ' '.join(unicode(self.date))
+		return str(self.items)
+		# return ' '.join(unicode(self.date))
 
 	def items_list(self):
 		return ', '.join([sale.item for i in self.items.all()])
@@ -254,7 +216,7 @@ class ItemArrival(models.Model):
 		return self.item_cost * self.quantity
 
 class Notifications(models.Model):
-	below_min_date = models.DateTimeField(default=timezone.now())
+	below_min_date = models.DateTimeField(default=timezone.now)
 	message = models.CharField(max_length=200)
 	user = models.ForeignKey(User, null=True)
 	item_loc = models.ForeignKey(ItemLocation)
