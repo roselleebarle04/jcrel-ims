@@ -1,3 +1,18 @@
+.alert-custom, .panel.panel-custom, .panel.panel-custom .panel-heading {
+	background-color: white;
+	border-radius: 0;
+}
+
+.card-box {
+	margin: 20px 0;
+}
+.card-box a{
+}
+.card-box a:hover {
+	text-decoration: none;
+	color: #34B8B8;
+}
+
 body, html, p {
 	overflow-x: hidden;
 	font-family: 'Montserrat', sans-serif;

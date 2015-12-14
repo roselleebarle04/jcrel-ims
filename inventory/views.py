@@ -37,6 +37,7 @@ def dashboard(request):
 	items_list = Item.objects.all()
 	itemloc = ItemLocation.objects.all()
 	sales = Sale.objects.all()
+	customers = Customer.objects.all()
 	items_len = len(itemloc)
 	sales_len = len(sales)
 
@@ -47,6 +48,7 @@ def dashboard(request):
 		'user':request.user.username,
 		'itemloc':itemloc,
 		'sales': sales,
+		'customers': customers, 
 		'items_len' : items_len,
 		'sales_len':sales_len,
 		'items':items_list,
