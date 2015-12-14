@@ -9,6 +9,7 @@
 .card-box a{
 }
 .card-box a:hover {
+	background-color: #eee;
 	text-decoration: none;
 	color: #34B8B8;
 }

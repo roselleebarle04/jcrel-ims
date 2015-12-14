@@ -3,12 +3,12 @@
 
 {% block content %}
 
-<form class="form" method="POST">                        
+<form class="form form-horizontal" method="POST">                        
     {% csrf_token %}
     <div class="row">
         <div class="col-md-8">
             <div class="panel panel-default" style="margin-bottom:0">
-                <div class="panel-heading">Details & Description</div>
+                <div class="panel-heading">1. Details & Description</div>
                 <div class="panel-body">
                     {% if messages %}
                         <div class="row">
@@ -27,38 +27,52 @@
                     {% endif %}
                     <div class= "form-group">
                         {{form.item_code.errors}}
-                        <label>Item Code</label>
-                        <input name="item_code" type="text" class="form-control">
+                        <label class="col-md-2 control-label">Item Code</label>
+                        <div class="col-md-10">
+                            <input name="item_code" type="text" class="form-control">
+                        </div>
                     </div>
                     <div class="form-group">
                         {{form.name.errors}}
-                        <label>Name</label>
+                        <label class="col-md-2 control-label">Name</label>
+                        <div class="col-md-10">
                         {{form.name}}
+                        </div>
                     </div>
                     <div class="form-group">
                         {{form.description.errors}}
-                        <label>Description</label>
+                        <label class="col-md-2 control-label">Description</label>
+                        <div class="col-md-10">
                         {{form.description}}
+                        </div>
                     </div>
                     <div class="form-group">
                         {{form.category.errors}}
-                        <label>Category</label>
+                        <label class="col-md-2 control-label">Category</label>
+                        <div class="col-md-10">
                         {{form.category}}
+                        </div>
                     </div>
                     <div class="form-group">
                         {{form.brand.errors}}
-                        <label>Brand</label>
+                        <label class="col-md-2 control-label">Brand</label>
+                        <div class="col-md-10">
                         {{form.brand}}
+                        </div>
                      </div>
                     <div class= "form-group">
                         {{form.model.errors}}
-                        <label>Model</label>
+                        <label class="col-md-2 control-label">Model</label>
+                        <div class="col-md-10">
                         {{form.model}}
+                        </div>
                     </div>
                     <div class= "form-group">
                         {{form.unit_cost.errors}}
-                        <label>Unit Cost</label>
+                        <label class="col-md-2 control-label">Unit Cost</label>
+                        <div class="col-md-10">
                         {{form.unit_cost}}
+                        </div>
                     </div>
                 </div>
             </div>      
@@ -66,21 +80,27 @@
         <div class="col-md-8">
             <br>
             <div class="panel panel-default">
-                <div class="panel-heading">Supplier Details</div>
+                <div class="panel-heading">2. Supplier Details</div>
                 <div class="panel-body">
                     <div id="supplier-dropdown" class= "form-group">
                         {{form.supplier.errors}}
-                        <label>Supplier <a id="new-supplier"><small>(Add New?)</small></a></label>
-                        {{form.supplier}}                        
+                        <label class="col-md-2 control-label"> Supplier <a id="new-supplier"><small>(Add New?)</small></a></label>
+                        <div class="col-md-10">
+                            {{form.supplier}}      
+                        </div>                  
                     </div>
                     <div id="supplier-form" style="display:none;">
                         <div class="form-group">
-                            <label>Name</label>
-                            <input name="supplier_name" type="text" class="form-control" value=''>
+                            <label class="col-md-2 control-label">Name</label>
+                            <div class="col-md-10">
+                                <input name="supplier_name" type="text" class="form-control" value=''>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>Address</label>
-                            <input name="supplier_address" type="text" class="form-control" value=''>
+                            <label class="col-md-2 control-label">Address</label>
+                            <div class="col-md-10">
+                                <input name="supplier_address" type="text" class="form-control" value=''>
+                            </div>
                          </div>                        
                     </div>
                 </div>
@@ -91,24 +111,24 @@
     <div class="row">
         <div class="col-md-8">
             <div class="panel panel-default" style="margin-bottom:0">
-                <div class="panel-heading">Stock Tracking</div>
+                <div class="panel-heading">3. Stock Tracking</div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <table class="table" border="0px">
+                        <table class="table table-add-item" border="0px">
                             <tr>
-                                <td>Location</td>
-                                <td width="50"></td>
-                                <td>Current Stock</td>
-                                <td>Re-order point</td>
-                                <td>Re-order amount</td>
+                                <td style="border:none;color:#4BC7AC;font-weight:bold">Location</td>
+                                <td style="border:none;color:#4BC7AC;font-weight:bold" width="50"></td>
+                                <td style="border:none;color:#4BC7AC;font-weight:bold">Current Stock</td>
+                                <td style="border:none;color:#4BC7AC;font-weight:bold">Re-order point</td>
+                                <td style="border:none;color:#4BC7AC;font-weight:bold">Re-order amount</td>
                             </tr>
                             {% for loc in locations %}
                             <tr>
-                                <td>{{loc.name}}</td>
-                                <td  width="50"></td>
-                                <td><input type="text" name="current_stock_{{loc.id}}" class="form-control" value="0"></td>
-                                <td><input type="text" name="re_order_point_{{loc.id}}" class="form-control" value="0"></td>
-                                <td><input type="text" name="re_order_amount_{{loc.id}}" class="form-control" value="0"></td>
+                                <td style="border:none;">{{loc.name}}</td>
+                                <td style="border:none;" width="50"></td>
+                                <td style="border:none;"><input type="text" name="current_stock_{{loc.id}}" class="form-control" value="0"></td>
+                                <td style="border:none;"><input type="text" name="re_order_point_{{loc.id}}" class="form-control" value="0"></td>
+                                <td style="border:none;"><input type="text" name="re_order_amount_{{loc.id}}" class="form-control" value="0"></td>
                             </tr>
                             {% endfor %}
                         </table>
@@ -120,10 +140,10 @@
     <br>
     
     <div class="row">
-        <div class="col-md-6 text-center">
-            <div class="form-actions">
-                <input style="width:25%;" class="btn btn-success" type="submit" id="btn-success" value="Save" />
-                <input style="width:25%;" class="btn btn-danger" type="button" onclick="window.location.replace('/items/add')" value="Cancel" />
+        <div class="col-md-8 text-center">
+            <div class="form-group">
+                <input style="width:35%;" class="btn btn-success" type="submit" id="btn-success" value="Save" />
+                <input style="width:35%;" class="btn btn-danger" type="button" onclick="window.location.replace('/items/add')" value="Cancel" />
             </div>
         </div>
     </div>
