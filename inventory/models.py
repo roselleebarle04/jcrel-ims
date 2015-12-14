@@ -69,7 +69,11 @@ class ItemLocation(models.Model):
 	re_order_amount = models.PositiveIntegerField(default = 0)
 		
 	def __unicode__(self):
-		return '%s' % (self.item)
+		# return '%s%s' % (self.item, self.location)
+		return " ".join((
+			unicode(self.location),
+			unicode(self.item)	
+			))
 	
 
 

@@ -78,7 +78,8 @@ class ItemSaleForm(forms.ModelForm):
 		self.fields['item'].widget.attrs['class'] = 'form-control'
 		self.fields['quantity'].widget.attrs['class'] = 'form-control'
 		self.fields['item'].queryset = Item.objects.filter(is_active =True)
-		# self.fields['item_cost'] = self.fields['item'].srp
+		self.fields['item'].error_messages['required'] = 'Choose an item.'
+		self.fields['quantity'].error_messages['required'] = 'Enter quantity.'
 
 class TransferForm(forms.ModelForm):
 	class Meta:

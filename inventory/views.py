@@ -407,7 +407,7 @@ def sales(request):
 						item.save()
 					else:
 						messages.warning(request,"Quantity exceeds the current quantity of items.")
-						pass
+						
 			i.save()
 			messages.success(request, 'Sale successfully added.')
 		return HttpResponseRedirect(reverse('sales'))
@@ -423,16 +423,6 @@ def sales(request):
 		'all_items':items_list,
 		'below_min':below_min
 		})
-
-@login_required
-def delete_sale(request, sale_id):
-	# items = AddItem.objects.all()
-	items_list = Item.objects.all()
-	sale = ItemSale.objects.get(pk = sale_id)
-	sale.is_active = False
-	sale.save()
- 
-	return HttpResponseRedirect(reverse('sales_history'))
 
 #############################################
 ##	Supplier
