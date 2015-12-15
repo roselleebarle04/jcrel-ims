@@ -115,6 +115,8 @@ def add_item(request):
 				i = ItemLocation(item=item, location=loc, current_stock=current_stock, re_order_point=re_order_point, re_order_amount=re_order_amount)
 				i.save()
 				print i.current_stock
+
+			# save_minimums()
 			messages.success(request, 'Item has been successfully added.')
 			return HttpResponseRedirect(reverse('add_item'))
 	return render(request, 'items/add_item.html', {
@@ -410,11 +412,14 @@ def sales(request):
 							pass
 				i.save()
 				messages.success(request, 'Sale successfully added.')
+
 			return HttpResponseRedirect(reverse('sales'))
 
 		except KeyError:
 			messages.warning(request, 'Please fill in all input boxes before submitting.')
 			pass
+
+		sales_save_minimums()
 
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 

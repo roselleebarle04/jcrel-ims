@@ -102,7 +102,7 @@ class Item(models.Model):
 	model = models.CharField(max_length = 50, null=True)
 	item_code = models.CharField(max_length = 50, unique = True)
 	unit_cost = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
-	date = models.DateTimeField(default=timezone.now)
+	date = models.DateField(default=timezone.now)
 
 	supplier = models.ForeignKey(Supplier, blank=True, null=True)
 	location = models.ManyToManyField(Location, through='ItemLocation')
@@ -119,7 +119,7 @@ class Item(models.Model):
 	
 
 class Sale(models.Model):
-	date = models.DateTimeField(default=timezone.now)
+	date = models.DateField(default=timezone.now)
 	items = models.ManyToManyField(Item, through='ItemSale')
 	customer = models.ForeignKey(Customer, null=True, blank=False)
 	location = models.ForeignKey(Location, null=True, blank=False)
@@ -216,7 +216,7 @@ class ItemArrival(models.Model):
 		return self.item_cost * self.quantity
 
 class Notifications(models.Model):
-	below_min_date = models.DateTimeField(default=timezone.now)
+	below_min_date = models.DateField(default=timezone.now)
 	message = models.CharField(max_length=200)
 	user = models.ForeignKey(User, null=True)
 	item_loc = models.ForeignKey(ItemLocation)
@@ -226,7 +226,7 @@ class Notifications(models.Model):
 
 	def create(self, item_loc, message):
 		item_loc = item_loc
-		below_min_date = timezone.now()
+		below_min_date = timezone.now
 		message = message
 
 
