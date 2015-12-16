@@ -3,21 +3,45 @@
 	border-radius: 0;
 }
 
+/* Global Styles */
+#wrapper, #page-wrapper {
+	position: relative;
+}
+
+/* DASHBOARD STYLES */
+
 .card-box {
-	margin: 20px 0;
+	padding: 20px;
+	background-color: #fff;
 }
-.card-box a{
+
+.card-box-wrapper .card-box {
+	color: #34B8B8;
 }
-.card-box a:hover {
-	background-color: #eee;
+
+.card-box-wrapper:hover  {
 	text-decoration: none;
 	color: #34B8B8;
 }
 
+.page-bottom {
+	position: absolute;
+	bottom: 0;
+	width: 90%;
+}
+
+.page-bottom p {
+	font-size: 11px;
+	text-align: center;
+	color: white;
+}
+
 body, html, p {
 	overflow-x: hidden;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Lato', sans-serif;
 	color: white;
+	font-size: 100%;
+	min-height: 100%;
 }
 
 table.table-custom {
