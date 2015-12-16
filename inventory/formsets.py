@@ -1,12 +1,13 @@
-from django.forms.formsets import BaseFormSet
+from django.forms.formsets import BaseFormSet, formset_factory
+from django.forms import fields, models, formsets, widgets
 from .models import *
+from .forms import *
 
 
 class ItemArrivalFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
 			return
-
 
 class ItemSaleFormset(BaseFormSet):
 	def clean(self):

@@ -418,14 +418,14 @@ def sales(request):
 						update_stock = curr_stock - quantity
 						item.current_stock = update_stock
 						item.save()
+						i.save()
 					else:
-						messages.warning(request,"Quantity exceeds the current quantity of items.")
-						
-			i.save()
-			messages.success(request, 'Sale successfully added.')
+						messages.warning(request,"Quantity exceeds the current quantity of items.")		
+			
+		messages.success(request, 'Sale successfully added.')
 		return HttpResponseRedirect(reverse('sales'))
 
-		# except KeyError:
+		# except KeyError: 
 			# messages.warning(request, 'Please fill in all input boxes before submitting.')
 			# pass
 
