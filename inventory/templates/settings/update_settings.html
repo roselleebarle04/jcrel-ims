@@ -21,6 +21,9 @@
                             <input type="file" name="avatar" class="form-control" required>
                         </div>
                         <div class="form-group">
+                            <button type="submit" ><a href="/change_password/">Change Password</a></button>
+                        </div>
+                        <div class="form-group">
                           <button type="submit" class="btn btn-success">Save</button>
                           <a href="{% url 'settings' %}" class="btn btn-danger">Cancel</a>
                           <input type="hidden" name="next" value="{{ next }}" />

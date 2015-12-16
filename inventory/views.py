@@ -74,19 +74,19 @@ def list_items(request):
 		'itemloc':itemloc
 	})
 
-def notifications(request):
-	itemloc = ItemLocation.objects.all()
-	itemLength = len(items)
-	warning = WarningItems.objects.all()
+# def notifications(request):
+# 	itemloc = ItemLocation.objects.all()
+# 	itemLength = len(items)
+# 	warning = WarningItems.objects.all()
 
-	below_min = check_minimum()
-	print "below_min %d" % below_min
+# 	below_min = check_minimum()
+# 	print "below_min %d" % below_min
 
-	return render(request, 'notifications/notification_page.html', {
-		'itemloc':itemloc,
-		'itemLength': itemLength,
-		'below_min':below_min
-	})
+# 	return render(request, 'notifications/notification_page.html', {
+# 		'itemloc':itemloc,
+# 		'itemLength': itemLength,
+# 		'below_min':below_min
+# 	})
 
 @login_required
 def add_item(request):
@@ -122,9 +122,11 @@ def add_item(request):
 				i = ItemLocation(item=item, location=loc, current_stock=current_stock, re_order_point=re_order_point, re_order_amount=re_order_amount)
 				i.save()
 				print i.current_stock
-			
 			messages.success(request, 'Item has been successfully added.')
 			return HttpResponseRedirect(reverse('add_item'))
+
+	save_minimums()
+	
 	return render(request, 'items/add_item.html', {
 		'form' : add_new_item_form, 
 		'locations' : locations,
@@ -428,6 +430,8 @@ def sales(request):
 		# except KeyError:
 			# messages.warning(request, 'Please fill in all input boxes before submitting.')
 			# pass
+
+	sales_save_minimums()
 
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
