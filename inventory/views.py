@@ -116,9 +116,11 @@ def add_item(request):
 				i.save()
 				print i.current_stock
 
-			# save_minimums()
 			messages.success(request, 'Item has been successfully added.')
 			return HttpResponseRedirect(reverse('add_item'))
+
+	save_minimums()
+	
 	return render(request, 'items/add_item.html', {
 		'form' : add_new_item_form, 
 		'locations' : locations,
@@ -419,7 +421,7 @@ def sales(request):
 			messages.warning(request, 'Please fill in all input boxes before submitting.')
 			pass
 
-		sales_save_minimums()
+	sales_save_minimums()
 
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
