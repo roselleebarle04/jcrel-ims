@@ -20,7 +20,7 @@ from django.forms.formsets import formset_factory
 from django.db import IntegrityError, transaction, models
 from django.core import validators
 
-import datetime
+from django.utils import timezone
 
 from config import settings
 from .models import *
@@ -67,9 +67,12 @@ def save_minimums():
 	is_zero = 0
 	below_min = is_zero
 
+	date = datetime.datetime.now().date()
+
 	# print check_item_exists()
 	print check_date_exists()
 	print get_notif_dates()
+	print date
 	# print Notifications.objects.filter(item_loc=check_item_exists()).exists()
 	# print Notifications.objects.filter(below_min_date=check_date_exists()).exists()
 	# print Notifications.objects.filter(item_loc=check_item_exists(), below_min_date=check_date_exists()).exists()
@@ -90,7 +93,7 @@ def save_minimums():
 				continue
 			else:
 				message = "%s is below the minimum required quantity stored." % (i)
-				notifs = Notifications.objects.create(item_loc=i, message=message)
+				notifs = Notifications.objects.create(item_loc=i, message=message, below_min_date=date)
 				notifs.save()
 
 	# for i in itemloc:
@@ -116,12 +119,16 @@ def sales_save_minimums():
 	transfer = Transfer.objects.all()
 	notif = Notifications.objects.all()
 
+	date = datetime.datetime.now().date()
+
+	print check_date_exists()
+
 	for i in itemloc:
 		if i.current_stock < i.re_order_point:
 			if Notifications.objects.filter(item_loc=i, below_min_date=check_date_exists).exists():
 				continue
 			else:
 				message = "%s is below the minimum required quantity stored." % (i)
-				notifs = Notifications.objects.create(item_loc=i, message=message)
+				notifs = Notifications.objects.create(item_loc=i, message=message, below_min_date=check_date_exists())
 				notifs.save()
 

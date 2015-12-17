@@ -246,7 +246,7 @@ class ItemArrival(models.Model):
 		return self.item_cost * self.quantity
 
 class Notifications(models.Model):
-	below_min_date = models.DateField(default=timezone.now)
+	below_min_date = models.DateField()
 	message = models.CharField(max_length=200)
 	user = models.ForeignKey(User, null=True)
 	item_loc = models.ForeignKey(ItemLocation)
@@ -254,9 +254,9 @@ class Notifications(models.Model):
 	def __unicode__(self):
 		return str(self.item_loc.item)
 
-	def create(self, item_loc, message):
+	def create(self, item_loc, message, below_min_date):
 		item_loc = item_loc
-		below_min_date = timezone.now
+		below_min_date = below_min_date
 		message = message
 
 

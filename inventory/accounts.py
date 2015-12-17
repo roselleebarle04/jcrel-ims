@@ -95,6 +95,7 @@ def notifications(request):
 	itemLength = len(itemloc)
 	notifs = Notifications.objects.all().order_by('-below_min_date')
 
+	# print datetime.datetime.now().date()
 	# save_minimums()
 
 	below_min = check_minimum()
