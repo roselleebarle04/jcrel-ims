@@ -197,42 +197,41 @@ def create_transfer(request):
 		p.save()
 		transfer_id = p
 
-		try: 
+	
 		
-			for form in transferFormset:
-				transfer = transfer_id
-				item = form.cleaned_data['item']
-				quantity = form.cleaned_data['quantity']
-				i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)
+		for form in transferFormset:
+			transfer = transfer_id
+			item = form.cleaned_data['item']
+			quantity = form.cleaned_data['quantity']
+			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)
 					
 
-				for loc in itemloc:
-					if loc.location == source and loc.item == item :
-						quantity_current = loc.current_stock
+			for loc in itemloc:
+				if loc.location == source and loc.item == item :
+					quantity_current = loc.current_stock
 
-						if quantity < quantity_current :
+					if quantity < quantity_current :
 
-							decremented = quantity_current - quantity
-							loc.current_stock = decremented
-							loc.save()
+						decremented = quantity_current - quantity
+						loc.current_stock = decremented
+						loc.save()
 
-							for loct in itemloc:
-								if loct.location == destination and loct.item == item :
-									quantity_current = loct.current_stock
-									incremented = quantity_current + quantity
-									loct.current_stock = incremented
-									loct.save()
-									i.save()
+						for loct in itemloc:
+							if loct.location == destination and loct.item == item :
+								quantity_current = loct.current_stock
+								incremented = quantity_current + quantity
+								loct.current_stock = incremented
+								loct.save()
+								i.save()
+								messages.success(request, 'Succesfully Transferred the item/s! ')
 
-						else:
-							p.delete()
-							raise ValidationError(" ")
 
-				return HttpResponseRedirect(reverse('transfer_history'))
+					else:
+						p.delete()
+						messages.warning(request, 'Insufficient Stock ')		
 
-		except ValidationError:
-			messages.warning(request, 'Insufficient Stock ')
-			pass
+			return HttpResponseRedirect(reverse('create_transfer'))
+			
 
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
