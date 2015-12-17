@@ -218,7 +218,7 @@ form .row:first-child .floating-label-form-group {
     }
     section .container
     {
-        height: 470px;
+        height: auto;
     }
 
 /*#################################
