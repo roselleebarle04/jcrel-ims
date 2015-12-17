@@ -113,7 +113,7 @@ form{
 	font-weight: bold;
 	margin-top: 0;
 	font-size: 28px;
-	font-family: 'Montserrat', sans-serif;
+	/*font-family: 'Montserrat', sans-serif;*/
 }
 
 .alert.alert-dark, .panel.panel-dark{

@@ -1,5 +1,9 @@
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.contrib.auth import (
+    REDIRECT_FIELD_NAME, get_user_model, login as auth_login,
+    logout as auth_logout, update_session_auth_hash,
+)
 from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
@@ -148,14 +152,18 @@ def update_settings(request):
 	except: 
 		account = ''
 	if request.method == 'POST':
-		new_avatar = request.FILES.get('avatar')
-		
+		new_avatar = request.FILES.get('avatar', '')
+		new_password = request.POST.get('new_password')
 		if account:
-			account.avatar = new_avatar
-			account.save()
-		else:
-			new_account = Account(user=user, avatar=new_avatar)
-			new_account.save()
+			if not new_avatar == '':
+				account.avatar = new_avatar
+				account.save()
+		# else:
+		# 	new_account = Account(user=user, avatar=new_avatar)
+		# 	new_account.save()
+		user.set_password(new_password)
+		user.save()
+		update_session_auth_hash(request, request.user)
 		return HttpResponseRedirect(reverse('settings'))
 
 	return render(request, 'settings/update_settings.html', {
