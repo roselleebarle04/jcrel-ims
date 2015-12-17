@@ -33,13 +33,13 @@
                         <th>Model</th>
                         <th>Supplier</th>
                         <th>Unit Cost</th>
-                        <th width="10%">Actions</th>
+                        <th width="15%">Actions</th>
                     </tr>
                 </thead>            
                 <tbody> 
                     {% for i in items %}                
                     <tr style="background:white;">                    
-                        <td>{{ i.name }}</td>         
+                        <td><a href="/items/{{i.id}}">{{ i.name }}</a></td>         
                         <td>{{ i.category }}</td>
                         <td>{{ i.brand }}</td>
                         <td>{{ i.model }}</td>
@@ -48,6 +48,7 @@
                         <td>                           
                             <a href="/items/update/{{i.id}}/" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span> </a>
                             <button onclick="confirmItemDelete({{i.id}});" class="btn btn-danger" aria-label="Delete"><span class="glyphicon glyphicon-remove"></span></button>
+                            <a class="btn btn-default" href="{% url 'view_item' i.id %}"><span class="glyphicon glyphicon-search"></span></a>
                         </td>                 
                     </tr> 
                     {% endfor %}
