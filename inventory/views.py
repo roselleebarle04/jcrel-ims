@@ -223,8 +223,11 @@ def create_transfer(request):
 									loct.current_stock = incremented
 									loct.save()
 									i.save()
+
 						else:
+							p.delete()
 							raise ValidationError(" ")
+
 				return HttpResponseRedirect(reverse('transfer_history'))
 
 		except ValidationError:
