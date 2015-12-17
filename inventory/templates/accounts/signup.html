@@ -1,52 +1,7 @@
-{% extends "base_accounts.html" %}
+{% extends "base_landing.html" %}
 {% load staticfiles %}
 
 {% block content %}
-<!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{% url 'landing_page' %}">JCREL INVENTORY</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="{% url 'landing_page' %}">Home</a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="/#about">About</a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="/#team">Team</a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="/#contact">Contact</a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="/login">Sign in</a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="/signup">Sign Up</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
-
 <style type="text/css">
   .panel{
     background: white;
@@ -57,7 +12,7 @@
     background-size: cover;
   } 
 </style> 
-<br> <br><br><br>
+<div class="page-content">
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
       <div class="panel panel-default">
@@ -122,5 +77,5 @@
       
     </div>
   </div>
-      
+</div>  
 {% endblock content %}

@@ -30,7 +30,7 @@ def landing_page(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('dashboard')
 
-	return render(request, 'index.html')
+	return render(request, 'landing.html')
 
 @login_required
 def dashboard(request): 

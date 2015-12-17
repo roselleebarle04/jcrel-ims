@@ -281,10 +281,10 @@ form .row:first-child .floating-label-form-group {
     .navbar-default .nav li a:hover,.navbar-default .nav li a:focus
     {
         color: #00ffff;
-        font-size: 1.2em;
+        /*font-size: 1.2em;*/
         outline:0;
-        border-style:solid;
-        border-width:1.2px;       
+        /*border-style:solid;*/
+        /*border-width:1px;*/
         border-color: #00ffff;
     }
     .navbar-default .navbar-nav>.active>a:hover,
@@ -308,11 +308,12 @@ form .row:first-child .floating-label-form-group {
             -webkit-transition: all .3s;
             -moz-transition: all .3s;
             transition: all .3s;
-            color: #00ffff;
+            /*color: #00ffff;*/
+            color: #fff;
         }
         .navbar-default .navbar-brand:focus,.navbar-default .navbar-brand:hover
         {
-            font-size: 2.2em;
+            /*font-size: 2.2em;*/
         }
 
         .navbar-fixed-top.navbar-shrink 
