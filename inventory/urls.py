@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^reports/sales/', reports_views.sales_reports, name='sales_reports'),
 
     url(r'^items/$', inventory_views.list_items, name='list_items'),
+    url(r'^items/(?P<item_id>[0-9]+)/$', inventory_views.view_item, name='view_item'),
     url(r'^items/add/$', inventory_views.add_item, name='add_item'),
     url(r'^items/delete/(?P<item_id>[0-9]+)/$', inventory_views.delete_item, name = 'delete_item'), 
     url(r'^items/update/(?P<item_id>[0-9]+)/$', inventory_views.update_item, name = 'update_item'), 

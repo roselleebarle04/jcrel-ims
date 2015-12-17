@@ -185,7 +185,6 @@ class ItemSale(models.Model):
 		total = self.item.unit_cost * self.quantity
 		return total
 
-
 class Transfer(models.Model):
 	From = models.ForeignKey(Location, related_name = 'from+')
 	To = models.ForeignKey(Location, related_name = 'to+')

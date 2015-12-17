@@ -137,6 +137,10 @@ def add_item(request):
 		'itemloc':itemloc
 	})
 
+def view_item(request, item_id):
+	item = Item.objects.get(id=item_id)
+	return render(request, 'items/item_info.html', {'item': item})
+
 @login_required
 def delete_item(request, item_id):
 	items_list = Item.objects.all()
@@ -150,10 +154,10 @@ def update_item(request, item_id):
 	item = Item.objects.get(pk=item_id)
 	update_item_form = ItemForm(request.POST or None, instance=item)
 	locations = Location.objects.all()
-	itemloc = ItemLocation.objects.all()
+
+	itemloc = ItemLocation.objects.filter(item=item)
 
 	below_min = check_minimum()
-	print "below_min %d" % below_min
 
 	if request.method == 'POST':
 		if update_item_form.is_valid():
@@ -161,13 +165,14 @@ def update_item(request, item_id):
 
 			# Now save the quantity of each item in each location
 			for loc in locations:
-				print loc
 				current_stock = request.POST.get('current_stock_%d' % (loc.id))
-				print current_stock
 				re_order_point = request.POST.get('re_order_point_%d' % (loc.id))
 				re_order_amount = request.POST.get('re_order_amount_%d' % (loc.id))
 				
-				i = ItemLocation(item=item, location=loc, current_stock=current_stock, re_order_point=re_order_point, re_order_amount=re_order_amount)
+				i = ItemLocation.objects.get(item=item, location=loc)
+				i.current_stock = current_stock
+				i.re_order_point = re_order_point
+				i.re_order_amount = re_order_amount
 				i.save()
 				print i.current_stock
 			messages.success(request, 'Item has been successfully updated.')
@@ -287,10 +292,9 @@ def update_location(request, location_id):
 	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
-	print "below_min %d" % below_min
 
 	if request.method == 'POST':
-		location.branch_name = request.POST.get('name')
+		location.name = request.POST.get('name')
 		location.address = request.POST.get('address')
 		location.save()
 		return HttpResponseRedirect(reverse('location'))
@@ -298,7 +302,6 @@ def update_location(request, location_id):
 		'location': location, 
 		'all_items':items_list,
 		'itemloc':itemloc, 
-		# 'items':items, 
 		'below_min':below_min
 		})
 
@@ -496,10 +499,12 @@ def update_supplier(request, supplier_id):
 	itemloc = ItemLocation.objects.all()
 
 	below_min = check_minimum()
-	print "below_min %d" % below_min
 
 	if request.method == 'POST':
-		supplier.avatar = request.FILES.get('avatar')
+		avatar = request.FILES.get('avatar', '')
+
+		if not avatar == '':
+			supplier.avatar = request.FILES.get('avatar')
 		supplier.name = request.POST.get('name')
 		supplier.phone = request.POST.get('phone')
 		supplier.address = request.POST.get('address')
@@ -573,7 +578,9 @@ def update_customer(request, customer_id):
 	
 
 	if request.method == 'POST':
-		customer.avatar = request.FILES.get('avatar')
+		avatar = request.FILES.get('avatar', '')
+		if not avatar == '':
+			customer.avatar = avatar
 		customer.name = request.POST.get('name')
 		customer.phone = request.POST.get('phone')
 		customer.address = request.POST.get('address')
