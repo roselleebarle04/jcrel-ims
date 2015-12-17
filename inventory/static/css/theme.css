@@ -1,0 +1,26 @@
+.page-content {
+	padding: 150px 0;
+}
+
+.header-img {
+	width: 250px;
+	height: 250px;
+}
+
+.team-member img {
+	width: 150px;
+	height: 150px;
+}
+
+/*ul li.sign-in {
+	border: 1px solid white;
+}
+
+ul li.sign-in:hover {
+	background-color: white;
+}
+*/
+.login-page.page-content {
+	background: #ddd;
+	padding-top: 200px;
+}
