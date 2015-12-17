@@ -197,38 +197,38 @@ def create_transfer(request):
 		p.save()
 		transfer_id = p
 
-		try: 
 		
-			for form in transferFormset:
-				transfer = transfer_id
-				item = form.cleaned_data['item']
-				quantity = form.cleaned_data['quantity']
-				i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)
-				i.save()	
+		
+		for form in transferFormset:
+			transfer = transfer_id
+			item = form.cleaned_data['item']
+			quantity = form.cleaned_data['quantity']
+			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)
+			i.save()	
 
-				for loc in itemloc:
-					if loc.location == source and loc.item == item :
-						quantity_current = loc.current_stock
+			for loc in itemloc:
+				if loc.location == source and loc.item == item :
+					quantity_current = loc.current_stock
 
-						if quantity <quantity_current :
+					if quantity <quantity_current :
 
-							decremented = quantity_current - quantity
-							loc.current_stock = decremented
-							loc.save()
+						decremented = quantity_current - quantity
+						loc.current_stock = decremented
+						loc.save()
 
-							for loct in itemloc:
-								if loct.location == destination and loct.item == item :
-									quantity_current = loct.current_stock
-									incremented = quantity_current + quantity
-									loct.current_stock = incremented
-									loct.save()
-						else:
-							raise ValidationError("Insufficient Stock")
-				return HttpResponseRedirect(reverse('transfer_history'))
+						for loct in itemloc:
+							if loct.location == destination and loct.item == item :
+								quantity_current = loct.current_stock
+								incremented = quantity_current + quantity
+								loct.current_stock = incremented
+								loct.save()
+						# else:
+						# 	raise ValidationError("Insufficient Stock")
+			return HttpResponseRedirect(reverse('transfer_history'))
 
-		except KeyError:
-			messages.warning(request, 'Please fill in all input boxes before submitting ')
-			pass
+		# except KeyError:
+		# 	messages.warning(request, 'Please fill in all input boxes before submitting ')
+		# 	pass
 
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 

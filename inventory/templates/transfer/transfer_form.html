@@ -61,8 +61,8 @@
                                 {% for form in formset %}
                                 <tr id="{{ form.prefix }}-row"  class="dynamic-form">
                                     
-                                    <td>{{form.item}}</td>
-                                    <td>{{form.quantity}}</td>
+                                    <td>{{form.item.errors}}{{form.item}}</td>
+                                    <td>{{form.quantity.errors}}{{form.quantity}}</td>
                                    <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger">Remove</a></td>
                                    <td></td>
                                 </tr> 
