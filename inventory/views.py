@@ -408,7 +408,7 @@ def sales(request):
 		new_items = []
 		location = saleForm.cleaned_data['location']
 
-		# try:
+
 			# loop through all forms in the formset, and save each form - add the purchaseId to each form
 		for form in saleFormset:
 			sale_item = form.cleaned_data['item']
@@ -422,19 +422,15 @@ def sales(request):
 						curr_stock = item.current_stock
 						update_stock = curr_stock - quantity
 						item.current_stock = update_stock
-						item.save()	
-						i.save()					
-					else:
-						messages.warning(request,"Quantity exceeds the current quantity of items.")	
-				elif item.item==sale_item and item.location!=location:
-					messages.warning(request,"The item does not exit exist in the location.")	
-			
-		messages.success(request, 'Sale successfully added.')
+						item.save()
+					# else:
+					# 	messages.warning(request,"Quantity exceeds the current quantity of items.")
+					# 	pass
+			i.save()
+
+		# messages.success(request, 'Sale successfully added.')
 		return HttpResponseRedirect(reverse('sales'))
 
-		# except KeyError: 
-			# messages.warning(request, 'Please fill in all input boxes before submitting.')
-			# pass
 
 	sales_save_minimums()
 
