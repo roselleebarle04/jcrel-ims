@@ -47,6 +47,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+                    {% if not_in_account_page %}
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
@@ -59,6 +60,11 @@
                     <li class="page-scroll">
                         <a href="#team">Team</a>
                     </li>
+                    {% else %}
+                    <li>
+                        <a href="/"><span class="glyphicon glyphicon-chevron-left"></span> Home</a>
+                    </li>
+                    {% endif %}
                     <li class="sign-in">
                         <a href="/login">Sign in</a>
                     </li>

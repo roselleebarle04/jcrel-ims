@@ -30,7 +30,9 @@ def landing_page(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('dashboard')
 
-	return render(request, 'landing.html')
+	return render(request, 'landing.html', {
+		'not_in_account_page': True,
+		})
 
 @login_required
 def dashboard(request): 
@@ -52,7 +54,8 @@ def dashboard(request):
 		'items_len' : items_len,
 		'sales_len':sales_len,
 		'items':items_list,
-		'below_min':below_min
+		'below_min':below_min,
+
 	})
 
 #############################################
