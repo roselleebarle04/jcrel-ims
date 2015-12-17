@@ -412,28 +412,31 @@ def sales(request):
 		new_items = []
 		location = saleForm.cleaned_data['location']
 
-
+		try:
 			# loop through all forms in the formset, and save each form - add the purchaseId to each form
-		for form in saleFormset:
-			sale_item = form.cleaned_data['item']
-			sale = sale_id
-			quantity = form.cleaned_data['quantity']				
-			i =  ItemSale(item=sale_item, sale=p, quantity=quantity)
+			for form in saleFormset:
+				sale_item = form.cleaned_data['item']
+				sale = sale_id
+				quantity = form.cleaned_data['quantity']				
+				i =  ItemSale(item=sale_item, sale=p, quantity=quantity)
 
-			for item in itemloc:
-				if item.item==sale_item and item.location==location:
-					if item.current_stock >= quantity:
-						curr_stock = item.current_stock
-						update_stock = curr_stock - quantity
-						item.current_stock = update_stock
-						item.save()
-					elif item.current_stock < quantity:
-						messages.warning(request,"Quantity exceeds the current stock of items.")
-						return HttpResponseRedirect(reverse('sales'))
-			i.save()
+				for item in itemloc:
+					if item.item==sale_item and item.location==location:
+						if item.current_stock >= quantity:
+							curr_stock = item.current_stock
+							update_stock = curr_stock - quantity
+							item.current_stock = update_stock
+							item.save()
+							i.save()
+						elif item.current_stock < quantity:
+							raise ValidationError(" ")		
 
-		messages.success(request, 'Sale successfully added.')
-		return HttpResponseRedirect(reverse('sales'))
+			messages.success(request, 'Sale successfully added.')
+			return HttpResponseRedirect(reverse('sales'))
+		except ValidationError:
+			p.delete()
+			messages.warning(request,"Quantity exceeds the current stock of items.")
+			pass
 
 
 	sales_save_minimums()
