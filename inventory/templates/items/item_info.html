@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}  
+<div class="row">
+    <h1 class="page-header">Item Details</h1>
+</div> 
+<div class="row">
+    <div class="col-md-6">
+        <table class="table table-striped">
+            <tr>
+                <td>Item Code</td>
+                <td>{{item.item_code}}</td>
+            </tr>
+            <tr>
+                <td>Item Name</td>
+                <td>{{item.name}}</td>
+            </tr>
+            <tr>
+                <td>Item Description</td>
+                <td>{{item.description}}</td>
+            </tr>
+            <tr>
+                <td>Category</td>
+                <td>{{item.category}}</td>
+            </tr>
+            <tr>
+                <td>Brand</td>
+                <td>{{item.brand}}</td>
+            </tr>
+            <tr>
+                <td>Model</td>
+                <td>{{item.model}}</td>
+            </tr>
+            
+            <tr>
+                <td>Unit Cost</td>
+                <td>{{item.unit_cost}}</td>
+            </tr>
+        </table> 
+        <table class="table table-striped">
+            <tr>
+                <td>Supplier</td>
+                <td>{{item.supplier}}</td>
+            </tr>
+        </table>
+        <table class="table table-striped">
+            <tr>
+                <td>Location</td>
+                <td>Current Stock</td>
+                <td>Re-order point</td>
+                <td>Re-order amont</td>
+            </tr>
+            {% for i in item.itemlocation_set.all %}
+            <tr>
+                <td>{{i.location.name}}</td>
+                <td>{{i.current_stock}}</td>
+                <td>{{i.re_order_point}}</td>
+                <td>{{i.re_order_amount}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <a href="{% url 'update_item' item.id %}" class="btn btn-info">Update Item</a>
+        <a href="{% url 'list_items' %}" class="btn btn-default">< Back to list</a>
+   </div>
+</div>
+{% endblock %}
