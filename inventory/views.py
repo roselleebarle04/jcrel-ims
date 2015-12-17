@@ -427,12 +427,12 @@ def sales(request):
 						update_stock = curr_stock - quantity
 						item.current_stock = update_stock
 						item.save()
-					# else:
-					# 	messages.warning(request,"Quantity exceeds the current stock of items.")
-					# 	pass
+					elif item.current_stock < quantity:
+						messages.warning(request,"Quantity exceeds the current stock of items.")
+						return HttpResponseRedirect(reverse('sales'))
 			i.save()
 
-		# messages.success(request, 'Sale successfully added.')
+		messages.success(request, 'Sale successfully added.')
 		return HttpResponseRedirect(reverse('sales'))
 
 
@@ -441,7 +441,7 @@ def sales(request):
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset,
-		'items':item_locations,
+		'items':itemloc,
 		'all_items':items_list,
 		'below_min':below_min
 		})
