@@ -209,13 +209,13 @@ def create_transfer(request):
 				item = form.cleaned_data['item']
 				quantity = form.cleaned_data['quantity']
 				i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)
-				i.save()	
+					
 
 				for loc in itemloc:
 					if loc.location == source and loc.item == item :
 						quantity_current = loc.current_stock
 
-						if quantity <quantity_current :
+						if quantity < quantity_current :
 
 							decremented = quantity_current - quantity
 							loc.current_stock = decremented
@@ -227,12 +227,13 @@ def create_transfer(request):
 									incremented = quantity_current + quantity
 									loct.current_stock = incremented
 									loct.save()
+									i.save()
 						else:
-							raise ValidationError("Insufficient Stock")
+							raise ValidationError(" ")
 				return HttpResponseRedirect(reverse('transfer_history'))
 
-		except KeyError:
-			messages.warning(request, 'Please fill in all input boxes before submitting ')
+		except ValidationError:
+			messages.warning(request, 'Insufficient Stock ')
 			pass
 
 	return render(request, 'transfer/transfer_form.html', {
@@ -411,7 +412,7 @@ def sales(request):
 		new_items = []
 		location = saleForm.cleaned_data['location']
 
-		# try:
+
 			# loop through all forms in the formset, and save each form - add the purchaseId to each form
 		for form in saleFormset:
 			sale_item = form.cleaned_data['item']
@@ -426,16 +427,14 @@ def sales(request):
 						update_stock = curr_stock - quantity
 						item.current_stock = update_stock
 						item.save()
-					else:
-						messages.warning(request,"Quantity exceeds the current quantity of items.")
-						
+					# else:
+					# 	messages.warning(request,"Quantity exceeds the current quantity of items.")
+					# 	pass
 			i.save()
-			messages.success(request, 'Sale successfully added.')
+
+		# messages.success(request, 'Sale successfully added.')
 		return HttpResponseRedirect(reverse('sales'))
 
-		# except KeyError:
-			# messages.warning(request, 'Please fill in all input boxes before submitting.')
-			# pass
 
 	sales_save_minimums()
 

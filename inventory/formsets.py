@@ -7,7 +7,6 @@ class ItemArrivalFormset(BaseFormSet):
 		if any(self.errors):
 			return
 
-
 class ItemSaleFormset(BaseFormSet):
 	def clean(self):
 		if any(self.errors):
@@ -29,4 +28,7 @@ class ItemTransferFormset(BaseFormSet):
 		if any(self.errors):
 			return
 
-		
+	def __init__(self, *args, **kwargs):
+		super(ItemTransferFormset, self).__init__(*args, **kwargs)
+		for form in self.forms:
+			form.empty_permitted = False

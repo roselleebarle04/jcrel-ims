@@ -147,11 +147,14 @@ class Item(models.Model):
        
 	
 class Sale(models.Model):
-	date = models.DateField(default=timezone.now)
+	date = models.DateTimeField(default=datetime.datetime.now)
 	items = models.ManyToManyField(Item, through='ItemSale')
 	customer = models.ForeignKey(Customer, null=True, blank=False)
 	location = models.ForeignKey(Location, null=True, blank=False)
 	user = models.ForeignKey(User, null=True, blank=False)
+
+	class Meta:
+		ordering = ['-date']
 
 	def __unicode__(self):
 		return str(self.items)
@@ -207,9 +210,9 @@ class Arrival(models.Model):
 	items = models.ManyToManyField(Item, through='ItemArrival')
 	supplier = models.ForeignKey(Supplier)
 	location = models.ForeignKey(Location)
-	#user = models.ForeignKey(User, null=True)
+	user = models.ForeignKey(User, null=True)
 	class Meta:
-		ordering = ['-date']
+		ordering = ['-date', '-delivery_receipt_no']
 
 	def __unicode__(self):
 		return self.tracking_no
