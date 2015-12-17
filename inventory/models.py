@@ -205,7 +205,7 @@ class ItemTransfer(models.Model):
 		return str(self.item.item_code)
 
 class Arrival(models.Model):
-	date = models.DateField(default=timezone.now)
+	date = models.DateTimeField(default=datetime.datetime.now)
 	delivery_receipt_no = models.CharField(max_length=100, null=True, blank=False)
 	tracking_no = models.CharField(max_length=100, null=True, blank=False)
 	items = models.ManyToManyField(Item, through='ItemArrival')
@@ -213,7 +213,7 @@ class Arrival(models.Model):
 	location = models.ForeignKey(Location)
 	user = models.ForeignKey(User, null=True)
 	class Meta:
-		ordering = ['-date', '-delivery_receipt_no']
+		ordering = ['-date']
 
 	def __unicode__(self):
 		return self.tracking_no
