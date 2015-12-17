@@ -20,7 +20,7 @@ from django.forms.formsets import formset_factory
 from django.db import IntegrityError, transaction, models
 from django.core import validators
 
-import datetime
+from django.utils import timezone
 
 from config import settings
 from .models import *
@@ -46,7 +46,7 @@ def check_item_exists():
 			return i
 
 def check_date_exists():
-	sale = Sale.objects.all()
+	sale = Sale.objects.all().order_by('-date')
 
 	for s in sale:
 		return s.date
@@ -67,21 +67,12 @@ def save_minimums():
 	is_zero = 0
 	below_min = is_zero
 
-	# print check_item_exists()
+	date = datetime.datetime.now().date()
+
+	print check_item_exists()
 	print check_date_exists()
 	print get_notif_dates()
-	# print Notifications.objects.filter(item_loc=check_item_exists()).exists()
-	# print Notifications.objects.filter(below_min_date=check_date_exists()).exists()
-	# print Notifications.objects.filter(item_loc=check_item_exists(), below_min_date=check_date_exists()).exists()
-
-	# for i in itemloc:
-	# 	if i.current_stock < i.re_order_point:
-	# 		if Notifications.objects.filter(item_loc=i, below_min_date=check_date_exists).exists():
-	# 			continue
-	# 		else:
-	# 			message = "%s is below the minimum required quantity stored." % (i)
-	# 			notifs = Notifications.objects.create(item_loc=i, message=message)
-	# 			notifs.save()
+	print date
 
 	for i in itemloc:
 		print Notifications.objects.filter(item_loc=i).exists()
@@ -90,24 +81,8 @@ def save_minimums():
 				continue
 			else:
 				message = "%s is below the minimum required quantity stored." % (i)
-				notifs = Notifications.objects.create(item_loc=i, message=message)
+				notifs = Notifications.objects.create(item_loc=i, message=message, below_min_date=date)
 				notifs.save()
-
-	# for i in itemloc:
-	# 	for s in sale:
-	# 		print Notifications.objects.filter(item_loc=i).exists()
-	# 		print Notifications.objects.filter(below_min_date=s.date).exists()
-	# 		if i.current_stock < i.re_order_point:
-	# 			print Notifications.objects.filter(item_loc=i).exists()
-	# 			print Notifications.objects.filter(below_min_date=s.date).exists()		
-	# 			if Notifications.objects.filter(item_loc=i).exists() and Notifications.objects.filter(below_min_date=s.date).exists():
-	# 				print "True"
-	# 				continue
-	# 			else:
-	# 				print "None"
-	# 				message = "%s is below the minimum required quantity stored." % (i)
-	# 				notifs = Notifications.objects.create(item_loc=i, message=message)
-	# 				notifs.save()
 
 def sales_save_minimums():
 	itemloc = ItemLocation.objects.all()
@@ -116,12 +91,18 @@ def sales_save_minimums():
 	transfer = Transfer.objects.all()
 	notif = Notifications.objects.all()
 
+	date = datetime.datetime.now().date()
+
+	# print check_date_exists()
+
 	for i in itemloc:
 		if i.current_stock < i.re_order_point:
 			if Notifications.objects.filter(item_loc=i, below_min_date=check_date_exists).exists():
 				continue
+			# elif Notifications.objects.filter(item_loc=i, below_min_date=None).exists():
+			# 	continue
 			else:
 				message = "%s is below the minimum required quantity stored." % (i)
-				notifs = Notifications.objects.create(item_loc=i, message=message)
+				notifs = Notifications.objects.create(item_loc=i, message=message, below_min_date=check_date_exists())
 				notifs.save()
 

@@ -147,11 +147,14 @@ class Item(models.Model):
        
 	
 class Sale(models.Model):
-	date = models.DateField(default=timezone.now)
+	date = models.DateField(default=datetime.datetime.now().date)
 	items = models.ManyToManyField(Item, through='ItemSale')
 	customer = models.ForeignKey(Customer, null=True, blank=False)
 	location = models.ForeignKey(Location, null=True, blank=False)
 	user = models.ForeignKey(User, null=True, blank=False)
+
+	class Meta:
+		ordering = ['-date']
 
 	def __unicode__(self):
 		return str(self.items)
@@ -182,7 +185,6 @@ class ItemSale(models.Model):
 		total = self.item.unit_cost * self.quantity
 		return total
 
-
 class Transfer(models.Model):
 	From = models.ForeignKey(Location, related_name = 'from+')
 	To = models.ForeignKey(Location, related_name = 'to+')
@@ -202,13 +204,13 @@ class ItemTransfer(models.Model):
 		return str(self.item.item_code)
 
 class Arrival(models.Model):
-	date = models.DateField(default=timezone.now)
+	date = models.DateTimeField(default=datetime.datetime.now)
 	delivery_receipt_no = models.CharField(max_length=100, null=True, blank=False)
 	tracking_no = models.CharField(max_length=100, null=True, blank=False)
 	items = models.ManyToManyField(Item, through='ItemArrival')
 	supplier = models.ForeignKey(Supplier)
 	location = models.ForeignKey(Location)
-	#user = models.ForeignKey(User, null=True)
+	user = models.ForeignKey(User, null=True)
 	class Meta:
 		ordering = ['-date']
 
@@ -246,7 +248,7 @@ class ItemArrival(models.Model):
 		return self.item_cost * self.quantity
 
 class Notifications(models.Model):
-	below_min_date = models.DateField(default=timezone.now)
+	below_min_date = models.DateField(null=True)
 	message = models.CharField(max_length=200)
 	user = models.ForeignKey(User, null=True)
 	item_loc = models.ForeignKey(ItemLocation)
@@ -254,9 +256,9 @@ class Notifications(models.Model):
 	def __unicode__(self):
 		return str(self.item_loc.item)
 
-	def create(self, item_loc, message):
+	def create(self, item_loc, message, below_min_date):
 		item_loc = item_loc
-		below_min_date = timezone.now
+		below_min_date = below_min_date
 		message = message
 
 

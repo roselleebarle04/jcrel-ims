@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<div class="row">
+<!-- <div class="row">
     <div class="col-lg-3">
         <form class="form" method="GET" action="/reports/inventory">
             <div class="form-group">
@@ -30,7 +30,7 @@
             <a href="#" class="btn btn-default">Export Data</a>
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="modal fade" id="filter_box" role="dialog" tab-index="-1">
     <div class="modal-dialog" role="document">
@@ -70,51 +70,25 @@
             <thead>
                 <tr>
                     <th style="background:#333333" colspan="3"></th>
-                    <th style="background:#34B8B8; color:white;" class="text-center" colspan="3">TOTALS BY PRODUCT</th>
+                    <th style="background:#34B8B8; color:white;" class="text-center" colspan="1">TOTALS BY PRODUCT</th>
                 </tr>
                 <tr>
                     <th>Product</th>
-                    <th>Item Code</th>
-                    <th>Date Created</th>
+                    <th>Quantity</th>
+                    <th>Unit Cost</th>
                     <!--  -->
                     <th>Revenue</th>
-                    <th>Gross Profit (Php)</th>
-                    <th>Gross Profit (%)</th>
                 </tr>
             </thead>
             <tbody>
-
                 {% for item in data %}
                 <tr>
                     <td>{{item.item_name}}</td>
-                    <td>{{item.item_code}}</td>
-                    <td>{{item.date_created.date}}</td>
-
+                    <td>{{item.total_quantity_sold}}</td>
+                    <td>{{item.unit_cost}}</td>
                     <td>{{item.revenue}}</td>
-                    <td>{{item.gross_profit_php}}</td>
-                    <td>{{item.gross_profit_per}}</td>
                 </tr>
                 {% endfor %}
-                <tr>
-                    <td style="background:#333333" colspan="6">.</td>
-                </tr>
-                <tr>
-                    <td rowspan="4">TOTALS BY DATE RANGE</td>
-                    <td colspan="2">Revenue</td>
-                    <td colspan="3">11</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Cost of Goods</td>
-                    <td colspan="3">11</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Gross Profit (Php)</td>
-                    <td colspan="3">11</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Gross Profit (%)</td>
-                    <td colspan="3">11</td>
-                </tr>
             </tbody>
         </table>
     </div>

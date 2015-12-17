@@ -18,11 +18,9 @@ def build_items_per_location(location):
 	for item in items:
 		try: 
 			i = item.itemlocation_set.get(location=location)
-		except i.DoesNotExist:
-			# TODO: Add logic
+			out.append(i)
+		except:
 			pass
-
-		out.append(i)
 	return out
 
 def build_sales_data(request):
@@ -40,14 +38,17 @@ def build_sales_data(request):
 		revenue = 0
 		gross_profit_php = 0
 		gross_profit_per = 0
+		total_quantity_sold = 0
 
 		for sale in sales:
 			revenue = revenue + (sale.quantity * sale.item.unit_cost)
+			total_quantity_sold = total_quantity_sold + sale.quantity
+			print total_quantity_sold
 
 		entry = {}
 		entry['item_name'] = item.category + ' ' + item.brand + ' ' + item.model
-		entry['item_code'] = item.item_code
-		entry['date_created'] = item.date
+		entry['total_quantity_sold'] = total_quantity_sold
+		entry['unit_cost'] = item.unit_cost
 		entry['revenue'] = revenue
 		entry['gross_profit_php'] = gross_profit_php
 		entry['gross_profit_per'] = gross_profit_per
@@ -101,6 +102,7 @@ def reports_data(request):
 
 @login_required
 def inventory_reports(request):
+	itemloc = ItemLocation.objects.all()
 	below_min = check_minimum()
 
 	data = build_data(request)
@@ -115,13 +117,18 @@ def inventory_reports(request):
 	return render(request, 'reports/inventory_reports.html', {
 		'data': data,
 		'summary': summary,
+		'below_min':below_min,
+		'itemloc':itemloc
 	})
 
 @login_required
 def sales_reports(request):
+	itemloc = ItemLocation.objects.all()
 	below_min = check_minimum()
 
 	data = build_sales_data(request)
 	return render(request, 'reports/sales_reports.html', {
 		'data': data, 
+		'below_min':below_min,
+		'itemloc':itemloc
 	})

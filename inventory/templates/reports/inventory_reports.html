@@ -13,7 +13,7 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-3">
+    <!-- <div class="col-lg-3">
         <form class="form" method="GET" action="/reports/inventory">
             <div class="form-group">
                 <label>Report Type</label>
@@ -23,13 +23,13 @@
                 </select>
             </div>
         </form>
-    </div>
-    <div class="col-lg-9">
+    </div> -->
+    <!-- <div class="col-lg-9">
         <div class="export-btn-group">
             <a href="#" class="btn btn-theme" data-toggle="modal" data-target="#filter_box">Filter</a>
             <a href="#" class="btn btn-default">Export Data</a>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <div class="modal fade" id="filter_box" role="dialog" tab-index="-1">
@@ -93,7 +93,7 @@
                     <td>{% if forloop.first %}{{group.location}}{%endif%}</td>
                     <td><a href="#">{{item.item_name}}</a></td>
                     <td>{{item.item_code}}</td>
-                    <td>{{item.date_created.date}}</td>
+                    <td>{{item.date_created}}</td>
                     <td>{{item.current_stock}}</td>
                     <td>{{item.stock_value}}</td>
                     <td>{{item.unit_cost}}</td>
