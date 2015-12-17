@@ -390,7 +390,7 @@ def arrival_delete(request, arrival_id):
 @login_required
 def sales(request):
 	items_list = Item.objects.all()
-	item_locations = ItemLocation.objects.all()
+	itemloc = ItemLocation.objects.all()
 	saleForm = SaleForm(request.POST or None)
 	formset = formset_factory(ItemSaleForm, formset=ItemSaleFormset, extra = 1)
 	saleFormset = formset(request.POST or None)
@@ -416,7 +416,7 @@ def sales(request):
 			quantity = form.cleaned_data['quantity']				
 			i =  ItemSale(item=sale_item, sale=p, quantity=quantity)
 
-			for item in item_locations:
+			for item in itemloc:
 				if item.item==sale_item and item.location==location:
 					if item.current_stock >= quantity:
 						curr_stock = item.current_stock
@@ -424,7 +424,7 @@ def sales(request):
 						item.current_stock = update_stock
 						item.save()
 					# else:
-					# 	messages.warning(request,"Quantity exceeds the current quantity of items.")
+					# 	messages.warning(request,"Quantity exceeds the current stock of items.")
 					# 	pass
 			i.save()
 
