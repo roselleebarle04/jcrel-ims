@@ -35,21 +35,21 @@
                         
 
                         <br> <br>
-                        <div class="panel-body">
-                        {% if messages %} 
-                        <div class="row">
-                            <div class="col-md-7 col-md-offset-2">
-                                <center>
-                                    {% for message in messages %}
-                                    <p 
-                                    {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close" 
-                                    {% endif %}>{{ message }}
-                                    </p>
-                                    {% endfor %}
-                                </center>                                               
-                            </div>
-                        </div>
-                    {% endif %}
+                            <div class="panel-body">
+                                {% if messages %} 
+                                <div class="row">
+                                    <div class="col-md-7 col-md-offset-2">
+                                        <center>
+                                            {% for message in messages %}
+                                            <p 
+                                            {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close"
+                                            {% endif %}>{{ message }}
+                                            </p>
+                                            {% endfor %}
+                                        </center>                                               
+                                    </div>
+                             </div>
+                        {% endif %}
                         <table id="id_transfer" width="100%" border="0" cellpadding="50" cellspacing="1500">
                             <thead>
                                 <tr>
@@ -62,6 +62,7 @@
                                 <tr id="{{ form.prefix }}-row"  class="dynamic-form">
                                     
                                     <td>{{form.item.errors}}{{form.item}}</td>
+
                                     <td>{{form.quantity.errors}}{{form.quantity}}</td>
                                    <td><a id="remove-{{ form.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger">Remove</a></td>
                                    <td></td>
