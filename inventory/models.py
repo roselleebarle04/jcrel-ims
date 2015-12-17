@@ -75,6 +75,8 @@ class ItemLocation(models.Model):
 			unicode(self.item)	
 			))
 
+		return '%s' % (self.item)
+	
 class Supplier(models.Model):
 	""" Suppliers can be also be paying users """
 	avatar = models.ImageField('avatar', upload_to='avatar', default='img/avatar.jpeg')
@@ -106,7 +108,7 @@ class Item(models.Model):
 	model = models.CharField(max_length = 50, null=True)
 	item_code = models.CharField(max_length = 50, unique = True)
 	unit_cost = models.DecimalField(default = 0, max_digits = 100, decimal_places = 2)	
-	date = models.DateTimeField(default=timezone.now)
+	date = models.DateField(default=timezone.now)
 
 	supplier = models.ForeignKey(Supplier, blank=True, null=True)
 	location = models.ManyToManyField(Location, through='ItemLocation')
@@ -142,7 +144,8 @@ class Item(models.Model):
 			for i in item_location:
 				total = total + (i.current_stock * item.unit_cost) 
 		return total
-
+       
+	
 class Sale(models.Model):
 	date = models.DateField(default=timezone.now)
 	items = models.ManyToManyField(Item, through='ItemSale')
@@ -151,7 +154,8 @@ class Sale(models.Model):
 	user = models.ForeignKey(User, null=True, blank=False)
 
 	def __unicode__(self):
-		return ' '.join(unicode(self.date))
+		return str(self.items)
+		# return ' '.join(unicode(self.date))
 
 	def items_list(self):
 		return ', '.join([sale.item for i in self.items.all()])
@@ -242,7 +246,7 @@ class ItemArrival(models.Model):
 		return self.item_cost * self.quantity
 
 class Notifications(models.Model):
-	below_min_date = models.DateTimeField(default=timezone.now())
+	below_min_date = models.DateField(default=timezone.now)
 	message = models.CharField(max_length=200)
 	user = models.ForeignKey(User, null=True)
 	item_loc = models.ForeignKey(ItemLocation)
@@ -252,7 +256,7 @@ class Notifications(models.Model):
 
 	def create(self, item_loc, message):
 		item_loc = item_loc
-		below_min_date = timezone.now()
+		below_min_date = timezone.now
 		message = message
 
 
