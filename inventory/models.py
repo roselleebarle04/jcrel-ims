@@ -147,7 +147,7 @@ class Item(models.Model):
        
 	
 class Sale(models.Model):
-	date = models.DateTimeField(default=datetime.datetime.now)
+	date = models.DateField(default=datetime.datetime.now().date)
 	items = models.ManyToManyField(Item, through='ItemSale')
 	customer = models.ForeignKey(Customer, null=True, blank=False)
 	location = models.ForeignKey(Location, null=True, blank=False)
