@@ -246,7 +246,7 @@ class ItemArrival(models.Model):
 		return self.item_cost * self.quantity
 
 class Notifications(models.Model):
-	below_min_date = models.DateField()
+	below_min_date = models.DateField(null=True)
 	message = models.CharField(max_length=200)
 	user = models.ForeignKey(User, null=True)
 	item_loc = models.ForeignKey(ItemLocation)

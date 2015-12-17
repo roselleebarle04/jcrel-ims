@@ -399,6 +399,7 @@ def sales(request):
 	print "below_min %d" % below_min
 
 	if saleForm.is_valid() and saleFormset.is_valid():
+
 		# first save purchase details
 		# commit = False means that we can store the purchase instance to the value p
 		p = saleForm.save(commit=False)
@@ -439,7 +440,7 @@ def sales(request):
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset,
-		'items':item_locations,
+		'itemloc':item_locations,
 		'all_items':items_list,
 		'below_min':below_min
 		})
