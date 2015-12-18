@@ -450,7 +450,6 @@ def sales(request):
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset,
 		'itemloc':itemloc,
-		'itemloc':item_locations,
 		# 'items':itemloc,
 		'all_items':items_list,
 		'below_min':below_min
