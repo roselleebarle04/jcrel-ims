@@ -202,6 +202,8 @@ def create_transfer(request):
 		p.save()
 		transfer_id = p
 
+		transfer_save_minimums()
+
 	
 		
 		for form in transferFormset:

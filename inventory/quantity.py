@@ -51,6 +51,12 @@ def check_date_exists():
 	for s in sale:
 		return s.date
 
+def check_date_transfer():
+	transfer = Transfer.objects.all().order_by('-date')
+
+	for t in transfer:
+		return t.date
+
 def get_notif_dates():
 	notif = Notifications.objects.all()
 
@@ -106,3 +112,24 @@ def sales_save_minimums():
 				notifs = Notifications.objects.create(item_loc=i, message=message, below_min_date=check_date_exists())
 				notifs.save()
 
+def transfer_save_minimums():
+	itemloc = ItemLocation.objects.all()
+	item = Item.objects.all()
+	sale = Sale.objects.all()
+	transfer = Transfer.objects.all()
+	notif = Notifications.objects.all()
+
+	date = datetime.datetime.now().date()
+
+	# print check_date_exists()
+
+	for i in itemloc:
+		if i.current_stock < i.re_order_point:
+			if Notifications.objects.filter(item_loc=i, below_min_date=check_date_transfer).exists():
+				continue
+			# elif Notifications.objects.filter(item_loc=i, below_min_date=None).exists():
+			# 	continue
+			else:
+				message = "%s is below the minimum required quantity stored." % (i)
+				notifs = Notifications.objects.create(item_loc=i, message=message, below_min_date=check_date_transfer())
+				notifs.save()
