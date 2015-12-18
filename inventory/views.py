@@ -449,11 +449,8 @@ def sales(request):
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset,
-<<<<<<< HEAD
-		'items':itemloc,
-=======
-		'itemloc':item_locations,
->>>>>>> a26dd7af24bb9a048ce723b0be38be91584d396f
+		'itemloc':itemloc,
+		# 'itemloc':item_locations,
 		'all_items':items_list,
 		'below_min':below_min
 		})
