@@ -43,7 +43,9 @@
                                             {% for message in messages %}
                                             <p 
                                             {% if message.tags == "warning"%} class="alert alert-warning" class="close" data-dismiss="alert" aria-label="close"
+                                            {% elif message.tags == "success"%} class="alert alert-success" class="close" data-dismiss="alert" aria-label="close" 
                                             {% endif %}>{{ message }}
+
                                             </p>
                                             {% endfor %}
                                         </center>                                               
@@ -99,9 +101,5 @@
         })
     })
 </script>
-
-<!-- Contact Form JavaScript -->
-    <script src="js/jqBootstrapValidation.js"></script>
-    <script src="static/js/add_sale.js"></script>
 
 {% endblock %}

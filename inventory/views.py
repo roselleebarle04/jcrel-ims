@@ -202,39 +202,41 @@ def create_transfer(request):
 		p.save()
 		transfer_id = p
 
-		try: 
+	
 		
-			for form in transferFormset:
-				transfer = transfer_id
-				item = form.cleaned_data['item']
-				quantity = form.cleaned_data['quantity']
-				i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)
+		for form in transferFormset:
+			transfer = transfer_id
+			item = form.cleaned_data['item']
+			quantity = form.cleaned_data['quantity']
+			i = ItemTransfer(item = item, quantity=quantity, transfer=transfer)
 					
 
-				for loc in itemloc:
-					if loc.location == source and loc.item == item :
-						quantity_current = loc.current_stock
+			for loc in itemloc:
+				if loc.location == source and loc.item == item :
+					quantity_current = loc.current_stock
 
-						if quantity < quantity_current :
+					if quantity < quantity_current :
 
-							decremented = quantity_current - quantity
-							loc.current_stock = decremented
-							loc.save()
+						decremented = quantity_current - quantity
+						loc.current_stock = decremented
+						loc.save()
 
-							for loct in itemloc:
-								if loct.location == destination and loct.item == item :
-									quantity_current = loct.current_stock
-									incremented = quantity_current + quantity
-									loct.current_stock = incremented
-									loct.save()
-									i.save()
-						else:
-							raise ValidationError(" ")
-				return HttpResponseRedirect(reverse('transfer_history'))
+						for loct in itemloc:
+							if loct.location == destination and loct.item == item :
+								quantity_current = loct.current_stock
+								incremented = quantity_current + quantity
+								loct.current_stock = incremented
+								loct.save()
+								i.save()
+								messages.success(request, 'Succesfully Transferred the item/s! ')
 
-		except ValidationError:
-			messages.warning(request, 'Insufficient Stock ')
-			pass
+
+					else:
+						p.delete()
+						messages.warning(request, 'Insufficient Stock ')		
+
+			return HttpResponseRedirect(reverse('create_transfer'))
+			
 
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
@@ -403,6 +405,7 @@ def sales(request):
 	print "below_min %d" % below_min
 
 	if saleForm.is_valid() and saleFormset.is_valid():
+
 		# first save purchase details
 		# commit = False means that we can store the purchase instance to the value p
 		p = saleForm.save(commit=False)
@@ -429,7 +432,7 @@ def sales(request):
 							item.save()
 							i.save()
 						elif item.current_stock < quantity:
-							raise ValidationError(" ")		
+							raise ValidationError(" ")	
 
 			messages.success(request, 'Sale successfully added.')
 			return HttpResponseRedirect(reverse('sales'))
@@ -444,7 +447,11 @@ def sales(request):
 	return render(request, 'sales/add_sale.html', {
 		'AddSaleForm' : saleForm, 
 		'formset' : saleFormset,
+<<<<<<< HEAD
 		'items':itemloc,
+=======
+		'itemloc':item_locations,
+>>>>>>> a26dd7af24bb9a048ce723b0be38be91584d396f
 		'all_items':items_list,
 		'below_min':below_min
 		})
