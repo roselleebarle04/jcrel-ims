@@ -202,8 +202,6 @@ def create_transfer(request):
 		p.save()
 		transfer_id = p
 
-		transfer_save_minimums()
-
 	
 		
 		for form in transferFormset:
@@ -238,7 +236,7 @@ def create_transfer(request):
 						messages.warning(request, 'Insufficient Stock ')		
 
 			return HttpResponseRedirect(reverse('create_transfer'))
-			
+	transfer_save_minimums()		
 
 	return render(request, 'transfer/transfer_form.html', {
 		'TransferForm' : transferForm, 
