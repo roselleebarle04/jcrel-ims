@@ -1,13 +1,13 @@
 
 from django.conf.urls import include, url
+from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
 from django.contrib.auth.views import password_reset
 
-from . import settings
-from inventory import views as inventory_views
-from inventory import urls as inventory_urls
-from inventory import accounts as account_views
+from apps.inventory import views as inventory_views
+from apps.inventory import urls as inventory_urls
+from apps.inventory import accounts as account_views
 
 
 urlpatterns = [
