@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     
     # Applications
     'apps.inventory',
+    'apps.accounts',
 
     # 3rd Party Apps
     'crispy_forms', 
